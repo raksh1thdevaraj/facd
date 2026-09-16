@@ -1,0 +1,403 @@
+openapi: 3.0.3
+info:
+  title: AI-Based Academic Certificate Verification API
+  version: 1.0.0
+  description: REST API for automated AI detection of fake or manipulated academic certificates.
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+  - url: https://api.certverify.ai
+    description: Production server
+
+paths:
+  /api/v1/health:
+    get:
+      summary: Health check
+      operationId: checkHealth
+      responses:
+        '200':
+          description: System is operational
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  services:
+                    type: object
+                    properties:
+                      database:
+                        type: string
+                        example: "connected"
+                      redis:
+                        type: string
+                        example: "connected"
+                      ocr_engine:
+                        type: string
+                        example: "ready"
+
+  /api/v1/auth/login:
+    post:
+      summary: Authenticate user & obtain JWT tokens
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v1/auth/me:
+    get:
+      summary: Get current authenticated user details
+      operationId: getCurrentUser
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+
+  /api/v1/documents/upload:
+    post:
+      summary: Upload certificate for verification analysis
+      operationId: uploadCertificate
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: JPG, PNG, or PDF certificate (max 15MB)
+                template_id:
+                  type: string
+                  description: Optional UUID of registered template to compare
+      responses:
+        '202':
+          description: File accepted and verification job queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobAcceptedResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+
+  /api/v1/jobs/{job_id}/status:
+    get:
+      summary: Poll verification job progress and status
+      operationId: getJobStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job status details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/v1/verifications/{verification_id}:
+    get:
+      summary: Get comprehensive verification report
+      operationId: getVerificationReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: verification_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Full verification report
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerificationReport'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+
+  /api/v1/verifications/{verification_id}/pdf:
+    get:
+      summary: Download audit-ready verification PDF report
+      operationId: downloadVerificationPDF
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: verification_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: PDF binary file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
+  /api/v1/templates:
+    get:
+      summary: List registered institutional templates
+      operationId: listTemplates
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TemplateSummary'
+    post:
+      summary: Register new institutional certificate template
+      operationId: createTemplate
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [institution_name, template_name, file]
+              properties:
+                institution_name:
+                  type: string
+                template_name:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Template registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateSummary'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    TokenResponse:
+      type: object
+      required: [access_token, token_type]
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: "bearer"
+        expires_in:
+          type: integer
+          example: 3600
+
+    UserProfile:
+      type: object
+      properties:
+        user_id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [ADMIN, INSTITUTION, VERIFIER]
+
+    JobAcceptedResponse:
+      type: object
+      required: [job_id, document_id, status]
+      properties:
+        job_id:
+          type: string
+        document_id:
+          type: string
+        status:
+          type: string
+          example: "QUEUED"
+        created_at:
+          type: string
+          format: date-time
+
+    JobStatusResponse:
+      type: object
+      required: [job_id, status, progress_percent]
+      properties:
+        job_id:
+          type: string
+        status:
+          type: string
+          enum: [QUEUED, PROCESSING, COMPLETED, FAILED]
+        progress_percent:
+          type: integer
+          minimum: 0
+          maximum: 100
+        current_stage:
+          type: string
+          example: "IMAGE_FORENSICS"
+        verification_id:
+          type: string
+          nullable: true
+        error_message:
+          type: string
+          nullable: true
+
+    VerificationReport:
+      type: object
+      required: [verification_id, risk_score, risk_band, extracted_fields]
+      properties:
+        verification_id:
+          type: string
+        document_id:
+          type: string
+        risk_score:
+          type: number
+          minimum: 0.0
+          maximum: 100.0
+          example: 82.5
+        risk_band:
+          type: string
+          enum: [LOW, MEDIUM, HIGH]
+        summary_verdict:
+          type: string
+        extracted_fields:
+          type: object
+          properties:
+            student_name:
+              type: string
+            register_number:
+              type: string
+            institution_name:
+              type: string
+            grade_or_marks:
+              type: string
+            issue_date:
+              type: string
+        contributing_factors:
+          type: array
+          items:
+            type: object
+            properties:
+              factor_id:
+                type: string
+              category:
+                type: string
+              impact:
+                type: string
+              description:
+                type: string
+        suspicious_regions:
+          type: array
+          items:
+            type: object
+            properties:
+              region_id:
+                type: string
+              forensic_type:
+                type: string
+              anomaly_score:
+                type: number
+              bbox:
+                type: object
+                properties:
+                  x1: { type: number }
+                  y1: { type: number }
+                  x2: { type: number }
+                  y2: { type: number }
+
+    TemplateSummary:
+      type: object
+      properties:
+        template_id:
+          type: string
+        institution_name:
+          type: string
+        template_name:
+          type: string
+        uploaded_at:
+          type: string
+          format: date-time
+
+    ErrorEnvelope:
+      type: object
+      required: [error_code, message]
+      properties:
+        error_code:
+          type: string
+          example: "INVALID_FILE_FORMAT"
+        message:
+          type: string
+          example: "Only JPG, PNG, and PDF files are supported."
+        details:
+          type: object
+
+  responses:
+    BadRequestError:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
