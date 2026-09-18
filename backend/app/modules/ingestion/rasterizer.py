@@ -1,0 +1,112 @@
+import shutil
+from pathlib import Path
+from typing import List
+
+from app.core.exceptions import EncryptedPdfError, PDFConversionError
+
+
+def is_poppler_installed() -> bool:
+    """Check if the poppler pdftoppm executable is available on system PATH."""
+    return shutil.which("pdftoppm") is not None
+
+
+class PDFRasterizer:
+    """Rasterizes PDF documents into 300 DPI high-resolution PNG images.
+
+    Supports pdf2image (Poppler) with automatic graceful fallback to pypdfium2.
+    """
+
+    @classmethod
+    def rasterize_pdf(
+        cls,
+        pdf_path: Path,
+        output_dir: Path,
+        dpi: int = 300,
+        max_pages: int = 3,
+    ) -> List[Path]:
+        """Convert up to max_pages pages of a PDF to high-resolution PNG images.
+
+        Saves images to output_dir and returns list of generated file paths.
+        """
+        output_dir.mkdir(parents=True, exist_ok=True)
+        generated_paths: List[Path] = []
+
+        # Attempt with pdf2image if poppler is present
+        if is_poppler_installed():
+            try:
+                import pdf2image
+                from pdf2image.exceptions import PDFPageCountError, PDFPasswordIncorrect
+
+                try:
+                    images = pdf2image.convert_from_path(
+                        str(pdf_path),
+                        dpi=dpi,
+                        fmt="png",
+                        first_page=1,
+                        last_page=max_pages,
+                        thread_count=2,
+                    )
+                    for idx, img in enumerate(images, start=1):
+                        out_file = output_dir / f"{pdf_path.stem}_page_{idx}.png"
+                        img.save(out_file, format="PNG")
+                        generated_paths.append(out_file)
+                    return generated_paths
+                except PDFPasswordIncorrect as exc:
+                    raise EncryptedPdfError(
+                        "Password-protected PDF files cannot be processed. "
+                        "Please upload an unprotected copy."
+                    ) from exc
+                except PDFPageCountError:
+                    # Fall back to pypdfium2 if Poppler fails on this file
+                    pass
+            except EncryptedPdfError:
+                raise
+            except Exception:
+                # Fall through to pypdfium2 fallback
+                pass
+
+        # Robust zero-dependency fallback using pypdfium2
+        try:
+            import pypdfium2 as pdfium
+
+            try:
+                doc = pdfium.PdfDocument(str(pdf_path))
+            except pdfium.PdfiumError as exc:
+                err_str = str(exc).lower()
+                if "password" in err_str or "encrypted" in err_str:
+                    raise EncryptedPdfError(
+                        "Password-protected PDF files cannot be processed. "
+                        "Please upload an unprotected copy."
+                    ) from exc
+                raise PDFConversionError(f"Failed to open PDF document: {exc}") from exc
+
+            num_pages = len(doc)
+            if num_pages == 0:
+                raise PDFConversionError("PDF contains no pages.")
+
+            pages_to_render = min(num_pages, max_pages)
+            # Default PDF point size is 72 DPI. Target DPI / 72 gives rendering scale.
+            scale = dpi / 72.0
+
+            for page_idx in range(pages_to_render):
+                page = doc.get_page(page_idx)
+                rendered = page.render(scale=scale)
+                pil_image = rendered.to_pil()
+
+                # Verify minimum dimensions for 300 DPI page
+                w, h = pil_image.size
+                if w < 600 or h < 600:
+                    raise PDFConversionError(
+                        f"Rasterized page {page_idx + 1} resolution ({w}x{h}) is too low."
+                    )
+
+                out_file = output_dir / f"{pdf_path.stem}_page_{page_idx + 1}.png"
+                pil_image.save(out_file, format="PNG")
+                generated_paths.append(out_file)
+
+            return generated_paths
+
+        except (EncryptedPdfError, PDFConversionError):
+            raise
+        except Exception as exc:
+            raise PDFConversionError(f"Error during PDF rasterization: {exc}") from exc

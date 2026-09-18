@@ -28,6 +28,11 @@ joblib>=1.3.2
 faker>=20.0.0
 pyyaml>=6.0.0
 
+# PDF Processing & Rasterization
+pypdf>=4.1.0
+pdf2image>=1.17.0
+pypdfium2>=4.30.0
+
 # PDF Report Generation
 reportlab>=4.1.0
 

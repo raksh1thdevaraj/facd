@@ -100,3 +100,135 @@ class ForbiddenError(AppException):
             error_code="FORBIDDEN",
             details=details,
         )
+
+
+class UnsupportedFileTypeError(AppException):
+    """Uploaded file MIME type or magic signature is not allowed."""
+
+    def __init__(
+        self,
+        message: str = "Uploaded file format is not supported. Allowed formats: JPEG, PNG, PDF.",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=415,
+            error_code="UNSUPPORTED_FILE_TYPE",
+            details=details,
+        )
+
+
+class FileTooLargeError(AppException):
+    """Uploaded file exceeds the maximum allowed upload size."""
+
+    def __init__(
+        self,
+        message: str = "File size exceeds the maximum limit.",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=413,
+            error_code="FILE_TOO_LARGE",
+            details=details,
+        )
+
+
+class EmptyFileError(AppException):
+    """Uploaded file has zero bytes."""
+
+    def __init__(
+        self,
+        message: str = "Uploaded file is empty (0 bytes).",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=400,
+            error_code="EMPTY_FILE",
+            details=details,
+        )
+
+
+class InvalidFileError(AppException):
+    """Uploaded file header or structure is invalid."""
+
+    def __init__(
+        self,
+        message: str = "Uploaded file is invalid or malformed.",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=400,
+            error_code="INVALID_FILE",
+            details=details,
+        )
+
+
+class CorruptedFileError(AppException):
+    """File cannot be decoded, is truncated, or has corrupt content."""
+
+    def __init__(
+        self,
+        message: str = "File data is corrupted or truncated.",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=400,
+            error_code="CORRUPTED_FILE",
+            details=details,
+        )
+
+
+class InsufficientResolutionError(AppException):
+    """Image resolution does not meet minimum pixel dimensions."""
+
+    def __init__(
+        self,
+        message: str = (
+            "Image resolution is too low for reliable verification (minimum 800x600 px required)."
+        ),
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=422,
+            error_code="INSUFFICIENT_RESOLUTION",
+            details=details,
+        )
+
+
+class EncryptedPdfError(AppException):
+    """PDF is password protected or encrypted."""
+
+    def __init__(
+        self,
+        message: str = (
+            "Password-protected PDF files cannot be processed. Please upload an unprotected copy."
+        ),
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=422,
+            error_code="ENCRYPTED_PDF",
+            details=details,
+        )
+
+
+class PDFConversionError(AppException):
+    """Failed to rasterize PDF document into image format."""
+
+    def __init__(
+        self,
+        message: str = "Failed to rasterize PDF pages.",
+        details: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(
+            message=message,
+            status_code=500,
+            error_code="PDF_CONVERSION_ERROR",
+            details=details,
+        )

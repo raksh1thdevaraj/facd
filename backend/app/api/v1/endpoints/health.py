@@ -46,3 +46,15 @@ def get_health(db: Session = Depends(get_db)) -> HealthCheckResponse:
             storage=storage_status,
         ),
     )
+
+
+@router.get(
+    "/health/ingestion",
+    status_code=status.HTTP_200_OK,
+    summary="Ingestion subsystem health probe",
+)
+def get_ingestion_health() -> dict:
+    """Probe the health of document ingestion dependencies (PDF renderers, disk storage)."""
+    from app.modules.ingestion.health import check_ingestion_health
+
+    return check_ingestion_health()
