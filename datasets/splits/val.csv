@@ -1,0 +1,4 @@
+sample_id,split,image_path,is_manipulated,primary_label,manipulation_types,source_template,source_template_id
+MAN_00002,val,datasets/synthetic_manipulated/manipulated/MAN_00002.png,True,manipulated,COPY_MOVE,template_metro_univ.png,template_metro_univ
+MAN_00007,val,datasets/synthetic_manipulated/manipulated/MAN_00007.png,True,manipulated,COPY_MOVE,template_tech_univ.png,template_tech_univ
+GEN_00010,val,datasets/synthetic_manipulated/genuine/GEN_00010.png,False,genuine,,template_metro_univ.png,template_metro_univ

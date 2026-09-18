@@ -1,0 +1,144 @@
+import pytest
+from pydantic import ValidationError
+
+from app.schemas.pipeline import (
+    CertificateFields,
+    ConsistencyCheckItem,
+    ContributingFactor,
+    ForensicsOutput,
+    IngestionOutput,
+    MLInferenceOutput,
+    TextConsistencyOutput,
+    VerificationReportDTO,
+)
+from app.schemas.primitives import (
+    BoundingBox,
+    CheckStatus,
+    PixelBoundingBox,
+    RiskBand,
+)
+
+
+def test_bounding_box_validation() -> None:
+    """Verify normalized bounding box coordinates must be 0.0 to 1.0."""
+    valid_box = BoundingBox(x1=0.1, y1=0.2, x2=0.8, y2=0.9)
+    assert valid_box.x1 == 0.1
+    assert valid_box.x2 == 0.8
+
+    with pytest.raises(ValidationError):
+        BoundingBox(x1=-0.1, y1=0.2, x2=0.8, y2=0.9)
+
+    with pytest.raises(ValidationError):
+        BoundingBox(x1=0.1, y1=0.2, x2=1.5, y2=0.9)
+
+
+def test_pixel_bounding_box_validation() -> None:
+    """Verify absolute pixel coordinates."""
+    valid_box = PixelBoundingBox(x=10, y=20, width=100, height=50)
+    assert valid_box.width == 100
+
+    with pytest.raises(ValidationError):
+        PixelBoundingBox(x=-1, y=20, width=100, height=50)
+
+    with pytest.raises(ValidationError):
+        PixelBoundingBox(x=10, y=20, width=0, height=50)
+
+
+def test_ingestion_output_model() -> None:
+    """Verify IngestionOutput instantiation."""
+    output = IngestionOutput(
+        document_id="123e4567-e89b-12d3-a456-426614174000",
+        original_filename="sample_cert.pdf",
+        file_extension=".pdf",
+        mime_type="application/pdf",
+        file_size_bytes=1048576,
+        raw_storage_path="./storage/uploads/sample_cert.pdf",
+        is_pdf=True,
+        page_count=1,
+    )
+    assert output.is_pdf is True
+    assert output.file_extension == ".pdf"
+
+
+def test_score_fusion_and_verification_report_dto() -> None:
+    """Verify full Report DTO model composition and validation."""
+    fields = CertificateFields(
+        student_name="Jane Doe",
+        student_name_confidence=0.95,
+        register_number="REG2026001",
+        register_number_confidence=0.92,
+        institution_name="Global Tech University",
+        institution_name_confidence=0.98,
+        course_degree="Bachelor of Science in Computer Science",
+        course_degree_confidence=0.94,
+        grade_or_marks="First Class with Distinction",
+        grade_or_marks_confidence=0.91,
+        issue_date="2026-05-15",
+        issue_date_confidence=0.90,
+        certificate_number="CERT-998822",
+        certificate_number_confidence=0.96,
+    )
+
+    consistency = TextConsistencyOutput(
+        document_id="doc-123",
+        overall_status=CheckStatus.PASSED,
+        consistency_risk_score=5.0,
+        checks=[
+            ConsistencyCheckItem(
+                rule_id="RULE_DATE_LOGIC",
+                name="Graduation Date Validation",
+                status=CheckStatus.PASSED,
+                confidence=1.0,
+                details="Issue date is chronologically valid.",
+                field_affected="issue_date",
+            )
+        ],
+    )
+
+    forensics = ForensicsOutput(
+        document_id="doc-123",
+        ela_heatmap_path="./storage/reports/ela_heatmap.png",
+        ela_score=0.08,
+        copy_move_detected=False,
+        copy_move_clusters_count=0,
+        copy_move_score=0.02,
+        font_irregularity_score=0.05,
+        noise_inconsistency_score=0.04,
+        forensics_risk_score=8.5,
+        suspicious_regions=[],
+    )
+
+    ml = MLInferenceOutput(
+        model_version="v1.0",
+        model_type="tabular_baseline",
+        manipulation_probability=0.06,
+        predicted_class="genuine",
+        feature_contributions={"ela_score": 0.02, "ocr_confidence": -0.05},
+    )
+
+    factor = ContributingFactor(
+        factor_id="F1",
+        category="OCR",
+        impact="LOW",
+        weight_percentage=20.0,
+        description="High OCR token confidence across all fields.",
+    )
+
+    report = VerificationReportDTO(
+        verification_id="verif-777",
+        document_id="doc-123",
+        timestamp="2026-09-18T10:00:00Z",
+        verifier_username="officer1",
+        risk_score=6.2,
+        risk_band=RiskBand.LOW,
+        extracted_fields=fields,
+        consistency_results=consistency,
+        forensics_results=forensics,
+        ml_results=ml,
+        contributing_factors=[factor],
+        summary_verdict="Certificate appears authentic with low risk indicators.",
+    )
+
+    assert report.risk_band == RiskBand.LOW
+    assert report.extracted_fields.student_name == "Jane Doe"
+    assert len(report.contributing_factors) == 1

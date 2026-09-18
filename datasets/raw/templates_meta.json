@@ -1,0 +1,288 @@
+{
+  "templates": [
+    {
+      "template_id": "template_tech_univ",
+      "filename": "template_tech_univ.png",
+      "institution_name": "INSTITUTE OF TECHNOLOGY & SCIENCE",
+      "dimensions": [
+        1920,
+        1350
+      ],
+      "field_anchors": {
+        "student_name": {
+          "x": 960,
+          "y": 380,
+          "align": "center",
+          "font_size": 48
+        },
+        "register_number": {
+          "x": 260,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "certificate_number": {
+          "x": 1500,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "course_degree": {
+          "x": 960,
+          "y": 570,
+          "align": "center",
+          "font_size": 40
+        },
+        "grade_or_marks": {
+          "x": 960,
+          "y": 750,
+          "align": "center",
+          "font_size": 36
+        },
+        "issue_date": {
+          "x": 960,
+          "y": 860,
+          "align": "center",
+          "font_size": 24
+        }
+      },
+      "seal_anchor": {
+        "x": 850,
+        "y": 1010,
+        "size": 220
+      },
+      "sig_left_anchor": {
+        "x": 230,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "sig_right_anchor": {
+        "x": 1410,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "seal_file": "seal_tech.png",
+      "sig_left_file": "sig_dean.png",
+      "sig_right_file": "sig_registrar.png"
+    },
+    {
+      "template_id": "template_heritage_univ",
+      "filename": "template_heritage_univ.png",
+      "institution_name": "HERITAGE GLOBAL UNIVERSITY",
+      "dimensions": [
+        1920,
+        1350
+      ],
+      "field_anchors": {
+        "student_name": {
+          "x": 960,
+          "y": 380,
+          "align": "center",
+          "font_size": 48
+        },
+        "register_number": {
+          "x": 260,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "certificate_number": {
+          "x": 1500,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "course_degree": {
+          "x": 960,
+          "y": 570,
+          "align": "center",
+          "font_size": 40
+        },
+        "grade_or_marks": {
+          "x": 960,
+          "y": 750,
+          "align": "center",
+          "font_size": 36
+        },
+        "issue_date": {
+          "x": 960,
+          "y": 860,
+          "align": "center",
+          "font_size": 24
+        }
+      },
+      "seal_anchor": {
+        "x": 850,
+        "y": 1010,
+        "size": 220
+      },
+      "sig_left_anchor": {
+        "x": 230,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "sig_right_anchor": {
+        "x": 1410,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "seal_file": "seal_heritage.png",
+      "sig_left_file": "sig_provost.png",
+      "sig_right_file": "sig_chancellor.png"
+    },
+    {
+      "template_id": "template_metro_univ",
+      "filename": "template_metro_univ.png",
+      "institution_name": "METROPOLITAN STATE UNIVERSITY",
+      "dimensions": [
+        1920,
+        1350
+      ],
+      "field_anchors": {
+        "student_name": {
+          "x": 960,
+          "y": 380,
+          "align": "center",
+          "font_size": 48
+        },
+        "register_number": {
+          "x": 260,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "certificate_number": {
+          "x": 1500,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "course_degree": {
+          "x": 960,
+          "y": 570,
+          "align": "center",
+          "font_size": 40
+        },
+        "grade_or_marks": {
+          "x": 960,
+          "y": 750,
+          "align": "center",
+          "font_size": 36
+        },
+        "issue_date": {
+          "x": 960,
+          "y": 860,
+          "align": "center",
+          "font_size": 24
+        }
+      },
+      "seal_anchor": {
+        "x": 850,
+        "y": 1010,
+        "size": 220
+      },
+      "sig_left_anchor": {
+        "x": 230,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "sig_right_anchor": {
+        "x": 1410,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "seal_file": "seal_metro.png",
+      "sig_left_file": "sig_head.png",
+      "sig_right_file": "sig_controller.png"
+    },
+    {
+      "template_id": "template_national_academy",
+      "filename": "template_national_academy.png",
+      "institution_name": "NATIONAL ACADEMY OF HIGHER EDUCATION",
+      "dimensions": [
+        1920,
+        1350
+      ],
+      "field_anchors": {
+        "student_name": {
+          "x": 960,
+          "y": 380,
+          "align": "center",
+          "font_size": 48
+        },
+        "register_number": {
+          "x": 260,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "certificate_number": {
+          "x": 1500,
+          "y": 240,
+          "align": "left",
+          "font_size": 24
+        },
+        "course_degree": {
+          "x": 960,
+          "y": 570,
+          "align": "center",
+          "font_size": 40
+        },
+        "grade_or_marks": {
+          "x": 960,
+          "y": 750,
+          "align": "center",
+          "font_size": 36
+        },
+        "issue_date": {
+          "x": 960,
+          "y": 860,
+          "align": "center",
+          "font_size": 24
+        }
+      },
+      "seal_anchor": {
+        "x": 850,
+        "y": 1010,
+        "size": 220
+      },
+      "sig_left_anchor": {
+        "x": 230,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "sig_right_anchor": {
+        "x": 1410,
+        "y": 1070,
+        "size": [
+          280,
+          80
+        ]
+      },
+      "seal_file": "seal_national.png",
+      "sig_left_file": "sig_director.png",
+      "sig_right_file": "sig_president.png"
+    }
+  ]
+}

@@ -1,0 +1,407 @@
+{
+  "dataset_version": "1.0.0",
+  "generated_at": "2026-09-18T08:21:12.069428+00:00",
+  "split": "val",
+  "total_samples": 3,
+  "genuine_count": 1,
+  "manipulated_count": 2,
+  "samples": [
+    {
+      "sample_id": "MAN_00002",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00002.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "COPY_MOVE"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "COPY_MOVE",
+          "source_bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_pixel": {
+            "x": 894,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4656,
+            "y1": 0.5496,
+            "x2": 0.5802,
+            "y2": 0.5689
+          },
+          "region_id": "REG_01",
+          "field_affected": "grade_or_marks"
+        }
+      ],
+      "source_template": "template_metro_univ.png",
+      "source_template_id": "template_metro_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "PATTY PEREZ",
+        "register_number": "REG201838864",
+        "certificate_number": "CERT-18-107540",
+        "course_degree": "Bachelor of Engineering in Mechanical Engineering",
+        "grade_or_marks": "First Class with Distinction (CGPA 9.42 / 10.0)",
+        "issue_date": "Given on this June 28, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "PATTY PEREZ",
+          "bbox_pixel": {
+            "x": 921,
+            "y": 372,
+            "width": 79,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4797,
+            "y1": 0.2756,
+            "x2": 0.5208,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201838864",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-107540",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Engineering in Mechanical Engineering",
+          "bbox_pixel": {
+            "x": 829,
+            "y": 562,
+            "width": 262,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4318,
+            "y1": 0.4163,
+            "x2": 0.5682,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 9.42 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this June 28, 2018",
+          "bbox_pixel": {
+            "x": 887,
+            "y": 852,
+            "width": 147,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.462,
+            "y1": 0.6311,
+            "x2": 0.5385,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "val"
+    },
+    {
+      "sample_id": "MAN_00007",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00007.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "COPY_MOVE"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "COPY_MOVE",
+          "source_bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_pixel": {
+            "x": 299,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1557,
+            "y1": 0.1719,
+            "x2": 0.2021,
+            "y2": 0.1896
+          },
+          "region_id": "REG_01",
+          "field_affected": "register_number"
+        }
+      ],
+      "source_template": "template_tech_univ.png",
+      "source_template_id": "template_tech_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "JUSTIN BAKER",
+        "register_number": "REG201831798",
+        "certificate_number": "CERT-18-526156",
+        "course_degree": "Master of Technology in Data Science",
+        "grade_or_marks": "Grade B+ (Merit)",
+        "issue_date": "Given on this May 17, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "JUSTIN BAKER",
+          "bbox_pixel": {
+            "x": 918,
+            "y": 372,
+            "width": 85,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4781,
+            "y1": 0.2756,
+            "x2": 0.5224,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201831798",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-526156",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Technology in Data Science",
+          "bbox_pixel": {
+            "x": 866,
+            "y": 562,
+            "width": 188,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.451,
+            "y1": 0.4163,
+            "x2": 0.549,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "Grade B+ (Merit)",
+          "bbox_pixel": {
+            "x": 914,
+            "y": 742,
+            "width": 93,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.476,
+            "y1": 0.5496,
+            "x2": 0.5245,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this May 17, 2018",
+          "bbox_pixel": {
+            "x": 890,
+            "y": 852,
+            "width": 140,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4635,
+            "y1": 0.6311,
+            "x2": 0.5365,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "val"
+    },
+    {
+      "sample_id": "GEN_00010",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00010.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_metro_univ.png",
+      "source_template_id": "template_metro_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "RYAN MUNOZ",
+        "register_number": "REG202140021",
+        "certificate_number": "CERT-21-961722",
+        "course_degree": "Bachelor of Science in Computer Science",
+        "grade_or_marks": "Grade A+ (Distinction)",
+        "issue_date": "Given on this July 11, 2021"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "RYAN MUNOZ",
+          "bbox_pixel": {
+            "x": 919,
+            "y": 372,
+            "width": 82,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4786,
+            "y1": 0.2756,
+            "x2": 0.5214,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202140021",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-21-961722",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Science in Computer Science",
+          "bbox_pixel": {
+            "x": 856,
+            "y": 562,
+            "width": 208,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4458,
+            "y1": 0.4163,
+            "x2": 0.5542,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "Grade A+ (Distinction)",
+          "bbox_pixel": {
+            "x": 901,
+            "y": 742,
+            "width": 118,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4693,
+            "y1": 0.5496,
+            "x2": 0.5307,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 11, 2021",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "val"
+    }
+  ]
+}

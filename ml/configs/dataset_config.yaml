@@ -1,0 +1,51 @@
+# ==============================================================================
+# AI Certificate Verification - Dataset Generation Configuration
+# ==============================================================================
+dataset_version: "1.0.0"
+seed: 42
+
+# Image Dimensions (A4 landscape/portrait standard)
+image:
+  width: 1920
+  height: 1350
+  dpi: 150
+  bg_color: "#faf8f5" # Subtle warm parchment tone
+
+# Dataset Balance & Splitting
+dataset:
+  default_sample_count: 200
+  genuine_ratio: 0.50
+  manipulated_ratio: 0.50
+  splits:
+    train: 0.70
+    val: 0.15
+    test: 0.15
+
+# Distribution of Tampering Techniques (for manipulated portion)
+tampering_probabilities:
+  text_replacement: 0.35
+  copy_move: 0.25
+  seal_signature_splice: 0.20
+  recompression_mismatch: 0.10
+  layout_perturbation: 0.10
+
+# Forensics Simulation Parameters
+parameters:
+  jpeg_high_quality: 95
+  jpeg_low_quality: 65
+  blur_sigma: 0.5
+  inpaint_radius: 3
+  font_size_jitter: [-2, 2] # Font size variation in pt
+  baseline_shift_jitter: [-3, 3] # Baseline vertical shift in px
+
+# Storage and Manifest Paths
+paths:
+  base_dir: "./datasets"
+  raw_templates_dir: "./datasets/raw"
+  assets_dir: "./datasets/assets"
+  seals_dir: "./datasets/assets/seals"
+  signatures_dir: "./datasets/assets/signatures"
+  fonts_dir: "./datasets/assets/fonts"
+  output_synthetic_dir: "./datasets/synthetic_manipulated"
+  ground_truth_dir: "./datasets/ground_truth"
+  ml_data_dir: "./ml/data"

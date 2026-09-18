@@ -1,0 +1,2358 @@
+{
+  "dataset_version": "1.0.0",
+  "generated_at": "2026-09-18T08:21:12.069428+00:00",
+  "split": "test",
+  "total_samples": 19,
+  "genuine_count": 12,
+  "manipulated_count": 7,
+  "samples": [
+    {
+      "sample_id": "GEN_00013",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00013.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "LISA HENSLEY",
+        "register_number": "REG202428131",
+        "certificate_number": "CERT-24-634277",
+        "course_degree": "Master of Technology in Data Science",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this July 17, 2024"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "LISA HENSLEY",
+          "bbox_pixel": {
+            "x": 917,
+            "y": 372,
+            "width": 86,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4776,
+            "y1": 0.2756,
+            "x2": 0.5224,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202428131",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-24-634277",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Technology in Data Science",
+          "bbox_pixel": {
+            "x": 866,
+            "y": 562,
+            "width": 188,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.451,
+            "y1": 0.4163,
+            "x2": 0.549,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 17, 2024",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00015",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00015.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "DYLAN MILLER",
+        "register_number": "REG202511504",
+        "certificate_number": "CERT-25-813328",
+        "course_degree": "Bachelor of Engineering in Mechanical Engineering",
+        "grade_or_marks": "Second Class Upper Division (CGPA 6.90 / 10.0)",
+        "issue_date": "Given on this July 27, 2025"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "DYLAN MILLER",
+          "bbox_pixel": {
+            "x": 916,
+            "y": 372,
+            "width": 88,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4771,
+            "y1": 0.2756,
+            "x2": 0.5229,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202511504",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-25-813328",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Engineering in Mechanical Engineering",
+          "bbox_pixel": {
+            "x": 829,
+            "y": 562,
+            "width": 262,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4318,
+            "y1": 0.4163,
+            "x2": 0.5682,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "Second Class Upper Division (CGPA 6.90 / 10.0)",
+          "bbox_pixel": {
+            "x": 845,
+            "y": 742,
+            "width": 230,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4401,
+            "y1": 0.5496,
+            "x2": 0.5599,
+            "y2": 0.5696
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 27, 2025",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00002",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00002.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "NOAH RHODES",
+        "register_number": "REG201838657",
+        "certificate_number": "CERT-18-343962",
+        "course_degree": "Bachelor of Science in Computer Science",
+        "grade_or_marks": "First Class (CGPA 7.60 / 10.0)",
+        "issue_date": "Given on this May 12, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "NOAH RHODES",
+          "bbox_pixel": {
+            "x": 917,
+            "y": 372,
+            "width": 87,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4776,
+            "y1": 0.2756,
+            "x2": 0.5229,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201838657",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-343962",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Science in Computer Science",
+          "bbox_pixel": {
+            "x": 856,
+            "y": 562,
+            "width": 208,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4458,
+            "y1": 0.4163,
+            "x2": 0.5542,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 7.60 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this May 12, 2018",
+          "bbox_pixel": {
+            "x": 890,
+            "y": 852,
+            "width": 140,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4635,
+            "y1": 0.6311,
+            "x2": 0.5365,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00004",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00004.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "RECOMPRESSION"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "RECOMPRESSION_DISCREPANCY",
+          "quality_factor": 60,
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          },
+          "region_id": "REG_01",
+          "field_affected": "certificate_number"
+        }
+      ],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "TOMMY WALTER",
+        "register_number": "REG202422704",
+        "certificate_number": "CERT-24-790993",
+        "course_degree": "Bachelor of Arts in Economics",
+        "grade_or_marks": "Grade A+ (Distinction)",
+        "issue_date": "Given on this June 13, 2024"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "TOMMY WALTER",
+          "bbox_pixel": {
+            "x": 912,
+            "y": 372,
+            "width": 96,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.475,
+            "y1": 0.2756,
+            "x2": 0.525,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202422704",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-24-790993",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Arts in Economics",
+          "bbox_pixel": {
+            "x": 886,
+            "y": 562,
+            "width": 149,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4615,
+            "y1": 0.4163,
+            "x2": 0.5391,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "Grade A+ (Distinction)",
+          "bbox_pixel": {
+            "x": 901,
+            "y": 742,
+            "width": 118,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4693,
+            "y1": 0.5496,
+            "x2": 0.5307,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this June 13, 2024",
+          "bbox_pixel": {
+            "x": 887,
+            "y": 852,
+            "width": 147,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.462,
+            "y1": 0.6311,
+            "x2": 0.5385,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00003",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00003.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "ANGIE HENDERSON",
+        "register_number": "REG202146463",
+        "certificate_number": "CERT-21-948749",
+        "course_degree": "Bachelor of Science in Computer Science",
+        "grade_or_marks": "First Class (CGPA 8.15 / 10.0)",
+        "issue_date": "Given on this November 28, 2021"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "ANGIE HENDERSON",
+          "bbox_pixel": {
+            "x": 905,
+            "y": 372,
+            "width": 110,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4714,
+            "y1": 0.2756,
+            "x2": 0.5286,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202146463",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-21-948749",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Science in Computer Science",
+          "bbox_pixel": {
+            "x": 856,
+            "y": 562,
+            "width": 208,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4458,
+            "y1": 0.4163,
+            "x2": 0.5542,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 8.15 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 28, 2021",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00005",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00005.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "COPY_MOVE"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "COPY_MOVE",
+          "source_bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_pixel": {
+            "x": 914,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.476,
+            "y1": 0.5496,
+            "x2": 0.5906,
+            "y2": 0.5689
+          },
+          "region_id": "REG_01",
+          "field_affected": "grade_or_marks"
+        }
+      ],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "MATTHEW FOSTER",
+        "register_number": "REG201862772",
+        "certificate_number": "CERT-18-863587",
+        "course_degree": "Master of Business Administration",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this May 11, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "MATTHEW FOSTER",
+          "bbox_pixel": {
+            "x": 907,
+            "y": 372,
+            "width": 107,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4724,
+            "y1": 0.2756,
+            "x2": 0.5281,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201862772",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-863587",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Business Administration",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 562,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.4163,
+            "x2": 0.5443,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this May 11, 2018",
+          "bbox_pixel": {
+            "x": 890,
+            "y": 852,
+            "width": 140,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4635,
+            "y1": 0.6311,
+            "x2": 0.5365,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00001",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00001.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_tech_univ.png",
+      "source_template_id": "template_tech_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "ALLISON HILL",
+        "register_number": "REG201839256",
+        "certificate_number": "CERT-18-246316",
+        "course_degree": "Bachelor of Engineering in Mechanical Engineering",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this July 17, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "ALLISON HILL",
+          "bbox_pixel": {
+            "x": 919,
+            "y": 372,
+            "width": 83,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4786,
+            "y1": 0.2756,
+            "x2": 0.5219,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201839256",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-246316",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Engineering in Mechanical Engineering",
+          "bbox_pixel": {
+            "x": 829,
+            "y": 562,
+            "width": 262,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4318,
+            "y1": 0.4163,
+            "x2": 0.5682,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 17, 2018",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00005",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00005.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_tech_univ.png",
+      "source_template_id": "template_tech_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "CRISTIAN SANTOS",
+        "register_number": "REG202455082",
+        "certificate_number": "CERT-24-733052",
+        "course_degree": "Master of Science in Artificial Intelligence",
+        "grade_or_marks": "First Class with Distinction (CGPA 9.42 / 10.0)",
+        "issue_date": "Given on this May 21, 2024"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "CRISTIAN SANTOS",
+          "bbox_pixel": {
+            "x": 909,
+            "y": 372,
+            "width": 102,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4734,
+            "y1": 0.2756,
+            "x2": 0.5266,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202455082",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-24-733052",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Science in Artificial Intelligence",
+          "bbox_pixel": {
+            "x": 856,
+            "y": 562,
+            "width": 209,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4458,
+            "y1": 0.4163,
+            "x2": 0.5547,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 9.42 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this May 21, 2024",
+          "bbox_pixel": {
+            "x": 890,
+            "y": 852,
+            "width": 140,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4635,
+            "y1": 0.6311,
+            "x2": 0.5365,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00010",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00010.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "TEXT_REPLACEMENT"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "INPAINT_AND_REPLACE",
+          "new_value": "CERT-24-999999",
+          "font_mismatched": true,
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          },
+          "region_id": "REG_01",
+          "field_affected": "certificate_number",
+          "original_value": "CERT-20-992697",
+          "tampered_value": "CERT-24-999999"
+        }
+      ],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "ANTHONY RODRIGUEZ",
+        "register_number": "REG202020500",
+        "certificate_number": "CERT-20-992697",
+        "course_degree": "Bachelor of Technology in Information Technology",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this May 26, 2020"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "ANTHONY RODRIGUEZ",
+          "bbox_pixel": {
+            "x": 899,
+            "y": 372,
+            "width": 123,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4682,
+            "y1": 0.2756,
+            "x2": 0.5323,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202020500",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-20-992697",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Technology in Information Technology",
+          "bbox_pixel": {
+            "x": 835,
+            "y": 562,
+            "width": 250,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4349,
+            "y1": 0.4163,
+            "x2": 0.5651,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this May 26, 2020",
+          "bbox_pixel": {
+            "x": 890,
+            "y": 852,
+            "width": 140,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4635,
+            "y1": 0.6311,
+            "x2": 0.5365,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00011",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00011.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "MONICA HERRERA",
+        "register_number": "REG202284341",
+        "certificate_number": "CERT-22-852787",
+        "course_degree": "Master of Business Administration",
+        "grade_or_marks": "First Class (CGPA 7.60 / 10.0)",
+        "issue_date": "Given on this May 16, 2022"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "MONICA HERRERA",
+          "bbox_pixel": {
+            "x": 909,
+            "y": 372,
+            "width": 103,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4734,
+            "y1": 0.2756,
+            "x2": 0.5271,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202284341",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-22-852787",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Business Administration",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 562,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.4163,
+            "x2": 0.5443,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 7.60 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this May 16, 2022",
+          "bbox_pixel": {
+            "x": 890,
+            "y": 852,
+            "width": 140,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4635,
+            "y1": 0.6311,
+            "x2": 0.5365,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00018",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00018.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "TEXT_REPLACEMENT"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "INPAINT_AND_REPLACE",
+          "new_value": "ALEXANDER HAMILTON",
+          "font_mismatched": true,
+          "bbox_pixel": {
+            "x": 904,
+            "y": 372,
+            "width": 112,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4708,
+            "y1": 0.2756,
+            "x2": 0.5292,
+            "y2": 0.2933
+          },
+          "region_id": "REG_01",
+          "field_affected": "student_name",
+          "original_value": "CASSANDRA GAINES",
+          "tampered_value": "ALEXANDER HAMILTON"
+        }
+      ],
+      "source_template": "template_heritage_univ.png",
+      "source_template_id": "template_heritage_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "CASSANDRA GAINES",
+        "register_number": "REG201882420",
+        "certificate_number": "CERT-18-255287",
+        "course_degree": "Bachelor of Arts in Economics",
+        "grade_or_marks": "First Class (CGPA 8.15 / 10.0)",
+        "issue_date": "Given on this July 28, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "CASSANDRA GAINES",
+          "bbox_pixel": {
+            "x": 904,
+            "y": 372,
+            "width": 112,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4708,
+            "y1": 0.2756,
+            "x2": 0.5292,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201882420",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-255287",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Arts in Economics",
+          "bbox_pixel": {
+            "x": 886,
+            "y": 562,
+            "width": 149,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4615,
+            "y1": 0.4163,
+            "x2": 0.5391,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 8.15 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 28, 2018",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00006",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00006.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "CONNIE LAWRENCE",
+        "register_number": "REG201982357",
+        "certificate_number": "CERT-19-407419",
+        "course_degree": "Master of Business Administration",
+        "grade_or_marks": "First Class (CGPA 7.60 / 10.0)",
+        "issue_date": "Given on this November 12, 2019"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "CONNIE LAWRENCE",
+          "bbox_pixel": {
+            "x": 904,
+            "y": 372,
+            "width": 112,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4708,
+            "y1": 0.2756,
+            "x2": 0.5292,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201982357",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-19-407419",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Business Administration",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 562,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.4163,
+            "x2": 0.5443,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 7.60 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 12, 2019",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00008",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00008.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "GINA MOORE",
+        "register_number": "REG202231319",
+        "certificate_number": "CERT-22-488162",
+        "course_degree": "Master of Business Administration",
+        "grade_or_marks": "First Class (CGPA 7.60 / 10.0)",
+        "issue_date": "Given on this November 21, 2022"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "GINA MOORE",
+          "bbox_pixel": {
+            "x": 922,
+            "y": 372,
+            "width": 77,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4802,
+            "y1": 0.2756,
+            "x2": 0.5203,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202231319",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-22-488162",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Business Administration",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 562,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.4163,
+            "x2": 0.5443,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 7.60 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 21, 2022",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00001",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00001.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "COPY_MOVE"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "COPY_MOVE",
+          "source_bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_pixel": {
+            "x": 898,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4677,
+            "y1": 0.5496,
+            "x2": 0.5823,
+            "y2": 0.5689
+          },
+          "region_id": "REG_01",
+          "field_affected": "grade_or_marks"
+        }
+      ],
+      "source_template": "template_heritage_univ.png",
+      "source_template_id": "template_heritage_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "MARGARET HAWKINS DDS",
+        "register_number": "REG202267422",
+        "certificate_number": "CERT-22-642717",
+        "course_degree": "Master of Technology in Data Science",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this November 21, 2022"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "MARGARET HAWKINS DDS",
+          "bbox_pixel": {
+            "x": 891,
+            "y": 372,
+            "width": 139,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4641,
+            "y1": 0.2756,
+            "x2": 0.5365,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202267422",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-22-642717",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Technology in Data Science",
+          "bbox_pixel": {
+            "x": 866,
+            "y": 562,
+            "width": 188,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.451,
+            "y1": 0.4163,
+            "x2": 0.549,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 21, 2022",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00004",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00004.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "DANIEL WAGNER",
+        "register_number": "REG202338221",
+        "certificate_number": "CERT-23-900581",
+        "course_degree": "Master of Business Administration",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this July 14, 2023"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "DANIEL WAGNER",
+          "bbox_pixel": {
+            "x": 911,
+            "y": 372,
+            "width": 98,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4745,
+            "y1": 0.2756,
+            "x2": 0.5255,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202338221",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-23-900581",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Master of Business Administration",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 562,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.4163,
+            "x2": 0.5443,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 14, 2023",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00020",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00020.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_heritage_univ.png",
+      "source_template_id": "template_heritage_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "CARLA GRAY",
+        "register_number": "REG202031643",
+        "certificate_number": "CERT-20-377932",
+        "course_degree": "Bachelor of Arts in Economics",
+        "grade_or_marks": "First Class (CGPA 7.60 / 10.0)",
+        "issue_date": "Given on this November 27, 2020"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "CARLA GRAY",
+          "bbox_pixel": {
+            "x": 923,
+            "y": 372,
+            "width": 75,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4807,
+            "y1": 0.2756,
+            "x2": 0.5198,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202031643",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-20-377932",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Arts in Economics",
+          "bbox_pixel": {
+            "x": 886,
+            "y": 562,
+            "width": 149,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4615,
+            "y1": 0.4163,
+            "x2": 0.5391,
+            "y2": 0.4348
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class (CGPA 7.60 / 10.0)",
+          "bbox_pixel": {
+            "x": 888,
+            "y": 742,
+            "width": 145,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4625,
+            "y1": 0.5496,
+            "x2": 0.538,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 27, 2020",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "GEN_00012",
+      "image_path": "datasets/synthetic_manipulated/genuine/GEN_00012.png",
+      "is_manipulated": false,
+      "primary_label": "genuine",
+      "manipulation_types": [],
+      "manipulated_regions": [],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "JAMIE ARNOLD",
+        "register_number": "REG202444718",
+        "certificate_number": "CERT-24-246413",
+        "course_degree": "Bachelor of Science in Electrical Engineering",
+        "grade_or_marks": "Second Class Upper Division (CGPA 6.90 / 10.0)",
+        "issue_date": "Given on this November 14, 2024"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "JAMIE ARNOLD",
+          "bbox_pixel": {
+            "x": 916,
+            "y": 372,
+            "width": 88,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4771,
+            "y1": 0.2756,
+            "x2": 0.5229,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202444718",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-24-246413",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Science in Electrical Engineering",
+          "bbox_pixel": {
+            "x": 847,
+            "y": 562,
+            "width": 227,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4411,
+            "y1": 0.4163,
+            "x2": 0.5594,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "Second Class Upper Division (CGPA 6.90 / 10.0)",
+          "bbox_pixel": {
+            "x": 845,
+            "y": 742,
+            "width": 230,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4401,
+            "y1": 0.5496,
+            "x2": 0.5599,
+            "y2": 0.5696
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 14, 2024",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00019",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00019.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "RECOMPRESSION"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "RECOMPRESSION_DISCREPANCY",
+          "quality_factor": 60,
+          "bbox_pixel": {
+            "x": 829,
+            "y": 562,
+            "width": 262,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4318,
+            "y1": 0.4163,
+            "x2": 0.5682,
+            "y2": 0.4363
+          },
+          "region_id": "REG_01",
+          "field_affected": "course_degree"
+        }
+      ],
+      "source_template": "template_metro_univ.png",
+      "source_template_id": "template_metro_univ",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "ELIZABETH FOWLER",
+        "register_number": "REG201899399",
+        "certificate_number": "CERT-18-361650",
+        "course_degree": "Bachelor of Engineering in Mechanical Engineering",
+        "grade_or_marks": "Grade A+ (Distinction)",
+        "issue_date": "Given on this July 16, 2018"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "ELIZABETH FOWLER",
+          "bbox_pixel": {
+            "x": 903,
+            "y": 372,
+            "width": 114,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4703,
+            "y1": 0.2756,
+            "x2": 0.5297,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG201899399",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-18-361650",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Engineering in Mechanical Engineering",
+          "bbox_pixel": {
+            "x": 829,
+            "y": 562,
+            "width": 262,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4318,
+            "y1": 0.4163,
+            "x2": 0.5682,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "Grade A+ (Distinction)",
+          "bbox_pixel": {
+            "x": 901,
+            "y": 742,
+            "width": 118,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4693,
+            "y1": 0.5496,
+            "x2": 0.5307,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this July 16, 2018",
+          "bbox_pixel": {
+            "x": 889,
+            "y": 852,
+            "width": 142,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.463,
+            "y1": 0.6311,
+            "x2": 0.537,
+            "y2": 0.6504
+          }
+        }
+      },
+      "split": "test"
+    },
+    {
+      "sample_id": "MAN_00006",
+      "image_path": "datasets/synthetic_manipulated/manipulated/MAN_00006.png",
+      "is_manipulated": true,
+      "primary_label": "manipulated",
+      "manipulation_types": [
+        "RECOMPRESSION"
+      ],
+      "manipulated_regions": [
+        {
+          "technique": "RECOMPRESSION_DISCREPANCY",
+          "quality_factor": 60,
+          "bbox_pixel": {
+            "x": 847,
+            "y": 562,
+            "width": 227,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4411,
+            "y1": 0.4163,
+            "x2": 0.5594,
+            "y2": 0.4363
+          },
+          "region_id": "REG_01",
+          "field_affected": "course_degree"
+        }
+      ],
+      "source_template": "template_national_academy.png",
+      "source_template_id": "template_national_academy",
+      "base_resolution": [
+        1920,
+        1350
+      ],
+      "ground_truth_fields": {
+        "student_name": "JUDY BAKER",
+        "register_number": "REG202046509",
+        "certificate_number": "CERT-20-585100",
+        "course_degree": "Bachelor of Science in Electrical Engineering",
+        "grade_or_marks": "First Class with Distinction (CGPA 8.85 / 10.0)",
+        "issue_date": "Given on this November 15, 2020"
+      },
+      "field_bounding_boxes": {
+        "student_name": {
+          "value": "JUDY BAKER",
+          "bbox_pixel": {
+            "x": 923,
+            "y": 372,
+            "width": 75,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.4807,
+            "y1": 0.2756,
+            "x2": 0.5198,
+            "y2": 0.2933
+          }
+        },
+        "register_number": {
+          "value": "REG202046509",
+          "bbox_pixel": {
+            "x": 252,
+            "y": 232,
+            "width": 89,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.1313,
+            "y1": 0.1719,
+            "x2": 0.1776,
+            "y2": 0.1896
+          }
+        },
+        "certificate_number": {
+          "value": "CERT-20-585100",
+          "bbox_pixel": {
+            "x": 1492,
+            "y": 232,
+            "width": 95,
+            "height": 24
+          },
+          "bbox_normalized": {
+            "x1": 0.7771,
+            "y1": 0.1719,
+            "x2": 0.8266,
+            "y2": 0.1896
+          }
+        },
+        "course_degree": {
+          "value": "Bachelor of Science in Electrical Engineering",
+          "bbox_pixel": {
+            "x": 847,
+            "y": 562,
+            "width": 227,
+            "height": 27
+          },
+          "bbox_normalized": {
+            "x1": 0.4411,
+            "y1": 0.4163,
+            "x2": 0.5594,
+            "y2": 0.4363
+          }
+        },
+        "grade_or_marks": {
+          "value": "First Class with Distinction (CGPA 8.85 / 10.0)",
+          "bbox_pixel": {
+            "x": 850,
+            "y": 742,
+            "width": 220,
+            "height": 26
+          },
+          "bbox_normalized": {
+            "x1": 0.4427,
+            "y1": 0.5496,
+            "x2": 0.5573,
+            "y2": 0.5689
+          }
+        },
+        "issue_date": {
+          "value": "Given on this November 15, 2020",
+          "bbox_pixel": {
+            "x": 875,
+            "y": 852,
+            "width": 170,
+            "height": 25
+          },
+          "bbox_normalized": {
+            "x1": 0.4557,
+            "y1": 0.6311,
+            "x2": 0.5443,
+            "y2": 0.6496
+          }
+        }
+      },
+      "split": "test"
+    }
+  ]
+}
