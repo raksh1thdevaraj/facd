@@ -211,3 +211,72 @@ def test_text_consistency_schemas_and_db_model() -> None:
     assert saved.overall_score == 0.78
     assert len(saved.anomalous_regions_json) == 1
     session.close()
+
+
+def test_forensic_schemas_and_db_model() -> None:
+    """Verify ForensicAnalysisResult and ForensicFindingModel persistence."""
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    from app.database import Base
+    from app.models.forensic import ForensicFindingModel
+    from app.schemas.forensics import CloneMatch, ForensicAnalysisResult
+    from app.schemas.pipeline import SuspiciousRegion
+
+    clone = CloneMatch(
+        source_bbox=BoundingBox(x1=0.1, y1=0.1, x2=0.2, y2=0.2),
+        target_bbox=BoundingBox(x1=0.5, y1=0.5, x2=0.6, y2=0.6),
+        source_pixel_bbox=PixelBoundingBox(x=50, y=50, width=50, height=50),
+        target_pixel_bbox=PixelBoundingBox(x=250, y=250, width=50, height=50),
+        inlier_count=8,
+        confidence=0.90,
+        displacement_vector=(200.0, 200.0),
+    )
+
+    suspicious = SuspiciousRegion(
+        region_id="reg-clone-1",
+        bbox=clone.target_bbox,
+        pixel_bbox=clone.target_pixel_bbox,
+        forensic_type="COPY_MOVE",
+        anomaly_score=0.90,
+        description="Cloned stamp patch",
+    )
+
+    result = ForensicAnalysisResult(
+        document_id="doc-forensic-99",
+        overall_forensic_score=0.45,
+        ela_score=0.88,
+        copy_move_score=0.30,
+        noise_inconsistency_score=0.92,
+        detected_clones=[clone],
+        suspicious_regions=[suspicious],
+        heatmap_image_path="/storage/reports/doc99_heatmap.png",
+    )
+
+    assert result.forensics_risk_score == 55.0
+    pipeline_out = result.to_pipeline_output()
+    assert pipeline_out.copy_move_detected is True
+    assert pipeline_out.copy_move_clusters_count == 1
+    assert pipeline_out.forensics_risk_score == 55.0
+
+    test_engine = create_engine("sqlite:///:memory:")
+    Base.metadata.create_all(bind=test_engine)
+    session_cls = sessionmaker(bind=test_engine)
+    session = session_cls()
+
+    finding = ForensicFindingModel(
+        certificate_id="cert-99",
+        finding_type="COPY_MOVE_CLONE",
+        confidence_score=0.90,
+        bounding_box_json=clone.target_bbox.model_dump(),
+        description="Cloned stamp detected via SIFT/RANSAC",
+        heatmap_image_path=result.heatmap_image_path,
+    )
+    session.add(finding)
+    session.commit()
+
+    saved = session.query(ForensicFindingModel).filter_by(certificate_id="cert-99").first()
+    assert saved is not None
+    assert saved.finding_type == "COPY_MOVE_CLONE"
+    assert saved.confidence_score == 0.90
+    session.close()

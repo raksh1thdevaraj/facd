@@ -1,3 +1,8 @@
+from app.schemas.forensics import (
+    CloneMatch,
+    ForensicAnalysisResult,
+    ForensicConfig,
+)
 from app.schemas.health import HealthCheckResponse, ServiceStatus
 from app.schemas.ingestion import (
     IngestedDocument,
@@ -81,4 +86,7 @@ __all__ = [
     "AnomalousRegion",
     "TextConsistencyConfig",
     "TextConsistencyResult",
+    "CloneMatch",
+    "ForensicConfig",
+    "ForensicAnalysisResult",
 ]
