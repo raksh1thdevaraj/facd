@@ -38,6 +38,12 @@ from app.schemas.primitives import (
     PixelBoundingBox,
     RiskBand,
 )
+from app.schemas.text_consistency import (
+    AnomalousRegion,
+    AnomalyType,
+    TextConsistencyConfig,
+    TextConsistencyResult,
+)
 
 __all__ = [
     "RiskBand",
@@ -71,4 +77,8 @@ __all__ = [
     "OCRConfig",
     "ExtractedFieldDTO",
     "OCRResultDTO",
+    "AnomalyType",
+    "AnomalousRegion",
+    "TextConsistencyConfig",
+    "TextConsistencyResult",
 ]

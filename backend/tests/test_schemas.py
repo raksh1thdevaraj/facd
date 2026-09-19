@@ -142,3 +142,72 @@ def test_score_fusion_and_verification_report_dto() -> None:
     assert report.risk_band == RiskBand.LOW
     assert report.extracted_fields.student_name == "Jane Doe"
     assert len(report.contributing_factors) == 1
+
+
+def test_text_consistency_schemas_and_db_model() -> None:
+    """Verify TextConsistencyResult and TextConsistencyModel initialization and conversion."""
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    from app.database import Base
+    from app.models.text_consistency import TextConsistencyModel
+    from app.schemas.text_consistency import (
+        AnomalousRegion,
+        AnomalyType,
+        TextConsistencyResult,
+    )
+
+    region = AnomalousRegion(
+        anomaly_type=AnomalyType.BASELINE_DRIFT,
+        severity=0.75,
+        description="Raised baseline",
+        bbox=BoundingBox(x1=0.1, y1=0.1, x2=0.2, y2=0.2),
+        pixel_bbox=PixelBoundingBox(x=10, y=10, width=50, height=20),
+        token_text="Spliced",
+    )
+
+    result = TextConsistencyResult(
+        document_id="test-doc-99",
+        overall_text_consistency_score=0.78,
+        baseline_alignment_score=0.70,
+        font_size_consistency_score=0.90,
+        stroke_weight_consistency_score=0.85,
+        spacing_consistency_score=0.92,
+        format_consistency_score=1.0,
+        logical_consistency_score=0.80,
+        anomalous_regions=[region],
+    )
+
+    assert result.status == CheckStatus.WARNING
+    assert result.consistency_risk_score == 22.0
+
+    pipeline_output = result.to_pipeline_output()
+    assert pipeline_output.overall_status == CheckStatus.WARNING
+    assert pipeline_output.consistency_risk_score == 22.0
+
+    # Test SQLAlchemy database table creation
+    test_engine = create_engine("sqlite:///:memory:")
+    Base.metadata.create_all(bind=test_engine)
+    session_cls = sessionmaker(bind=test_engine)
+    session = session_cls()
+
+    db_record = TextConsistencyModel(
+        certificate_id="cert-123",
+        overall_score=result.overall_text_consistency_score,
+        baseline_score=result.baseline_alignment_score,
+        font_size_score=result.font_size_consistency_score,
+        stroke_weight_score=result.stroke_weight_consistency_score,
+        spacing_score=result.spacing_consistency_score,
+        format_score=result.format_consistency_score,
+        logical_score=result.logical_consistency_score,
+        anomalous_regions_json=[region.model_dump()],
+        visualization_image_path="/path/to/overlay.png",
+    )
+    session.add(db_record)
+    session.commit()
+
+    saved = session.query(TextConsistencyModel).filter_by(certificate_id="cert-123").first()
+    assert saved is not None
+    assert saved.overall_score == 0.78
+    assert len(saved.anomalous_regions_json) == 1
+    session.close()
