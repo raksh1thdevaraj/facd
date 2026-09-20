@@ -43,6 +43,18 @@ from app.schemas.primitives import (
     PixelBoundingBox,
     RiskBand,
 )
+from app.schemas.template_matching import (
+    RecordBulkImportResponse,
+    RecordCreateRequest,
+    RecordVerificationResult,
+    SealROI,
+    TemplateDetailResponse,
+    TemplateMatchMetrics,
+    TemplateSummary,
+    TemplateVerificationResult,
+    TierClassification,
+    TierStatus,
+)
 from app.schemas.text_consistency import (
     AnomalousRegion,
     AnomalyType,
@@ -89,4 +101,14 @@ __all__ = [
     "CloneMatch",
     "ForensicConfig",
     "ForensicAnalysisResult",
+    "TierStatus",
+    "SealROI",
+    "TemplateMatchMetrics",
+    "RecordVerificationResult",
+    "TierClassification",
+    "TemplateVerificationResult",
+    "TemplateSummary",
+    "TemplateDetailResponse",
+    "RecordCreateRequest",
+    "RecordBulkImportResponse",
 ]

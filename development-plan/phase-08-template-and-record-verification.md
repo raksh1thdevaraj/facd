@@ -507,13 +507,13 @@ CHIP TMP-12 & CHIP TMP-13 (Unit Tests)
 
 ## 10. Phase Completion Checklist
 
-- [ ] Template feature alignment warps query certificate to master template with sub-pixel registration.
-- [ ] SSIM evaluator computes masked structural similarity, distinguishing genuine (>= 0.85) from fake (< 0.60).
-- [ ] University seal matcher validates emblem presence, geometry, and color profile.
-- [ ] Database record verifier queries official student records with fuzzy typo tolerance.
-- [ ] Three-tier classification strictly assigns Tier 1 (Verified), Tier 2 (Consistent), or Tier 3 (Unverified/Inconsistent).
-- [ ] Discrepancy details are explicitly reported when certificate text contradicts university records.
-- [ ] Template registration service enables onboarding new university master templates.
-- [ ] CSV bulk importer allows uploading institutional student records.
-- [ ] Side-by-side visual diff image generated highlighting structural differences.
-- [ ] Test cases TC-TMP-01 through TC-TMP-06 passing with 100% success rate.
+- [x] Template feature alignment warps query certificate to master template with sub-pixel registration.
+- [x] SSIM evaluator computes masked structural similarity, distinguishing genuine (>= 0.85) from fake (< 0.60).
+- [x] University seal matcher validates emblem presence, geometry, and color profile.
+- [x] Database record verifier queries official student records with fuzzy typo tolerance.
+- [x] Three-tier classification strictly assigns Tier 1 (Verified), Tier 2 (Consistent), or Tier 3 (Unverified/Inconsistent).
+- [x] Discrepancy details are explicitly reported when certificate text contradicts university records.
+- [x] Template registration service enables onboarding new university master templates.
+- [x] CSV bulk importer allows uploading institutional student records.
+- [x] Side-by-side visual diff image generated highlighting structural differences.
+- [x] Test cases TC-TMP-01 through TC-TMP-06 passing with 100% success rate.

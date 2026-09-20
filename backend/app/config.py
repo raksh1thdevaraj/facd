@@ -45,6 +45,7 @@ class Settings(BaseSettings):
     UPLOAD_DIR: Path = Path("./storage/uploads")
     PREPROCESSED_DIR: Path = Path("./storage/preprocessed")
     REPORT_DIR: Path = Path("./storage/reports")
+    TEMPLATES_DIR: Path = Path("./storage/templates")
     MAX_UPLOAD_SIZE_BYTES: int = 10 * 1024 * 1024  # 10 MB
 
     # OCR Configuration
@@ -83,6 +84,7 @@ class Settings(BaseSettings):
             self.UPLOAD_DIR,
             self.PREPROCESSED_DIR,
             self.REPORT_DIR,
+            self.TEMPLATES_DIR,
             self.MODEL_DIR,
         ]:
             path.mkdir(parents=True, exist_ok=True)
