@@ -1,16 +1,16 @@
 # Graph Report - AI-Based-Detection-of-Fake-or-Manipulated-Academic-Certificates  (2026-09-20)
 
 ## Corpus Check
-- 258 files · ~273,183 words
+- 289 files · ~284,196 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2712 nodes · 4267 edges · 190 communities (176 shown, 14 thin omitted)
-- Extraction: 71% EXTRACTED · 29% INFERRED · 0% AMBIGUOUS · INFERRED: 1251 edges (avg confidence: 0.55)
+- 2997 nodes · 4824 edges · 210 communities (192 shown, 18 thin omitted)
+- Extraction: 69% EXTRACTED · 31% INFERRED · 0% AMBIGUOUS · INFERRED: 1507 edges (avg confidence: 0.55)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `517efe95`
+- Built from commit: `aeade0e6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -73,8 +73,10 @@
 - [[_COMMUNITY_Health Endpoints Api|Health Endpoints Api]]
 - [[_COMMUNITY_Ocr Service Get|Ocr Service Get]]
 - [[_COMMUNITY_Scripts Run Ocr|Scripts Run Ocr]]
+- [[_COMMUNITY_Explainability|Explainability]]
 - [[_COMMUNITY_Ml Classifier|Ml Classifier]]
 - [[_COMMUNITY_Pkg Ai Certificate|Pkg Ai Certificate]]
+- [[_COMMUNITY_Score Fusion|Score Fusion]]
 - [[_COMMUNITY_Community 87|Community 87]]
 - [[_COMMUNITY_Community 88|Community 88]]
 - [[_COMMUNITY_Community 89|Community 89]]
@@ -132,7 +134,6 @@
 - [[_COMMUNITY_Community 141|Community 141]]
 - [[_COMMUNITY_Community 142|Community 142]]
 - [[_COMMUNITY_Community 143|Community 143]]
-- [[_COMMUNITY_Community 144|Community 144]]
 - [[_COMMUNITY_Community 145|Community 145]]
 - [[_COMMUNITY_Community 146|Community 146]]
 - [[_COMMUNITY_Community 147|Community 147]]
@@ -178,10 +179,30 @@
 - [[_COMMUNITY_Community 187|Community 187]]
 - [[_COMMUNITY_Community 188|Community 188]]
 - [[_COMMUNITY_Community 189|Community 189]]
+- [[_COMMUNITY_Community 190|Community 190]]
+- [[_COMMUNITY_Community 191|Community 191]]
+- [[_COMMUNITY_Community 192|Community 192]]
+- [[_COMMUNITY_Community 193|Community 193]]
+- [[_COMMUNITY_Community 194|Community 194]]
+- [[_COMMUNITY_Community 195|Community 195]]
+- [[_COMMUNITY_Community 196|Community 196]]
+- [[_COMMUNITY_Community 197|Community 197]]
+- [[_COMMUNITY_Community 198|Community 198]]
+- [[_COMMUNITY_Community 199|Community 199]]
+- [[_COMMUNITY_Community 200|Community 200]]
+- [[_COMMUNITY_Community 201|Community 201]]
+- [[_COMMUNITY_Community 202|Community 202]]
+- [[_COMMUNITY_Community 203|Community 203]]
+- [[_COMMUNITY_Community 204|Community 204]]
+- [[_COMMUNITY_Community 205|Community 205]]
+- [[_COMMUNITY_Community 206|Community 206]]
+- [[_COMMUNITY_Community 207|Community 207]]
+- [[_COMMUNITY_Community 208|Community 208]]
+- [[_COMMUNITY_Community 209|Community 209]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `BoundingBox` - 88 edges
-2. `PixelBoundingBox` - 76 edges
+1. `BoundingBox` - 89 edges
+2. `PixelBoundingBox` - 89 edges
 3. `TextLine` - 72 edges
 4. `ExtractedField` - 52 edges
 5. `BaseFieldExtractor` - 48 edges
@@ -189,19 +210,19 @@
 7. `CheckStatus` - 35 edges
 8. `CertificateVisualCNN` - 32 edges
 9. `ForensicAnalysisResult` - 29 edges
-10. `InstitutionRecordModel` - 27 edges
+10. `RiskBand` - 28 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `ndarray` --uses--> `StackingMetaClassifier`  [INFERRED]
+  ml/scripts/train_meta_classifier.py → backend/app/modules/score_fusion/meta_classifier.py
+- `Path` --uses--> `StackingMetaClassifier`  [INFERRED]
+  ml/scripts/train_meta_classifier.py → backend/app/modules/score_fusion/meta_classifier.py
 - `Any` --uses--> `CertificateVisualCNN`  [INFERRED]
   ml/scripts/evaluate_visual_cnn.py → backend/app/modules/visual_model/network.py
 - `generate_synthetic_record()` --calls--> `datetime`  [INFERRED]
   ml/scripts/generate_genuine.py → backend/app/modules/ingestion/metadata_extractor.py
-- `Any` --uses--> `CertificateVisualCNN`  [INFERRED]
-  ml/scripts/train_visual_cnn.py → backend/app/modules/visual_model/network.py
-- `DataLoader` --uses--> `CertificateVisualCNN`  [INFERRED]
-  ml/scripts/train_visual_cnn.py → backend/app/modules/visual_model/network.py
-- `Module` --uses--> `CertificateVisualCNN`  [INFERRED]
-  ml/scripts/train_visual_cnn.py → backend/app/modules/visual_model/network.py
+- `ndarray` --uses--> `MultimodalFusionMLP`  [INFERRED]
+  ml/scripts/train_early_fusion_mlp.py → backend/app/modules/score_fusion/early_fusion.py
 
 ## Import Cycles
 - 1-file cycle: `backend/app/main.py -> backend/app/main.py`
@@ -210,23 +231,23 @@
 - 1-file cycle: `backend/app/modules/ingestion/metadata_extractor.py -> backend/app/modules/ingestion/metadata_extractor.py`
 - 1-file cycle: `backend/app/modules/preprocessing/service.py -> backend/app/modules/preprocessing/service.py`
 
-## Communities (190 total, 14 thin omitted)
+## Communities (210 total, 18 thin omitted)
 
 ### Community 0 - "Schemas Primitives Pipeline"
-Cohesion: 0.09
-Nodes (42): TextConsistencyConfig, Any, CheckStatus, TextConsistencyOutput, BaseModel, Enum, HealthCheckResponse, ServiceStatus (+34 more)
+Cohesion: 0.11
+Nodes (42): CheckStatus, TextConsistencyOutput, BaseModel, Enum, Pydantic V2 schemas for final verification decisions and multimodal score fusion, Normalized sub-scores across analytical branches [0.0 = Fake, 1.0 = Genuine]., SubScoresBreakdown, HealthCheckResponse (+34 more)
 
 ### Community 1 - "Core Exceptions Ingestion"
-Cohesion: 0.15
-Nodes (20): BinaryIO, Path, CorruptedFileError, EmptyFileError, EncryptedPdfError, FileTooLargeError, InsufficientResolutionError, Uploaded file MIME type or magic signature is not allowed. (+12 more)
+Cohesion: 0.16
+Nodes (18): BinaryIO, Path, Path, CorruptedFileError, EmptyFileError, FileTooLargeError, Uploaded file MIME type or magic signature is not allowed., Uploaded file exceeds the maximum allowed upload size. (+10 more)
 
 ### Community 2 - "Ocr Engine Easyocr"
 Cohesion: 0.06
-Nodes (25): ABC, ndarray, OCRToken, Path, ndarray, OCRToken, Path, BaseOCREngine (+17 more)
+Nodes (28): ABC, ndarray, OCRToken, Path, ndarray, OCRToken, Path, BaseOCREngine (+20 more)
 
 ### Community 3 - "Ocr Service Field"
 Cohesion: 0.11
-Nodes (27): BaseOCREngine, ndarray, OCROutput, Path, DateExtractor, Extracts and standardizes certificate issue, convocation, or examination dates., GradeExtractor, Extracts CGPA, GPA, percentage, and graduation division/class. (+19 more)
+Nodes (27): BaseOCREngine, ndarray, OCROutput, Path, CertificateIdExtractor, Extracts unique printed certificate serial numbers, folio numbers, and QR code p, GradeExtractor, Extracts CGPA, GPA, percentage, and graduation division/class. (+19 more)
 
 ### Community 4 - "Package Devdependencies Dependencies"
 Cohesion: 0.07
@@ -241,28 +262,28 @@ Cohesion: 0.16
 Nodes (14): Any, ndarray, find_document_corners(), four_point_transform(), order_points(), PerspectiveWarper, Detects document boundary corners and rectifies perspective distortion., Order 4 (x, y) coordinates consistently: top-left, top-right, bottom-right, bott (+6 more)
 
 ### Community 7 - "Preprocessing Contrast Enhancer"
-Cohesion: 0.14
-Nodes (25): Path, PreprocessingResult, UUID, BasePreprocessingStep, InvalidFileError, Uploaded file header or structure is invalid., PreprocessingArtifactManager, Manages filesystem persistence of preprocessed images and audit artifacts. (+17 more)
+Cohesion: 0.12
+Nodes (23): Path, PreprocessingResult, UUID, BasePreprocessingStep, PreprocessingArtifactManager, Manages filesystem persistence of preprocessed images and audit artifacts., CLAHEEnhancer, Contrast Limited Adaptive Histogram Equalization applied to the luminance channe (+15 more)
 
 ### Community 8 - "Tsconfig Compileroptions Paths"
 Cohesion: 0.09
 Nodes (21): compilerOptions, allowImportingTsExtensions, baseUrl, isolatedModules, jsx, lib, module, moduleResolution (+13 more)
 
 ### Community 9 - "Field Extractors Extractor"
-Cohesion: 0.11
-Nodes (14): ExtractedField, OCRToken, TextLine, ExtractedField, OCRToken, TextLine, BaseFieldExtractor, Strip surrounding punctuation, multiple spaces, and non-printable noise. (+6 more)
+Cohesion: 0.12
+Nodes (12): ExtractedField, OCRToken, TextLine, BaseFieldExtractor, Strip surrounding punctuation, multiple spaces, and non-printable noise., Abstract base class for all entity field extractors., Name of the target field (e.g. 'student_name', 'register_number')., Check if any label pattern approximately appears in the line text using RapidFuz (+4 more)
 
 ### Community 10 - "Ocr Spatial Analyzer"
 Cohesion: 0.16
 Nodes (23): CertificateFields, ndarray, Session, TemplateVerificationResult, ndarray, Session, Base, InstitutionModel (+15 more)
 
 ### Community 11 - "Preprocessing Modules Base"
-Cohesion: 0.11
-Nodes (15): Any, ndarray, Any, ndarray, Any, ndarray, Any, ndarray (+7 more)
+Cohesion: 0.09
+Nodes (19): Any, ndarray, Any, ndarray, Any, ndarray, Any, ndarray (+11 more)
 
 ### Community 12 - "Preprocessing Result Artifact"
-Cohesion: 0.24
-Nodes (8): Produce the canonical SPEC-02 PreprocessingOutput model., Produce the API serializable PreprocessingResultDTO., PreprocessingOutput, PreprocessingResultDTO, PreprocessingResultDTO, PreprocessingStepMetric, Execution timing and status for an individual pipeline step., Serialized summary of preprocessing results matching API and inspection needs.
+Cohesion: 0.13
+Nodes (14): Path, PreprocessingResult, UUID, Save enhanced image, binarized image, and thumbnail for a certificate., PreprocessingResult, Encapsulates in-memory arrays, transformation metrics, and persisted paths., Produce the canonical SPEC-02 PreprocessingOutput model., Produce the API serializable PreprocessingResultDTO. (+6 more)
 
 ### Community 13 - "Deskewer Preprocessing Rationale"
 Cohesion: 0.19
@@ -277,8 +298,8 @@ Cohesion: 0.17
 Nodes (14): Any, Path, Any, Image, Path, generate_dataset(), main(), Dataset Pipeline Orchestrator.  Orchestrates the entire certificate synthesis li (+6 more)
 
 ### Community 16 - "Ingestion Storage Manager"
-Cohesion: 0.16
-Nodes (14): BinaryIO, IngestedDocument, Path, MetadataExtractor, Extracts forensic metadata from image and PDF files., PDFRasterizer, Rasterizes PDF documents into 300 DPI high-resolution PNG images.      Supports, Process an uploaded certificate stream end-to-end.          Cleans up any create (+6 more)
+Cohesion: 0.10
+Nodes (23): Any, Path, BinaryIO, IngestedDocument, Path, MetadataExtractor, Extract document metadata from PDF trailer and dictionary entries., Extracts forensic metadata from image and PDF files. (+15 more)
 
 ### Community 17 - "Generate Templates Scripts"
 Cohesion: 0.17
@@ -313,8 +334,8 @@ Cohesion: 0.05
 Nodes (39): A.1 Purpose, A.2 Architectural Style, A.3 Component Overview, A.4 Suggested Technology Stack, A.5 Architecture Diagram (Deployment View), AI-Based Detection of Fake or Manipulated Academic Certificates, B.1.1 Ingestion Module, B.1.2 Preprocessing Module (+31 more)
 
 ### Community 25 - "Field Extractors Date"
-Cohesion: 0.13
-Nodes (19): RecordVerificationResult, Three-Tier Match Status as defined by FR-TMP-03., Final three-tier determination and confidence justification., TierClassification, TierStatus, classify_tier(), Classify certificate into Tier 1, Tier 2, or Tier 3 status.      Args:         r, TemplateMatchMetrics (+11 more)
+Cohesion: 0.14
+Nodes (17): RecordVerificationResult, Final three-tier determination and confidence justification., TierClassification, classify_tier(), Classify certificate into Tier 1, Tier 2, or Tier 3 status.      Args:         r, TemplateMatchMetrics, TC-TMP-03: Confirmed record in database yields TIER_1_VERIFIED with 0.99 confide, TC-TMP-04: Contradiction between cert and university record yields TIER_3_INCONS (+9 more)
 
 ### Community 26 - "Health Rationale Endpoint"
 Cohesion: 0.27
@@ -333,8 +354,8 @@ Cohesion: 0.28
 Nodes (7): Any, Path, Execute diagnostic self-tests and performance benchmarks for the preprocessing s, run_preprocessing_diagnostics(), compute_sha256(), test_end_to_end_preprocessing_under_5s(), test_preprocessing_diagnostics()
 
 ### Community 30 - "Conftest Rationale Session"
-Cohesion: 0.25
-Nodes (8): Session, TestClient, client(), db_session(), Create test tables before tests run, tear down afterwards., Provide a transactional test database session., Provide a FastAPI TestClient with database dependency overridden., setup_test_db()
+Cohesion: 0.16
+Nodes (21): Any, FinalVerificationDecision, FinalVerificationDecision, VerificationVerdict, NLGExplanationGenerator, Natural Language Generation (NLG) engine for human-readable verification reports, Synthesizes raw analytical findings and scores into structured natural language, Generate executive summary paragraph for decision. (+13 more)
 
 ### Community 31 - "Pdf Rasterizer Encrypted"
 Cohesion: 0.44
@@ -349,8 +370,8 @@ Cohesion: 0.15
 Nodes (14): Any, ndarray, Path, FeatureImportanceItem, compute_local_contributions(), extract_feature_importances(), plot_feature_importance(), Feature importance analysis and local anomaly explanations for Phase 09.  Provid (+6 more)
 
 ### Community 34 - "Schemas Rationale Bounding"
-Cohesion: 0.09
-Nodes (19): get_db(), FastAPI dependency for obtaining a database session., Session, ForensicFindingModel, SQLAlchemy model for storing digital image forensic findings and suspicious regi, SQLAlchemy model for storing text consistency and typographical forensics result, TextConsistencyModel, Verify TextConsistencyResult and TextConsistencyModel initialization and convers (+11 more)
+Cohesion: 0.15
+Nodes (12): Verify TextConsistencyResult and TextConsistencyModel initialization and convers, Verify ForensicAnalysisResult and ForensicFindingModel persistence., Verify normalized bounding box coordinates must be 0.0 to 1.0., Verify absolute pixel coordinates., Verify IngestionOutput instantiation., Verify full Report DTO model composition and validation., test_bounding_box_validation(), test_forensic_schemas_and_db_model() (+4 more)
 
 ### Community 35 - "Base Engine Ocr"
 Cohesion: 0.06
@@ -365,24 +386,24 @@ Cohesion: 0.07
 Nodes (28): A.1 Purpose, A.2 Data Sources, A.3 Dataset Composition (Indicative), A.4 Labeling Scheme, A.5 Synthetic Manipulation Generation Methodology, A.6 Data Quality Considerations, A.7 Privacy & Ethical Handling, AI-Based Detection of Fake or Manipulated Academic Certificates (+20 more)
 
 ### Community 38 - "Ingestion Rasterizer Rationale"
-Cohesion: 0.16
-Nodes (11): Session, Any, get_health(), get_ingestion_health(), Probe the health of the FastAPI service and its dependencies (Database, Storage), Probe the health of document ingestion dependencies (PDF renderers, disk storage, HealthCheckResponse, check_ingestion_health() (+3 more)
+Cohesion: 0.09
+Nodes (17): Application configuration loaded from environment variables and .env file., Ensure all required runtime storage directories exist., Settings, Session, Any, Any, Session, BaseSettings (+9 more)
 
 ### Community 39 - "Dataset Scripts Split"
-Cohesion: 0.28
-Nodes (6): datetime, _parse_exif_date(), _parse_pdf_date(), Parse standard PDF date format, e.g. D:20240915123000+00'00'., Parse EXIF datetime string, e.g. '2024:09:15 12:30:00'., SQLAlchemy ORM model for ML manipulation predictions.
+Cohesion: 0.12
+Nodes (14): get_db(), FastAPI dependency for obtaining a database session., Session, datetime, _parse_exif_date(), _parse_pdf_date(), Parse standard PDF date format, e.g. D:20240915123000+00'00'., Parse EXIF datetime string, e.g. '2024:09:15 12:30:00'. (+6 more)
 
 ### Community 40 - "Main Lifespan Rationale"
-Cohesion: 0.15
-Nodes (3): lifespan(), Lifespan context manager for startup and shutdown events., FastAPI
+Cohesion: 0.09
+Nodes (11): lifespan(), Lifespan context manager for startup and shutdown events., Session, TestClient, FastAPI, client(), db_session(), Create test tables before tests run, tear down afterwards. (+3 more)
 
 ### Community 41 - "Ingestion Fingerprint Modules"
 Cohesion: 0.29
 Nodes (6): Path, Session, check_duplicate_hash(), compute_sha256(), Compute the SHA-256 cryptographic hash of a file using chunked streaming.      R, Check if a certificate with the same SHA-256 checksum has already been registere
 
 ### Community 42 - "Preprocessing Pipeline Preprocessingpipeline"
-Cohesion: 0.17
-Nodes (26): CertificateFields, ndarray, OCRToken, Path, TextConsistencyConfig, TextConsistencyOutput, TextConsistencyResult, TextLine (+18 more)
+Cohesion: 0.20
+Nodes (20): CertificateFields, ndarray, OCRToken, Path, TextConsistencyConfig, TextConsistencyOutput, TextConsistencyResult, TextLine (+12 more)
 
 ### Community 43 - "Validate Dataset Scripts"
 Cohesion: 0.38
@@ -393,8 +414,8 @@ Cohesion: 0.11
 Nodes (14): Any, MLInferenceOutput, ndarray, FeatureImportanceItem, FeatureVector, PredictionResult, Prediction result DTO summarizing baseline machine learning model inference., Convert to canonical SPEC-02 MLInferenceOutput contract. (+6 more)
 
 ### Community 45 - "Config Settings Rationale"
-Cohesion: 0.17
-Nodes (9): Path, PreprocessingResult, UUID, ndarray, Save enhanced image, binarized image, and thumbnail for a certificate., create_thumbnail(), normalize_resolution(), Standardize image dimensions within [min_long_edge, max_long_edge] preserving as (+1 more)
+Cohesion: 0.40
+Nodes (5): ndarray, create_thumbnail(), normalize_resolution(), Standardize image dimensions within [min_long_edge, max_long_edge] preserving as, Generate a lightweight web thumbnail preview preserving aspect ratio.
 
 ### Community 46 - "Preprocessing Resizer Rationale"
 Cohesion: 0.08
@@ -425,8 +446,8 @@ Cohesion: 0.09
 Nodes (24): Compose, Dataset, Any, DataLoader, Path, Any, CertificateImageDataset, create_dataloaders() (+16 more)
 
 ### Community 54 - "Scripts Run Preprocessing"
-Cohesion: 0.07
-Nodes (50): Any, RecordBulkImportResponse, Session, UploadFile, RecordBulkImportResponse, Session, CertificateFields, RecordVerificationResult (+42 more)
+Cohesion: 0.11
+Nodes (30): Any, RecordBulkImportResponse, Session, UploadFile, RecordBulkImportResponse, Session, Session, bulk_import_records() (+22 more)
 
 ### Community 55 - "Metadata Extractor Image"
 Cohesion: 0.08
@@ -493,16 +514,16 @@ Cohesion: 0.08
 Nodes (23): 10. Phase Completion Checklist, 1. Purpose, 2. Why This Phase Exists, 3. Requirements Covered, 4. Inputs, 5. Outputs, 6. Dependencies, 7. Files and Folder Structure (+15 more)
 
 ### Community 100 - "Community 100"
-Cohesion: 0.25
-Nodes (6): BoundingBox, OCRToken, PixelBoundingBox, TextLine, Extract field value, confidence, and bounding box from lines and tokens., Compute combined normalized and pixel bounding boxes for a list of tokens.
+Cohesion: 0.15
+Nodes (22): Any, FinalVerificationDecision, ndarray, Path, ScoreFusionOutput, Session, TierStatus, TierStatus (+14 more)
 
 ### Community 101 - "Community 101"
 Cohesion: 0.09
 Nodes (22): 1. Purpose, 2. Why This Phase Exists, 3. Requirements Covered, 4. Inputs, 5. Outputs, 6. Dependencies, 7. Files and Folder Structure, 8. Implementation Chips (+14 more)
 
 ### Community 102 - "Community 102"
-Cohesion: 0.33
-Nodes (6): AnomalousRegion, OCRToken, Detect orphaned punctuation artifacts or invalid character repetitions., Inspect all tokens for homoglyphs, capitalization glitches, and punctuation flaw, Check for Cyrillic or unexpected scripts inserted into Latin words., Detect mid-word erratic casing such as 'cOMPUTER' or 'JoHn'.
+Cohesion: 0.14
+Nodes (15): AnomalousRegion, OCRToken, TextConsistencyConfig, Detect homoglyph evasion when a Cyrillic character is embedded inside Latin text, Detect erratic casing anomaly inside a word like 'cOMPUTER'., Verify that normally formatted words yield format consistency score 1.0., test_clean_text_passes_cleanly(), test_detects_cyrillic_homoglyph() (+7 more)
 
 ### Community 103 - "Community 103"
 Cohesion: 0.09
@@ -522,23 +543,23 @@ Nodes (8): TC-TXT-02: Detect baseline drift when a spliced word is raised by 6px
 
 ### Community 107 - "Community 107"
 Cohesion: 0.15
-Nodes (13): Path, Run full TextConsistencyService on forged certificate containing multiple anomal, Verify that analyze_to_pipeline_output produces valid SPEC-02 TextConsistencyOut, NFR-03: Performance requirement (< 2.0s per certificate)., TC-TXT-04: Verify weighted composite scoring and critical veto penalty., Run full TextConsistencyService on clean certificate and verify high authenticit, test_composite_score_calculation(), test_performance_under_two_seconds() (+5 more)
+Nodes (15): Path, Run full TextConsistencyService on forged certificate containing multiple anomal, Verify that analyze_to_pipeline_output produces valid SPEC-02 TextConsistencyOut, NFR-03: Performance requirement (< 2.0s per certificate)., TC-TXT-04: Verify weighted composite scoring and critical veto penalty., Run full TextConsistencyService on clean certificate and verify high authenticit, test_composite_score_calculation(), test_performance_under_two_seconds() (+7 more)
 
 ### Community 108 - "Community 108"
 Cohesion: 0.12
 Nodes (16): 1. Purpose, 2.1 Principle, 2.2 Algorithm & Mathematical Formulation, 2. Module A: Error Level Analysis (ELA), 3.1 Algorithm, 3. Module B: Copy-Move / Splicing Detection, 4.1 Principle, 4.2 Algorithm (+8 more)
 
 ### Community 109 - "Community 109"
-Cohesion: 0.14
-Nodes (18): CertificateFields, ExtractedField, OCRToken, ExtractedField, OCRToken, TextLine, ExtractedField, ndarray (+10 more)
+Cohesion: 0.16
+Nodes (16): CertificateFields, ExtractedField, OCRToken, TextLine, ExtractedField, ndarray, OCRToken, Path (+8 more)
 
 ### Community 110 - "Community 110"
 Cohesion: 0.20
 Nodes (8): IngestionOutput, IngestedDocument, IngestedDocumentResponse, MetadataModel, Extracted file and forensic metadata., Domain model representing a successfully ingested document ready for analysis., Convert into the canonical SPEC-02 IngestionOutput data contract., API response model for POST /api/v1/documents/upload.
 
 ### Community 111 - "Community 111"
-Cohesion: 0.22
-Nodes (8): TC-TXT-03: Detect token collision when a spliced word overlaps previous text (ga, Detect artificially compressed spacing when words are squeezed into a narrow box, Detect stretched inter-token spacing indicative of deleted/replaced text., Verify that regular inter-token spacing yields high consistency score >= 0.95., test_detects_compressed_spacing(), test_detects_overlapping_tokens(), test_detects_stretched_spacing(), test_uniform_spacing_produces_clean_score()
+Cohesion: 0.19
+Nodes (10): TC-TXT-03: Detect token collision when a spliced word overlaps previous text (ga, Detect artificially compressed spacing when words are squeezed into a narrow box, Detect stretched inter-token spacing indicative of deleted/replaced text., Verify that regular inter-token spacing yields high consistency score >= 0.95., test_detects_compressed_spacing(), test_detects_overlapping_tokens(), test_detects_stretched_spacing(), test_uniform_spacing_produces_clean_score() (+2 more)
 
 ### Community 112 - "Community 112"
 Cohesion: 0.18
@@ -557,16 +578,16 @@ Cohesion: 0.18
 Nodes (10): 1. Purpose, 2. Directory Hierarchy, 3.1 Manipulation Type 1: Text Replacement (Field Tampering), 3.2 Manipulation Type 2: Copy-Move Cloning, 3.3 Manipulation Type 3: Splicing with Poisson Blending, 3.4 Manipulation Type 4: Compression Artifact Discrepancy, 3. Synthetic Manipulation Engine Architecture, 4. Ground-Truth Manifest Annotation Schema (+2 more)
 
 ### Community 116 - "Community 116"
-Cohesion: 0.11
-Nodes (22): ForensicAnalysisResult, ForensicConfig, ForensicsOutput, ndarray, Path, ForensicHeatmapGenerator, Synthesizes Error Level Analysis, Copy-Move clone regions, and Noise variance, NoiseAnalyzer (+14 more)
+Cohesion: 0.09
+Nodes (34): ForensicConfig, ForensicConfig, ForensicConfig, ForensicAnalysisResult, ForensicConfig, ForensicsOutput, ndarray, Path (+26 more)
 
 ### Community 117 - "Community 117"
 Cohesion: 0.33
 Nodes (9): ndarray, composite_alpha_on_white(), ensure_3channel(), Ensure the image is a standard 3-channel BGR image array., Convert an arbitrary image array (RGBA, BGR, or Grayscale) to 2D uint8 Grayscale, Convert image to CIE LAB color space., Composite a 4-channel BGRA image over a pure white background to prevent black v, to_grayscale() (+1 more)
 
 ### Community 118 - "Community 118"
-Cohesion: 0.12
-Nodes (20): app_exception_handler(), generic_exception_handler(), Handle custom application exceptions and format into standard error envelopes., Catch-all unhandled exception handler., AppException, Exception, AppException, ForbiddenError (+12 more)
+Cohesion: 0.09
+Nodes (28): app_exception_handler(), generic_exception_handler(), Handle custom application exceptions and format into standard error envelopes., Catch-all unhandled exception handler., AppException, Exception, Path, AppException (+20 more)
 
 ### Community 119 - "Community 119"
 Cohesion: 0.22
@@ -585,12 +606,12 @@ Cohesion: 0.22
 Nodes (8): 1. Purpose, 2. Directory Layout for Test Fixtures, 3. Standard Synthetic Certificate Fixtures, 4.1 Mock Institutions Table (`seed_institutions.json`), 4.2 Mock Student Records (`mock_students.csv`), 4. Institutional Database Seed Data, 5. Test Assertion Tolerances & Performance Thresholds, Test Fixtures & Mock Data Specification
 
 ### Community 123 - "Community 123"
-Cohesion: 0.13
-Nodes (15): AnomalousRegion, TextConsistencyConfig, TextLine, TC-TXT-01: Detect oversized font when a spliced token is 18px high within a 12px, Detect undersized font when a spliced token is 13px high within a 20px line., Empty line list returns score 1.0 and no anomalies., Verify that lines with uniform token heights receive font size score >= 0.95., test_consistent_font_sizes_produce_clean_score() (+7 more)
+Cohesion: 0.22
+Nodes (8): TC-TXT-01: Detect oversized font when a spliced token is 18px high within a 12px, Detect undersized font when a spliced token is 13px high within a 20px line., Empty line list returns score 1.0 and no anomalies., Verify that lines with uniform token heights receive font size score >= 0.95., test_consistent_font_sizes_produce_clean_score(), test_detects_oversized_font(), test_detects_undersized_font(), test_empty_lines_handled_gracefully()
 
 ### Community 124 - "Community 124"
-Cohesion: 0.08
-Nodes (20): OCRToken, AnomalousRegion, TextConsistencyConfig, TextLine, TextConsistencyConfig, AnomalousRegion, ndarray, OCRToken (+12 more)
+Cohesion: 0.14
+Nodes (14): ExtractedField, OCRToken, TextLine, AnomalousRegion, ndarray, OCRToken, TextLine, Extract grade, CGPA, or class division from text lines. (+6 more)
 
 ### Community 125 - "Community 125"
 Cohesion: 0.25
@@ -613,12 +634,12 @@ Cohesion: 0.33
 Nodes (5): 1. Overview, 2. Environment Variables Catalog (`.env.example`), 3. Pydantic Settings Implementation Blueprint, 4. Security Constraints, Environment Configuration & Secrets Specification
 
 ### Community 130 - "Community 130"
-Cohesion: 0.16
-Nodes (14): ndarray, Path, Path, ELAAnalyzer, Compute ELA differential error curve across multiple JPEG quality levels., Performs Error Level Analysis (ELA) to detect JPEG compression inconsistencies, Helper to safely convert input image to PIL RGB Image., Compute Error Level Analysis map, ELA authenticity score, and candidate tampered (+6 more)
+Cohesion: 0.25
+Nodes (8): BoundingBox, Image, ndarray, Path, PixelBoundingBox, Compute ELA differential error curve across multiple JPEG quality levels., Helper to safely convert input image to PIL RGB Image., Compute Error Level Analysis map, ELA authenticity score, and candidate tampered
 
 ### Community 132 - "Community 132"
-Cohesion: 0.13
-Nodes (16): CloneMatch, ndarray, ndarray, CopyMoveDetector, Detects duplicated or cloned elements (seals, stamps, signatures, text patches), Cluster displacement vectors using DBSCAN and verify transformation via RANSAC., Detect copy-move forgery clusters and return authenticity score and clone matche, Extract SIFT keypoints and descriptors with automatic fallback to ORB. (+8 more)
+Cohesion: 0.12
+Nodes (17): CloneMatch, ForensicConfig, ndarray, ndarray, CopyMoveDetector, Detects duplicated or cloned elements (seals, stamps, signatures, text patches), Cluster displacement vectors using DBSCAN and verify transformation via RANSAC., Detect copy-move forgery clusters and return authenticity score and clone matche (+9 more)
 
 ### Community 133 - "Community 133"
 Cohesion: 0.16
@@ -629,8 +650,8 @@ Cohesion: 0.20
 Nodes (9): Unit tests for TabularFeatureExtractor (Phase 09).  Tests 22-dimensional feature, Verify that score features are clamped between 0.0 and 1.0., Verify that authoritative feature list defines exactly 22 features., Verify feature extractor populates 22 features when inputs are None., Verify feature extractor properly maps fields from mock upstream pipeline output, test_extract_from_upstream_empty_fallbacks(), test_extract_from_upstream_populated_schemas(), test_feature_names_count() (+1 more)
 
 ### Community 137 - "Community 137"
-Cohesion: 0.18
-Nodes (10): get_forensic_service(), FastAPI dependency injection provider for ForensicService., NFR-03: Performance requirement (< 5.0s execution time)., TC-FOR-04: Test composite scoring formula, bounds [0.0, 1.0], and veto penalties, Verify ForensicService runs end-to-end on clean image and creates heatmap., Verify analyze_to_pipeline_output returns valid SPEC-02 ForensicsOutput contract, test_forensic_composite_score_bounds(), test_forensic_execution_time_under_five_seconds() (+2 more)
+Cohesion: 0.19
+Nodes (16): Any, FinalVerificationDecision, ndarray, Path, CoordinateMapper, Coordinate mapping and transformation between processed and original image space, Transforms bounding boxes and spatial points from processed space to raw image r, Generate comprehensive explainability report, visual overlay, and interactive JS (+8 more)
 
 ### Community 139 - "Community 139"
 Cohesion: 0.14
@@ -641,24 +662,20 @@ Cohesion: 0.18
 Nodes (10): DataFrame, Path, extract_and_save_dataset_features(), generate_synthetic_feature_dataset(), Synthesize realistic 22D tabular feature distributions for genuine and manipulat, Generate and persist tabular feature tables for train, validation, and test spli, Tabular feature preprocessing and normalization for Phase 09 ML Baseline.  Defin, Unit tests for ML model training pipeline (Phase 09 - TC-MOD-01).  Tests 5-fold (+2 more)
 
 ### Community 141 - "Community 141"
-Cohesion: 0.39
-Nodes (5): Any, Path, Extract document metadata from PDF trailer and dictionary entries., Dispatch metadata extraction based on MIME type or extension., Extract EXIF tags, software strings, and camera hardware signatures from images.
+Cohesion: 0.17
+Nodes (13): ndarray, Path, Path, Multi-layer visual evidence renderer generating unified composite anomaly overla, Renders composite visual evidence dossiers onto raw certificate canvases., Render multi-layer visual evidence composite and save to output_path., UnifiedOverlayRenderer, Spatial anomaly localized onto original high-resolution document canvas. (+5 more)
 
 ### Community 142 - "Community 142"
-Cohesion: 0.53
-Nodes (5): Path, test_ingest_valid_pdf_document(), test_ingest_valid_png_document(), test_orphan_file_cleanup_on_failure(), test_path_traversal_filename_sanitization()
+Cohesion: 0.27
+Nodes (8): Path, InsufficientResolutionError, Image resolution does not meet minimum pixel dimensions., Validate that image meets minimum resolution (800x600) in portrait or landscape., test_ingest_valid_pdf_document(), test_ingest_valid_png_document(), test_orphan_file_cleanup_on_failure(), test_path_traversal_filename_sanitization()
 
 ### Community 143 - "Community 143"
-Cohesion: 0.31
-Nodes (9): UploadFile, DocumentIngestionService, Handle multipart file upload, validate integrity, and store for verification pip, upload_document(), IngestedDocumentResponse, DocumentIngestionService, get_ingestion_service(), Dependency provider for FastAPI route handlers. (+1 more)
-
-### Community 144 - "Community 144"
-Cohesion: 0.17
-Nodes (3): Path, test_validate_image_integrity_corrupted_image(), test_validate_image_integrity_valid_image()
+Cohesion: 0.70
+Nodes (5): UploadFile, DocumentIngestionService, Handle multipart file upload, validate integrity, and store for verification pip, upload_document(), IngestedDocumentResponse
 
 ### Community 145 - "Community 145"
-Cohesion: 0.50
-Nodes (4): Path, PDFConversionError, Failed to rasterize PDF document into image format., Convert up to max_pages pages of a PDF to high-resolution PNG images.          S
+Cohesion: 0.18
+Nodes (9): ndarray, PixelBoundingBox, Scale and clamp processed bounding box to raw original image dimensions., Convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates., Convert normalized [0, 1] coordinates into pixel box and normalized box., Scale array of (N, 2) points from processed to raw resolution., NormalizedBox, NormalizedBox (+1 more)
 
 ### Community 146 - "Community 146"
 Cohesion: 0.11
@@ -677,12 +694,12 @@ Cohesion: 0.18
 Nodes (11): Any, ndarray, Session, Session, InstitutionTemplateModel, load_precomputed_template_features(), Load pre-computed keypoints coordinates and descriptors from compressed npz arch, Register and index master template, persisting image and precomputed features. (+3 more)
 
 ### Community 150 - "Community 150"
-Cohesion: 0.12
-Nodes (10): Application configuration loaded from environment variables and .env file., Ensure all required runtime storage directories exist., Settings, Any, Session, BaseSettings, get_ocr_service(), FastAPI dependency injection provider for OCRService. (+2 more)
+Cohesion: 0.24
+Nodes (9): Path, ExplainabilityService, Production service for explainability, feature attributions, and spatial overlay, Orchestrates coordinate mapping, SHAP attribution, NLG synthesis, and visual ove, Unit and integration tests for ExplainabilityService., Verify end-to-end explainability report and interactive JSON generation., Verify explainability pipeline latency is well below 2.0 seconds (NFR-03)., test_explainability_latency_benchmark() (+1 more)
 
 ### Community 151 - "Community 151"
-Cohesion: 0.12
-Nodes (29): ForensicConfig, BoundingBox, ForensicConfig, Image, PixelBoundingBox, CloneMatch, ndarray, Path (+21 more)
+Cohesion: 0.20
+Nodes (11): CloneMatch, ndarray, Path, BoundingBox, CloneMatch, PixelBoundingBox, Create high-contrast thermal anomaly map and save annotated PNG to disk., Compute composite forensic authenticity score [0.0, 1.0], assemble suspicious re (+3 more)
 
 ### Community 152 - "Community 152"
 Cohesion: 0.25
@@ -697,12 +714,12 @@ Cohesion: 0.14
 Nodes (16): Path, TempPathFactory, generated_templates(), Generate temporary base templates fixture., Verify templates and asset files are properly generated., Verify genuine certificate rendering and bounding box calculation., Verify text inpainting and replacement modification., Verify copy-move duplication operator. (+8 more)
 
 ### Community 155 - "Community 155"
-Cohesion: 0.33
-Nodes (5): Any, Path, create_dataset_splits(), Dataset Splitter & Ground Truth Manifest Generator.  Partitions generated sample, Split samples into train, val, and test partitions with out-of-distribution isol
+Cohesion: 0.11
+Nodes (17): ndarray, Path, Path, Stacking Meta-Classifier for multimodal probability blending., Stacking meta-learner that predicts authenticity from multi-branch predictions., Fit meta-learner on out-of-fold branch predictions and authenticity labels., Predict probability that the certificate is authentic [0.0 = Fake, 1.0 = Authent, Serialize meta-classifier artifact. (+9 more)
 
 ### Community 156 - "Community 156"
-Cohesion: 0.14
-Nodes (11): ndarray, OCRToken, Path, Path, BaseOCREngine, MockOCREngine, Deterministic mock OCR engine for rapid unit tests and offline testing., Explicitly set tokens to return on subsequent extract calls. (+3 more)
+Cohesion: 0.15
+Nodes (10): ndarray, OCRToken, Path, Path, MockOCREngine, Deterministic mock OCR engine for rapid unit tests and offline testing., Explicitly set tokens to return on subsequent extract calls., Return configured tokens, or generate synthetic academic certificate tokens. (+2 more)
 
 ### Community 157 - "Community 157"
 Cohesion: 0.29
@@ -717,8 +734,8 @@ Cohesion: 0.15
 Nodes (26): Any, CertificateFields, ForensicAnalysisResult, ForensicsOutput, IngestedDocument, IngestionOutput, ndarray, OCROutput (+18 more)
 
 ### Community 160 - "Community 160"
-Cohesion: 0.21
-Nodes (8): ExtractedField, ndarray, OCRToken, TextLine, CertificateIdExtractor, Detect and decode QR code using OpenCV QRCodeDetector., Extracts unique printed certificate serial numbers, folio numbers, and QR code p, Extract certificate ID through QR code detection or printed serial label heurist
+Cohesion: 0.07
+Nodes (24): BoundingBox, ndarray, PixelBoundingBox, BoundingBox, OCRToken, PixelBoundingBox, ExtractedField, ndarray (+16 more)
 
 ### Community 162 - "Community 162"
 Cohesion: 0.22
@@ -749,8 +766,8 @@ Cohesion: 0.32
 Nodes (7): Any, Path, compute_sha256(), generate_manifest(), Model export and manifest generation script for Phase 09 ML Baseline (CHIP MOD-0, Compute sha256 checksum of a file., Generate production model manifest JSON.
 
 ### Community 169 - "Community 169"
-Cohesion: 0.29
-Nodes (4): CLAHEEnhancer, Contrast Limited Adaptive Histogram Equalization applied to the luminance channe, test_clahe_enhances_low_contrast_image(), test_clahe_on_color_certificate()
+Cohesion: 0.17
+Nodes (13): Any, ndarray, Path, MultimodalFusionMLP, Deep Multi-Layer Perceptron learning joint cross-modal representations from 534D, evaluate_multimodal_models(), Benchmark multimodal fusion strategies against held-out test dataset., Evaluate Early, Late, and Stacking Fusion methods on test dataset. (+5 more)
 
 ### Community 170 - "Community 170"
 Cohesion: 0.25
@@ -758,7 +775,7 @@ Nodes (7): db_session(), Unit and integration tests for BaselineMLService (Phase
 
 ### Community 171 - "Community 171"
 Cohesion: 0.29
-Nodes (6): Detect homoglyph evasion when a Cyrillic character is embedded inside Latin text, Detect erratic casing anomaly inside a word like 'cOMPUTER'., Verify that normally formatted words yield format consistency score 1.0., test_clean_text_passes_cleanly(), test_detects_cyrillic_homoglyph(), test_detects_erratic_capitalization()
+Nodes (7): BinaryIO, UUID, InvalidFileError, Uploaded file header or structure is invalid., Stream write uploaded bytes to disk under a secure UUID filename., Clean up all files associated with a certificate ID across all storage directori, StorageRecord
 
 ### Community 172 - "Community 172"
 Cohesion: 0.24
@@ -777,55 +794,127 @@ Cohesion: 0.40
 Nodes (3): ndarray, Perform batch inference on an (N, 22) array of features., Perform inference on a single 22-dimensional feature vector.          Returns:
 
 ### Community 176 - "Community 176"
-Cohesion: 0.50
-Nodes (4): ndarray, create_comparison_image(), main(), Create a side-by-side composite [Original | Enhanced | Binarized].
+Cohesion: 0.13
+Nodes (20): CertificateFields, RecordVerificationResult, Session, Session, _extract_numeric_cgpa(), _extract_year_from_text(), Extract a 4-digit year (1950-2099) from date or general text., Extract numeric GPA/CGPA or percentage from grade string. (+12 more)
+
+### Community 177 - "Community 177"
+Cohesion: 0.13
+Nodes (15): ContributingFactor, Weighted late fusion engine blending branch probabilities and sub-scores., Calculates explainable composite authenticity and risk scores via weighted blend, Compute composite authenticity score [0.0, 1.0], risk score [0.0, 100.0],, WeightedLateFusion, SubScoresBreakdown, Unit tests for Weighted Late Fusion calculations and factor breakdowns., Verify high fake probability produces low authenticity and high risk. (+7 more)
 
 ### Community 179 - "Community 179"
 Cohesion: 0.28
 Nodes (8): Path, Unit and integration tests for VisualCNNService and pipeline contract., Verify end-to-end prediction, DTO schema, and conversion to SPEC-02 output., Verify single image inference on CPU meets latency specification (< 500ms)., Verify prediction result persists to SQLite database., test_visual_service_db_persistence(), test_visual_service_latency_benchmark(), test_visual_service_prediction_and_contract()
 
 ### Community 180 - "Community 180"
-Cohesion: 0.29
-Nodes (5): BinaryIO, UUID, Stream write uploaded bytes to disk under a secure UUID filename., Clean up all files associated with a certificate ID across all storage directori, StorageRecord
+Cohesion: 0.16
+Nodes (12): concatenate_features(), Early fusion module combining 512D visual embeddings and 22D tabular features., Concatenate 512D visual embedding and 22D tabular vector into 534D representatio, Unit tests for Early Fusion feature concatenation and Multimodal MLP., Verify 1D concatenation of 512D visual and 22D tabular vectors into 534D., Verify 2D batch concatenation., Verify ValueError is raised on mismatched input dimensions., Verify MultimodalFusionMLP forward pass and probability prediction. (+4 more)
 
 ### Community 181 - "Community 181"
-Cohesion: 0.36
-Nodes (5): AnomalousRegion, TextLine, Detect irregular vertical gaps between successive lines of text., Create an anomalous region spanning the two interacting tokens., Identify token collisions, unnatural kerning gaps, and irregular line leading.
+Cohesion: 0.31
+Nodes (6): AnomalousRegion, OCRToken, TextLine, Detect irregular vertical gaps between successive lines of text., Create an anomalous region spanning the two interacting tokens., Identify token collisions, unnatural kerning gaps, and irregular line leading.
 
 ### Community 182 - "Community 182"
 Cohesion: 0.33
 Nodes (5): Unit tests for VisualEmbeddingExtractor (512D normalized visual vectors)., Verify extracted embedding is 512-dim with L2 norm equal to 1.0 (TC-DL-03)., Verify extraction directly from PIL Image., test_visual_embedding_extraction(), test_visual_embedding_from_pil()
 
+### Community 183 - "Community 183"
+Cohesion: 0.25
+Nodes (6): ExtractedField, OCRToken, TextLine, DateExtractor, Extracts and standardizes certificate issue, convocation, or examination dates., Extract and normalize certificate date to ISO YYYY-MM-DD.
+
 ### Community 184 - "Community 184"
-Cohesion: 0.50
-Nodes (3): ndarray, generate_visual_diff(), Generate a composite panel: [ Master Template | Query Certificate | SSIM Heatmap
+Cohesion: 0.20
+Nodes (9): Unit tests for CoordinateMapper (spatial scaling and clamping)., Verify box scaling from 512x512 to 1024x1024 raw canvas (TC-EXP-03)., Verify boundary clamping prevents coordinates exceeding canvas bounds., Verify normalized [0, 1] coordinates map to absolute pixels and back., Verify scaling array of keypoints., test_coordinate_boundary_clamping(), test_coordinate_scaling(), test_map_points() (+1 more)
 
 ### Community 185 - "Community 185"
-Cohesion: 0.50
-Nodes (3): OCROutput, OCRToken, Convert to canonical SPEC-02 OCROutput pipeline contract.
+Cohesion: 0.12
+Nodes (14): Production orchestrator service for multimodal score fusion and verdict generati, Production service coordinating multimodal fusion, veto overrides, and final dec, ScoreFusionService, main(), main(), Unit and integration tests for ScoreFusionService., Verify Tier 3 record discrepancy forces MANIPULATED verdict via service., Verify service calculates final decision with all expected fields. (+6 more)
 
 ### Community 186 - "Community 186"
 Cohesion: 0.50
 Nodes (3): export_and_optimize(), Export and optimize Certificate Visual CNN for production deployment., Export TorchScript model, quantized model, and benchmark CPU latency.
 
+### Community 187 - "Community 187"
+Cohesion: 0.20
+Nodes (9): Unit tests for VerdictEngine score mapping and confidence calibration., Verify score 0.60 <= s < 0.85 maps to SUSPICIOUS and MEDIUM risk (TC-FUS-04)., Verify score < 0.60 maps to MANIPULATED and HIGH risk (TC-FUS-04)., Verify veto reasons are reflected in verdict summary rationale., Verify score >= 0.85 maps to AUTHENTIC and LOW risk (TC-FUS-04)., test_verdict_authentic_boundary(), test_verdict_manipulated_boundary(), test_verdict_suspicious_boundary() (+1 more)
+
+### Community 188 - "Community 188"
+Cohesion: 0.28
+Nodes (7): Any, ndarray, Path, Compute local feature attributions, ranked by absolute impact descending., FeatureAttribution, FeatureAttribution, Local SHAP feature attribution item explaining ML model decision.
+
+### Community 190 - "Community 190"
+Cohesion: 0.20
+Nodes (9): Unit tests for Institutional Veto Override Engine., Verify Tier 3 record discrepancy forces high ML score down to <= 0.15 (TC-FUS-05, Verify Tier 3 counterfeit template forces score down to <= 0.25., Verify Tier 2 consistent template does not trigger veto override., Verify Tier 1 exact record match overrides lower ML score to >= 0.95 (TC-FUS-05), test_no_veto_tier_2_consistent(), test_veto_tier_1_verified_boosts_score(), test_veto_tier_3_counterfeit_template() (+1 more)
+
+### Community 191 - "Community 191"
+Cohesion: 0.32
+Nodes (7): Path, Verify that a uniformly compressed JPEG image produces high ELA score >= 0.85., TC-FOR-01: Detect ELA compression inconsistency when a foreign JPEG patch is spl, Verify ELA error curve and estimated original quality factor., test_detects_spliced_jpeg_box(), test_multi_quality_ela_curve(), test_pristine_image_high_ela_score()
+
+### Community 192 - "Community 192"
+Cohesion: 0.29
+Nodes (7): ndarray, Path, extract_meta_features_from_csv(), Train Stacking Meta-Classifier on branch predictions., Derive 5 meta-features from tabular dataset features:      [visual_fake_prob, ta, Train and serialize StackingMetaClassifier., train_meta_classifier()
+
+### Community 193 - "Community 193"
+Cohesion: 0.33
+Nodes (4): OCRToken, Find tokens strictly to the right of an anchor token on the same line., Construct a TextLine from a list of horizontally sorted tokens., Group detected OCR tokens into horizontal text lines and sort in reading order.
+
+### Community 194 - "Community 194"
+Cohesion: 0.38
+Nodes (6): _create_mock_decision(), Unit tests for Natural Language Generation (NLG) engine., Verify generated executive summary reflects verdict (TC-EXP-04)., Verify finding bullets synthesis across forensic and database signals., test_nlg_findings_bullets_synthesis(), test_nlg_summary_paragraph_verdicts()
+
+### Community 195 - "Community 195"
+Cohesion: 0.29
+Nodes (6): TC-FOR-03: Detect sensor noise variance anomaly when a high-noise patch is splic, Verify small or empty images do not raise exceptions., Verify that an image with uniform background noise yields noise score >= 0.90., test_detects_noise_variance_inconsistency(), test_empty_or_small_image_handled_gracefully(), test_uniform_noise_clean_score()
+
+### Community 197 - "Community 197"
+Cohesion: 0.40
+Nodes (4): ndarray, Tensor, Forward pass. Expects tensor of shape (B, 534) -> returns logits (B,)., Predict manipulation probability for a single 534D feature vector.
+
+### Community 198 - "Community 198"
+Cohesion: 0.40
+Nodes (4): AnomalousRegion, TextLine, Categorize tokens into typography tiers based on line median heights., Identify tokens whose bounding box heights deviate anomalously from surrounding
+
+### Community 199 - "Community 199"
+Cohesion: 0.33
+Nodes (5): Any, Path, create_dataset_splits(), Dataset Splitter & Ground Truth Manifest Generator.  Partitions generated sample, Split samples into train, val, and test partitions with out-of-distribution isol
+
+### Community 200 - "Community 200"
+Cohesion: 0.33
+Nodes (5): Unit tests for SHAPTabularExplainer local feature attributions., Verify SHAP TreeExplainer computes feature attributions and ranks them (TC-EXP-0, Verify fallback attribution when model is None or unweighted., test_shap_explainer_fallback(), test_shap_explainer_with_rf_model()
+
+### Community 201 - "Community 201"
+Cohesion: 0.60
+Nodes (3): AnomalousRegion, TextLine, Fit baselines across text lines and identify tokens with abnormal vertical drift
+
+### Community 202 - "Community 202"
+Cohesion: 0.50
+Nodes (4): ndarray, create_comparison_image(), main(), Create a side-by-side composite [Original | Enhanced | Binarized].
+
+### Community 204 - "Community 204"
+Cohesion: 0.50
+Nodes (3): VerificationVerdict, RiskBand, Categorize authenticity score into Verdict, RiskBand, Confidence, and Rationale.
+
+### Community 205 - "Community 205"
+Cohesion: 0.50
+Nodes (3): ndarray, generate_visual_diff(), Generate a composite panel: [ Master Template | Query Certificate | SSIM Heatmap
+
 ## Knowledge Gaps
 - **857 isolated node(s):** `Session`, `Path`, `Session`, `Any`, `Path` (+852 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `VisualPredictionResult` connect `Community 139` to `Schemas Primitives Pipeline`, `Community 179`, `Community 187`?**
-  _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Why does `datetime` connect `Dataset Scripts Split` to `Schemas Rationale Bounding`, `Community 168`, `Ocr Spatial Analyzer`, `Community 110`, `Community 143`, `Generate Scripts Genuine`, `Field Extractors Date`, `Community 155`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
-- **Why does `BoundingBox` connect `Schemas Primitives Pipeline` to `Community 160`, `Community 130`, `Ocr Service Field`, `Community 100`, `Community 132`, `Field Extractors Extractor`, `Preprocessing Pipeline Preprocessingpipeline`, `Community 173`, `Community 109`, `Community 116`, `Community 181`, `Community 151`, `Community 185`, `Community 124`, `Community 157`, `Community 159`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
-- **Are the 79 inferred relationships involving `BoundingBox` (e.g. with `CloneMatch` and `ForensicConfig`) actually correct?**
-  _`BoundingBox` has 79 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 73 inferred relationships involving `PixelBoundingBox` (e.g. with `CloneMatch` and `ForensicConfig`) actually correct?**
-  _`PixelBoundingBox` has 73 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `BoundingBox` connect `Community 160` to `Schemas Primitives Pipeline`, `Community 193`, `Community 130`, `Ocr Service Field`, `Community 132`, `Field Extractors Extractor`, `Preprocessing Pipeline Preprocessingpipeline`, `Community 109`, `Community 173`, `Community 111`, `Community 116`, `Community 181`, `Community 150`, `Community 151`, `Community 124`, `Community 157`, `Community 159`?**
+  _High betweenness centrality (0.051) - this node is a cross-community bridge._
+- **Why does `PixelBoundingBox` connect `Schemas Primitives Pipeline` to `Community 130`, `Ocr Service Field`, `Community 132`, `Community 137`, `Field Extractors Extractor`, `Community 141`, `Community 145`, `Community 151`, `Conftest Rationale Session`, `Community 159`, `Community 160`, `Community 173`, `Community 181`, `Community 188`, `Community 193`, `Community 109`, `Community 111`, `Community 116`, `Community 124`?**
+  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+- **Why does `PreprocessingConfig` connect `Preprocessing Contrast Enhancer` to `Schemas Primitives Pipeline`, `Preprocessing Result Artifact`?**
+  _High betweenness centrality (0.037) - this node is a cross-community bridge._
+- **Are the 80 inferred relationships involving `BoundingBox` (e.g. with `CloneMatch` and `ForensicConfig`) actually correct?**
+  _`BoundingBox` has 80 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 86 inferred relationships involving `PixelBoundingBox` (e.g. with `ndarray` and `PixelBoundingBox`) actually correct?**
+  _`PixelBoundingBox` has 86 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 65 inferred relationships involving `TextLine` (e.g. with `BoundingBox` and `OCRToken`) actually correct?**
   _`TextLine` has 65 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 49 inferred relationships involving `ExtractedField` (e.g. with `CertificateFields` and `ExtractedField`) actually correct?**
