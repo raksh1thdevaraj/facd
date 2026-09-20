@@ -650,9 +650,9 @@
     "semantic_hash": ""
   },
   "development-plan/phase-09-ml-baseline-model.md": {
-    "mtime": 1789458307.056947,
-    "ast_hash": "d5d0b25a5c34ca632f0913c942e44af2",
-    "semantic_hash": "d5d0b25a5c34ca632f0913c942e44af2"
+    "mtime": 1789892480.0864077,
+    "ast_hash": "b107c1f63a8838c9171cd11dff2100b4",
+    "semantic_hash": ""
   },
   "development-plan/phase-10-deep-learning-visual-model.md": {
     "mtime": 1789458338.1237252,
@@ -1567,6 +1567,121 @@
   "storage/templates/e3082d61-d3e7-4bc2-af98-9437678bc4b2_44c9c547-1d21-4802-9cbd-17e1152e384a.png": {
     "mtime": 1789892059.5824063,
     "ast_hash": "e2eb3a0c8ac90ae50632c78bf5312dbf",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/visual_model/__init__.py": {
+    "mtime": 1789893569.6235216,
+    "ast_hash": "6080e8853e3c03635e54ba6e9c5b7f7f",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/visual_model/embedding_extractor.py": {
+    "mtime": 1789894445.5266888,
+    "ast_hash": "0c34c35df75802805ae66bf0757b10d8",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/visual_model/gradcam.py": {
+    "mtime": 1789894445.5277643,
+    "ast_hash": "a792f639a9c3f809f6c40d75a66859db",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/visual_model/network.py": {
+    "mtime": 1789894445.5263443,
+    "ast_hash": "63fd909e6bb13a3a221e51ef9d27115f",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/visual_model/service.py": {
+    "mtime": 1789894445.527935,
+    "ast_hash": "9edabcf8df651cacfa5407d2a40a34b1",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/visual_model/transforms.py": {
+    "mtime": 1789894450.0648732,
+    "ast_hash": "42ba48d3e51f09e30fced9994d84a4bf",
+    "semantic_hash": ""
+  },
+  "backend/app/schemas/visual_prediction.py": {
+    "mtime": 1789893532.6570535,
+    "ast_hash": "6fb62c7e23f8053cc757b869861ccae1",
+    "semantic_hash": ""
+  },
+  "backend/scripts/run_visual_model.py": {
+    "mtime": 1789894445.527654,
+    "ast_hash": "f240605207f8270ad3a032247c452d3b",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_embedding_extractor.py": {
+    "mtime": 1789894445.5269454,
+    "ast_hash": "13ff33fe24341507a55a8bcfa5a5443d",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_gradcam.py": {
+    "mtime": 1789893636.5959666,
+    "ast_hash": "e61112bb54d6726c9a7785a777cf1ab8",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_visual_dataset.py": {
+    "mtime": 1789894432.8026166,
+    "ast_hash": "01a48517ff37c84140315ff28dbb8b85",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_visual_network.py": {
+    "mtime": 1789894445.5266886,
+    "ast_hash": "06b3f1c875b454409733638de160fee2",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_visual_service.py": {
+    "mtime": 1789893641.382086,
+    "ast_hash": "39d149d02aa048075d64437580a58fa0",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_visual_transforms.py": {
+    "mtime": 1789893628.389619,
+    "ast_hash": "d4a602df75daab9b9943d62d51a74e00",
+    "semantic_hash": ""
+  },
+  "ml/configs/dl_model_config.json": {
+    "mtime": 1789893573.3336422,
+    "ast_hash": "f15ceb9b19a869aff7fb7486a89c5536",
+    "semantic_hash": ""
+  },
+  "ml/reports/dl_metrics.json": {
+    "mtime": 1789893717.0658393,
+    "ast_hash": "f8cdd6a2f0869a180e3e5fcbbc5f5dee",
+    "semantic_hash": ""
+  },
+  "ml/reports/dl_training_history.json": {
+    "mtime": 1789893705.9427738,
+    "ast_hash": "a2164a6741c99292bfc6aa7aeef1ed11",
+    "semantic_hash": ""
+  },
+  "ml/scripts/dataset_loader.py": {
+    "mtime": 1789894445.5275514,
+    "ast_hash": "6880d9522d391947adf47a8ea74ae2a6",
+    "semantic_hash": ""
+  },
+  "ml/scripts/evaluate_visual_cnn.py": {
+    "mtime": 1789894493.8989432,
+    "ast_hash": "93d478f87a3c6dd7f557e020099cb6ea",
+    "semantic_hash": ""
+  },
+  "ml/scripts/export_visual_model.py": {
+    "mtime": 1789894504.0336778,
+    "ast_hash": "c5454199dde69baad20aeedfe0e3bdaa",
+    "semantic_hash": ""
+  },
+  "ml/scripts/train_visual_cnn.py": {
+    "mtime": 1789894476.8869214,
+    "ast_hash": "54e22bc683e67c7c0783f6ed67a098e8",
+    "semantic_hash": ""
+  },
+  "ml/reports/dl_confusion_matrix.png": {
+    "mtime": 1789893717.2013218,
+    "ast_hash": "3da4efea71e8ceb2e3c13b0b199c4f0e",
+    "semantic_hash": ""
+  },
+  "ml/reports/dl_roc_curve.png": {
+    "mtime": 1789893717.14083,
+    "ast_hash": "af0742ecc5f6fdf3f3613b9c7606e376",
     "semantic_hash": ""
   }
 }

@@ -1,0 +1,23 @@
+{
+  "late_fusion": {
+    "accuracy": 0.7556,
+    "f1_score": 0.8,
+    "precision": 0.6667,
+    "recall": 1.0,
+    "roc_auc": 1.0
+  },
+  "stacking_meta_classifier": {
+    "accuracy": 1.0,
+    "f1_score": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "roc_auc": 1.0
+  },
+  "early_fusion_mlp": {
+    "accuracy": 0.9778,
+    "f1_score": 0.9778,
+    "precision": 0.9565,
+    "recall": 1.0,
+    "roc_auc": 1.0
+  }
+}

@@ -295,9 +295,9 @@
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "backend/app/modules/score_fusion/__init__.py": {
-    "mtime": 1789712745.8116255,
-    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
-    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+    "mtime": 1789910809.6430588,
+    "ast_hash": "5ec397977eadf9bd27277f5a4354afd8",
+    "semantic_hash": ""
   },
   "backend/app/modules/template_matching/__init__.py": {
     "mtime": 1789839750.0090842,
@@ -1682,6 +1682,101 @@
   "ml/reports/dl_roc_curve.png": {
     "mtime": 1789893717.14083,
     "ast_hash": "af0742ecc5f6fdf3f3613b9c7606e376",
+    "semantic_hash": ""
+  },
+  "backend/app/models/report.py": {
+    "mtime": 1789910737.6524096,
+    "ast_hash": "34a39ef7b267ece7a9ec2b84895f118f",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/score_fusion/early_fusion.py": {
+    "mtime": 1789911177.8329015,
+    "ast_hash": "4c0d8031d6d80cc06d84d8821bfc0091",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/score_fusion/late_fusion.py": {
+    "mtime": 1789911177.8313065,
+    "ast_hash": "f3332416bd2dead4b6cd8d36bcd53758",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/score_fusion/meta_classifier.py": {
+    "mtime": 1789911196.528179,
+    "ast_hash": "c711c29d3afd5a7180709ea8c4780a1c",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/score_fusion/service.py": {
+    "mtime": 1789911189.885941,
+    "ast_hash": "876fc4eea33532b50b56837b67669398",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/score_fusion/verdict_engine.py": {
+    "mtime": 1789911257.5469635,
+    "ast_hash": "8c45b6b3a13344ee59101a609f9e16fb",
+    "semantic_hash": ""
+  },
+  "backend/app/modules/score_fusion/veto_rules.py": {
+    "mtime": 1789911262.759244,
+    "ast_hash": "942952eb22bff07282fca4f612423170",
+    "semantic_hash": ""
+  },
+  "backend/app/schemas/decision.py": {
+    "mtime": 1789911189.8858795,
+    "ast_hash": "f778f7495602b69f4297b13bf7670adf",
+    "semantic_hash": ""
+  },
+  "backend/scripts/simulate_fusion.py": {
+    "mtime": 1789911233.2710245,
+    "ast_hash": "c2eee02059e87a1c6b74335942e1ed01",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_early_fusion.py": {
+    "mtime": 1789910859.3068378,
+    "ast_hash": "9e47641857c1a5626190e721e85481c0",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_late_fusion.py": {
+    "mtime": 1789910866.5710785,
+    "ast_hash": "25e7c7d0d7577573091fe2c1a00e04ad",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_meta_classifier.py": {
+    "mtime": 1789910872.6758366,
+    "ast_hash": "c4556e79e4c8790f0a19fe5bd8921bff",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_score_fusion_service.py": {
+    "mtime": 1789911177.831482,
+    "ast_hash": "0bb1387a7c7a303f383fd7fd3d22d4e4",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_verdict_engine.py": {
+    "mtime": 1789911406.1953185,
+    "ast_hash": "d8440eb4e722c09aa0862ad0ad7052e4",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_veto_rules.py": {
+    "mtime": 1789910880.094502,
+    "ast_hash": "4614ad16c786cdfde0aafde669882c48",
+    "semantic_hash": ""
+  },
+  "ml/reports/multimodal_metrics.json": {
+    "mtime": 1789911013.8641405,
+    "ast_hash": "1d477d3a451ae583f43d41ea40df3577",
+    "semantic_hash": ""
+  },
+  "ml/scripts/evaluate_multimodal.py": {
+    "mtime": 1789911244.647234,
+    "ast_hash": "97a3e6264f99b1ea0574994857828268",
+    "semantic_hash": ""
+  },
+  "ml/scripts/train_early_fusion_mlp.py": {
+    "mtime": 1789911189.8865423,
+    "ast_hash": "01673f806eefd62ba5c864e749a8e6d7",
+    "semantic_hash": ""
+  },
+  "ml/scripts/train_meta_classifier.py": {
+    "mtime": 1789911177.8329422,
+    "ast_hash": "8502843e7d400476fd8438b9576bd644",
     "semantic_hash": ""
   }
 }
