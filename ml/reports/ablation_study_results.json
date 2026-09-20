@@ -1,0 +1,306 @@
+{
+  "full_baseline": {
+    "features": [
+      "file_size_kb",
+      "has_exif",
+      "software_editing_flag",
+      "aspect_ratio_deviation",
+      "ocr_mean_confidence",
+      "ocr_min_confidence",
+      "flagged_field_count",
+      "missing_critical_fields_count",
+      "baseline_alignment_score",
+      "font_size_consistency_score",
+      "stroke_weight_score",
+      "character_spacing_score",
+      "logical_consistency_score",
+      "ela_score",
+      "copy_move_score",
+      "cloned_regions_count",
+      "noise_inconsistency_score",
+      "template_ssim_score",
+      "template_feature_score",
+      "seal_match_score",
+      "record_found_flag",
+      "record_match_score"
+    ],
+    "num_features": 22,
+    "cv_mean_f1": 1.0,
+    "cv_std_f1": 0.0,
+    "cv_mean_acc": 1.0,
+    "test_accuracy": 1.0,
+    "test_f1": 1.0,
+    "test_roc_auc": 1.0
+  },
+  "leave_one_group_out": {
+    "metadata_and_quality": {
+      "omitted_features": [
+        "file_size_kb",
+        "has_exif",
+        "software_editing_flag",
+        "aspect_ratio_deviation"
+      ],
+      "retained_count": 18,
+      "retained_features": [
+        "ocr_mean_confidence",
+        "ocr_min_confidence",
+        "flagged_field_count",
+        "missing_critical_fields_count",
+        "baseline_alignment_score",
+        "font_size_consistency_score",
+        "stroke_weight_score",
+        "character_spacing_score",
+        "logical_consistency_score",
+        "ela_score",
+        "copy_move_score",
+        "cloned_regions_count",
+        "noise_inconsistency_score",
+        "template_ssim_score",
+        "template_feature_score",
+        "seal_match_score",
+        "record_found_flag",
+        "record_match_score"
+      ],
+      "f1_delta": 0.0,
+      "acc_delta": 0.0,
+      "num_features": 18,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    },
+    "ocr_and_text_quality": {
+      "omitted_features": [
+        "ocr_mean_confidence",
+        "ocr_min_confidence",
+        "flagged_field_count",
+        "missing_critical_fields_count"
+      ],
+      "retained_count": 18,
+      "retained_features": [
+        "file_size_kb",
+        "has_exif",
+        "software_editing_flag",
+        "aspect_ratio_deviation",
+        "baseline_alignment_score",
+        "font_size_consistency_score",
+        "stroke_weight_score",
+        "character_spacing_score",
+        "logical_consistency_score",
+        "ela_score",
+        "copy_move_score",
+        "cloned_regions_count",
+        "noise_inconsistency_score",
+        "template_ssim_score",
+        "template_feature_score",
+        "seal_match_score",
+        "record_found_flag",
+        "record_match_score"
+      ],
+      "f1_delta": 0.0,
+      "acc_delta": 0.0,
+      "num_features": 18,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    },
+    "text_consistency": {
+      "omitted_features": [
+        "baseline_alignment_score",
+        "font_size_consistency_score",
+        "stroke_weight_score",
+        "character_spacing_score",
+        "logical_consistency_score"
+      ],
+      "retained_count": 17,
+      "retained_features": [
+        "file_size_kb",
+        "has_exif",
+        "software_editing_flag",
+        "aspect_ratio_deviation",
+        "ocr_mean_confidence",
+        "ocr_min_confidence",
+        "flagged_field_count",
+        "missing_critical_fields_count",
+        "ela_score",
+        "copy_move_score",
+        "cloned_regions_count",
+        "noise_inconsistency_score",
+        "template_ssim_score",
+        "template_feature_score",
+        "seal_match_score",
+        "record_found_flag",
+        "record_match_score"
+      ],
+      "f1_delta": 0.0,
+      "acc_delta": 0.0,
+      "num_features": 17,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    },
+    "image_forensics": {
+      "omitted_features": [
+        "ela_score",
+        "copy_move_score",
+        "cloned_regions_count",
+        "noise_inconsistency_score"
+      ],
+      "retained_count": 18,
+      "retained_features": [
+        "file_size_kb",
+        "has_exif",
+        "software_editing_flag",
+        "aspect_ratio_deviation",
+        "ocr_mean_confidence",
+        "ocr_min_confidence",
+        "flagged_field_count",
+        "missing_critical_fields_count",
+        "baseline_alignment_score",
+        "font_size_consistency_score",
+        "stroke_weight_score",
+        "character_spacing_score",
+        "logical_consistency_score",
+        "template_ssim_score",
+        "template_feature_score",
+        "seal_match_score",
+        "record_found_flag",
+        "record_match_score"
+      ],
+      "f1_delta": 0.0,
+      "acc_delta": 0.0,
+      "num_features": 18,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    },
+    "template_and_records": {
+      "omitted_features": [
+        "template_ssim_score",
+        "template_feature_score",
+        "seal_match_score",
+        "record_found_flag",
+        "record_match_score"
+      ],
+      "retained_count": 17,
+      "retained_features": [
+        "file_size_kb",
+        "has_exif",
+        "software_editing_flag",
+        "aspect_ratio_deviation",
+        "ocr_mean_confidence",
+        "ocr_min_confidence",
+        "flagged_field_count",
+        "missing_critical_fields_count",
+        "baseline_alignment_score",
+        "font_size_consistency_score",
+        "stroke_weight_score",
+        "character_spacing_score",
+        "logical_consistency_score",
+        "ela_score",
+        "copy_move_score",
+        "cloned_regions_count",
+        "noise_inconsistency_score"
+      ],
+      "f1_delta": 0.0,
+      "acc_delta": 0.0,
+      "num_features": 17,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    }
+  },
+  "standalone_groups": {
+    "metadata_and_quality": {
+      "features": [
+        "file_size_kb",
+        "has_exif",
+        "software_editing_flag",
+        "aspect_ratio_deviation"
+      ],
+      "num_features": 4,
+      "cv_mean_f1": 0.8631222800539939,
+      "cv_std_f1": 0.034114376581290705,
+      "cv_mean_acc": 0.8686274509803921,
+      "test_accuracy": 0.9,
+      "test_f1": 0.896551724137931,
+      "test_roc_auc": 0.9209486166007904
+    },
+    "ocr_and_text_quality": {
+      "features": [
+        "ocr_mean_confidence",
+        "ocr_min_confidence",
+        "flagged_field_count",
+        "missing_critical_fields_count"
+      ],
+      "num_features": 4,
+      "cv_mean_f1": 0.9920780544073825,
+      "cv_std_f1": 0.0074632846119132784,
+      "cv_mean_acc": 0.9921568627450981,
+      "test_accuracy": 0.9666666666666667,
+      "test_f1": 0.968421052631579,
+      "test_roc_auc": 0.9985177865612648
+    },
+    "text_consistency": {
+      "features": [
+        "baseline_alignment_score",
+        "font_size_consistency_score",
+        "stroke_weight_score",
+        "character_spacing_score",
+        "logical_consistency_score"
+      ],
+      "num_features": 5,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    },
+    "image_forensics": {
+      "features": [
+        "ela_score",
+        "copy_move_score",
+        "cloned_regions_count",
+        "noise_inconsistency_score"
+      ],
+      "num_features": 4,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    },
+    "template_and_records": {
+      "features": [
+        "template_ssim_score",
+        "template_feature_score",
+        "seal_match_score",
+        "record_found_flag",
+        "record_match_score"
+      ],
+      "num_features": 5,
+      "cv_mean_f1": 1.0,
+      "cv_std_f1": 0.0,
+      "cv_mean_acc": 1.0,
+      "test_accuracy": 1.0,
+      "test_f1": 1.0,
+      "test_roc_auc": 1.0
+    }
+  }
+}

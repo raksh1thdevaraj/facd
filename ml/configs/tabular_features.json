@@ -1,0 +1,312 @@
+{
+  "version": "1.0.0",
+  "num_features": 22,
+  "feature_order": [
+    "file_size_kb",
+    "has_exif",
+    "software_editing_flag",
+    "aspect_ratio_deviation",
+    "ocr_mean_confidence",
+    "ocr_min_confidence",
+    "flagged_field_count",
+    "missing_critical_fields_count",
+    "baseline_alignment_score",
+    "font_size_consistency_score",
+    "stroke_weight_score",
+    "character_spacing_score",
+    "logical_consistency_score",
+    "ela_score",
+    "copy_move_score",
+    "cloned_regions_count",
+    "noise_inconsistency_score",
+    "template_ssim_score",
+    "template_feature_score",
+    "seal_match_score",
+    "record_found_flag",
+    "record_match_score"
+  ],
+  "continuous_features": [
+    "file_size_kb",
+    "aspect_ratio_deviation",
+    "flagged_field_count",
+    "missing_critical_fields_count",
+    "cloned_regions_count"
+  ],
+  "score_features": [
+    "ocr_mean_confidence",
+    "ocr_min_confidence",
+    "baseline_alignment_score",
+    "font_size_consistency_score",
+    "stroke_weight_score",
+    "character_spacing_score",
+    "logical_consistency_score",
+    "ela_score",
+    "copy_move_score",
+    "noise_inconsistency_score",
+    "template_ssim_score",
+    "template_feature_score",
+    "seal_match_score",
+    "record_match_score"
+  ],
+  "binary_features": [
+    "has_exif",
+    "software_editing_flag",
+    "record_found_flag"
+  ],
+  "groups": {
+    "metadata_and_quality": [
+      "file_size_kb",
+      "has_exif",
+      "software_editing_flag",
+      "aspect_ratio_deviation"
+    ],
+    "ocr_and_text_quality": [
+      "ocr_mean_confidence",
+      "ocr_min_confidence",
+      "flagged_field_count",
+      "missing_critical_fields_count"
+    ],
+    "text_consistency": [
+      "baseline_alignment_score",
+      "font_size_consistency_score",
+      "stroke_weight_score",
+      "character_spacing_score",
+      "logical_consistency_score"
+    ],
+    "image_forensics": [
+      "ela_score",
+      "copy_move_score",
+      "cloned_regions_count",
+      "noise_inconsistency_score"
+    ],
+    "template_and_records": [
+      "template_ssim_score",
+      "template_feature_score",
+      "seal_match_score",
+      "record_found_flag",
+      "record_match_score"
+    ]
+  },
+  "features": [
+    {
+      "index": 0,
+      "name": "file_size_kb",
+      "group": "Ingestion & Metadata",
+      "type": "float",
+      "min": 0.0,
+      "max": 50000.0,
+      "default": 500.0,
+      "description": "File size in kilobytes."
+    },
+    {
+      "index": 1,
+      "name": "has_exif",
+      "group": "Ingestion & Metadata",
+      "type": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.0,
+      "description": "Binary flag indicating whether EXIF metadata was present."
+    },
+    {
+      "index": 2,
+      "name": "software_editing_flag",
+      "group": "Ingestion & Metadata",
+      "type": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.0,
+      "description": "Binary indicator for photo-editing signatures (Photoshop, Canva, GIMP)."
+    },
+    {
+      "index": 3,
+      "name": "aspect_ratio_deviation",
+      "group": "Ingestion & Metadata",
+      "type": "float",
+      "min": 0.0,
+      "max": 5.0,
+      "default": 0.0,
+      "description": "Absolute deviation from standard certificate aspect ratio (1.414)."
+    },
+    {
+      "index": 4,
+      "name": "ocr_mean_confidence",
+      "group": "OCR & Text Quality",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.80,
+      "description": "Average OCR confidence across all recognized tokens."
+    },
+    {
+      "index": 5,
+      "name": "ocr_min_confidence",
+      "group": "OCR & Text Quality",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.70,
+      "description": "Minimum OCR confidence among critical structured fields."
+    },
+    {
+      "index": 6,
+      "name": "flagged_field_count",
+      "group": "OCR & Text Quality",
+      "type": "integer",
+      "min": 0.0,
+      "max": 10.0,
+      "default": 0.0,
+      "description": "Count of extracted fields having confidence below threshold 0.70."
+    },
+    {
+      "index": 7,
+      "name": "missing_critical_fields_count",
+      "group": "OCR & Text Quality",
+      "type": "integer",
+      "min": 0.0,
+      "max": 5.0,
+      "default": 0.0,
+      "description": "Number of key fields unextracted (name, roll, institution, degree, date)."
+    },
+    {
+      "index": 8,
+      "name": "baseline_alignment_score",
+      "group": "Text Consistency",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0,
+      "description": "Text baseline straightness and angle alignment consistency score."
+    },
+    {
+      "index": 9,
+      "name": "font_size_consistency_score",
+      "group": "Text Consistency",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0,
+      "description": "Font size uniformity and line-level height variance consistency score."
+    },
+    {
+      "index": 10,
+      "name": "stroke_weight_score",
+      "group": "Text Consistency",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0,
+      "description": "Stroke Width Transform (SWT) typography consistency score."
+    },
+    {
+      "index": 11,
+      "name": "character_spacing_score",
+      "group": "Text Consistency",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0,
+      "description": "Inter-word and inter-character spacing consistency score."
+    },
+    {
+      "index": 12,
+      "name": "logical_consistency_score",
+      "group": "Text Consistency",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0,
+      "description": "Logical validity (chronology, CGPA scale, institution name) score."
+    },
+    {
+      "index": 13,
+      "name": "ela_score",
+      "group": "Image Forensics",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.90,
+      "description": "Error Level Analysis compression uniformity score."
+    },
+    {
+      "index": 14,
+      "name": "copy_move_score",
+      "group": "Image Forensics",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 1.0,
+      "description": "Copy-move clone absence score (1.0 = clean, 0.0 = clone detected)."
+    },
+    {
+      "index": 15,
+      "name": "cloned_regions_count",
+      "group": "Image Forensics",
+      "type": "integer",
+      "min": 0.0,
+      "max": 20.0,
+      "default": 0.0,
+      "description": "Number of verified duplicate keypoint clone clusters."
+    },
+    {
+      "index": 16,
+      "name": "noise_inconsistency_score",
+      "group": "Image Forensics",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.90,
+      "description": "Local noise variance sensor consistency score."
+    },
+    {
+      "index": 17,
+      "name": "template_ssim_score",
+      "group": "Template & Record Matching",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.85,
+      "description": "Masked Structural Similarity Index against registered template."
+    },
+    {
+      "index": 18,
+      "name": "template_feature_score",
+      "group": "Template & Record Matching",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.80,
+      "description": "ORB feature alignment homography inlier ratio."
+    },
+    {
+      "index": 19,
+      "name": "seal_match_score",
+      "group": "Template & Record Matching",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.85,
+      "description": "Emblem cross-correlation and HSV histogram correlation score."
+    },
+    {
+      "index": 20,
+      "name": "record_found_flag",
+      "group": "Template & Record Matching",
+      "type": "binary",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.0,
+      "description": "Binary flag indicating whether student record was verified in database."
+    },
+    {
+      "index": 21,
+      "name": "record_match_score",
+      "group": "Template & Record Matching",
+      "type": "score",
+      "min": 0.0,
+      "max": 1.0,
+      "default": 0.50,
+      "description": "Fuzzy matching score across verified student particulars."
+    }
+  ]
+}

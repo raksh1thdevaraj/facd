@@ -491,14 +491,14 @@ CHIP MOD-11 & CHIP MOD-12 (Unit Tests & Benchmarks)
 
 ## 10. Phase Completion Checklist
 
-- [ ] Standard 22-dimensional feature schema defined and documented in `tabular_features.json`.
-- [ ] Feature extractor transforms upstream pipeline outputs into validated 22D NumPy vectors.
-- [ ] Training/val/test feature matrices extracted across full certificate dataset.
-- [ ] Scaler fits strictly on training split and handles continuous feature normalization.
-- [ ] Random Forest, Gradient Boosting, Logistic Regression, and SVM trained with 5-fold cross-validation.
-- [ ] Best model achieves test Accuracy $\ge 85\%$ and F1-Score $\ge 0.85$ (FR-MOD-04, NFR-01).
-- [ ] Confusion matrix, ROC curve, and classification reports generated and saved.
-- [ ] Global feature importance ranked and visualized in horizontal bar chart.
-- [ ] Feature ablation study proves multi-feature fusion outperforms individual heuristics.
-- [ ] Production inference service executes predictions in $< 20$ms per certificate.
-- [ ] Test cases TC-MOD-01 through TC-MOD-05 passing with 100% success rate.
+- [x] Standard 22-dimensional feature schema defined and documented in `tabular_features.json`.
+- [x] Feature extractor transforms upstream pipeline outputs into validated 22D NumPy vectors.
+- [x] Training/val/test feature matrices extracted across full certificate dataset.
+- [x] Scaler fits strictly on training split and handles continuous feature normalization.
+- [x] Random Forest, Gradient Boosting, Logistic Regression, and SVM trained with 5-fold cross-validation.
+- [x] Best model achieves test Accuracy $\ge 85\%$ and F1-Score $\ge 0.85$ (FR-MOD-04, NFR-01).
+- [x] Confusion matrix, ROC curve, and classification reports generated and saved.
+- [x] Global feature importance ranked and visualized in horizontal bar chart.
+- [x] Feature ablation study proves multi-feature fusion outperforms individual heuristics.
+- [x] Production inference service executes predictions in $< 20$ms per certificate.
+- [x] Test cases TC-MOD-01 through TC-MOD-05 passing with 100% success rate.

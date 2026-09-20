@@ -1,0 +1,17 @@
+{
+  "backbone": "efficientnet_b0",
+  "pretrained": true,
+  "embedding_dim": 512,
+  "image_size": 512,
+  "batch_size": 8,
+  "num_workers": 0,
+  "epochs_stage1": 3,
+  "epochs_stage2": 5,
+  "lr_head": 0.001,
+  "lr_backbone": 0.00005,
+  "weight_decay": 0.01,
+  "early_stopping_patience": 3,
+  "model_save_path": "ml/models/visual_cnn_best.pt",
+  "metrics_report_path": "ml/reports/dl_metrics.json",
+  "history_report_path": "ml/reports/dl_training_history.json"
+}

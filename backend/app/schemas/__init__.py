@@ -61,6 +61,12 @@ from app.schemas.text_consistency import (
     TextConsistencyConfig,
     TextConsistencyResult,
 )
+from app.schemas.ml_prediction import (
+    FEATURE_NAMES,
+    FeatureImportanceItem,
+    FeatureVector,
+    PredictionResult,
+)
 
 __all__ = [
     "RiskBand",
@@ -111,4 +117,8 @@ __all__ = [
     "TemplateDetailResponse",
     "RecordCreateRequest",
     "RecordBulkImportResponse",
+    "FEATURE_NAMES",
+    "FeatureVector",
+    "FeatureImportanceItem",
+    "PredictionResult",
 ]

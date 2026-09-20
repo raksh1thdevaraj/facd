@@ -1,4 +1,5 @@
 from app.models.forensic import ForensicFindingModel
+from app.models.ml_prediction import MLPredictionModel
 from app.models.record import InstitutionRecordModel
 from app.models.template import (
     InstitutionModel,
@@ -14,4 +15,5 @@ __all__ = [
     "InstitutionTemplateModel",
     "InstitutionRecordModel",
     "TemplateMatchResultModel",
+    "MLPredictionModel",
 ]
