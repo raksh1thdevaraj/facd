@@ -18,12 +18,11 @@ import logging
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
 
 import cv2
-import numpy as np
 from sqlalchemy.orm import Session
 
+from app.config import settings
 from app.models.course_verification import CourseCertificateVerification
 from app.modules.course_verification.comparator import CourseRecordComparator
 from app.modules.course_verification.decision_engine import CourseDecisionEngine
@@ -36,9 +35,6 @@ from app.modules.course_verification.url_verifier import CourseURLVerifier
 from app.modules.ocr.service import OCRService
 from app.schemas.course_certificate import (
     CourseComparisonResult,
-    CourseExtractedFields,
-    CourseForensicResult,
-    CourseOnlineRecord,
     CourseQRResult,
     CourseSealSignatureResult,
     CourseURLVerificationResult,
@@ -209,13 +205,17 @@ class CourseVerificationService:
                     file_hash=f_hash,
                     original_filename=response.filename,
                     file_size=f_size,
-                    mime_type="image/png" if image_path.suffix.lower() == ".png" else "application/octet-stream",
+                    mime_type="image/png"
+                    if image_path.suffix.lower() == ".png"
+                    else "application/octet-stream",
                     job_status="COMPLETED",
                     extracted_fields_json=extracted_fields.model_dump(),
                     qr_data_json=qr_result.model_dump(),
                     verification_url=qr_result.payload if qr_result.qr_decoded else None,
                     issuer=extracted_fields.issuer,
-                    online_verification_data_json=comparison_result.online_record.model_dump() if comparison_result.online_record else None,
+                    online_verification_data_json=comparison_result.online_record.model_dump()
+                    if comparison_result.online_record
+                    else None,
                     field_comparison_json=comparison_result.model_dump(),
                     tampering_analysis_json=forensic_result.model_dump(),
                     seal_signature_json=seal_sig_result.model_dump() if seal_sig_result else None,
@@ -232,6 +232,28 @@ class CourseVerificationService:
                 self.db.commit()
                 self.db.refresh(db_record)
                 logger.info("Persisted verification audit record %s", db_record.id)
+
+                if settings.USE_FIRESTORE:
+                    from app.services.firestore_service import firestore_service
+
+                    firestore_service.save_course_verification(
+                        response.verification_id,
+                        {
+                            "verification_id": response.verification_id,
+                            "filename": response.filename,
+                            "file_hash": f_hash,
+                            "authenticity_score": decision.overall_authenticity_score,
+                            "fraud_risk_score": decision.fraud_risk_score,
+                            "final_status": decision.status.value,
+                            "issuer": extracted_fields.issuer,
+                            "created_at": datetime.now(timezone.utc).isoformat(),
+                            "evidence_summary": {
+                                "decision_reasons": decision.decision_reasons,
+                                "risk_factors": decision.risk_factors,
+                                "signal_scores": decision.signal_scores,
+                            },
+                        },
+                    )
             except Exception as db_err:
                 logger.error("Failed to persist verification record: %s", db_err)
                 self.db.rollback()

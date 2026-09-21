@@ -66,6 +66,14 @@ class Settings(BaseSettings):
         "http://127.0.0.1:5173",
     ]
 
+    # Firebase Configuration
+    FIREBASE_PROJECT_ID: str = "certcheck-60f6c"
+    FIREBASE_APP_ID: str = "1:607869238844:web:c68a96b8440f500075cd39"
+    FIREBASE_STORAGE_BUCKET: str = "certcheck-60f6c.firebasestorage.app"
+    FIREBASE_CREDENTIALS_PATH: Union[str, None] = None
+    USE_FIREBASE_AUTH: bool = True
+    USE_FIRESTORE: bool = True
+
     @field_validator("CORS_ORIGINS", mode="after")
     @classmethod
     def normalize_cors_origins(cls, v: Union[List[str], str]) -> List[str]:

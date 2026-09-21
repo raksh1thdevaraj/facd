@@ -19,11 +19,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState<boolean>(true);
 
   const refreshProfile = async () => {
-    if (!authService.isAuthenticated()) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
     try {
       const profile = await authService.getProfile();
       setUser(profile);
@@ -36,19 +31,34 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    refreshProfile();
+    // Subscribe to Firebase Auth state listener
+    const unsubscribe = authService.onAuthStateChanged(async (fbUser) => {
+      if (fbUser) {
+        try {
+          const profile = await authService.getProfileForUid(fbUser.uid, fbUser);
+          setUser(profile);
+          const token = await fbUser.getIdToken();
+          localStorage.setItem('access_token', token);
+        } catch (err) {
+          console.error('Error fetching user profile on auth state change:', err);
+        }
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    await authService.login(credentials);
-    const profile = await authService.getProfile();
-    setUser(profile);
+    const res = await authService.login(credentials);
+    setUser(res.user);
   };
 
   const register = async (data: RegisterData) => {
-    await authService.register(data);
-    const profile = await authService.getProfile();
-    setUser(profile);
+    const newUser = await authService.register(data);
+    setUser(newUser);
   };
 
   const logout = async () => {

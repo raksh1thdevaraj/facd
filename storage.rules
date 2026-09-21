@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isVerifier() {
+      return isAuthenticated() && (
+        request.auth.token.role in ['institution_verifier', 'admin', 'INSTITUTION_VERIFIER', 'ADMIN', 'verifier']
+      );
+    }
+
+    match /certificates/{userId}/{certificateId}/{fileName} {
+      // 1. Read: restricted to document owner or authorized verifier/admin
+      allow read: if isOwner(userId) || isVerifier();
+      
+      // 2. Create (Upload): authenticated owner, max 10MB, strictly PDF / PNG / JPEG
+      allow create: if isOwner(userId)
+                   && request.resource.size <= 10 * 1024 * 1024
+                   && request.resource.contentType in ['image/jpeg', 'image/png', 'application/pdf'];
+      
+      // 3. Deny client overwrites and deletes to preserve immutable forensic audit trails
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}

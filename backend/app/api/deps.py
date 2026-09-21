@@ -9,6 +9,8 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
 from sqlalchemy.orm import Session
 
+from app.config import settings
+from app.core.firebase import verify_firebase_id_token
 from app.core.rbac import UserRole, is_role_authorized, normalize_role
 from app.core.security import decode_token, is_token_revoked
 from app.database import get_db
@@ -32,6 +34,51 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+    # 1. Try Firebase Authentication ID token if enabled
+    if settings.USE_FIREBASE_AUTH:
+        fb_claims = verify_firebase_id_token(token)
+        if fb_claims:
+            uid = fb_claims.get("uid") or fb_claims.get("sub")
+            email = fb_claims.get("email") or f"{uid}@example.com"
+            user = (
+                db.query(AppUserModel)
+                .filter((AppUserModel.id == uid) | (AppUserModel.email == email))
+                .first()
+            )
+            if not user and uid:
+                # Synchronize Firebase user identity into local DB session
+                role = fb_claims.get("role", "public_user")
+                full_name = fb_claims.get("name") or email.split("@")[0]
+                user = AppUserModel(
+                    id=uid,
+                    email=email,
+                    password_hash="FIREBASE_MANAGED_AUTH",
+                    full_name=full_name,
+                    role=str(role),
+                    is_active=True,
+                )
+                db.add(user)
+                try:
+                    db.commit()
+                    db.refresh(user)
+                except Exception:
+                    db.rollback()
+                    user = (
+                        db.query(AppUserModel)
+                        .filter((AppUserModel.id == uid) | (AppUserModel.email == email))
+                        .first()
+                    )
+
+            if user:
+                if not user.is_active:
+                    raise HTTPException(
+                        status_code=status.HTTP_401_UNAUTHORIZED,
+                        detail="User account is deactivated.",
+                        headers={"WWW-Authenticate": "Bearer"},
+                    )
+                return user
+
+    # 2. Fallback to local signed JWT token
     try:
         payload = decode_token(token)
     except JWTError:

@@ -93,6 +93,22 @@ async def upload_certificate(
     db.commit()
     db.refresh(cert)
 
+    if settings.USE_FIRESTORE:
+        from app.services.firestore_service import firestore_service
+        firestore_service.save_certificate(
+            cert_id,
+            {
+                "id": cert_id,
+                "file_hash": file_hash,
+                "original_filename": filename,
+                "file_size": len(content),
+                "mime_type": file.content_type or "image/png",
+                "job_status": "PENDING",
+                "job_progress": 0,
+                "created_at": cert.created_at.isoformat() if cert.created_at else datetime.utcnow().isoformat(),
+            },
+        )
+
     # Record Audit Log
     client_ip = request.client.host if request.client else "127.0.0.1"
     AuditService.log_action(
