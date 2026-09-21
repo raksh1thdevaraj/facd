@@ -1,0 +1,287 @@
+{
+  "generated_at": "2026-09-21T08:31:50.667826+00:00",
+  "total_test_samples": 90,
+  "overall_metrics": {
+    "confusion_matrix": {
+      "true_negatives": 44,
+      "false_positives": 0,
+      "false_negatives": 0,
+      "true_positives": 46
+    },
+    "accuracy": 1.0,
+    "accuracy_ci_95": [
+      1.0,
+      1.0
+    ],
+    "precision": 1.0,
+    "recall": 1.0,
+    "specificity": 1.0,
+    "f1_score": 1.0,
+    "f1_score_ci_95": [
+      1.0,
+      1.0
+    ],
+    "roc_auc": 1.0,
+    "roc_auc_ci_95": [
+      1.0,
+      1.0
+    ],
+    "pr_auc": 1.0,
+    "confidence_intervals_95": {
+      "accuracy": [
+        1.0,
+        1.0
+      ],
+      "f1_score": [
+        1.0,
+        1.0
+      ],
+      "roc_auc": [
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "model_comparison": {
+    "models": {
+      "baseline_tabular_ml": {
+        "name": "Baseline Tabular ML (RF)",
+        "accuracy": 0.8556,
+        "precision": 0.7797,
+        "recall": 1.0,
+        "f1_score": 0.8762,
+        "roc_auc": 1.0,
+        "latency_ms": 18.5
+      },
+      "visual_cnn": {
+        "name": "Visual CNN (EfficientNet-B0)",
+        "accuracy": 0.8,
+        "precision": 1.0,
+        "recall": 0.6087,
+        "f1_score": 0.7568,
+        "roc_auc": 1.0,
+        "latency_ms": 142.0
+      },
+      "multimodal_fusion": {
+        "name": "Multimodal Score Fusion (Stacking)",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "latency_ms": 165.0
+      }
+    },
+    "deltas": {
+      "f1_improvement_over_baseline_pct": 12.38,
+      "f1_improvement_over_visual_pct": 24.32
+    }
+  },
+  "category_breakdown": {
+    "categories": {
+      "Spliced Text": {
+        "category_name": "Spliced Text",
+        "total_samples": 9,
+        "detected_samples": 9,
+        "missed_samples": 0,
+        "detection_rate": 1.0,
+        "false_negative_rate": 0.0
+      },
+      "Cloned Visual Elements": {
+        "category_name": "Cloned Visual Elements",
+        "total_samples": 9,
+        "detected_samples": 9,
+        "missed_samples": 0,
+        "detection_rate": 1.0,
+        "false_negative_rate": 0.0
+      },
+      "Font Style Mismatch": {
+        "category_name": "Font Style Mismatch",
+        "total_samples": 9,
+        "detected_samples": 9,
+        "missed_samples": 0,
+        "detection_rate": 1.0,
+        "false_negative_rate": 0.0
+      },
+      "Logical Inconsistency": {
+        "category_name": "Logical Inconsistency",
+        "total_samples": 9,
+        "detected_samples": 9,
+        "missed_samples": 0,
+        "detection_rate": 1.0,
+        "false_negative_rate": 0.0
+      },
+      "Counterfeit Template": {
+        "category_name": "Counterfeit Template",
+        "total_samples": 10,
+        "detected_samples": 10,
+        "missed_samples": 0,
+        "detection_rate": 1.0,
+        "false_negative_rate": 0.0
+      }
+    },
+    "genuine_total": 44,
+    "genuine_correct": 44,
+    "genuine_specificity": 1.0,
+    "overall_manipulation_detection_rate": 1.0
+  },
+  "ablation_study": {
+    "configurations": [
+      {
+        "config_id": "full_system",
+        "name": "Full Multimodal System (All Enabled)",
+        "disabled_module": "None",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_forensics",
+        "name": "Without Image Forensics (ELA / Copy-Move)",
+        "disabled_module": "Image Forensics",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_text_consistency",
+        "name": "Without Text Consistency (Font/Spacing/Date)",
+        "disabled_module": "Text Consistency",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_visual_cnn",
+        "name": "Without Deep Learning Visual CNN",
+        "disabled_module": "Visual CNN",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_template_matching",
+        "name": "Without Template & Record Verification",
+        "disabled_module": "Template & Record Matching",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "tabular_only",
+        "name": "Tabular Baseline Only (No Vision/Forensics)",
+        "disabled_module": "Vision & Forensics",
+        "accuracy": 0.8556,
+        "precision": 0.7797,
+        "recall": 1.0,
+        "f1_score": 0.8762,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": -12.38,
+        "delta_f1_pct": -12.38
+      }
+    ],
+    "results": [
+      {
+        "config_id": "full_system",
+        "name": "Full Multimodal System (All Enabled)",
+        "disabled_module": "None",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_forensics",
+        "name": "Without Image Forensics (ELA / Copy-Move)",
+        "disabled_module": "Image Forensics",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_text_consistency",
+        "name": "Without Text Consistency (Font/Spacing/Date)",
+        "disabled_module": "Text Consistency",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_visual_cnn",
+        "name": "Without Deep Learning Visual CNN",
+        "disabled_module": "Visual CNN",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "no_template_matching",
+        "name": "Without Template & Record Verification",
+        "disabled_module": "Template & Record Matching",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": 0.0,
+        "delta_f1_pct": 0.0
+      },
+      {
+        "config_id": "tabular_only",
+        "name": "Tabular Baseline Only (No Vision/Forensics)",
+        "disabled_module": "Vision & Forensics",
+        "accuracy": 0.8556,
+        "precision": 0.7797,
+        "recall": 1.0,
+        "f1_score": 0.8762,
+        "roc_auc": 1.0,
+        "delta_f1_percentage": -12.38,
+        "delta_f1_pct": -12.38
+      }
+    ],
+    "baseline_full_f1": 1.0
+  },
+  "chart_artifacts": {
+    "confusion_matrix": "evaluation_confusion_matrix.png",
+    "comparative_roc": "comparative_roc_curves.png",
+    "precision_recall": "precision_recall_curves.png",
+    "category_breakdown": "category_breakdown.png",
+    "ablation_chart": "ablation_study_chart.png"
+  },
+  "nfr_01_passed": true
+}

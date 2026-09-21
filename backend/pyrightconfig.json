@@ -1,0 +1,14 @@
+{
+  "include": [
+    "app",
+    "tests",
+    "scripts"
+  ],
+  "extraPaths": [
+    ".",
+    "..",
+    "../ml"
+  ],
+  "venvPath": "..",
+  "venv": ".venv"
+}

@@ -1,14 +1,18 @@
 """Unit tests for dataset loading and balanced sampling."""
 
+from pathlib import Path
+
 import torch
 from ml.scripts.dataset_loader import CertificateImageDataset, create_dataloaders
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
 def test_certificate_dataset_loading():
     """Verify loading dataset from splits."""
     ds = CertificateImageDataset(
-        manifest_path="ml/data/splits/val.csv",
-        base_dir=".",
+        manifest_path=PROJECT_ROOT / "ml" / "data" / "splits" / "val.csv",
+        base_dir=PROJECT_ROOT,
     )
     assert len(ds) > 0
     sample = ds[0]
@@ -22,7 +26,11 @@ def test_certificate_dataset_loading():
 def test_create_dataloaders():
     """Verify DataLoaders creation and batch extraction."""
     config = {"image_size": 256, "batch_size": 4, "num_workers": 0}
-    train_loader, val_loader, test_loader = create_dataloaders(config, base_dir=".")
+    train_loader, val_loader, test_loader = create_dataloaders(
+        config,
+        base_dir=PROJECT_ROOT,
+        splits_dir=PROJECT_ROOT / "ml" / "data" / "splits",
+    )
 
     assert len(train_loader) > 0
     assert len(val_loader) > 0
@@ -34,3 +42,4 @@ def test_create_dataloaders():
 
     val_batch = next(iter(val_loader))
     assert val_batch["image"].shape[1:] == (3, 256, 256)
+

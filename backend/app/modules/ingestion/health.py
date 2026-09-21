@@ -19,9 +19,9 @@ def check_ingestion_health() -> Dict[str, Any]:
         test_file.unlink(missing_ok=True)
         storage_writable = True
 
-        stat = os.statvfs(str(storage_dir))
-        free_bytes = stat.f_bavail * stat.f_frsize
-        disk_free_gb = round(free_bytes / (1024**3), 2)
+        import shutil
+        total, used, free = shutil.disk_usage(str(storage_dir))
+        disk_free_gb = round(free / (1024**3), 2)
     except Exception:
         storage_writable = False
 
