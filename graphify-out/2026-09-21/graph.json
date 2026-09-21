@@ -472,6 +472,32 @@
       "source_location": "L11"
     },
     {
+      "id": "backend_app_schemas_decision_subscoresbreakdown",
+      "label": "SubScoresBreakdown",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "code",
+      "norm_label": "subscoresbreakdown",
+      "source_file": "backend/app/schemas/decision.py",
+      "source_location": "L22"
+    },
+    {
+      "id": "backend_app_schemas_pipeline_contributingfactor",
+      "label": "ContributingFactor",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "code",
+      "norm_label": "contributingfactor",
+      "source_file": "backend/app/schemas/pipeline.py",
+      "source_location": "L183"
+    },
+    {
       "id": "backend_app_schemas_audit_auditlogitem",
       "label": "AuditLogItem",
       "_callable": true,
@@ -1161,17 +1187,17 @@
       "source_location": "L14"
     },
     {
-      "id": "backend_app_modules_explainability_nlg_generator_nlgexplanationgenerator",
-      "label": "NLGExplanationGenerator",
+      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper",
+      "label": "CoordinateMapper",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 145,
       "community_name": "explainability.py",
       "file_type": "code",
-      "norm_label": "nlgexplanationgenerator",
-      "source_file": "backend/app/modules/explainability/nlg_generator.py",
-      "source_location": "L11"
+      "norm_label": "coordinatemapper",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L13"
     },
     {
       "id": "backend_app_modules_explainability_service_explainabilityservice",
@@ -1237,19 +1263,6 @@
       "norm_label": "featureattribution",
       "source_file": "backend/app/schemas/explainability.py",
       "source_location": "L47"
-    },
-    {
-      "id": "backend_app_schemas_explainability_findingbullet",
-      "label": "FindingBullet",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "code",
-      "norm_label": "findingbullet",
-      "source_file": "backend/app/schemas/explainability.py",
-      "source_location": "L34"
     },
     {
       "id": "backend_app_schemas_explainability_findingcategory",
@@ -1538,6 +1551,32 @@
       "source_location": "L128"
     },
     {
+      "id": "backend_app_modules_visual_model_embedding_extractor_visualembeddingextractor",
+      "label": "VisualEmbeddingExtractor",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "visualembeddingextractor",
+      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
+      "source_location": "L17"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine",
+      "label": "BaselineInferenceEngine",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": "baselineinferenceengine",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L23"
+    },
+    {
       "id": "backend_app_models_ml_prediction_mlpredictionmodel",
       "label": "MLPredictionModel",
       "_callable": true,
@@ -1549,19 +1588,6 @@
       "norm_label": "mlpredictionmodel",
       "source_file": "backend/app/models/ml_prediction.py",
       "source_location": "L11"
-    },
-    {
-      "id": "backend_app_modules_visual_model_embedding_extractor_visualembeddingextractor",
-      "label": "VisualEmbeddingExtractor",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "code",
-      "norm_label": "visualembeddingextractor",
-      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
-      "source_location": "L17"
     },
     {
       "id": "backend_app_modules_visual_model_service_visualcnnservice",
@@ -1640,6 +1666,32 @@
       "norm_label": "strokewidthanalyzer",
       "source_file": "backend/app/modules/text_consistency/stroke_width_analyzer.py",
       "source_location": "L11"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_service_baselinemlservice",
+      "label": "BaselineMLService",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "BaselineMLService",
+      "file_type": "code",
+      "norm_label": "baselinemlservice",
+      "source_file": "backend/app/modules/ml_classifier/service.py",
+      "source_location": "L32"
+    },
+    {
+      "id": "backend_app_schemas_ml_prediction_featureimportanceitem",
+      "label": "FeatureImportanceItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "BaselineMLService",
+      "file_type": "code",
+      "norm_label": "featureimportanceitem",
+      "source_file": "backend/app/schemas/ml_prediction.py",
+      "source_location": "L96"
     },
     {
       "id": "backend_app_models_template_institutionmodel",
@@ -1811,17 +1863,17 @@
       "source_location": "L29"
     },
     {
-      "id": "backend_app_schemas_pipeline_contributingfactor",
-      "label": "ContributingFactor",
+      "id": "backend_app_schemas_explainability_findingbullet",
+      "label": "FindingBullet",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 188,
       "community_name": "FullVerificationReport",
       "file_type": "code",
-      "norm_label": "contributingfactor",
-      "source_file": "backend/app/schemas/pipeline.py",
-      "source_location": "L183"
+      "norm_label": "findingbullet",
+      "source_file": "backend/app/schemas/explainability.py",
+      "source_location": "L34"
     },
     {
       "id": "backend_app_schemas_pipeline_verificationreportdto",
@@ -2357,6 +2409,19 @@
       "source_location": "L13"
     },
     {
+      "id": "backend_app_modules_explainability_nlg_generator_nlgexplanationgenerator",
+      "label": "NLGExplanationGenerator",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "code",
+      "norm_label": "nlgexplanationgenerator",
+      "source_file": "backend/app/modules/explainability/nlg_generator.py",
+      "source_location": "L11"
+    },
+    {
       "id": "backend_app_modules_score_fusion_verdict_engine_verdictengine",
       "label": "VerdictEngine",
       "_callable": true,
@@ -2381,19 +2446,6 @@
       "norm_label": "finalverificationdecision",
       "source_file": "backend/app/schemas/decision.py",
       "source_location": "L32"
-    },
-    {
-      "id": "backend_app_schemas_decision_subscoresbreakdown",
-      "label": "SubScoresBreakdown",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "code",
-      "norm_label": "subscoresbreakdown",
-      "source_file": "backend/app/schemas/decision.py",
-      "source_location": "L22"
     },
     {
       "id": "backend_app_schemas_decision_verificationverdict",
@@ -2662,50 +2714,11 @@
       "_callable_class": true,
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "featureimportanceanalyzer",
       "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
       "source_location": "L197"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine",
-      "label": "BaselineInferenceEngine",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "baselineinferenceengine",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L23"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_service_baselinemlservice",
-      "label": "BaselineMLService",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "baselinemlservice",
-      "source_file": "backend/app/modules/ml_classifier/service.py",
-      "source_location": "L32"
-    },
-    {
-      "id": "backend_app_schemas_ml_prediction_featureimportanceitem",
-      "label": "FeatureImportanceItem",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "featureimportanceitem",
-      "source_file": "backend/app/schemas/ml_prediction.py",
-      "source_location": "L96"
     },
     {
       "id": "backend_app_modules_visual_model_network_certificatevisualcnn",
@@ -2862,19 +2875,6 @@
       "norm_label": "adaptivebinarizer",
       "source_file": "backend/app/modules/preprocessing/binarizer.py",
       "source_location": "L10"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper",
-      "label": "CoordinateMapper",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": "coordinatemapper",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L13"
     },
     {
       "id": "backend_app_modules_ocr_base_engine_baseocrengine",
@@ -4143,6 +4143,18 @@
       "source_location": "L22"
     },
     {
+      "id": "backend_app_schemas_report_fullverificationreport_to_dto",
+      "label": ".to_dto()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "code",
+      "norm_label": ".to_dto()",
+      "source_file": "backend/app/schemas/report.py",
+      "source_location": "L132"
+    },
+    {
       "id": "backend_tests_test_late_fusion_test_late_fusion_calculation_authentic",
       "label": "test_late_fusion_calculation_authentic()",
       "_callable": true,
@@ -4452,7 +4464,7 @@
       "file_type": "code",
       "norm_label": "test_github_actions_ci_workflow_structure()",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L97"
+      "source_location": "L104"
     },
     {
       "id": "backend_tests_deployment_test_security_hardening_test_nginx_security_headers_and_upload_limit",
@@ -4476,7 +4488,7 @@
       "file_type": "code",
       "norm_label": "test_production_accepts_valid_strong_secret()",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L89"
+      "source_location": "L96"
     },
     {
       "id": "backend_tests_deployment_test_security_hardening_test_production_rejects_insecure_secrets",
@@ -4488,7 +4500,7 @@
       "file_type": "code",
       "norm_label": "test_production_rejects_insecure_secrets()",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L72"
+      "source_location": "L79"
     },
     {
       "id": "backend_tests_deployment_test_security_hardening_test_secrets_generator_script",
@@ -4501,30 +4513,6 @@
       "norm_label": "test_secrets_generator_script()",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
       "source_location": "L55"
-    },
-    {
-      "id": "scripts_generate_secrets_generate_production_secrets",
-      "label": "generate_production_secrets()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "code",
-      "norm_label": "generate_production_secrets()",
-      "source_file": "scripts/generate_secrets.py",
-      "source_location": "L15"
-    },
-    {
-      "id": "scripts_generate_secrets_main",
-      "label": "main()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "code",
-      "norm_label": "main()",
-      "source_file": "scripts/generate_secrets.py",
-      "source_location": "L28"
     },
     {
       "id": "backend_scripts_run_all_tests_main",
@@ -5895,60 +5883,12 @@
       "source_location": "L40"
     },
     {
-      "id": "backend_app_api_v1_endpoints_reports_download_json_endpoint",
-      "label": "download_json_endpoint()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "download_json_endpoint()",
-      "source_file": "backend/app/api/v1/endpoints/reports.py",
-      "source_location": "L41"
-    },
-    {
-      "id": "backend_app_api_v1_endpoints_reports_download_pdf_endpoint",
-      "label": "download_pdf_endpoint()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "download_pdf_endpoint()",
-      "source_file": "backend/app/api/v1/endpoints/reports.py",
-      "source_location": "L61"
-    },
-    {
-      "id": "backend_app_api_v1_endpoints_reports_get_report_endpoint",
-      "label": "get_report_endpoint()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "get_report_endpoint()",
-      "source_file": "backend/app/api/v1/endpoints/reports.py",
-      "source_location": "L22"
-    },
-    {
-      "id": "backend_app_api_v1_endpoints_reports_verify_report_integrity_endpoint",
-      "label": "verify_report_integrity_endpoint()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "verify_report_integrity_endpoint()",
-      "source_file": "backend/app/api/v1/endpoints/reports.py",
-      "source_location": "L94"
-    },
-    {
       "id": "backend_app_modules_report_generator_pdf_renderer_fit_image",
       "label": "_fit_image()",
       "_callable": true,
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
       "norm_label": "_fit_image()",
       "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
@@ -5960,7 +5900,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
       "norm_label": ".build_story()",
       "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
@@ -5972,23 +5912,71 @@
       "_callable": true,
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
       "norm_label": "make_plate_cell()",
       "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
       "source_location": "L340"
     },
     {
-      "id": "backend_app_modules_report_generator_pdf_renderer_pdfreportrenderer_render",
-      "label": ".render()",
+      "id": "backend_app_modules_report_generator_pdf_styles_get_report_styles",
+      "label": "get_report_styles()",
       "_callable": true,
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
-      "norm_label": ".render()",
-      "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
-      "source_location": "L68"
+      "norm_label": "get_report_styles()",
+      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
+      "source_location": "L75"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_compute_local_contributions",
+      "label": "compute_local_contributions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "code",
+      "norm_label": "compute_local_contributions()",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L81"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_extract_feature_importances",
+      "label": "extract_feature_importances()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "code",
+      "norm_label": "extract_feature_importances()",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L47"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_calculate_local_contributions",
+      "label": ".calculate_local_contributions()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "code",
+      "norm_label": ".calculate_local_contributions()",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L208"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_get_global_importance",
+      "label": ".get_global_importance()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "code",
+      "norm_label": ".get_global_importance()",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L203"
     },
     {
       "id": "backend_app_api_v1_endpoints_ingestion_upload_document",
@@ -6171,28 +6159,64 @@
       "source_location": "L83"
     },
     {
-      "id": "backend_app_modules_explainability_nlg_generator_nlgexplanationgenerator_generate_finding_bullets",
-      "label": ".generate_finding_bullets()",
+      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_init",
+      "label": ".__init__()",
       "_callable": true,
       "_origin": "ast",
       "community": 145,
       "community_name": "explainability.py",
       "file_type": "code",
-      "norm_label": ".generate_finding_bullets()",
-      "source_file": "backend/app/modules/explainability/nlg_generator.py",
-      "source_location": "L56"
+      "norm_label": ".__init__()",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L16"
     },
     {
-      "id": "backend_app_modules_explainability_nlg_generator_nlgexplanationgenerator_generate_summary_paragraph",
-      "label": ".generate_summary_paragraph()",
+      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_map_box",
+      "label": ".map_box()",
       "_callable": true,
       "_origin": "ast",
       "community": 145,
       "community_name": "explainability.py",
       "file_type": "code",
-      "norm_label": ".generate_summary_paragraph()",
-      "source_file": "backend/app/modules/explainability/nlg_generator.py",
-      "source_location": "L15"
+      "norm_label": ".map_box()",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L33"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_map_normalized",
+      "label": ".map_normalized()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": ".map_normalized()",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L62"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_map_points",
+      "label": ".map_points()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": ".map_points()",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L89"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_to_normalized_box",
+      "label": ".to_normalized_box()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": ".to_normalized_box()",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L54"
     },
     {
       "id": "backend_app_modules_explainability_service_explainabilityservice_explain_certificate",
@@ -6231,6 +6255,18 @@
       "source_location": "L55"
     },
     {
+      "id": "backend_app_modules_explainability_shap_explainer_shaptabularexplainer_init",
+      "label": ".__init__()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": ".__init__()",
+      "source_file": "backend/app/modules/explainability/shap_explainer.py",
+      "source_location": "L29"
+    },
+    {
       "id": "backend_app_modules_explainability_unified_overlay_unifiedoverlayrenderer_render",
       "label": ".render()",
       "_callable": true,
@@ -6243,16 +6279,52 @@
       "source_location": "L28"
     },
     {
-      "id": "backend_tests_test_pdf_renderer_test_pdf_renderer_generates_valid_pdf",
-      "label": "test_pdf_renderer_generates_valid_pdf()",
+      "id": "backend_tests_test_coordinate_mapper_test_coordinate_boundary_clamping",
+      "label": "test_coordinate_boundary_clamping()",
       "_callable": true,
       "_origin": "ast",
       "community": 145,
       "community_name": "explainability.py",
       "file_type": "code",
-      "norm_label": "test_pdf_renderer_generates_valid_pdf()",
-      "source_file": "backend/tests/test_pdf_renderer.py",
-      "source_location": "L17"
+      "norm_label": "test_coordinate_boundary_clamping()",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L22"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_test_coordinate_scaling",
+      "label": "test_coordinate_scaling()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "test_coordinate_scaling()",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L9"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_test_map_points",
+      "label": "test_map_points()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "test_map_points()",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L45"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_test_normalized_mapping",
+      "label": "test_normalized_mapping()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "test_normalized_mapping()",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L32"
     },
     {
       "id": "backend_tests_test_shap_explainer_test_shap_explainer_fallback",
@@ -7179,24 +7251,12 @@
       "source_location": "L16"
     },
     {
-      "id": "backend_app_modules_visual_model_embedding_extractor_visualembeddingextractor_init",
-      "label": ".__init__()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 166,
-      "community_name": "get_inference_transforms",
-      "file_type": "code",
-      "norm_label": ".__init__()",
-      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
-      "source_location": "L20"
-    },
-    {
       "id": "backend_app_modules_visual_model_transforms_denormalize_image",
       "label": "denormalize_image()",
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "denormalize_image()",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -7208,7 +7268,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "get_inference_transforms()",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -7220,7 +7280,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "get_train_transforms()",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -7232,7 +7292,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "test_denormalize_image()",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -7244,7 +7304,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "test_inference_transforms()",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -7256,7 +7316,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "test_train_transforms()",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -7628,7 +7688,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": ".extract()",
       "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
@@ -7640,7 +7700,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": ".extract_from_path()",
       "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
@@ -7652,11 +7712,95 @@
       "_callable": true,
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": ".extract_from_pil()",
       "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
       "source_location": "L39"
+    },
+    {
+      "id": "backend_app_modules_visual_model_embedding_extractor_visualembeddingextractor_init",
+      "label": ".__init__()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": ".__init__()",
+      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
+      "source_location": "L20"
+    },
+    {
+      "id": "backend_app_modules_visual_model_service_visualcnnservice_init",
+      "label": ".__init__()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": ".__init__()",
+      "source_file": "backend/app/modules/visual_model/service.py",
+      "source_location": "L29"
+    },
+    {
+      "id": "backend_tests_test_embedding_extractor_test_visual_embedding_extraction",
+      "label": "test_visual_embedding_extraction()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "test_visual_embedding_extraction()",
+      "source_file": "backend/tests/test_embedding_extractor.py",
+      "source_location": "L11"
+    },
+    {
+      "id": "backend_tests_test_embedding_extractor_test_visual_embedding_from_pil",
+      "label": "test_visual_embedding_from_pil()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "test_visual_embedding_from_pil()",
+      "source_file": "backend/tests/test_embedding_extractor.py",
+      "source_location": "L30"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_init",
+      "label": ".__init__()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": ".__init__()",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L26"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_is_ready",
+      "label": ".is_ready()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": ".is_ready()",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L67"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_load_artifacts",
+      "label": "._load_artifacts()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": "._load_artifacts()",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L48"
     },
     {
       "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_predict_batch",
@@ -7664,7 +7808,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 175,
-      "community_name": ".predict_batch",
+      "community_name": "BaselineInferenceEngine",
       "file_type": "code",
       "norm_label": ".predict_batch()",
       "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
@@ -7676,11 +7820,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 175,
-      "community_name": ".predict_batch",
+      "community_name": "BaselineInferenceEngine",
       "file_type": "code",
       "norm_label": ".predict_single()",
       "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
       "source_location": "L71"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_service_baselinemlservice_init",
+      "label": ".__init__()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": ".__init__()",
+      "source_file": "backend/app/modules/ml_classifier/service.py",
+      "source_location": "L35"
+    },
+    {
+      "id": "backend_tests_test_baseline_inference_test_fallback_heuristic_when_model_missing",
+      "label": "test_fallback_heuristic_when_model_missing()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": "test_fallback_heuristic_when_model_missing()",
+      "source_file": "backend/tests/test_baseline_inference.py",
+      "source_location": "L75"
     },
     {
       "id": "backend_app_modules_visual_model_service_visualcnnservice_get_pipeline_output",
@@ -7693,18 +7861,6 @@
       "norm_label": ".get_pipeline_output()",
       "source_file": "backend/app/modules/visual_model/service.py",
       "source_location": "L158"
-    },
-    {
-      "id": "backend_app_modules_visual_model_service_visualcnnservice_init",
-      "label": ".__init__()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "code",
-      "norm_label": ".__init__()",
-      "source_file": "backend/app/modules/visual_model/service.py",
-      "source_location": "L29"
     },
     {
       "id": "backend_app_modules_visual_model_service_visualcnnservice_predict",
@@ -8060,7 +8216,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 180,
-      "community_name": ".classify_certificate",
+      "community_name": "BaselineMLService",
       "file_type": "code",
       "norm_label": ".classify_certificate()",
       "source_file": "backend/app/modules/ml_classifier/service.py",
@@ -8072,7 +8228,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 180,
-      "community_name": ".classify_certificate",
+      "community_name": "BaselineMLService",
       "file_type": "code",
       "norm_label": ".get_pipeline_output()",
       "source_file": "backend/app/modules/ml_classifier/service.py",
@@ -8197,6 +8353,30 @@
       "norm_label": "test_service_tier_1_verified()",
       "source_file": "backend/tests/test_template_service.py",
       "source_location": "L39"
+    },
+    {
+      "id": "scripts_generate_secrets_generate_production_secrets",
+      "label": "generate_production_secrets()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 182,
+      "community_name": "generate_secrets.py",
+      "file_type": "code",
+      "norm_label": "generate_production_secrets()",
+      "source_file": "scripts/generate_secrets.py",
+      "source_location": "L15"
+    },
+    {
+      "id": "scripts_generate_secrets_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 182,
+      "community_name": "generate_secrets.py",
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "scripts/generate_secrets.py",
+      "source_location": "L28"
     },
     {
       "id": "backend_app_api_v1_endpoints_health_get_detailed_health",
@@ -8463,6 +8643,78 @@
       "source_location": "L22"
     },
     {
+      "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_plot_feature_importance",
+      "label": ".plot_feature_importance()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 187,
+      "community_name": ".plot_feature_importance",
+      "file_type": "code",
+      "norm_label": ".plot_feature_importance()",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L216"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_plot_feature_importance",
+      "label": "plot_feature_importance()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 187,
+      "community_name": ".plot_feature_importance",
+      "file_type": "code",
+      "norm_label": "plot_feature_importance()",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L158"
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_download_json_endpoint",
+      "label": "download_json_endpoint()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "download_json_endpoint()",
+      "source_file": "backend/app/api/v1/endpoints/reports.py",
+      "source_location": "L41"
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_download_pdf_endpoint",
+      "label": "download_pdf_endpoint()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "download_pdf_endpoint()",
+      "source_file": "backend/app/api/v1/endpoints/reports.py",
+      "source_location": "L61"
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_get_report_endpoint",
+      "label": "get_report_endpoint()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "get_report_endpoint()",
+      "source_file": "backend/app/api/v1/endpoints/reports.py",
+      "source_location": "L22"
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_verify_report_integrity_endpoint",
+      "label": "verify_report_integrity_endpoint()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "verify_report_integrity_endpoint()",
+      "source_file": "backend/app/api/v1/endpoints/reports.py",
+      "source_location": "L94"
+    },
+    {
       "id": "backend_app_modules_report_generator_assembler_reportassembler_assemble",
       "label": ".assemble()",
       "_callable": true,
@@ -8485,6 +8737,18 @@
       "norm_label": "export_json_report()",
       "source_file": "backend/app/modules/report_generator/json_renderer.py",
       "source_location": "L12"
+    },
+    {
+      "id": "backend_app_modules_report_generator_pdf_renderer_pdfreportrenderer_render",
+      "label": ".render()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": ".render()",
+      "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
+      "source_location": "L68"
     },
     {
       "id": "backend_app_modules_report_generator_qr_generator_generate_report_qr",
@@ -8583,18 +8847,6 @@
       "source_location": "L40"
     },
     {
-      "id": "backend_app_schemas_report_fullverificationreport_to_dto",
-      "label": ".to_dto()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 188,
-      "community_name": "FullVerificationReport",
-      "file_type": "code",
-      "norm_label": ".to_dto()",
-      "source_file": "backend/app/schemas/report.py",
-      "source_location": "L132"
-    },
-    {
       "id": "backend_scripts_generate_verification_report_main",
       "label": "main()",
       "_callable": true,
@@ -8607,6 +8859,18 @@
       "source_location": "L18"
     },
     {
+      "id": "backend_tests_test_pdf_renderer_test_pdf_renderer_generates_valid_pdf",
+      "label": "test_pdf_renderer_generates_valid_pdf()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "test_pdf_renderer_generates_valid_pdf()",
+      "source_file": "backend/tests/test_pdf_renderer.py",
+      "source_location": "L17"
+    },
+    {
       "id": "backend_tests_test_pdf_renderer_test_pdf_renderer_handles_missing_evidence_gracefully",
       "label": "test_pdf_renderer_handles_missing_evidence_gracefully()",
       "_callable": true,
@@ -8617,18 +8881,6 @@
       "norm_label": "test_pdf_renderer_handles_missing_evidence_gracefully()",
       "source_file": "backend/tests/test_pdf_renderer.py",
       "source_location": "L82"
-    },
-    {
-      "id": "backend_tests_test_qr_generator_test_qr_code_generation_and_decoding",
-      "label": "test_qr_code_generation_and_decoding()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 188,
-      "community_name": "FullVerificationReport",
-      "file_type": "code",
-      "norm_label": "test_qr_code_generation_and_decoding()",
-      "source_file": "backend/tests/test_qr_generator.py",
-      "source_location": "L10"
     },
     {
       "id": "backend_tests_test_report_assembler_test_report_assembler_populates_all_fields",
@@ -8871,16 +9123,28 @@
       "source_location": "L121"
     },
     {
-      "id": "backend_app_modules_explainability_shap_explainer_shaptabularexplainer_init",
-      "label": ".__init__()",
+      "id": "backend_tests_test_qr_generator_test_qr_code_generation_and_decoding",
+      "label": "test_qr_code_generation_and_decoding()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 190,
+      "community_name": "test_qr_generator.py",
+      "file_type": "code",
+      "norm_label": "test_qr_code_generation_and_decoding()",
+      "source_file": "backend/tests/test_qr_generator.py",
+      "source_location": "L10"
+    },
+    {
+      "id": "ml_scripts_export_visual_model_export_and_optimize",
+      "label": "export_and_optimize()",
       "_callable": true,
       "_origin": "ast",
       "community": 191,
-      "community_name": ".__init__",
+      "community_name": "export_visual_model.py",
       "file_type": "code",
-      "norm_label": ".__init__()",
-      "source_file": "backend/app/modules/explainability/shap_explainer.py",
-      "source_location": "L29"
+      "norm_label": "export_and_optimize()",
+      "source_file": "ml/scripts/export_visual_model.py",
+      "source_location": "L30"
     },
     {
       "id": "backend_app_schemas_ml_prediction_predictionresult_to_pipeline_output",
@@ -9951,6 +10215,30 @@
       "source_location": "L10"
     },
     {
+      "id": "backend_app_modules_explainability_nlg_generator_nlgexplanationgenerator_generate_finding_bullets",
+      "label": ".generate_finding_bullets()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "code",
+      "norm_label": ".generate_finding_bullets()",
+      "source_file": "backend/app/modules/explainability/nlg_generator.py",
+      "source_location": "L56"
+    },
+    {
+      "id": "backend_app_modules_explainability_nlg_generator_nlgexplanationgenerator_generate_summary_paragraph",
+      "label": ".generate_summary_paragraph()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "code",
+      "norm_label": ".generate_summary_paragraph()",
+      "source_file": "backend/app/modules/explainability/nlg_generator.py",
+      "source_location": "L15"
+    },
+    {
       "id": "backend_app_modules_score_fusion_verdict_engine_verdictengine_evaluate",
       "label": ".evaluate()",
       "_callable": true,
@@ -10887,136 +11175,16 @@
       "source_location": "L38"
     },
     {
-      "id": "backend_app_modules_ml_classifier_feature_importance_compute_local_contributions",
-      "label": "compute_local_contributions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "compute_local_contributions()",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L81"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_extract_feature_importances",
-      "label": "extract_feature_importances()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "extract_feature_importances()",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L47"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_calculate_local_contributions",
-      "label": ".calculate_local_contributions()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": ".calculate_local_contributions()",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L208"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_get_global_importance",
-      "label": ".get_global_importance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": ".get_global_importance()",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L203"
-    },
-    {
       "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_init",
       "label": ".__init__()",
       "_callable": true,
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": ".__init__()",
       "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
       "source_location": "L200"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_featureimportanceanalyzer_plot_feature_importance",
-      "label": ".plot_feature_importance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": ".plot_feature_importance()",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L216"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_plot_feature_importance",
-      "label": "plot_feature_importance()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "plot_feature_importance()",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L158"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_init",
-      "label": ".__init__()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": ".__init__()",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L26"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_is_ready",
-      "label": ".is_ready()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": ".is_ready()",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L67"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_baselineinferenceengine_load_artifacts",
-      "label": "._load_artifacts()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "._load_artifacts()",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L48"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_service_baselinemlservice_init",
-      "label": ".__init__()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": ".__init__()",
-      "source_file": "backend/app/modules/ml_classifier/service.py",
-      "source_location": "L35"
     },
     {
       "id": "backend_tests_test_feature_importance_test_global_feature_importance",
@@ -11024,7 +11192,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "test_global_feature_importance()",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -11036,7 +11204,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "test_local_sample_contributions()",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -11048,7 +11216,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "test_plot_feature_importance()",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -11060,7 +11228,7 @@
       "_callable": true,
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "trained_rf()",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -11125,30 +11293,6 @@
       "norm_label": ".unfreeze_backbone()",
       "source_file": "backend/app/modules/visual_model/network.py",
       "source_location": "L97"
-    },
-    {
-      "id": "backend_tests_test_embedding_extractor_test_visual_embedding_extraction",
-      "label": "test_visual_embedding_extraction()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "CertificateVisualCNN",
-      "file_type": "code",
-      "norm_label": "test_visual_embedding_extraction()",
-      "source_file": "backend/tests/test_embedding_extractor.py",
-      "source_location": "L11"
-    },
-    {
-      "id": "backend_tests_test_embedding_extractor_test_visual_embedding_from_pil",
-      "label": "test_visual_embedding_from_pil()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "CertificateVisualCNN",
-      "file_type": "code",
-      "norm_label": "test_visual_embedding_from_pil()",
-      "source_file": "backend/tests/test_embedding_extractor.py",
-      "source_location": "L30"
     },
     {
       "id": "backend_tests_test_visual_network_test_backbone_freeze_and_unfreeze",
@@ -11449,18 +11593,6 @@
       "norm_label": "test_gradcam_save_overlay()",
       "source_file": "backend/tests/test_gradcam.py",
       "source_location": "L27"
-    },
-    {
-      "id": "ml_scripts_export_visual_model_export_and_optimize",
-      "label": "export_and_optimize()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "code",
-      "norm_label": "export_and_optimize()",
-      "source_file": "ml/scripts/export_visual_model.py",
-      "source_location": "L30"
     },
     {
       "id": "backend_app_api_deps_require_role",
@@ -11775,112 +11907,28 @@
       "source_location": "L57"
     },
     {
-      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_init",
-      "label": ".__init__()",
+      "id": "ml_scripts_train_visual_cnn_evaluate_epoch",
+      "label": "evaluate_epoch()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "code",
-      "norm_label": ".__init__()",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L16"
+      "norm_label": "evaluate_epoch()",
+      "source_file": "ml/scripts/train_visual_cnn.py",
+      "source_location": "L36"
     },
     {
-      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_map_box",
-      "label": ".map_box()",
+      "id": "ml_scripts_train_visual_cnn_train_visual_cnn",
+      "label": "train_visual_cnn()",
       "_callable": true,
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "code",
-      "norm_label": ".map_box()",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L33"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_map_normalized",
-      "label": ".map_normalized()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": ".map_normalized()",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L62"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_map_points",
-      "label": ".map_points()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": ".map_points()",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L89"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_coordinatemapper_to_normalized_box",
-      "label": ".to_normalized_box()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": ".to_normalized_box()",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L54"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_test_coordinate_boundary_clamping",
-      "label": "test_coordinate_boundary_clamping()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": "test_coordinate_boundary_clamping()",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L22"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_test_coordinate_scaling",
-      "label": "test_coordinate_scaling()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": "test_coordinate_scaling()",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L9"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_test_map_points",
-      "label": "test_map_points()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": "test_map_points()",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L45"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_test_normalized_mapping",
-      "label": "test_normalized_mapping()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "code",
-      "norm_label": "test_normalized_mapping()",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L32"
+      "norm_label": "train_visual_cnn()",
+      "source_file": "ml/scripts/train_visual_cnn.py",
+      "source_location": "L81"
     },
     {
       "id": "backend_app_modules_ocr_base_engine_baseocrengine_engine_name",
@@ -12373,30 +12421,6 @@
       "norm_label": "evaluate_visual_model()",
       "source_file": "ml/scripts/evaluate_visual_cnn.py",
       "source_location": "L46"
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_evaluate_epoch",
-      "label": "evaluate_epoch()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "evaluate_epoch()",
-      "source_file": "ml/scripts/train_visual_cnn.py",
-      "source_location": "L36"
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_train_visual_cnn",
-      "label": "train_visual_cnn()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "train_visual_cnn()",
-      "source_file": "ml/scripts/train_visual_cnn.py",
-      "source_location": "L81"
     },
     {
       "id": "backend_app_modules_forensics_noise_analyzer_noiseanalyzer_analyze",
@@ -13095,18 +13119,6 @@
       "source_location": "L50"
     },
     {
-      "id": "backend_tests_test_baseline_inference_test_fallback_heuristic_when_model_missing",
-      "label": "test_fallback_heuristic_when_model_missing()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 74,
-      "community_name": "test_baseline_inference.py",
-      "file_type": "code",
-      "norm_label": "test_fallback_heuristic_when_model_missing()",
-      "source_file": "backend/tests/test_baseline_inference.py",
-      "source_location": "L75"
-    },
-    {
       "id": "backend_tests_test_baseline_inference_test_inference_latency_benchmark",
       "label": "test_inference_latency_benchmark()",
       "_callable": true,
@@ -13549,18 +13561,6 @@
       "norm_label": "test_token_builder_from_easyocr_and_tesseract()",
       "source_file": "backend/tests/test_ocr_engine.py",
       "source_location": "L85"
-    },
-    {
-      "id": "backend_app_modules_report_generator_pdf_styles_get_report_styles",
-      "label": "get_report_styles()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "NumberedCanvas",
-      "file_type": "code",
-      "norm_label": "get_report_styles()",
-      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
-      "source_location": "L75"
     },
     {
       "id": "backend_app_modules_report_generator_pdf_styles_numberedcanvas_draw_page_decorations",
@@ -15537,6 +15537,28 @@
       "source_location": "L1"
     },
     {
+      "id": "backend_app_modules_score_fusion_late_fusion",
+      "label": "late_fusion.py",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "code",
+      "norm_label": "late_fusion.py",
+      "source_file": "backend/app/modules/score_fusion/late_fusion.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_schemas_decision_py_basemodel",
+      "label": "BaseModel",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "code",
+      "norm_label": "basemodel",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "backend_tests_test_late_fusion",
       "label": "test_late_fusion.py",
       "_origin": "ast",
@@ -15559,6 +15581,28 @@
       "source_location": ""
     },
     {
+      "id": "verificationreportdto",
+      "label": "VerificationReportDTO",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "code",
+      "norm_label": "verificationreportdto",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_score_fusion_late_fusion_rationale_1",
+      "label": "Weighted late fusion engine blending branch probabilities and sub-scores.",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "rationale",
+      "norm_label": "weighted late fusion engine blending branch probabilities and sub-scores.",
+      "source_file": "backend/app/modules/score_fusion/late_fusion.py",
+      "source_location": "L1"
+    },
+    {
       "id": "backend_app_modules_score_fusion_late_fusion_rationale_12",
       "label": "Calculates explainable composite authenticity and risk scores via weighted\u2026",
       "_origin": "ast",
@@ -15579,6 +15623,28 @@
       "norm_label": "compute composite authenticity score [0.0, 1.0], risk score [0.0, 100.0], sub-...",
       "source_file": "backend/app/modules/score_fusion/late_fusion.py",
       "source_location": "L37"
+    },
+    {
+      "id": "backend_app_schemas_decision_rationale_23",
+      "label": "Normalized sub-scores across analytical branches [0.0 = Fake, 1.0 = Genuine].",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "rationale",
+      "norm_label": "normalized sub-scores across analytical branches [0.0 = fake, 1.0 = genuine].",
+      "source_file": "backend/app/schemas/decision.py",
+      "source_location": "L23"
+    },
+    {
+      "id": "backend_app_schemas_report_rationale_133",
+      "label": "Export to SPEC-02 canonical VerificationReportDTO.",
+      "_origin": "ast",
+      "community": 106,
+      "community_name": "WeightedLateFusion",
+      "file_type": "rationale",
+      "norm_label": "export to spec-02 canonical verificationreportdto.",
+      "source_file": "backend/app/schemas/report.py",
+      "source_location": "L133"
     },
     {
       "id": "backend_tests_test_late_fusion_rationale_1",
@@ -16216,17 +16282,6 @@
       "source_location": ""
     },
     {
-      "id": "scripts_generate_secrets",
-      "label": "generate_secrets.py",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "code",
-      "norm_label": "generate_secrets.py",
-      "source_file": "scripts/generate_secrets.py",
-      "source_location": "L1"
-    },
-    {
       "id": "backend_app_config_rationale_10",
       "label": "Application configuration loaded from environment variables and .env file.",
       "_origin": "ast",
@@ -16282,6 +16337,17 @@
       "source_location": "L1"
     },
     {
+      "id": "backend_tests_deployment_test_security_hardening_rationale_105",
+      "label": "Verify GitHub Actions CI workflow contains all required quality jobs (TC-\u2026",
+      "_origin": "ast",
+      "community": 110,
+      "community_name": "Settings",
+      "file_type": "rationale",
+      "norm_label": "verify github actions ci workflow contains all required quality jobs (tc-...",
+      "source_file": "backend/tests/deployment/test_security_hardening.py",
+      "source_location": "L105"
+    },
+    {
       "id": "backend_tests_deployment_test_security_hardening_rationale_29",
       "label": "Verify Nginx reverse proxy enforces 10MB limit and injects security headers\u2026",
       "_origin": "ast",
@@ -16304,7 +16370,7 @@
       "source_location": "L56"
     },
     {
-      "id": "backend_tests_deployment_test_security_hardening_rationale_73",
+      "id": "backend_tests_deployment_test_security_hardening_rationale_80",
       "label": "Verify backend settings refuse startup if default or short secrets are used.\u2026",
       "_origin": "ast",
       "community": 110,
@@ -16312,10 +16378,10 @@
       "file_type": "rationale",
       "norm_label": "verify backend settings refuse startup if default or short secrets are used....",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L73"
+      "source_location": "L80"
     },
     {
-      "id": "backend_tests_deployment_test_security_hardening_rationale_90",
+      "id": "backend_tests_deployment_test_security_hardening_rationale_97",
       "label": "Verify backend settings accept strong 64-character secret in production mode.",
       "_origin": "ast",
       "community": 110,
@@ -16323,51 +16389,7 @@
       "file_type": "rationale",
       "norm_label": "verify backend settings accept strong 64-character secret in production mode.",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L90"
-    },
-    {
-      "id": "backend_tests_deployment_test_security_hardening_rationale_98",
-      "label": "Verify GitHub Actions CI workflow contains all required quality jobs (TC-\u2026",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "rationale",
-      "norm_label": "verify github actions ci workflow contains all required quality jobs (tc-...",
-      "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L98"
-    },
-    {
-      "id": "scripts_generate_secrets_rationale_16",
-      "label": "Generate cryptographically secure random keys using secrets module.",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "rationale",
-      "norm_label": "generate cryptographically secure random keys using secrets module.",
-      "source_file": "scripts/generate_secrets.py",
-      "source_location": "L16"
-    },
-    {
-      "id": "scripts_generate_secrets_rationale_2",
-      "label": "Cryptographic Secrets Generator for Production Deployment (CHIP DEP-05).\u2026",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "rationale",
-      "norm_label": "cryptographic secrets generator for production deployment (chip dep-05)....",
-      "source_file": "scripts/generate_secrets.py",
-      "source_location": "L2"
-    },
-    {
-      "id": "scripts_generate_secrets_rationale_29",
-      "label": "Print generated secrets to stdout in dotenv format.",
-      "_origin": "ast",
-      "community": 110,
-      "community_name": "Settings",
-      "file_type": "rationale",
-      "norm_label": "print generated secrets to stdout in dotenv format.",
-      "source_file": "scripts/generate_secrets.py",
-      "source_location": "L29"
+      "source_location": "L97"
     },
     {
       "id": "backend_scripts_run_all_tests_py_backend_scripts_run_all_tests",
@@ -19621,55 +19643,11 @@
       "source_location": "L6"
     },
     {
-      "id": "backend_app_api_v1_endpoints_reports",
-      "label": "reports.py",
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "reports.py",
-      "source_file": "backend/app/api/v1/endpoints/reports.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_api_v1_endpoints_reports_py_get",
-      "label": "get",
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "get",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_api_v1_endpoints_reports_py_jsonresponse",
-      "label": "JSONResponse",
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "jsonresponse",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_api_v1_endpoints_reports_py_session",
-      "label": "Session",
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "code",
-      "norm_label": "session",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "backend_app_modules_report_generator_pdf_renderer_py_any",
       "label": "Any",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
       "norm_label": "any",
       "source_file": "",
@@ -19680,7 +19658,7 @@
       "label": "Image",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
       "norm_label": "image",
       "source_file": "",
@@ -19691,66 +19669,143 @@
       "label": "Path",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "fileresponse",
-      "label": "FileResponse",
+      "id": "backend_app_modules_report_generator_pdf_styles",
+      "label": "pdf_styles.py",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "code",
-      "norm_label": "fileresponse",
-      "source_file": "",
-      "source_location": ""
+      "norm_label": "pdf_styles.py",
+      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
+      "source_location": "L1"
     },
     {
-      "id": "backend_app_api_v1_endpoints_reports_rationale_1",
-      "label": "FastAPI router for verification report retrieval, verification, and PDF/JSON\u2026",
+      "id": "stylesheet1",
+      "label": "StyleSheet1",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
-      "file_type": "rationale",
-      "norm_label": "fastapi router for verification report retrieval, verification, and pdf/json...",
-      "source_file": "backend/app/api/v1/endpoints/reports.py",
-      "source_location": "L1"
+      "community_name": ".build_story",
+      "file_type": "code",
+      "norm_label": "stylesheet1",
+      "source_file": "",
+      "source_location": ""
     },
     {
       "id": "backend_app_modules_report_generator_pdf_renderer_rationale_44",
       "label": "Load image from path and scale proportionally to fit within max bounds.",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "rationale",
       "norm_label": "load image from path and scale proportionally to fit within max bounds.",
       "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
       "source_location": "L44"
     },
     {
-      "id": "backend_app_modules_report_generator_pdf_renderer_rationale_69",
-      "label": "Build and save PDF report to destination path. Args: report_data: Comprehensive\u2026",
-      "_origin": "ast",
-      "community": 141,
-      "community_name": "reports.py",
-      "file_type": "rationale",
-      "norm_label": "build and save pdf report to destination path. args: report_data: comprehensive...",
-      "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
-      "source_location": "L69"
-    },
-    {
       "id": "backend_app_modules_report_generator_pdf_renderer_rationale_94",
       "label": "Construct the flowable story sequence for ReportLab.",
       "_origin": "ast",
       "community": 141,
-      "community_name": "reports.py",
+      "community_name": ".build_story",
       "file_type": "rationale",
       "norm_label": "construct the flowable story sequence for reportlab.",
       "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
       "source_location": "L94"
+    },
+    {
+      "id": "backend_app_modules_report_generator_pdf_styles_rationale_1",
+      "label": "ReportLab stylesheet, typography, color palette, and dynamic numbered canvas.",
+      "_origin": "ast",
+      "community": 141,
+      "community_name": ".build_story",
+      "file_type": "rationale",
+      "norm_label": "reportlab stylesheet, typography, color palette, and dynamic numbered canvas.",
+      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_report_generator_pdf_styles_rationale_76",
+      "label": "Build standardized publication typography stylesheet.",
+      "_origin": "ast",
+      "community": 141,
+      "community_name": ".build_story",
+      "file_type": "rationale",
+      "norm_label": "build standardized publication typography stylesheet.",
+      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
+      "source_location": "L76"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_py_any",
+      "label": "Any",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "code",
+      "norm_label": "any",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_py_ndarray",
+      "label": "ndarray",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "code",
+      "norm_label": "ndarray",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_204",
+      "label": "Return top_k global feature importance dictionaries.",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "rationale",
+      "norm_label": "return top_k global feature importance dictionaries.",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L204"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_213",
+      "label": "Calculate local feature contribution scores for a single certificate.",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "rationale",
+      "norm_label": "calculate local feature contribution scores for a single certificate.",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L213"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_51",
+      "label": "Extract global Gini or coefficient feature importances and rank them descending.",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "rationale",
+      "norm_label": "extract global gini or coefficient feature importances and rank them descending.",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L51"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_87",
+      "label": "Calculate local feature contribution weights explaining why certificate was\u2026",
+      "_origin": "ast",
+      "community": 142,
+      "community_name": "extract_feature_importances",
+      "file_type": "rationale",
+      "norm_label": "calculate local feature contribution weights explaining why certificate was...",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L87"
     },
     {
       "id": "backend_app_api_v1_endpoints_ingestion",
@@ -20078,6 +20133,28 @@
       "source_location": "L1"
     },
     {
+      "id": "backend_app_modules_explainability_coordinate_mapper_py_ndarray",
+      "label": "ndarray",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "ndarray",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_py_pixelboundingbox",
+      "label": "PixelBoundingBox",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "pixelboundingbox",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "backend_app_modules_explainability_init",
       "label": "explainability/__init__.py",
       "_origin": "ast",
@@ -20098,17 +20175,6 @@
       "norm_label": "nlg_generator.py",
       "source_file": "backend/app/modules/explainability/nlg_generator.py",
       "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_explainability_nlg_generator_py_any",
-      "label": "Any",
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "code",
-      "norm_label": "any",
-      "source_file": "",
-      "source_location": ""
     },
     {
       "id": "backend_app_modules_explainability_service",
@@ -20166,6 +20232,17 @@
       "source_location": "L1"
     },
     {
+      "id": "backend_app_modules_explainability_shap_explainer_py_any",
+      "label": "Any",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "any",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "backend_app_modules_explainability_shap_explainer_py_ndarray",
       "label": "ndarray",
       "_origin": "ast",
@@ -20173,6 +20250,17 @@
       "community_name": "explainability.py",
       "file_type": "code",
       "norm_label": "ndarray",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_explainability_shap_explainer_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "path",
       "source_file": "",
       "source_location": ""
     },
@@ -20254,6 +20342,17 @@
       "source_location": ""
     },
     {
+      "id": "backend_tests_test_coordinate_mapper",
+      "label": "test_coordinate_mapper.py",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "code",
+      "norm_label": "test_coordinate_mapper.py",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L1"
+    },
+    {
       "id": "backend_tests_test_shap_explainer",
       "label": "test_shap_explainer.py",
       "_origin": "ast",
@@ -20298,17 +20397,6 @@
       "source_location": ""
     },
     {
-      "id": "findingbullet",
-      "label": "FindingBullet",
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "code",
-      "norm_label": "findingbullet",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "backend_app_modules_explainability_coordinate_mapper_rationale_1",
       "label": "Coordinate mapping and transformation between processed and original image\u2026",
       "_origin": "ast",
@@ -20318,6 +20406,61 @@
       "norm_label": "coordinate mapping and transformation between processed and original image...",
       "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
       "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_14",
+      "label": "Transforms bounding boxes and spatial points from processed space to raw image\u2026",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "transforms bounding boxes and spatial points from processed space to raw image...",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L14"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_40",
+      "label": "Scale and clamp processed bounding box to raw original image dimensions.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "scale and clamp processed bounding box to raw original image dimensions.",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L40"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_55",
+      "label": "Convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates.",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L55"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_69",
+      "label": "Convert normalized [0, 1] coordinates into pixel box and normalized box.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "convert normalized [0, 1] coordinates into pixel box and normalized box.",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L69"
+    },
+    {
+      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_90",
+      "label": "Scale array of (N, 2) points from processed to raw resolution.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "scale array of (n, 2) points from processed to raw resolution.",
+      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
+      "source_location": "L90"
     },
     {
       "id": "backend_app_modules_explainability_init_rationale_1",
@@ -20340,39 +20483,6 @@
       "norm_label": "natural language generation (nlg) engine for human-readable verification...",
       "source_file": "backend/app/modules/explainability/nlg_generator.py",
       "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_explainability_nlg_generator_rationale_12",
-      "label": "Synthesizes raw analytical findings and scores into structured natural language\u2026",
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "rationale",
-      "norm_label": "synthesizes raw analytical findings and scores into structured natural language...",
-      "source_file": "backend/app/modules/explainability/nlg_generator.py",
-      "source_location": "L12"
-    },
-    {
-      "id": "backend_app_modules_explainability_nlg_generator_rationale_16",
-      "label": "Generate executive summary paragraph for decision.",
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "rationale",
-      "norm_label": "generate executive summary paragraph for decision.",
-      "source_file": "backend/app/modules/explainability/nlg_generator.py",
-      "source_location": "L16"
-    },
-    {
-      "id": "backend_app_modules_explainability_nlg_generator_rationale_64",
-      "label": "Synthesize detailed finding bullets categorized by analytical domain.",
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "rationale",
-      "norm_label": "synthesize detailed finding bullets categorized by analytical domain.",
-      "source_file": "backend/app/modules/explainability/nlg_generator.py",
-      "source_location": "L64"
     },
     {
       "id": "backend_app_modules_explainability_service_rationale_1",
@@ -20507,17 +20617,6 @@
       "source_location": "L23"
     },
     {
-      "id": "backend_app_schemas_explainability_rationale_35",
-      "label": "Structured human-readable finding bullet point.",
-      "_origin": "ast",
-      "community": 145,
-      "community_name": "explainability.py",
-      "file_type": "rationale",
-      "norm_label": "structured human-readable finding bullet point.",
-      "source_file": "backend/app/schemas/explainability.py",
-      "source_location": "L35"
-    },
-    {
       "id": "backend_app_schemas_explainability_rationale_48",
       "label": "Local SHAP feature attribution item explaining ML model decision.",
       "_origin": "ast",
@@ -20573,15 +20672,59 @@
       "source_location": "L93"
     },
     {
-      "id": "backend_tests_test_pdf_renderer_rationale_18",
-      "label": "Verify PDF compiles with header, banner, tables, images, and QR (TC-REP-02).",
+      "id": "backend_tests_test_coordinate_mapper_rationale_1",
+      "label": "Unit tests for CoordinateMapper (spatial scaling and clamping).",
       "_origin": "ast",
       "community": 145,
       "community_name": "explainability.py",
       "file_type": "rationale",
-      "norm_label": "verify pdf compiles with header, banner, tables, images, and qr (tc-rep-02).",
-      "source_file": "backend/tests/test_pdf_renderer.py",
-      "source_location": "L18"
+      "norm_label": "unit tests for coordinatemapper (spatial scaling and clamping).",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_rationale_10",
+      "label": "Verify box scaling from 512x512 to 1024x1024 raw canvas (TC-EXP-03).",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "verify box scaling from 512x512 to 1024x1024 raw canvas (tc-exp-03).",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L10"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_rationale_23",
+      "label": "Verify boundary clamping prevents coordinates exceeding canvas bounds.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "verify boundary clamping prevents coordinates exceeding canvas bounds.",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L23"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_rationale_33",
+      "label": "Verify normalized [0, 1] coordinates map to absolute pixels and back.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "verify normalized [0, 1] coordinates map to absolute pixels and back.",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L33"
+    },
+    {
+      "id": "backend_tests_test_coordinate_mapper_rationale_46",
+      "label": "Verify scaling array of keypoints.",
+      "_origin": "ast",
+      "community": 145,
+      "community_name": "explainability.py",
+      "file_type": "rationale",
+      "norm_label": "verify scaling array of keypoints.",
+      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "source_location": "L46"
     },
     {
       "id": "backend_tests_test_shap_explainer_rationale_1",
@@ -20637,6 +20780,94 @@
       "norm_label": "verify multi-layer visual evidence overlay generates valid image with legend...",
       "source_file": "backend/tests/test_unified_overlay.py",
       "source_location": "L18"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance",
+      "label": "feature_importance.py",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "code",
+      "norm_label": "feature_importance.py",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine",
+      "label": "inference_engine.py",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "code",
+      "norm_label": "inference_engine.py",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_init",
+      "label": "ml_classifier/__init__.py",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "code",
+      "norm_label": "ml_classifier/__init__.py",
+      "source_file": "backend/app/modules/ml_classifier/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_service",
+      "label": "ml_classifier/service.py",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "code",
+      "norm_label": "ml_classifier/service.py",
+      "source_file": "backend/app/modules/ml_classifier/service.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_1",
+      "label": "Feature importance analysis and local anomaly explanations for Phase 09.\u2026",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "rationale",
+      "norm_label": "feature importance analysis and local anomaly explanations for phase 09....",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_1",
+      "label": "Baseline ML inference engine for Phase 09. Provides fast, thread-safe model\u2026",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "rationale",
+      "norm_label": "baseline ml inference engine for phase 09. provides fast, thread-safe model...",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_init_rationale_1",
+      "label": "Phase 09: ML Baseline Classifier Module. Provides tabular feature extraction,\u2026",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "rationale",
+      "norm_label": "phase 09: ml baseline classifier module. provides tabular feature extraction,...",
+      "source_file": "backend/app/modules/ml_classifier/__init__.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_service_rationale_1",
+      "label": "Baseline ML Service for Phase 09. Orchestrates tabular feature extraction,\u2026",
+      "_origin": "ast",
+      "community": 146,
+      "community_name": "ml_classifier/service.py",
+      "file_type": "rationale",
+      "norm_label": "baseline ml service for phase 09. orchestrates tabular feature extraction,...",
+      "source_file": "backend/app/modules/ml_classifier/service.py",
+      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_template_matching_aligner",
@@ -22351,22 +22582,33 @@
       "source_location": "L1"
     },
     {
-      "id": "backend_app_modules_visual_model_embedding_extractor_py_device",
-      "label": "device",
+      "id": "backend_app_modules_visual_model_gradcam",
+      "label": "gradcam.py",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
-      "norm_label": "device",
-      "source_file": "",
-      "source_location": ""
+      "norm_label": "gradcam.py",
+      "source_file": "backend/app/modules/visual_model/gradcam.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_visual_model_init",
+      "label": "visual_model/__init__.py",
+      "_origin": "ast",
+      "community": 166,
+      "community_name": "visual_model/__init__.py",
+      "file_type": "code",
+      "norm_label": "visual_model/__init__.py",
+      "source_file": "backend/app/modules/visual_model/__init__.py",
+      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_visual_model_transforms",
       "label": "transforms.py",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "transforms.py",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -22377,7 +22619,7 @@
       "label": "ndarray",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "ndarray",
       "source_file": "",
@@ -22388,7 +22630,7 @@
       "label": "Tensor",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "tensor",
       "source_file": "",
@@ -22399,7 +22641,7 @@
       "label": "test_visual_transforms.py",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "test_visual_transforms.py",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -22410,18 +22652,40 @@
       "label": "Compose",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "code",
       "norm_label": "compose",
       "source_file": "",
       "source_location": ""
     },
     {
+      "id": "backend_app_modules_visual_model_gradcam_rationale_1",
+      "label": "Grad-CAM (Gradient-weighted Class Activation Mapping) for visual explainability.",
+      "_origin": "ast",
+      "community": 166,
+      "community_name": "visual_model/__init__.py",
+      "file_type": "rationale",
+      "norm_label": "grad-cam (gradient-weighted class activation mapping) for visual explainability.",
+      "source_file": "backend/app/modules/visual_model/gradcam.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_visual_model_init_rationale_1",
+      "label": "Deep learning visual tampering classification module.",
+      "_origin": "ast",
+      "community": 166,
+      "community_name": "visual_model/__init__.py",
+      "file_type": "rationale",
+      "norm_label": "deep learning visual tampering classification module.",
+      "source_file": "backend/app/modules/visual_model/__init__.py",
+      "source_location": "L1"
+    },
+    {
       "id": "backend_app_modules_visual_model_transforms_rationale_1",
       "label": "Image transformation and normalization pipelines for certificate visual\u2026",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "image transformation and normalization pipelines for certificate visual...",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -22432,7 +22696,7 @@
       "label": "Document-safe augmentation pipeline for training.",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "document-safe augmentation pipeline for training.",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -22443,7 +22707,7 @@
       "label": "Strictly deterministic transformation pipeline for validation and production\u2026",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "strictly deterministic transformation pipeline for validation and production...",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -22454,7 +22718,7 @@
       "label": "Convert normalized PyTorch tensor (3, H, W) back to uint8 RGB numpy array (H,\u2026",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "convert normalized pytorch tensor (3, h, w) back to uint8 rgb numpy array (h,...",
       "source_file": "backend/app/modules/visual_model/transforms.py",
@@ -22465,7 +22729,7 @@
       "label": "Unit tests for visual transformation and normalization pipelines.",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "unit tests for visual transformation and normalization pipelines.",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -22476,7 +22740,7 @@
       "label": "Verify training transforms produce normalized (3, 512, 512) tensor.",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "verify training transforms produce normalized (3, 512, 512) tensor.",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -22487,7 +22751,7 @@
       "label": "Verify deterministic inference transforms produce correct tensor shape and\u2026",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "verify deterministic inference transforms produce correct tensor shape and...",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -22498,7 +22762,7 @@
       "label": "Verify denormalization returns uint8 numpy image in [0, 255].",
       "_origin": "ast",
       "community": 166,
-      "community_name": "get_inference_transforms",
+      "community_name": "visual_model/__init__.py",
       "file_type": "rationale",
       "norm_label": "verify denormalization returns uint8 numpy image in [0, 255].",
       "source_file": "backend/tests/test_visual_transforms.py",
@@ -22615,6 +22879,17 @@
       "source_location": ""
     },
     {
+      "id": "backend_app_modules_score_fusion_meta_classifier",
+      "label": "meta_classifier.py",
+      "_origin": "ast",
+      "community": 169,
+      "community_name": "MultimodalFusionMLP",
+      "file_type": "code",
+      "norm_label": "meta_classifier.py",
+      "source_file": "backend/app/modules/score_fusion/meta_classifier.py",
+      "source_location": "L1"
+    },
+    {
       "id": "backend_app_modules_score_fusion_service_py_path",
       "label": "Path",
       "_origin": "ast",
@@ -22634,6 +22909,17 @@
       "file_type": "code",
       "norm_label": "test_early_fusion.py",
       "source_file": "backend/tests/test_early_fusion.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "ml_evaluation_benchmark_runner",
+      "label": "benchmark_runner.py",
+      "_origin": "ast",
+      "community": 169,
+      "community_name": "MultimodalFusionMLP",
+      "file_type": "code",
+      "norm_label": "benchmark_runner.py",
+      "source_file": "ml/evaluation/benchmark_runner.py",
       "source_location": "L1"
     },
     {
@@ -22780,6 +23066,17 @@
       "source_location": "L80"
     },
     {
+      "id": "backend_app_modules_score_fusion_meta_classifier_rationale_1",
+      "label": "Stacking Meta-Classifier for multimodal probability blending.",
+      "_origin": "ast",
+      "community": 169,
+      "community_name": "MultimodalFusionMLP",
+      "file_type": "rationale",
+      "norm_label": "stacking meta-classifier for multimodal probability blending.",
+      "source_file": "backend/app/modules/score_fusion/meta_classifier.py",
+      "source_location": "L1"
+    },
+    {
       "id": "backend_tests_test_early_fusion_rationale_1",
       "label": "Unit tests for Early Fusion feature concatenation and Multimodal MLP.",
       "_origin": "ast",
@@ -22833,6 +23130,17 @@
       "norm_label": "verify multimodalfusionmlp forward pass and probability prediction.",
       "source_file": "backend/tests/test_early_fusion.py",
       "source_location": "L42"
+    },
+    {
+      "id": "ml_evaluation_benchmark_runner_rationale_1",
+      "label": "Test Split Benchmark Runner (CHIP TST-03). Executes the verification pipeline\u2026",
+      "_origin": "ast",
+      "community": 169,
+      "community_name": "MultimodalFusionMLP",
+      "file_type": "rationale",
+      "norm_label": "test split benchmark runner (chip tst-03). executes the verification pipeline...",
+      "source_file": "ml/evaluation/benchmark_runner.py",
+      "source_location": "L1"
     },
     {
       "id": "ml_scripts_evaluate_multimodal_rationale_1",
@@ -23253,11 +23561,33 @@
       "source_location": "L88"
     },
     {
+      "id": "backend_app_modules_visual_model_embedding_extractor",
+      "label": "embedding_extractor.py",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "embedding_extractor.py",
+      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_visual_model_embedding_extractor_py_device",
+      "label": "device",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "device",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "backend_app_modules_visual_model_embedding_extractor_py_image",
       "label": "Image",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": "image",
       "source_file": "",
@@ -23268,7 +23598,7 @@
       "label": "ndarray",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": "ndarray",
       "source_file": "",
@@ -23279,7 +23609,7 @@
       "label": "Path",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
@@ -23290,18 +23620,62 @@
       "label": "Tensor",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "code",
       "norm_label": "tensor",
       "source_file": "",
       "source_location": ""
     },
     {
+      "id": "backend_app_modules_visual_model_network",
+      "label": "network.py",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "network.py",
+      "source_file": "backend/app/modules/visual_model/network.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_tests_test_embedding_extractor",
+      "label": "test_embedding_extractor.py",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "code",
+      "norm_label": "test_embedding_extractor.py",
+      "source_file": "backend/tests/test_embedding_extractor.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_visual_model_embedding_extractor_rationale_1",
+      "label": "Visual feature embedding extractor for multimodal fusion.",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "rationale",
+      "norm_label": "visual feature embedding extractor for multimodal fusion.",
+      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_modules_visual_model_embedding_extractor_rationale_18",
+      "label": "Extracts 512-dimensional L2-normalized visual feature embeddings from\u2026",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "rationale",
+      "norm_label": "extracts 512-dimensional l2-normalized visual feature embeddings from...",
+      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
+      "source_location": "L18"
+    },
+    {
       "id": "backend_app_modules_visual_model_embedding_extractor_rationale_29",
       "label": "Extract normalized 512D embedding from tensor of shape (1, 3, H, W) or (3, H,\u2026",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "rationale",
       "norm_label": "extract normalized 512d embedding from tensor of shape (1, 3, h, w) or (3, h,...",
       "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
@@ -23312,7 +23686,7 @@
       "label": "Extract normalized 512D embedding from PIL Image.",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "rationale",
       "norm_label": "extract normalized 512d embedding from pil image.",
       "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
@@ -23323,11 +23697,55 @@
       "label": "Extract normalized 512D embedding directly from image file path.",
       "_origin": "ast",
       "community": 172,
-      "community_name": ".extract_from_pil",
+      "community_name": "VisualEmbeddingExtractor",
       "file_type": "rationale",
       "norm_label": "extract normalized 512d embedding directly from image file path.",
       "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
       "source_location": "L47"
+    },
+    {
+      "id": "backend_app_modules_visual_model_network_rationale_1",
+      "label": "Neural network architecture for certificate visual tampering detection.",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "rationale",
+      "norm_label": "neural network architecture for certificate visual tampering detection.",
+      "source_file": "backend/app/modules/visual_model/network.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_tests_test_embedding_extractor_rationale_1",
+      "label": "Unit tests for VisualEmbeddingExtractor (512D normalized visual vectors).",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "rationale",
+      "norm_label": "unit tests for visualembeddingextractor (512d normalized visual vectors).",
+      "source_file": "backend/tests/test_embedding_extractor.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_tests_test_embedding_extractor_rationale_12",
+      "label": "Verify extracted embedding is 512-dim with L2 norm equal to 1.0 (TC-DL-03).",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "rationale",
+      "norm_label": "verify extracted embedding is 512-dim with l2 norm equal to 1.0 (tc-dl-03).",
+      "source_file": "backend/tests/test_embedding_extractor.py",
+      "source_location": "L12"
+    },
+    {
+      "id": "backend_tests_test_embedding_extractor_rationale_31",
+      "label": "Verify extraction directly from PIL Image.",
+      "_origin": "ast",
+      "community": 172,
+      "community_name": "VisualEmbeddingExtractor",
+      "file_type": "rationale",
+      "norm_label": "verify extraction directly from pil image.",
+      "source_file": "backend/tests/test_embedding_extractor.py",
+      "source_location": "L31"
     },
     {
       "id": "backend_app_services_init",
@@ -23356,9 +23774,31 @@
       "label": "ndarray",
       "_origin": "ast",
       "community": 175,
-      "community_name": ".predict_batch",
+      "community_name": "BaselineInferenceEngine",
       "file_type": "code",
       "norm_label": "ndarray",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_service_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "code",
+      "norm_label": "path",
       "source_file": "",
       "source_location": ""
     },
@@ -23367,22 +23807,66 @@
       "label": "Perform batch inference on an (N, 22) array of features.",
       "_origin": "ast",
       "community": 175,
-      "community_name": ".predict_batch",
+      "community_name": "BaselineInferenceEngine",
       "file_type": "rationale",
       "norm_label": "perform batch inference on an (n, 22) array of features.",
       "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
       "source_location": "L131"
     },
     {
+      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_24",
+      "label": "Low-latency inference engine wrapping trained scikit-learn models and\u2026",
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "rationale",
+      "norm_label": "low-latency inference engine wrapping trained scikit-learn models and...",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L24"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_49",
+      "label": "Load serialized model and feature scaler from disk if available.",
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "rationale",
+      "norm_label": "load serialized model and feature scaler from disk if available.",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L49"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_68",
+      "label": "Check if model artifact is successfully loaded and ready for inference.",
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "rationale",
+      "norm_label": "check if model artifact is successfully loaded and ready for inference.",
+      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
+      "source_location": "L68"
+    },
+    {
       "id": "backend_app_modules_ml_classifier_inference_engine_rationale_75",
       "label": "Perform inference on a single 22-dimensional feature vector. Returns: tuple of\u2026",
       "_origin": "ast",
       "community": 175,
-      "community_name": ".predict_batch",
+      "community_name": "BaselineInferenceEngine",
       "file_type": "rationale",
       "norm_label": "perform inference on a single 22-dimensional feature vector. returns: tuple of...",
       "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
       "source_location": "L75"
+    },
+    {
+      "id": "backend_tests_test_baseline_inference_rationale_76",
+      "label": "Verify graceful fallback heuristic when model artifact cannot be found.",
+      "_origin": "ast",
+      "community": 175,
+      "community_name": "BaselineInferenceEngine",
+      "file_type": "rationale",
+      "norm_label": "verify graceful fallback heuristic when model artifact cannot be found.",
+      "source_file": "backend/tests/test_baseline_inference.py",
+      "source_location": "L76"
     },
     {
       "id": "backend_tests_init",
@@ -23438,28 +23922,6 @@
       "norm_label": "base",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "backend_app_modules_visual_model_embedding_extractor",
-      "label": "embedding_extractor.py",
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "code",
-      "norm_label": "embedding_extractor.py",
-      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_visual_model_init",
-      "label": "visual_model/__init__.py",
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "code",
-      "norm_label": "visual_model/__init__.py",
-      "source_file": "backend/app/modules/visual_model/__init__.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_visual_model_service",
@@ -23592,39 +24054,6 @@
       "norm_label": "sqlalchemy model for persisting machine learning manipulation predictions.",
       "source_file": "backend/app/models/ml_prediction.py",
       "source_location": "L12"
-    },
-    {
-      "id": "backend_app_modules_visual_model_embedding_extractor_rationale_1",
-      "label": "Visual feature embedding extractor for multimodal fusion.",
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "rationale",
-      "norm_label": "visual feature embedding extractor for multimodal fusion.",
-      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_visual_model_embedding_extractor_rationale_18",
-      "label": "Extracts 512-dimensional L2-normalized visual feature embeddings from\u2026",
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "rationale",
-      "norm_label": "extracts 512-dimensional l2-normalized visual feature embeddings from...",
-      "source_file": "backend/app/modules/visual_model/embedding_extractor.py",
-      "source_location": "L18"
-    },
-    {
-      "id": "backend_app_modules_visual_model_init_rationale_1",
-      "label": "Deep learning visual tampering classification module.",
-      "_origin": "ast",
-      "community": 179,
-      "community_name": "MLInferenceOutput",
-      "file_type": "rationale",
-      "norm_label": "deep learning visual tampering classification module.",
-      "source_file": "backend/app/modules/visual_model/__init__.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_visual_model_service_rationale_1",
@@ -24082,7 +24511,7 @@
       "label": "Any",
       "_origin": "ast",
       "community": 180,
-      "community_name": ".classify_certificate",
+      "community_name": "BaselineMLService",
       "file_type": "code",
       "norm_label": "any",
       "source_file": "",
@@ -24093,9 +24522,20 @@
       "label": "Session",
       "_origin": "ast",
       "community": 180,
-      "community_name": ".classify_certificate",
+      "community_name": "BaselineMLService",
       "file_type": "code",
       "norm_label": "session",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_schemas_ml_prediction_py_basemodel",
+      "label": "BaseModel",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "BaselineMLService",
+      "file_type": "code",
+      "norm_label": "basemodel",
       "source_file": "",
       "source_location": ""
     },
@@ -24104,22 +24544,44 @@
       "label": "Convenience method returning canonical SPEC-02 pipeline contract schema.",
       "_origin": "ast",
       "community": 180,
-      "community_name": ".classify_certificate",
+      "community_name": "BaselineMLService",
       "file_type": "rationale",
       "norm_label": "convenience method returning canonical spec-02 pipeline contract schema.",
       "source_file": "backend/app/modules/ml_classifier/service.py",
       "source_location": "L135"
     },
     {
+      "id": "backend_app_modules_ml_classifier_service_rationale_33",
+      "label": "End-to-end service for Phase 09 ML baseline classification.",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "BaselineMLService",
+      "file_type": "rationale",
+      "norm_label": "end-to-end service for phase 09 ml baseline classification.",
+      "source_file": "backend/app/modules/ml_classifier/service.py",
+      "source_location": "L33"
+    },
+    {
       "id": "backend_app_modules_ml_classifier_service_rationale_62",
       "label": "Extract features, run inference, calculate local contributions, and return full\u2026",
       "_origin": "ast",
       "community": 180,
-      "community_name": ".classify_certificate",
+      "community_name": "BaselineMLService",
       "file_type": "rationale",
       "norm_label": "extract features, run inference, calculate local contributions, and return full...",
       "source_file": "backend/app/modules/ml_classifier/service.py",
       "source_location": "L62"
+    },
+    {
+      "id": "backend_app_schemas_ml_prediction_rationale_97",
+      "label": "Ranked feature contribution item for explainability.",
+      "_origin": "ast",
+      "community": 180,
+      "community_name": "BaselineMLService",
+      "file_type": "rationale",
+      "norm_label": "ranked feature contribution item for explainability.",
+      "source_file": "backend/app/schemas/ml_prediction.py",
+      "source_location": "L97"
     },
     {
       "id": "backend_app_api_v1_endpoints_templates",
@@ -24461,6 +24923,50 @@
       "norm_label": "end-to-end: registered template + authentic database record -> tier 1 verified.",
       "source_file": "backend/tests/test_template_service.py",
       "source_location": "L40"
+    },
+    {
+      "id": "scripts_generate_secrets",
+      "label": "generate_secrets.py",
+      "_origin": "ast",
+      "community": 182,
+      "community_name": "generate_secrets.py",
+      "file_type": "code",
+      "norm_label": "generate_secrets.py",
+      "source_file": "scripts/generate_secrets.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "scripts_generate_secrets_rationale_16",
+      "label": "Generate cryptographically secure random keys using secrets module.",
+      "_origin": "ast",
+      "community": 182,
+      "community_name": "generate_secrets.py",
+      "file_type": "rationale",
+      "norm_label": "generate cryptographically secure random keys using secrets module.",
+      "source_file": "scripts/generate_secrets.py",
+      "source_location": "L16"
+    },
+    {
+      "id": "scripts_generate_secrets_rationale_2",
+      "label": "Cryptographic Secrets Generator for Production Deployment (CHIP DEP-05).\u2026",
+      "_origin": "ast",
+      "community": 182,
+      "community_name": "generate_secrets.py",
+      "file_type": "rationale",
+      "norm_label": "cryptographic secrets generator for production deployment (chip dep-05)....",
+      "source_file": "scripts/generate_secrets.py",
+      "source_location": "L2"
+    },
+    {
+      "id": "scripts_generate_secrets_rationale_29",
+      "label": "Print generated secrets to stdout in dotenv format.",
+      "_origin": "ast",
+      "community": 182,
+      "community_name": "generate_secrets.py",
+      "file_type": "rationale",
+      "norm_label": "print generated secrets to stdout in dotenv format.",
+      "source_file": "scripts/generate_secrets.py",
+      "source_location": "L29"
     },
     {
       "id": "backend_app_api_v1_endpoints_health",
@@ -24837,6 +25343,83 @@
       "source_location": "L23"
     },
     {
+      "id": "backend_app_modules_ml_classifier_feature_importance_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 187,
+      "community_name": ".plot_feature_importance",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_163",
+      "label": "Render horizontal bar chart of top N feature importances.",
+      "_origin": "ast",
+      "community": 187,
+      "community_name": ".plot_feature_importance",
+      "file_type": "rationale",
+      "norm_label": "render horizontal bar chart of top n feature importances.",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L163"
+    },
+    {
+      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_221",
+      "label": "Generate and save feature importance chart.",
+      "_origin": "ast",
+      "community": 187,
+      "community_name": ".plot_feature_importance",
+      "file_type": "rationale",
+      "norm_label": "generate and save feature importance chart.",
+      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
+      "source_location": "L221"
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports",
+      "label": "reports.py",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "reports.py",
+      "source_file": "backend/app/api/v1/endpoints/reports.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_py_get",
+      "label": "get",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "get",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_py_jsonresponse",
+      "label": "JSONResponse",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "jsonresponse",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_py_session",
+      "label": "Session",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "code",
+      "norm_label": "session",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "backend_app_modules_report_generator_assembler",
       "label": "assembler.py",
       "_origin": "ast",
@@ -25068,26 +25651,15 @@
       "source_location": ""
     },
     {
-      "id": "backend_tests_test_qr_generator",
-      "label": "test_qr_generator.py",
+      "id": "backend_tests_test_report_api",
+      "label": "test_report_api.py",
       "_origin": "ast",
       "community": 188,
       "community_name": "FullVerificationReport",
       "file_type": "code",
-      "norm_label": "test_qr_generator.py",
-      "source_file": "backend/tests/test_qr_generator.py",
+      "norm_label": "test_report_api.py",
+      "source_file": "backend/tests/test_report_api.py",
       "source_location": "L1"
-    },
-    {
-      "id": "backend_tests_test_qr_generator_py_path",
-      "label": "Path",
-      "_origin": "ast",
-      "community": 188,
-      "community_name": "FullVerificationReport",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "",
-      "source_location": ""
     },
     {
       "id": "backend_tests_test_report_assembler",
@@ -25112,15 +25684,26 @@
       "source_location": "L1"
     },
     {
-      "id": "verificationreportdto",
-      "label": "VerificationReportDTO",
+      "id": "fileresponse",
+      "label": "FileResponse",
       "_origin": "ast",
       "community": 188,
       "community_name": "FullVerificationReport",
       "file_type": "code",
-      "norm_label": "verificationreportdto",
+      "norm_label": "fileresponse",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "backend_app_api_v1_endpoints_reports_rationale_1",
+      "label": "FastAPI router for verification report retrieval, verification, and PDF/JSON\u2026",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "rationale",
+      "norm_label": "fastapi router for verification report retrieval, verification, and pdf/json...",
+      "source_file": "backend/app/api/v1/endpoints/reports.py",
+      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_report_generator_assembler_rationale_1",
@@ -25209,6 +25792,17 @@
       "norm_label": "compiles fullverificationreport into a publication-grade multi-page pdf.",
       "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
       "source_location": "L65"
+    },
+    {
+      "id": "backend_app_modules_report_generator_pdf_renderer_rationale_69",
+      "label": "Build and save PDF report to destination path. Args: report_data: Comprehensive\u2026",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "rationale",
+      "norm_label": "build and save pdf report to destination path. args: report_data: comprehensive...",
+      "source_file": "backend/app/modules/report_generator/pdf_renderer.py",
+      "source_location": "L69"
     },
     {
       "id": "backend_app_modules_report_generator_qr_generator_rationale_1",
@@ -25343,6 +25937,17 @@
       "source_location": "L43"
     },
     {
+      "id": "backend_app_schemas_explainability_rationale_35",
+      "label": "Structured human-readable finding bullet point.",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "rationale",
+      "norm_label": "structured human-readable finding bullet point.",
+      "source_file": "backend/app/schemas/explainability.py",
+      "source_location": "L35"
+    },
+    {
       "id": "backend_app_schemas_report_rationale_1",
       "label": "Pydantic V2 schemas for verification reports, archival models, and report\u2026",
       "_origin": "ast",
@@ -25352,17 +25957,6 @@
       "norm_label": "pydantic v2 schemas for verification reports, archival models, and report...",
       "source_file": "backend/app/schemas/report.py",
       "source_location": "L1"
-    },
-    {
-      "id": "backend_app_schemas_report_rationale_133",
-      "label": "Export to SPEC-02 canonical VerificationReportDTO.",
-      "_origin": "ast",
-      "community": 188,
-      "community_name": "FullVerificationReport",
-      "file_type": "rationale",
-      "norm_label": "export to spec-02 canonical verificationreportdto.",
-      "source_file": "backend/app/schemas/report.py",
-      "source_location": "L133"
     },
     {
       "id": "backend_app_schemas_report_rationale_18",
@@ -25442,6 +26036,17 @@
       "source_location": "L1"
     },
     {
+      "id": "backend_tests_test_pdf_renderer_rationale_18",
+      "label": "Verify PDF compiles with header, banner, tables, images, and QR (TC-REP-02).",
+      "_origin": "ast",
+      "community": 188,
+      "community_name": "FullVerificationReport",
+      "file_type": "rationale",
+      "norm_label": "verify pdf compiles with header, banner, tables, images, and qr (tc-rep-02).",
+      "source_file": "backend/tests/test_pdf_renderer.py",
+      "source_location": "L18"
+    },
+    {
       "id": "backend_tests_test_pdf_renderer_rationale_83",
       "label": "Verify PDF renderer succeeds even when evidence plates are absent.",
       "_origin": "ast",
@@ -25453,26 +26058,15 @@
       "source_location": "L83"
     },
     {
-      "id": "backend_tests_test_qr_generator_rationale_1",
-      "label": "Unit tests for report QR code generator (TC-REP-03).",
+      "id": "backend_tests_test_report_api_rationale_1",
+      "label": "Integration tests for verification report FastAPI endpoints (TC-REP-05).",
       "_origin": "ast",
       "community": 188,
       "community_name": "FullVerificationReport",
       "file_type": "rationale",
-      "norm_label": "unit tests for report qr code generator (tc-rep-03).",
-      "source_file": "backend/tests/test_qr_generator.py",
+      "norm_label": "integration tests for verification report fastapi endpoints (tc-rep-05).",
+      "source_file": "backend/tests/test_report_api.py",
       "source_location": "L1"
-    },
-    {
-      "id": "backend_tests_test_qr_generator_rationale_11",
-      "label": "Verify QR generator writes valid PNG and decodes to verification URL (TC-\u2026",
-      "_origin": "ast",
-      "community": 188,
-      "community_name": "FullVerificationReport",
-      "file_type": "rationale",
-      "norm_label": "verify qr generator writes valid png and decodes to verification url (tc-...",
-      "source_file": "backend/tests/test_qr_generator.py",
-      "source_location": "L11"
     },
     {
       "id": "backend_tests_test_report_assembler_rationale_1",
@@ -25574,17 +26168,6 @@
       "source_location": "L1"
     },
     {
-      "id": "backend_tests_test_report_api",
-      "label": "test_report_api.py",
-      "_origin": "ast",
-      "community": 189,
-      "community_name": "ScoreFusionService",
-      "file_type": "code",
-      "norm_label": "test_report_api.py",
-      "source_file": "backend/tests/test_report_api.py",
-      "source_location": "L1"
-    },
-    {
       "id": "backend_tests_test_report_api_py_session",
       "label": "Session",
       "_origin": "ast",
@@ -25682,17 +26265,6 @@
       "norm_label": "cli utility to generate explainability reports and visual evidence dossiers.",
       "source_file": "backend/scripts/run_explainability.py",
       "source_location": "L2"
-    },
-    {
-      "id": "backend_tests_test_report_api_rationale_1",
-      "label": "Integration tests for verification report FastAPI endpoints (TC-REP-05).",
-      "_origin": "ast",
-      "community": 189,
-      "community_name": "ScoreFusionService",
-      "file_type": "rationale",
-      "norm_label": "integration tests for verification report fastapi endpoints (tc-rep-05).",
-      "source_file": "backend/tests/test_report_api.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_tests_test_report_api_rationale_12",
@@ -25926,26 +26498,81 @@
       "source_location": "L85"
     },
     {
-      "id": "backend_app_modules_explainability_shap_explainer_py_any",
-      "label": "Any",
+      "id": "backend_tests_test_qr_generator",
+      "label": "test_qr_generator.py",
       "_origin": "ast",
-      "community": 191,
-      "community_name": ".__init__",
+      "community": 190,
+      "community_name": "test_qr_generator.py",
       "file_type": "code",
-      "norm_label": "any",
-      "source_file": "",
-      "source_location": ""
+      "norm_label": "test_qr_generator.py",
+      "source_file": "backend/tests/test_qr_generator.py",
+      "source_location": "L1"
     },
     {
-      "id": "backend_app_modules_explainability_shap_explainer_py_path",
+      "id": "backend_tests_test_qr_generator_py_path",
       "label": "Path",
       "_origin": "ast",
-      "community": 191,
-      "community_name": ".__init__",
+      "community": 190,
+      "community_name": "test_qr_generator.py",
       "file_type": "code",
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
+    },
+    {
+      "id": "backend_tests_test_qr_generator_rationale_1",
+      "label": "Unit tests for report QR code generator (TC-REP-03).",
+      "_origin": "ast",
+      "community": 190,
+      "community_name": "test_qr_generator.py",
+      "file_type": "rationale",
+      "norm_label": "unit tests for report qr code generator (tc-rep-03).",
+      "source_file": "backend/tests/test_qr_generator.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "backend_tests_test_qr_generator_rationale_11",
+      "label": "Verify QR generator writes valid PNG and decodes to verification URL (TC-\u2026",
+      "_origin": "ast",
+      "community": 190,
+      "community_name": "test_qr_generator.py",
+      "file_type": "rationale",
+      "norm_label": "verify qr generator writes valid png and decodes to verification url (tc-...",
+      "source_file": "backend/tests/test_qr_generator.py",
+      "source_location": "L11"
+    },
+    {
+      "id": "ml_scripts_export_visual_model",
+      "label": "export_visual_model.py",
+      "_origin": "ast",
+      "community": 191,
+      "community_name": "export_visual_model.py",
+      "file_type": "code",
+      "norm_label": "export_visual_model.py",
+      "source_file": "ml/scripts/export_visual_model.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "ml_scripts_export_visual_model_rationale_1",
+      "label": "Export and optimize Certificate Visual CNN for production deployment.",
+      "_origin": "ast",
+      "community": 191,
+      "community_name": "export_visual_model.py",
+      "file_type": "rationale",
+      "norm_label": "export and optimize certificate visual cnn for production deployment.",
+      "source_file": "ml/scripts/export_visual_model.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "ml_scripts_export_visual_model_rationale_35",
+      "label": "Export TorchScript model, quantized model, and benchmark CPU latency.",
+      "_origin": "ast",
+      "community": 191,
+      "community_name": "export_visual_model.py",
+      "file_type": "rationale",
+      "norm_label": "export torchscript model, quantized model, and benchmark cpu latency.",
+      "source_file": "ml/scripts/export_visual_model.py",
+      "source_location": "L35"
     },
     {
       "id": "backend_app_schemas_ml_prediction_py_mlinferenceoutput",
@@ -28949,6 +29576,17 @@
       "source_location": "L13"
     },
     {
+      "id": "backend_app_modules_explainability_nlg_generator_py_any",
+      "label": "Any",
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "code",
+      "norm_label": "any",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
       "id": "backend_app_modules_score_fusion_init",
       "label": "score_fusion/__init__.py",
       "_origin": "ast",
@@ -28957,28 +29595,6 @@
       "file_type": "code",
       "norm_label": "score_fusion/__init__.py",
       "source_file": "backend/app/modules/score_fusion/__init__.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_score_fusion_late_fusion",
-      "label": "late_fusion.py",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "code",
-      "norm_label": "late_fusion.py",
-      "source_file": "backend/app/modules/score_fusion/late_fusion.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_score_fusion_meta_classifier",
-      "label": "meta_classifier.py",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "code",
-      "norm_label": "meta_classifier.py",
-      "source_file": "backend/app/modules/score_fusion/meta_classifier.py",
       "source_location": "L1"
     },
     {
@@ -29013,17 +29629,6 @@
       "norm_label": "decision.py",
       "source_file": "backend/app/schemas/decision.py",
       "source_location": "L1"
-    },
-    {
-      "id": "backend_app_schemas_decision_py_basemodel",
-      "label": "BaseModel",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "code",
-      "norm_label": "basemodel",
-      "source_file": "",
-      "source_location": ""
     },
     {
       "id": "backend_app_schemas_decision_py_enum",
@@ -29125,15 +29730,48 @@
       "source_location": "L1"
     },
     {
-      "id": "ml_evaluation_benchmark_runner",
-      "label": "benchmark_runner.py",
+      "id": "findingbullet",
+      "label": "FindingBullet",
       "_origin": "ast",
       "community": 227,
       "community_name": "VerificationVerdict",
       "file_type": "code",
-      "norm_label": "benchmark_runner.py",
-      "source_file": "ml/evaluation/benchmark_runner.py",
-      "source_location": "L1"
+      "norm_label": "findingbullet",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "backend_app_modules_explainability_nlg_generator_rationale_12",
+      "label": "Synthesizes raw analytical findings and scores into structured natural language\u2026",
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "rationale",
+      "norm_label": "synthesizes raw analytical findings and scores into structured natural language...",
+      "source_file": "backend/app/modules/explainability/nlg_generator.py",
+      "source_location": "L12"
+    },
+    {
+      "id": "backend_app_modules_explainability_nlg_generator_rationale_16",
+      "label": "Generate executive summary paragraph for decision.",
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "rationale",
+      "norm_label": "generate executive summary paragraph for decision.",
+      "source_file": "backend/app/modules/explainability/nlg_generator.py",
+      "source_location": "L16"
+    },
+    {
+      "id": "backend_app_modules_explainability_nlg_generator_rationale_64",
+      "label": "Synthesize detailed finding bullets categorized by analytical domain.",
+      "_origin": "ast",
+      "community": 227,
+      "community_name": "VerificationVerdict",
+      "file_type": "rationale",
+      "norm_label": "synthesize detailed finding bullets categorized by analytical domain.",
+      "source_file": "backend/app/modules/explainability/nlg_generator.py",
+      "source_location": "L64"
     },
     {
       "id": "backend_app_modules_score_fusion_init_rationale_1",
@@ -29144,28 +29782,6 @@
       "file_type": "rationale",
       "norm_label": "multimodal score fusion and decision subsystem.",
       "source_file": "backend/app/modules/score_fusion/__init__.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_score_fusion_late_fusion_rationale_1",
-      "label": "Weighted late fusion engine blending branch probabilities and sub-scores.",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "rationale",
-      "norm_label": "weighted late fusion engine blending branch probabilities and sub-scores.",
-      "source_file": "backend/app/modules/score_fusion/late_fusion.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_score_fusion_meta_classifier_rationale_1",
-      "label": "Stacking Meta-Classifier for multimodal probability blending.",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "rationale",
-      "norm_label": "stacking meta-classifier for multimodal probability blending.",
-      "source_file": "backend/app/modules/score_fusion/meta_classifier.py",
       "source_location": "L1"
     },
     {
@@ -29233,17 +29849,6 @@
       "norm_label": "categorical verdict for certificate authenticity assessment.",
       "source_file": "backend/app/schemas/decision.py",
       "source_location": "L15"
-    },
-    {
-      "id": "backend_app_schemas_decision_rationale_23",
-      "label": "Normalized sub-scores across analytical branches [0.0 = Fake, 1.0 = Genuine].",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "rationale",
-      "norm_label": "normalized sub-scores across analytical branches [0.0 = fake, 1.0 = genuine].",
-      "source_file": "backend/app/schemas/decision.py",
-      "source_location": "L23"
     },
     {
       "id": "backend_app_schemas_decision_rationale_33",
@@ -29420,17 +30025,6 @@
       "norm_label": "verify score >= 0.85 maps to authentic and low risk (tc-fus-04).",
       "source_file": "backend/tests/test_verdict_engine.py",
       "source_location": "L9"
-    },
-    {
-      "id": "ml_evaluation_benchmark_runner_rationale_1",
-      "label": "Test Split Benchmark Runner (CHIP TST-03). Executes the verification pipeline\u2026",
-      "_origin": "ast",
-      "community": 227,
-      "community_name": "VerificationVerdict",
-      "file_type": "rationale",
-      "norm_label": "test split benchmark runner (chip tst-03). executes the verification pipeline...",
-      "source_file": "ml/evaluation/benchmark_runner.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_forensics_copy_move_detector",
@@ -31808,121 +32402,11 @@
       "source_location": "L10"
     },
     {
-      "id": "backend_app_modules_ml_classifier_feature_importance",
-      "label": "feature_importance.py",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "feature_importance.py",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_py_any",
-      "label": "Any",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "any",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_py_ndarray",
-      "label": "ndarray",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "ndarray",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_py_path",
-      "label": "Path",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine",
-      "label": "inference_engine.py",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "inference_engine.py",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_py_path",
-      "label": "Path",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_init",
-      "label": "ml_classifier/__init__.py",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "ml_classifier/__init__.py",
-      "source_file": "backend/app/modules/ml_classifier/__init__.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_service",
-      "label": "ml_classifier/service.py",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "ml_classifier/service.py",
-      "source_file": "backend/app/modules/ml_classifier/service.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_service_py_path",
-      "label": "Path",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_schemas_ml_prediction_py_basemodel",
-      "label": "BaseModel",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "code",
-      "norm_label": "basemodel",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "backend_tests_test_feature_importance",
       "label": "test_feature_importance.py",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "test_feature_importance.py",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -31933,194 +32417,29 @@
       "label": "fixture",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "code",
       "norm_label": "fixture",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_1",
-      "label": "Feature importance analysis and local anomaly explanations for Phase 09.\u2026",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "feature importance analysis and local anomaly explanations for phase 09....",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_163",
-      "label": "Render horizontal bar chart of top N feature importances.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "render horizontal bar chart of top n feature importances.",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L163"
-    },
-    {
       "id": "backend_app_modules_ml_classifier_feature_importance_rationale_198",
       "label": "Analyzer class wrapping global and local importance routines.",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "rationale",
       "norm_label": "analyzer class wrapping global and local importance routines.",
       "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
       "source_location": "L198"
     },
     {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_204",
-      "label": "Return top_k global feature importance dictionaries.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "return top_k global feature importance dictionaries.",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L204"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_213",
-      "label": "Calculate local feature contribution scores for a single certificate.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "calculate local feature contribution scores for a single certificate.",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L213"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_221",
-      "label": "Generate and save feature importance chart.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "generate and save feature importance chart.",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L221"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_51",
-      "label": "Extract global Gini or coefficient feature importances and rank them descending.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "extract global gini or coefficient feature importances and rank them descending.",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L51"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_feature_importance_rationale_87",
-      "label": "Calculate local feature contribution weights explaining why certificate was\u2026",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "calculate local feature contribution weights explaining why certificate was...",
-      "source_file": "backend/app/modules/ml_classifier/feature_importance.py",
-      "source_location": "L87"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_1",
-      "label": "Baseline ML inference engine for Phase 09. Provides fast, thread-safe model\u2026",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "baseline ml inference engine for phase 09. provides fast, thread-safe model...",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_24",
-      "label": "Low-latency inference engine wrapping trained scikit-learn models and\u2026",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "low-latency inference engine wrapping trained scikit-learn models and...",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L24"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_49",
-      "label": "Load serialized model and feature scaler from disk if available.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "load serialized model and feature scaler from disk if available.",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L49"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_inference_engine_rationale_68",
-      "label": "Check if model artifact is successfully loaded and ready for inference.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "check if model artifact is successfully loaded and ready for inference.",
-      "source_file": "backend/app/modules/ml_classifier/inference_engine.py",
-      "source_location": "L68"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_init_rationale_1",
-      "label": "Phase 09: ML Baseline Classifier Module. Provides tabular feature extraction,\u2026",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "phase 09: ml baseline classifier module. provides tabular feature extraction,...",
-      "source_file": "backend/app/modules/ml_classifier/__init__.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_service_rationale_1",
-      "label": "Baseline ML Service for Phase 09. Orchestrates tabular feature extraction,\u2026",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "baseline ml service for phase 09. orchestrates tabular feature extraction,...",
-      "source_file": "backend/app/modules/ml_classifier/service.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_ml_classifier_service_rationale_33",
-      "label": "End-to-end service for Phase 09 ML baseline classification.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "end-to-end service for phase 09 ml baseline classification.",
-      "source_file": "backend/app/modules/ml_classifier/service.py",
-      "source_location": "L33"
-    },
-    {
-      "id": "backend_app_schemas_ml_prediction_rationale_97",
-      "label": "Ranked feature contribution item for explainability.",
-      "_origin": "ast",
-      "community": 33,
-      "community_name": "BaselineMLService",
-      "file_type": "rationale",
-      "norm_label": "ranked feature contribution item for explainability.",
-      "source_file": "backend/app/schemas/ml_prediction.py",
-      "source_location": "L97"
-    },
-    {
       "id": "backend_tests_test_feature_importance_rationale_1",
       "label": "Unit tests for feature importance analysis (Phase 09 - TC-MOD-03). Tests Gini\u2026",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "rationale",
       "norm_label": "unit tests for feature importance analysis (phase 09 - tc-mod-03). tests gini...",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -32131,7 +32450,7 @@
       "label": "Fixture returning a fitted random forest model on synthetic features.",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "rationale",
       "norm_label": "fixture returning a fitted random forest model on synthetic features.",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -32142,7 +32461,7 @@
       "label": "Verify global feature ranking produces valid importance items sorted descending.",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "rationale",
       "norm_label": "verify global feature ranking produces valid importance items sorted descending.",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -32153,7 +32472,7 @@
       "label": "Verify local per-certificate anomaly score contribution calculation.",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "rationale",
       "norm_label": "verify local per-certificate anomaly score contribution calculation.",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -32164,7 +32483,7 @@
       "label": "Verify feature importance plot generation to disk.",
       "_origin": "ast",
       "community": 33,
-      "community_name": "BaselineMLService",
+      "community_name": "FeatureImportanceAnalyzer",
       "file_type": "rationale",
       "norm_label": "verify feature importance plot generation to disk.",
       "source_file": "backend/tests/test_feature_importance.py",
@@ -32191,17 +32510,6 @@
       "norm_label": "tensor",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "backend_tests_test_embedding_extractor",
-      "label": "test_embedding_extractor.py",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "CertificateVisualCNN",
-      "file_type": "code",
-      "norm_label": "test_embedding_extractor.py",
-      "source_file": "backend/tests/test_embedding_extractor.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_tests_test_visual_network",
@@ -32268,39 +32576,6 @@
       "norm_label": "unfreeze backbone parameters for stage 2 fine-tuning. args: top_blocks_only: if...",
       "source_file": "backend/app/modules/visual_model/network.py",
       "source_location": "L98"
-    },
-    {
-      "id": "backend_tests_test_embedding_extractor_rationale_1",
-      "label": "Unit tests for VisualEmbeddingExtractor (512D normalized visual vectors).",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "CertificateVisualCNN",
-      "file_type": "rationale",
-      "norm_label": "unit tests for visualembeddingextractor (512d normalized visual vectors).",
-      "source_file": "backend/tests/test_embedding_extractor.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_tests_test_embedding_extractor_rationale_12",
-      "label": "Verify extracted embedding is 512-dim with L2 norm equal to 1.0 (TC-DL-03).",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "CertificateVisualCNN",
-      "file_type": "rationale",
-      "norm_label": "verify extracted embedding is 512-dim with l2 norm equal to 1.0 (tc-dl-03).",
-      "source_file": "backend/tests/test_embedding_extractor.py",
-      "source_location": "L12"
-    },
-    {
-      "id": "backend_tests_test_embedding_extractor_rationale_31",
-      "label": "Verify extraction directly from PIL Image.",
-      "_origin": "ast",
-      "community": 34,
-      "community_name": "CertificateVisualCNN",
-      "file_type": "rationale",
-      "norm_label": "verify extraction directly from pil image.",
-      "source_file": "backend/tests/test_embedding_extractor.py",
-      "source_location": "L31"
     },
     {
       "id": "backend_tests_test_visual_network_rationale_1",
@@ -33871,17 +34146,6 @@
       "source_location": "L36"
     },
     {
-      "id": "backend_app_modules_visual_model_gradcam",
-      "label": "gradcam.py",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "code",
-      "norm_label": "gradcam.py",
-      "source_file": "backend/app/modules/visual_model/gradcam.py",
-      "source_location": "L1"
-    },
-    {
       "id": "backend_app_modules_visual_model_gradcam_py_device",
       "label": "device",
       "_origin": "ast",
@@ -33926,17 +34190,6 @@
       "source_location": ""
     },
     {
-      "id": "backend_app_modules_visual_model_network",
-      "label": "network.py",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "code",
-      "norm_label": "network.py",
-      "source_file": "backend/app/modules/visual_model/network.py",
-      "source_location": "L1"
-    },
-    {
       "id": "backend_tests_test_gradcam",
       "label": "test_gradcam.py",
       "_origin": "ast",
@@ -33957,28 +34210,6 @@
       "norm_label": "path",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "ml_scripts_export_visual_model",
-      "label": "export_visual_model.py",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "code",
-      "norm_label": "export_visual_model.py",
-      "source_file": "ml/scripts/export_visual_model.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_app_modules_visual_model_gradcam_rationale_1",
-      "label": "Grad-CAM (Gradient-weighted Class Activation Mapping) for visual explainability.",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "rationale",
-      "norm_label": "grad-cam (gradient-weighted class activation mapping) for visual explainability.",
-      "source_file": "backend/app/modules/visual_model/gradcam.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_visual_model_gradcam_rationale_19",
@@ -34025,17 +34256,6 @@
       "source_location": "L97"
     },
     {
-      "id": "backend_app_modules_visual_model_network_rationale_1",
-      "label": "Neural network architecture for certificate visual tampering detection.",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "rationale",
-      "norm_label": "neural network architecture for certificate visual tampering detection.",
-      "source_file": "backend/app/modules/visual_model/network.py",
-      "source_location": "L1"
-    },
-    {
       "id": "backend_tests_test_gradcam_rationale_1",
       "label": "Unit tests for GradCAMExplainer (visual heatmaps and overlay generation).",
       "_origin": "ast",
@@ -34067,28 +34287,6 @@
       "norm_label": "verify grad-cam overlay image generation and file saving.",
       "source_file": "backend/tests/test_gradcam.py",
       "source_location": "L28"
-    },
-    {
-      "id": "ml_scripts_export_visual_model_rationale_1",
-      "label": "Export and optimize Certificate Visual CNN for production deployment.",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "rationale",
-      "norm_label": "export and optimize certificate visual cnn for production deployment.",
-      "source_file": "ml/scripts/export_visual_model.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "ml_scripts_export_visual_model_rationale_35",
-      "label": "Export TorchScript model, quantized model, and benchmark CPU latency.",
-      "_origin": "ast",
-      "community": 40,
-      "community_name": "GradCAMExplainer",
-      "file_type": "rationale",
-      "norm_label": "export torchscript model, quantized model, and benchmark cpu latency.",
-      "source_file": "ml/scripts/export_visual_model.py",
-      "source_location": "L35"
     },
     {
       "id": "backend_app_core_rbac",
@@ -34986,147 +35184,103 @@
       "source_location": "L1"
     },
     {
-      "id": "backend_app_modules_explainability_coordinate_mapper_py_ndarray",
-      "label": "ndarray",
+      "id": "ml_scripts_train_visual_cnn",
+      "label": "train_visual_cnn.py",
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "code",
-      "norm_label": "ndarray",
+      "norm_label": "train_visual_cnn.py",
+      "source_file": "ml/scripts/train_visual_cnn.py",
+      "source_location": "L1"
+    },
+    {
+      "id": "ml_scripts_train_visual_cnn_py_any",
+      "label": "Any",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "train_visual_cnn",
+      "file_type": "code",
+      "norm_label": "any",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "backend_app_modules_explainability_coordinate_mapper_py_pixelboundingbox",
-      "label": "PixelBoundingBox",
+      "id": "ml_scripts_train_visual_cnn_py_dataloader",
+      "label": "DataLoader",
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "code",
-      "norm_label": "pixelboundingbox",
+      "norm_label": "dataloader",
       "source_file": "",
       "source_location": ""
     },
     {
-      "id": "backend_tests_test_coordinate_mapper",
-      "label": "test_coordinate_mapper.py",
+      "id": "ml_scripts_train_visual_cnn_py_device",
+      "label": "device",
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "code",
-      "norm_label": "test_coordinate_mapper.py",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
+      "norm_label": "device",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "ml_scripts_train_visual_cnn_py_module",
+      "label": "Module",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "train_visual_cnn",
+      "file_type": "code",
+      "norm_label": "module",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "ml_scripts_train_visual_cnn_py_path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "train_visual_cnn",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "ml_scripts_train_visual_cnn_rationale_1",
+      "label": "Two-stage transfer learning training script for certificate visual CNN model.",
+      "_origin": "ast",
+      "community": 47,
+      "community_name": "train_visual_cnn",
+      "file_type": "rationale",
+      "norm_label": "two-stage transfer learning training script for certificate visual cnn model.",
+      "source_file": "ml/scripts/train_visual_cnn.py",
       "source_location": "L1"
     },
     {
-      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_14",
-      "label": "Transforms bounding boxes and spatial points from processed space to raw image\u2026",
+      "id": "ml_scripts_train_visual_cnn_rationale_42",
+      "label": "Evaluate model on validation loader, returning loss and classification metrics.",
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "rationale",
-      "norm_label": "transforms bounding boxes and spatial points from processed space to raw image...",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L14"
+      "norm_label": "evaluate model on validation loader, returning loss and classification metrics.",
+      "source_file": "ml/scripts/train_visual_cnn.py",
+      "source_location": "L42"
     },
     {
-      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_40",
-      "label": "Scale and clamp processed bounding box to raw original image dimensions.",
+      "id": "ml_scripts_train_visual_cnn_rationale_87",
+      "label": "Run two-stage transfer learning pipeline.",
       "_origin": "ast",
       "community": 47,
-      "community_name": "CoordinateMapper",
+      "community_name": "train_visual_cnn",
       "file_type": "rationale",
-      "norm_label": "scale and clamp processed bounding box to raw original image dimensions.",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L40"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_55",
-      "label": "Convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates.",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates.",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L55"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_69",
-      "label": "Convert normalized [0, 1] coordinates into pixel box and normalized box.",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "convert normalized [0, 1] coordinates into pixel box and normalized box.",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L69"
-    },
-    {
-      "id": "backend_app_modules_explainability_coordinate_mapper_rationale_90",
-      "label": "Scale array of (N, 2) points from processed to raw resolution.",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "scale array of (n, 2) points from processed to raw resolution.",
-      "source_file": "backend/app/modules/explainability/coordinate_mapper.py",
-      "source_location": "L90"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_rationale_1",
-      "label": "Unit tests for CoordinateMapper (spatial scaling and clamping).",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "unit tests for coordinatemapper (spatial scaling and clamping).",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_rationale_10",
-      "label": "Verify box scaling from 512x512 to 1024x1024 raw canvas (TC-EXP-03).",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "verify box scaling from 512x512 to 1024x1024 raw canvas (tc-exp-03).",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L10"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_rationale_23",
-      "label": "Verify boundary clamping prevents coordinates exceeding canvas bounds.",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "verify boundary clamping prevents coordinates exceeding canvas bounds.",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L23"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_rationale_33",
-      "label": "Verify normalized [0, 1] coordinates map to absolute pixels and back.",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "verify normalized [0, 1] coordinates map to absolute pixels and back.",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L33"
-    },
-    {
-      "id": "backend_tests_test_coordinate_mapper_rationale_46",
-      "label": "Verify scaling array of keypoints.",
-      "_origin": "ast",
-      "community": 47,
-      "community_name": "CoordinateMapper",
-      "file_type": "rationale",
-      "norm_label": "verify scaling array of keypoints.",
-      "source_file": "backend/tests/test_coordinate_mapper.py",
-      "source_location": "L46"
+      "norm_label": "run two-stage transfer learning pipeline.",
+      "source_file": "ml/scripts/train_visual_cnn.py",
+      "source_location": "L87"
     },
     {
       "id": "development_plan_phase_04_image_preprocessing",
@@ -36504,72 +36658,6 @@
       "source_location": ""
     },
     {
-      "id": "ml_scripts_train_visual_cnn",
-      "label": "train_visual_cnn.py",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "train_visual_cnn.py",
-      "source_file": "ml/scripts/train_visual_cnn.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_py_any",
-      "label": "Any",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "any",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_py_dataloader",
-      "label": "DataLoader",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "dataloader",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_py_device",
-      "label": "device",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "device",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_py_module",
-      "label": "Module",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "module",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_py_path",
-      "label": "Path",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
       "id": "backend_tests_test_visual_dataset_rationale_1",
       "label": "Unit tests for dataset loading and balanced sampling.",
       "_origin": "ast",
@@ -36656,39 +36744,6 @@
       "norm_label": "evaluate visual cnn on held-out test dataset.",
       "source_file": "ml/scripts/evaluate_visual_cnn.py",
       "source_location": "L51"
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_rationale_1",
-      "label": "Two-stage transfer learning training script for certificate visual CNN model.",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "rationale",
-      "norm_label": "two-stage transfer learning training script for certificate visual cnn model.",
-      "source_file": "ml/scripts/train_visual_cnn.py",
-      "source_location": "L1"
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_rationale_42",
-      "label": "Evaluate model on validation loader, returning loss and classification metrics.",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "rationale",
-      "norm_label": "evaluate model on validation loader, returning loss and classification metrics.",
-      "source_file": "ml/scripts/train_visual_cnn.py",
-      "source_location": "L42"
-    },
-    {
-      "id": "ml_scripts_train_visual_cnn_rationale_87",
-      "label": "Run two-stage transfer learning pipeline.",
-      "_origin": "ast",
-      "community": 53,
-      "community_name": "create_dataloaders",
-      "file_type": "rationale",
-      "norm_label": "run two-stage transfer learning pipeline.",
-      "source_file": "ml/scripts/train_visual_cnn.py",
-      "source_location": "L87"
     },
     {
       "id": "backend_app_modules_forensics_noise_analyzer_py_boundingbox",
@@ -39550,17 +39605,6 @@
       "source_location": "L67"
     },
     {
-      "id": "backend_tests_test_baseline_inference_rationale_76",
-      "label": "Verify graceful fallback heuristic when model artifact cannot be found.",
-      "_origin": "ast",
-      "community": 74,
-      "community_name": "test_baseline_inference.py",
-      "file_type": "rationale",
-      "norm_label": "verify graceful fallback heuristic when model artifact cannot be found.",
-      "source_file": "backend/tests/test_baseline_inference.py",
-      "source_location": "L76"
-    },
-    {
       "id": "pkg_ai_certificate_verification_backend",
       "label": "ai-certificate-verification-backend",
       "_origin": "ast",
@@ -40696,17 +40740,6 @@
       "source_location": "L1"
     },
     {
-      "id": "backend_app_modules_report_generator_pdf_styles",
-      "label": "pdf_styles.py",
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "NumberedCanvas",
-      "file_type": "code",
-      "norm_label": "pdf_styles.py",
-      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
-      "source_location": "L1"
-    },
-    {
       "id": "backend_app_modules_report_generator_pdf_styles_py_any",
       "label": "Any",
       "_origin": "ast",
@@ -40716,28 +40749,6 @@
       "norm_label": "any",
       "source_file": "",
       "source_location": ""
-    },
-    {
-      "id": "stylesheet1",
-      "label": "StyleSheet1",
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "NumberedCanvas",
-      "file_type": "code",
-      "norm_label": "stylesheet1",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "backend_app_modules_report_generator_pdf_styles_rationale_1",
-      "label": "ReportLab stylesheet, typography, color palette, and dynamic numbered canvas.",
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "NumberedCanvas",
-      "file_type": "rationale",
-      "norm_label": "reportlab stylesheet, typography, color palette, and dynamic numbered canvas.",
-      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
-      "source_location": "L1"
     },
     {
       "id": "backend_app_modules_report_generator_pdf_styles_rationale_29",
@@ -40760,17 +40771,6 @@
       "norm_label": "draw standard running header and running footer.",
       "source_file": "backend/app/modules/report_generator/pdf_styles.py",
       "source_location": "L48"
-    },
-    {
-      "id": "backend_app_modules_report_generator_pdf_styles_rationale_76",
-      "label": "Build standardized publication typography stylesheet.",
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "NumberedCanvas",
-      "file_type": "rationale",
-      "norm_label": "build standardized publication typography stylesheet.",
-      "source_file": "backend/app/modules/report_generator/pdf_styles.py",
-      "source_location": "L76"
     },
     {
       "id": "docs_prd_ai_certificate_verification",
@@ -50954,7 +50954,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L92",
+      "source_location": "L99",
       "weight": 1.0
     },
     {
@@ -50966,7 +50966,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L86",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -96778,6 +96778,17 @@
     },
     {
       "source": "backend_tests_deployment_test_security_hardening",
+      "target": "backend_tests_deployment_test_security_hardening_test_github_actions_ci_workflow_structure",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backend/tests/deployment/test_security_hardening.py",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "backend_tests_deployment_test_security_hardening",
       "target": "backend_tests_deployment_test_security_hardening_test_nginx_security_headers_and_upload_limit",
       "relation": "contains",
       "_origin": "ast",
@@ -96806,7 +96817,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L72",
+      "source_location": "L79",
       "weight": 1.0
     },
     {
@@ -96817,18 +96828,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L89",
-      "weight": 1.0
-    },
-    {
-      "source": "backend_tests_deployment_test_security_hardening",
-      "target": "backend_tests_deployment_test_security_hardening_test_github_actions_ci_workflow_structure",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L97",
+      "source_location": "L96",
       "weight": 1.0
     },
     {
@@ -123252,6 +123252,17 @@
       "weight": 1.0
     },
     {
+      "source": "backend_tests_deployment_test_security_hardening_rationale_105",
+      "target": "backend_tests_deployment_test_security_hardening_test_github_actions_ci_workflow_structure",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backend/tests/deployment/test_security_hardening.py",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
       "source": "backend_tests_deployment_test_security_hardening_rationale_29",
       "target": "backend_tests_deployment_test_security_hardening_test_nginx_security_headers_and_upload_limit",
       "relation": "rationale_for",
@@ -123274,36 +123285,25 @@
       "weight": 1.0
     },
     {
-      "source": "backend_tests_deployment_test_security_hardening_rationale_73",
+      "source": "backend_tests_deployment_test_security_hardening_rationale_80",
       "target": "backend_tests_deployment_test_security_hardening_test_production_rejects_insecure_secrets",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L73",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
-      "source": "backend_tests_deployment_test_security_hardening_rationale_90",
+      "source": "backend_tests_deployment_test_security_hardening_rationale_97",
       "target": "backend_tests_deployment_test_security_hardening_test_production_accepts_valid_strong_secret",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L90",
-      "weight": 1.0
-    },
-    {
-      "source": "backend_tests_deployment_test_security_hardening_rationale_98",
-      "target": "backend_tests_deployment_test_security_hardening_test_github_actions_ci_workflow_structure",
-      "relation": "rationale_for",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L98",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -127355,18 +127355,6 @@
       "context": "call",
       "source_file": "backend/app/services/analytics_service.py",
       "source_location": "L96",
-      "weight": 1.0
-    },
-    {
-      "source": "backend_tests_deployment_test_security_hardening_test_secrets_generator_script",
-      "target": "scripts_generate_secrets_generate_production_secrets",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "INFERRED",
-      "confidence_score": 0.85,
-      "context": "call",
-      "source_file": "backend/tests/deployment/test_security_hardening.py",
-      "source_location": "L60",
       "weight": 1.0
     },
     {

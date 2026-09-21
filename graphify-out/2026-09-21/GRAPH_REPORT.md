@@ -1,12 +1,12 @@
 # Graph Report - AI-Based-Detection-of-Fake-or-Manipulated-Academic-Certificates  (2026-09-21)
 
 ## Corpus Check
-- 432 files · ~370,571 words
+- 432 files · ~370,586 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3859 nodes · 7826 edges · 206 communities (170 shown, 23 thin omitted)
-- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 704 edges (avg confidence: 0.95)
+- 3859 nodes · 7825 edges · 211 communities (176 shown, 22 thin omitted)
+- Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 703 edges (avg confidence: 0.95)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
@@ -48,7 +48,7 @@
 - preprocessing/__init__.py
 - PDFRasterizer
 - compilerOptions
-- BaselineMLService
+- FeatureImportanceAnalyzer
 - CertificateVisualCNN
 - 8. Implementation Chips
 - Part B: Test Cases Document
@@ -62,7 +62,7 @@
 - schemas/__init__.py
 - AdaptiveBinarizer
 - 8. Implementation Chips
-- CoordinateMapper
+- train_visual_cnn
 - 8. Implementation Chips
 - 8. Implementation Chips
 - 8. Implementation Chips
@@ -153,10 +153,12 @@
 - AppException
 - scripts/smoke_test.sh
 - rules/graphify.md
-- reports.py
+- .build_story
+- extract_feature_importances
 - ingestion/service.py
 - workflows/graphify.md
 - explainability.py
+- ml_classifier/service.py
 - template_matching/service.py
 - run_all_tests.sh script
 - DateExtractor
@@ -173,22 +175,25 @@
 - evaluate_baseline_model
 - TabularDataPreprocessor
 - generate_synthetic_feature_dataset
-- get_inference_transforms
+- visual_model/__init__.py
 - export_model.py
 - MultimodalFusionMLP
 - ForensicAnalysisResult
-- .extract_from_pil
-- .predict_batch
+- VisualEmbeddingExtractor
+- BaselineInferenceEngine
 - MLInferenceOutput
-- .classify_certificate
+- BaselineMLService
 - InstitutionModel
+- generate_secrets.py
 - FastAPI
 - VerificationReportModel
 - InstitutionExtractor
 - 001_initial_schema.py
+- .plot_feature_importance
 - FullVerificationReport
 - ScoreFusionService
-- .__init__
+- test_qr_generator.py
+- export_visual_model.py
 - .to_pipeline_output
 - certificates.py
 - e2e/conftest.py
@@ -236,7 +241,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (206 total, 23 thin omitted)
+## Communities (211 total, 22 thin omitted)
 
 ### Community 0 - "institutions.py"
 Cohesion: 0.16
@@ -370,13 +375,13 @@ Nodes (21): EncryptedPdfError, PDFConversionError, PDF is password protected or 
 Cohesion: 0.22
 Nodes (8): compilerOptions, allowSyntheticDefaultImports, composite, module, moduleResolution, skipLibCheck, types, include
 
-### Community 33 - "BaselineMLService"
-Cohesion: 0.06
-Nodes (39): compute_local_contributions(), extract_feature_importances(), FeatureImportanceAnalyzer, plot_feature_importance(), Any, ndarray, Path, Feature importance analysis and local anomaly explanations for Phase 09.… (+31 more)
+### Community 33 - "FeatureImportanceAnalyzer"
+Cohesion: 0.18
+Nodes (12): FeatureImportanceAnalyzer, Analyzer class wrapping global and local importance routines., fixture, Unit tests for feature importance analysis (Phase 09 - TC-MOD-03). Tests Gini…, Fixture returning a fitted random forest model on synthetic features., Verify global feature ranking produces valid importance items sorted descending., Verify local per-certificate anomaly score contribution calculation., Verify feature importance plot generation to disk. (+4 more)
 
 ### Community 34 - "CertificateVisualCNN"
-Cohesion: 0.08
-Nodes (24): CertificateVisualCNN, Module, Tensor, Return the final convolutional layer of the backbone for Grad-CAM., Convolutional Neural Network for certificate visual manipulation…, Forward pass. Args: x: Input image tensor of shape (B, 3, H, W) Returns:…, Freeze all parameters in the convolutional backbone for Stage 1 fine-tuning., Unfreeze backbone parameters for Stage 2 fine-tuning. Args: top_blocks_only: If… (+16 more)
+Cohesion: 0.10
+Nodes (19): CertificateVisualCNN, Module, Tensor, Return the final convolutional layer of the backbone for Grad-CAM., Convolutional Neural Network for certificate visual manipulation…, Forward pass. Args: x: Input image tensor of shape (B, 3, H, W) Returns:…, Freeze all parameters in the convolutional backbone for Stage 1 fine-tuning., Unfreeze backbone parameters for Stage 2 fine-tuning. Args: top_blocks_only: If… (+11 more)
 
 ### Community 35 - "8. Implementation Chips"
 Cohesion: 0.06
@@ -399,8 +404,8 @@ Cohesion: 0.20
 Nodes (9): load_precomputed_template_features(), ndarray, Load pre-computed keypoints coordinates and descriptors from compressed npz…, ndarray, Session, Execute dual-track template comparison and student record cross-verification.…, Session, TC-TMP-06: Register master template, save image, pre-compute features, and… (+1 more)
 
 ### Community 40 - "GradCAMExplainer"
-Cohesion: 0.08
-Nodes (20): GradCAMExplainer, device, ndarray, Path, Tensor, Grad-CAM (Gradient-weighted Class Activation Mapping) for visual explainability., Computes Grad-CAM heatmaps highlighting visual regions indicative of tampering., Compute Grad-CAM heatmap array of shape (H, W) normalized to [0.0, 1.0]. (+12 more)
+Cohesion: 0.11
+Nodes (15): GradCAMExplainer, device, ndarray, Path, Tensor, Computes Grad-CAM heatmaps highlighting visual regions indicative of tampering., Compute Grad-CAM heatmap array of shape (H, W) normalized to [0.0, 1.0]., Blend computed heatmap with the raw BGR certificate image. (+7 more)
 
 ### Community 41 - "UserRole"
 Cohesion: 0.19
@@ -426,9 +431,9 @@ Nodes (10): AdaptiveBinarizer, Binarizes certificate image into crisp black-and-
 Cohesion: 0.08
 Nodes (25): 10. Phase Completion Checklist, 1. Purpose, 2. Why This Phase Exists, 3. Requirements Covered, 4. Inputs, 5. Outputs, 6. Dependencies, 7. Files and Folder Structure (+17 more)
 
-### Community 47 - "CoordinateMapper"
-Cohesion: 0.11
-Nodes (17): CoordinateMapper, ndarray, PixelBoundingBox, Transforms bounding boxes and spatial points from processed space to raw image…, Scale and clamp processed bounding box to raw original image dimensions., Convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates., Convert normalized [0, 1] coordinates into pixel box and normalized box., Scale array of (N, 2) points from processed to raw resolution. (+9 more)
+### Community 47 - "train_visual_cnn"
+Cohesion: 0.20
+Nodes (10): evaluate_epoch(), Any, DataLoader, device, Module, Path, Two-stage transfer learning training script for certificate visual CNN model., Evaluate model on validation loader, returning loss and classification metrics. (+2 more)
 
 ### Community 48 - "8. Implementation Chips"
 Cohesion: 0.08
@@ -451,8 +456,8 @@ Cohesion: 0.25
 Nodes (16): Find tokens strictly to the right of an anchor token on the same line., Filter lines whose vertical position falls within a normalized vertical band…, Analyzes 2D spatial layout of OCR tokens, segmenting them into lines and…, Group detected OCR tokens into horizontal text lines and sort in reading order., SpatialLayoutAnalyzer, _build_tokens_from_lines(), test_cert_id_and_qr_code_extractor(), test_date_extractor_various_formats() (+8 more)
 
 ### Community 53 - "create_dataloaders"
-Cohesion: 0.08
-Nodes (28): Unit tests for dataset loading and balanced sampling., Verify loading dataset from splits., Verify DataLoaders creation and batch extraction., test_certificate_dataset_loading(), test_create_dataloaders(), Dataset, CertificateImageDataset, create_dataloaders() (+20 more)
+Cohesion: 0.12
+Nodes (18): Unit tests for dataset loading and balanced sampling., Verify loading dataset from splits., Verify DataLoaders creation and batch extraction., test_certificate_dataset_loading(), test_create_dataloaders(), Dataset, CertificateImageDataset, create_dataloaders() (+10 more)
 
 ### Community 54 - ".analyze"
 Cohesion: 0.40
@@ -515,8 +520,8 @@ Cohesion: 0.24
 Nodes (10): PreprocessingResult, Encapsulates in-memory arrays, transformation metrics, and persisted paths., Produce the canonical SPEC-02 PreprocessingOutput model., Produce the API serializable PreprocessingResultDTO., PreprocessingOutput, PreprocessingResultDTO, PreprocessingStepMetric, BaseModel (+2 more)
 
 ### Community 74 - "test_baseline_inference.py"
-Cohesion: 0.15
-Nodes (12): inference_engine(), fixture, Unit tests for baseline inference engine (Phase 09 - TC-MOD-04). Tests…, Returns BaselineInferenceEngine pointing to default serialized model., Verify single certificate inference latency is under 50ms over 100 runs (TC-…, Verify batch inference matches individual single predictions., Verify inference engine raises ValueError on invalid feature vector size., Verify graceful fallback heuristic when model artifact cannot be found. (+4 more)
+Cohesion: 0.18
+Nodes (10): inference_engine(), fixture, Unit tests for baseline inference engine (Phase 09 - TC-MOD-04). Tests…, Returns BaselineInferenceEngine pointing to default serialized model., Verify single certificate inference latency is under 50ms over 100 runs (TC-…, Verify batch inference matches individual single predictions., Verify inference engine raises ValueError on invalid feature vector size., test_batch_inference_consistency() (+2 more)
 
 ### Community 76 - "NoiseReductionFilter"
 Cohesion: 0.29
@@ -551,8 +556,8 @@ Cohesion: 0.22
 Nodes (8): 1. Purpose, 2. Directory Layout for Test Fixtures, 3. Standard Synthetic Certificate Fixtures, 4.1 Mock Institutions Table (`seed_institutions.json`), 4.2 Mock Student Records (`mock_students.csv`), 4. Institutional Database Seed Data, 5. Test Assertion Tolerances & Performance Thresholds, Test Fixtures & Mock Data Specification
 
 ### Community 86 - "NumberedCanvas"
-Cohesion: 0.21
-Nodes (8): get_report_styles(), NumberedCanvas, Any, ReportLab stylesheet, typography, color palette, and dynamic numbered canvas., Two-pass canvas recording total page count for 'Page X of Y' footers., Draw standard running header and running footer., Build standardized publication typography stylesheet., StyleSheet1
+Cohesion: 0.39
+Nodes (4): NumberedCanvas, Any, Two-pass canvas recording total page count for 'Page X of Y' footers., Draw standard running header and running footer.
 
 ### Community 87 - "Product Requirements Document (PRD)"
 Cohesion: 0.08
@@ -631,8 +636,8 @@ Cohesion: 0.46
 Nodes (4): MetricCard(), MetricCardProps, HistoryPage(), exportToCsv()
 
 ### Community 106 - "WeightedLateFusion"
-Cohesion: 0.15
-Nodes (13): Calculates explainable composite authenticity and risk scores via weighted…, Compute composite authenticity score [0.0, 1.0], risk score [0.0, 100.0], sub-…, WeightedLateFusion, Unit tests for Weighted Late Fusion calculations and factor breakdowns., Verify high fake probability produces low authenticity and high risk., Verify custom weights normalization and score calculation., Verify error on non-positive weights., Verify high authenticity input produces high authenticity score and low risk. (+5 more)
+Cohesion: 0.11
+Nodes (20): Weighted late fusion engine blending branch probabilities and sub-scores., Calculates explainable composite authenticity and risk scores via weighted…, Compute composite authenticity score [0.0, 1.0], risk score [0.0, 100.0], sub-…, WeightedLateFusion, BaseModel, Normalized sub-scores across analytical branches [0.0 = Fake, 1.0 = Genuine]., SubScoresBreakdown, ContributingFactor (+12 more)
 
 ### Community 107 - "list_audit_logs"
 Cohesion: 0.22
@@ -643,8 +648,8 @@ Cohesion: 0.12
 Nodes (22): ConfidenceEvaluator, CertificateFields, Evaluate fields, compute average confidence, flag low confidence, and build…, Evaluates field-level confidence scores, applies manual-review thresholds…, BaseFieldExtractor, ExtractedField, ABC, Strip surrounding punctuation, multiple spaces, and non-printable noise. (+14 more)
 
 ### Community 110 - "Settings"
-Cohesion: 0.07
-Nodes (25): field_validator, model_validator, Application configuration loaded from environment variables and .env file., Ensure all required runtime storage directories exist., Enforce production security constraints on secrets and keys (NFR-02)., Settings, Path, Return path to compiled PDF report if it exists. (+17 more)
+Cohesion: 0.08
+Nodes (20): field_validator, model_validator, Application configuration loaded from environment variables and .env file., Ensure all required runtime storage directories exist., Enforce production security constraints on secrets and keys (NFR-02)., Settings, Path, Return path to compiled PDF report if it exists. (+12 more)
 
 ### Community 111 - "run_step"
 Cohesion: 0.33
@@ -738,17 +743,25 @@ Nodes (12): DegreeExtractor, Extracts degree qualification, program title, and s
 Cohesion: 0.12
 Nodes (14): AppException, ForbiddenError, NotFoundError, PipelineError, Any, Exception, Resource not found error., Input or schema validation error. (+6 more)
 
-### Community 141 - "reports.py"
-Cohesion: 0.14
-Nodes (16): download_json_endpoint(), download_pdf_endpoint(), get_report_endpoint(), get, JSONResponse, Session, FastAPI router for verification report retrieval, verification, and PDF/JSON…, verify_report_integrity_endpoint() (+8 more)
+### Community 141 - ".build_story"
+Cohesion: 0.15
+Nodes (10): _fit_image(), Any, Image, Path, Load image from path and scale proportionally to fit within max bounds., Construct the flowable story sequence for ReportLab., get_report_styles(), ReportLab stylesheet, typography, color palette, and dynamic numbered canvas. (+2 more)
+
+### Community 142 - "extract_feature_importances"
+Cohesion: 0.29
+Nodes (8): compute_local_contributions(), extract_feature_importances(), Any, ndarray, Return top_k global feature importance dictionaries., Calculate local feature contribution scores for a single certificate., Extract global Gini or coefficient feature importances and rank them descending., Calculate local feature contribution weights explaining why certificate was…
 
 ### Community 143 - "ingestion/service.py"
 Cohesion: 0.08
 Nodes (31): post, UploadFile, Handle multipart file upload, validate integrity, and store for verification…, upload_document(), check_duplicate_hash(), compute_sha256(), Path, Session (+23 more)
 
 ### Community 145 - "explainability.py"
-Cohesion: 0.06
-Nodes (59): Coordinate mapping and transformation between processed and original image…, Explainability, feature attributions, and visual evidence overlay subsystem., NLGExplanationGenerator, Any, Natural Language Generation (NLG) engine for human-readable verification…, Synthesizes raw analytical findings and scores into structured natural language…, Generate executive summary paragraph for decision., Synthesize detailed finding bullets categorized by analytical domain. (+51 more)
+Cohesion: 0.04
+Nodes (68): CoordinateMapper, ndarray, PixelBoundingBox, Coordinate mapping and transformation between processed and original image…, Transforms bounding boxes and spatial points from processed space to raw image…, Scale and clamp processed bounding box to raw original image dimensions., Convert pixel bounding box on raw image to [0.0, 1.0] normalized coordinates., Convert normalized [0, 1] coordinates into pixel box and normalized box. (+60 more)
+
+### Community 146 - "ml_classifier/service.py"
+Cohesion: 0.32
+Nodes (4): Feature importance analysis and local anomaly explanations for Phase 09.…, Baseline ML inference engine for Phase 09. Provides fast, thread-safe model…, Phase 09: ML Baseline Classifier Module. Provides tabular feature extraction,…, Baseline ML Service for Phase 09. Orchestrates tabular feature extraction,…
 
 ### Community 147 - "template_matching/service.py"
 Cohesion: 0.15
@@ -790,9 +803,9 @@ Nodes (12): DataFrame, ndarray, Path, Load or generate train/val/test DataFrames
 Cohesion: 0.14
 Nodes (18): Unit tests for ML model evaluation (Phase 09 - TC-MOD-02). Tests held-out test…, Verify evaluation generates metrics meeting specification and generates plots., test_evaluate_baseline_model_metrics(), Unit tests for ML model training pipeline (Phase 09 - TC-MOD-01). Tests 5-fold…, Verify that train_baseline_models trains 4 candidates with 5-fold CV and saves…, test_train_baseline_models_pipeline(), extract_and_save_dataset_features(), generate_synthetic_feature_dataset() (+10 more)
 
-### Community 166 - "get_inference_transforms"
+### Community 166 - "visual_model/__init__.py"
 Cohesion: 0.13
-Nodes (18): device, denormalize_image(), get_inference_transforms(), get_train_transforms(), ndarray, Tensor, Image transformation and normalization pipelines for certificate visual…, Document-safe augmentation pipeline for training. (+10 more)
+Nodes (19): Grad-CAM (Gradient-weighted Class Activation Mapping) for visual explainability., Deep learning visual tampering classification module., denormalize_image(), get_inference_transforms(), get_train_transforms(), ndarray, Tensor, Image transformation and normalization pipelines for certificate visual… (+11 more)
 
 ### Community 168 - "export_model.py"
 Cohesion: 0.32
@@ -800,31 +813,35 @@ Nodes (7): compute_sha256(), generate_manifest(), Any, Path, Model export and ma
 
 ### Community 169 - "MultimodalFusionMLP"
 Cohesion: 0.06
-Nodes (37): concatenate_features(), MultimodalFusionMLP, ndarray, Tensor, Early fusion module combining 512D visual embeddings and 22D tabular features., Concatenate 512D visual embedding and 22D tabular vector into 534D…, Deep Multi-Layer Perceptron learning joint cross-modal representations from…, Forward pass. Expects tensor of shape (B, 534) -> returns logits (B,). (+29 more)
+Nodes (39): concatenate_features(), MultimodalFusionMLP, ndarray, Tensor, Early fusion module combining 512D visual embeddings and 22D tabular features., Concatenate 512D visual embedding and 22D tabular vector into 534D…, Deep Multi-Layer Perceptron learning joint cross-modal representations from…, Forward pass. Expects tensor of shape (B, 534) -> returns logits (B,). (+31 more)
 
 ### Community 171 - "ForensicAnalysisResult"
 Cohesion: 0.12
 Nodes (23): ForensicService, get_forensic_service(), ndarray, Path, Run forensics and return canonical SPEC-02 ForensicsOutput., FastAPI dependency injection provider for ForensicService., Orchestrates comprehensive classical digital image forensics: Error Level…, Run complete forensic analysis suite on the pristine uploaded certificate image. (+15 more)
 
-### Community 172 - ".extract_from_pil"
-Cohesion: 0.24
-Nodes (7): Image, ndarray, Path, Tensor, Extract normalized 512D embedding from tensor of shape (1, 3, H, W) or (3, H,…, Extract normalized 512D embedding from PIL Image., Extract normalized 512D embedding directly from image file path.
+### Community 172 - "VisualEmbeddingExtractor"
+Cohesion: 0.11
+Nodes (17): device, Image, ndarray, Path, Tensor, Visual feature embedding extractor for multimodal fusion., Extracts 512-dimensional L2-normalized visual feature embeddings from…, Extract normalized 512D embedding from tensor of shape (1, 3, H, W) or (3, H,… (+9 more)
 
-### Community 175 - ".predict_batch"
-Cohesion: 0.40
-Nodes (3): ndarray, Perform batch inference on an (N, 22) array of features., Perform inference on a single 22-dimensional feature vector. Returns: tuple of…
+### Community 175 - "BaselineInferenceEngine"
+Cohesion: 0.13
+Nodes (11): BaselineInferenceEngine, ndarray, Path, Perform batch inference on an (N, 22) array of features., Low-latency inference engine wrapping trained scikit-learn models and…, Load serialized model and feature scaler from disk if available., Check if model artifact is successfully loaded and ready for inference., Perform inference on a single 22-dimensional feature vector. Returns: tuple of… (+3 more)
 
 ### Community 179 - "MLInferenceOutput"
-Cohesion: 0.08
-Nodes (37): MLPredictionModel, Base, SQLAlchemy ORM model for ML manipulation predictions., SQLAlchemy model for persisting machine learning manipulation predictions., Visual feature embedding extractor for multimodal fusion., Extracts 512-dimensional L2-normalized visual feature embeddings from…, VisualEmbeddingExtractor, Deep learning visual tampering classification module. (+29 more)
+Cohesion: 0.09
+Nodes (33): MLPredictionModel, Base, SQLAlchemy ORM model for ML manipulation predictions., SQLAlchemy model for persisting machine learning manipulation predictions., Path, Session, Production service for deep learning visual certificate classification., Convenience method returning canonical SPEC-02 pipeline contract schema. (+25 more)
 
-### Community 180 - ".classify_certificate"
-Cohesion: 0.47
-Nodes (4): Any, Session, Convenience method returning canonical SPEC-02 pipeline contract schema., Extract features, run inference, calculate local contributions, and return full…
+### Community 180 - "BaselineMLService"
+Cohesion: 0.25
+Nodes (9): BaselineMLService, Any, Session, Convenience method returning canonical SPEC-02 pipeline contract schema., End-to-end service for Phase 09 ML baseline classification., Extract features, run inference, calculate local contributions, and return full…, FeatureImportanceItem, BaseModel (+1 more)
 
 ### Community 181 - "InstitutionModel"
 Cohesion: 0.08
 Nodes (41): create_template(), get_template(), list_templates(), Any, get, post, Session, UploadFile (+33 more)
+
+### Community 182 - "generate_secrets.py"
+Cohesion: 0.40
+Nodes (5): generate_production_secrets(), main(), Generate cryptographically secure random keys using secrets module., Cryptographic Secrets Generator for Production Deployment (CHIP DEP-05).…, Print generated secrets to stdout in dotenv format.
 
 ### Community 183 - "FastAPI"
 Cohesion: 0.08
@@ -838,13 +855,25 @@ Nodes (11): Base, SQLAlchemy ORM model for final verification decisions and repo
 Cohesion: 0.40
 Nodes (3): InstitutionExtractor, Extracts issuing university or college name from the header region of the…, Extract institution name from header lines (top 40% of document).
 
+### Community 187 - ".plot_feature_importance"
+Cohesion: 0.50
+Nodes (4): plot_feature_importance(), Path, Render horizontal bar chart of top N feature importances., Generate and save feature importance chart.
+
 ### Community 188 - "FullVerificationReport"
 Cohesion: 0.05
-Nodes (71): CertificateFields, FileMetadata, FullVerificationReport, SubsystemScoreItem, VisualEvidencePaths, Report assembler harvesting outputs across all pipeline analytical stages., Assembles inputs from all analytical pipeline phases into…, Harvest outputs across pipeline and construct FullVerificationReport. (+63 more)
+Nodes (79): download_json_endpoint(), download_pdf_endpoint(), get_report_endpoint(), get, JSONResponse, Session, FastAPI router for verification report retrieval, verification, and PDF/JSON…, verify_report_integrity_endpoint() (+71 more)
 
 ### Community 189 - "ScoreFusionService"
 Cohesion: 0.08
-Nodes (25): Any, ndarray, Session, Convenience method returning canonical SPEC-02 pipeline output contract., Production service coordinating multimodal fusion, veto overrides, and final…, Run multimodal score fusion, apply veto overrides, and generate final verdict., ScoreFusionService, main() (+17 more)
+Nodes (24): Any, ndarray, Session, Convenience method returning canonical SPEC-02 pipeline output contract., Production service coordinating multimodal fusion, veto overrides, and final…, Run multimodal score fusion, apply veto overrides, and generate final verdict., ScoreFusionService, main() (+16 more)
+
+### Community 190 - "test_qr_generator.py"
+Cohesion: 0.40
+Nodes (4): Path, Unit tests for report QR code generator (TC-REP-03)., Verify QR generator writes valid PNG and decodes to verification URL (TC-…, test_qr_code_generation_and_decoding()
+
+### Community 191 - "export_visual_model.py"
+Cohesion: 0.50
+Nodes (3): export_and_optimize(), Export and optimize Certificate Visual CNN for production deployment., Export TorchScript model, quantized model, and benchmark CPU latency.
 
 ### Community 193 - "certificates.py"
 Cohesion: 0.08
@@ -908,7 +937,7 @@ Nodes (7): Path, Session, TestClient, Graceful degradation and fault-tolerant fa
 
 ### Community 227 - "VerificationVerdict"
 Cohesion: 0.08
-Nodes (49): Multimodal score fusion and decision subsystem., Weighted late fusion engine blending branch probabilities and sub-scores., Stacking Meta-Classifier for multimodal probability blending., Production orchestrator service for multimodal score fusion and verdict…, Verdict determination and confidence calibration engine., Classifies authenticity scores into canonical project verdicts with calibrated…, Categorize authenticity score into Verdict, RiskBand, Confidence, and Rationale., VerdictEngine (+41 more)
+Nodes (49): NLGExplanationGenerator, Any, Synthesizes raw analytical findings and scores into structured natural language…, Generate executive summary paragraph for decision., Synthesize detailed finding bullets categorized by analytical domain., Multimodal score fusion and decision subsystem., Production orchestrator service for multimodal score fusion and verdict…, Verdict determination and confidence calibration engine. (+41 more)
 
 ### Community 229 - "CopyMoveDetector"
 Cohesion: 0.14
@@ -921,14 +950,14 @@ Nodes (6): Path, Session, TestClient, End-to-End multi-page PDF upload and page-
 ## Knowledge Gaps
 - **862 isolated node(s):** `entrypoint.sh script`, `ai-certificate-verification-backend`, `run_all_tests.sh script`, `smoke_test.sh script`, `name` (+857 more)
   These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2155 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **23 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **22 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `CertificateFields` connect `schemas/pipeline.py` to `.verify`, `AnomalousRegion`, `TextConsistencyService`, `schemas/__init__.py`, `OCRToken`, `.run_pipeline`, `pipeline_orchestrator.py`, `explainability.py`, `template_matching/service.py`, `InstitutionRecordModel`, `InstitutionModel`, `ScoreFusionService`, `FullVerificationReport`, `TabularFeatureExtractor`?**
+- **Why does `CertificateFields` connect `schemas/pipeline.py` to `.verify`, `AnomalousRegion`, `TextConsistencyService`, `schemas/__init__.py`, `OCRToken`, `.run_pipeline`, `pipeline_orchestrator.py`, `template_matching/service.py`, `InstitutionRecordModel`, `InstitutionModel`, `ScoreFusionService`, `FullVerificationReport`, `TabularFeatureExtractor`?**
   _High betweenness centrality (0.032) - this node is a cross-community bridge._
-- **Why does `VerificationPipelineOrchestrator` connect `pipeline_orchestrator.py` to `BaselineMLService`, `certificates.py`, `OCRService`, `TextConsistencyService`, `ForensicAnalysisResult`, `schemas/__init__.py`, `endpoints/auth.py`, `CertificateModel`, `.run_pipeline`, `explainability.py`, `MLInferenceOutput`, `InstitutionModel`, `schemas/pipeline.py`, `ScoreFusionService`, `FullVerificationReport`, `PreprocessingService`, `PDFRasterizer`?**
+- **Why does `VerificationPipelineOrchestrator` connect `pipeline_orchestrator.py` to `certificates.py`, `OCRService`, `TextConsistencyService`, `ForensicAnalysisResult`, `schemas/__init__.py`, `endpoints/auth.py`, `CertificateModel`, `.run_pipeline`, `explainability.py`, `MLInferenceOutput`, `BaselineMLService`, `InstitutionModel`, `schemas/pipeline.py`, `ScoreFusionService`, `FullVerificationReport`, `PreprocessingService`, `PDFRasterizer`?**
   _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Why does `OCRToken` connect `OCRToken` to `CertificateIdExtractor`, `BoundingBox`, `OCRService`, `ocr/__init__.py`, `FormatChecker`, `TextLine`, `AnomalousRegion`, `TokenBuilder`, `DateExtractor`, `TextConsistencyService`, `schemas/__init__.py`, `test_field_extractors.py`, `InstitutionExtractor`, `PixelBoundingBox`, `test_ocr_engine.py`, `.analyze`, `.extract_tokens`, `schemas/pipeline.py`, `StudentNameExtractor`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
