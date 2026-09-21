@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Optional
+from typing import Any, Optional
 
 import httpx
 from rapidfuzz import fuzz
@@ -201,8 +201,8 @@ class OnlineRecordComparator:
         """Calculate normalized fuzzy token similarity [0.0, 1.0]."""
         if not a or not b:
             return 0.0
-        s1 = re.sub(r"[^a-zA-Z0-9\s]", "", str(a)).lower().strip()
-        s2 = re.sub(r"[^a-zA-Z0-9\s]", "", str(b)).lower().strip()
+        s1 = re.sub(r"[^a-zA-Z0-9\s]", "", a).lower().strip()
+        s2 = re.sub(r"[^a-zA-Z0-9\s]", "", b).lower().strip()
         if not s1 or not s2:
             return 0.0
         if s1 == s2:

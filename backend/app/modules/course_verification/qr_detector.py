@@ -78,7 +78,10 @@ class QRCodeDetectorService:
 
         # Pass 6: Fallback to pyzbar if available in environment
         try:
-            from pyzbar.pyzbar import decode as pyzbar_decode
+            import importlib
+
+            pyzbar_mod = importlib.import_module("pyzbar.pyzbar")
+            pyzbar_decode = pyzbar_mod.decode
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) if len(img.shape) == 3 else img
             barcodes = pyzbar_decode(gray)
             for barcode in barcodes:
@@ -95,7 +98,7 @@ class QRCodeDetectorService:
                         bounding_box=[rect.left, rect.top, rect.width, rect.height],
                         confidence=0.98,
                     )
-        except ImportError:
+        except (ImportError, Exception):
             pass
 
         # If detected but un-decodable

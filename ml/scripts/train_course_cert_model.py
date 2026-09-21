@@ -78,8 +78,8 @@ def load_and_split_data(
 
 def evaluate_model(
     model: Any,
-    X: np.ndarray,
-    y: np.ndarray,
+    X: Any,
+    y: Any,
     split_name: str = "Test",
 ) -> dict[str, Any]:
     """Calculate comprehensive classification metrics for a trained model."""

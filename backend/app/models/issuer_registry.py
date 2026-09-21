@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import Column, DateTime, String
 
 from app.database import Base
+
+
+def utc_now() -> datetime:
+    return datetime.now(timezone.utc)
 
 
 class IssuerRegistryModel(Base):
@@ -25,9 +29,9 @@ class IssuerRegistryModel(Base):
     trusted_status = Column(
         String(32), default="TRUSTED", nullable=False, index=True
     )  # TRUSTED, UNKNOWN, SUSPICIOUS, MALICIOUS
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    created_at = Column(DateTime, default=utc_now, nullable=False)
     updated_at = Column(
-        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
+        DateTime, default=utc_now, onupdate=utc_now, nullable=False
     )
 
 
