@@ -50,8 +50,12 @@ class OnlineRecordComparator:
     def _parse_html_metadata(self, html: str, url: str) -> OnlineVerificationRecord:
         """Extract OpenGraph metadata, JSON-LD, or structured patterns from HTML text."""
         # OpenGraph title / description extraction
-        og_title = self._extract_meta_content(html, r'<meta\s+property=["\']og:title["\']\s+content=["\']([^"\']+)["\']')
-        og_desc = self._extract_meta_content(html, r'<meta\s+property=["\']og:description["\']\s+content=["\']([^"\']+)["\']')
+        og_title = self._extract_meta_content(
+            html, r'<meta\s+property=["\']og:title["\']\s+content=["\']([^"\']+)["\']'
+        )
+        og_desc = self._extract_meta_content(
+            html, r'<meta\s+property=["\']og:description["\']\s+content=["\']([^"\']+)["\']'
+        )
 
         candidate_name: Optional[str] = None
         course_name: Optional[str] = None
@@ -122,21 +126,15 @@ class OnlineRecordComparator:
         name_match = name_score >= 0.82
 
         # 2. Certificate ID comparison
-        id_score = self._compute_similarity(
-            cert_data.certificate_id, online_record.certificate_id
-        )
+        id_score = self._compute_similarity(cert_data.certificate_id, online_record.certificate_id)
         id_match = id_score >= 0.90
 
         # 3. Course Name comparison
-        course_score = self._compute_similarity(
-            cert_data.course_name, online_record.course_name
-        )
+        course_score = self._compute_similarity(cert_data.course_name, online_record.course_name)
         course_match = course_score >= 0.78
 
         # 4. Date comparison
-        date_score = self._compute_similarity(
-            cert_data.issue_date, online_record.issue_date
-        )
+        date_score = self._compute_similarity(cert_data.issue_date, online_record.issue_date)
         date_match = date_score >= 0.85
 
         # 5. Issuer comparison
@@ -153,13 +151,16 @@ class OnlineRecordComparator:
                 copied_qr = True
                 details.append(
                     "CRITICAL FRAUD SIGNAL: Valid QR code detected, but candidate name "
-                    f"('{cert_data.candidate_name}') or Certificate ID ('{cert_data.certificate_id}') "
-                    f"mismatches official online record ('{online_record.candidate_name}', '{online_record.certificate_id}'). "
+                    f"('{cert_data.candidate_name}') or Certificate ID "
+                    f"('{cert_data.certificate_id}') mismatches official online record "
+                    f"('{online_record.candidate_name}', '{online_record.certificate_id}'). "
                     "Possible transplanted / copied QR forgery."
                 )
 
         if name_match:
-            details.append(f"Candidate name matches online verification ({int(name_score * 100)}%).")
+            details.append(
+                f"Candidate name matches online verification ({int(name_score * 100)}%)."
+            )
         elif online_record.candidate_name:
             details.append(
                 f"Candidate name mismatch: Certificate has '{cert_data.candidate_name}', "
@@ -235,7 +236,11 @@ class OnlineRecordComparator:
                 raw_details=rec.raw_metadata or {},
             )
         # Mock/simulated fallback for testing URLs
-        if "coursera.org" in verification_url or "edx.org" in verification_url or "udemy.com" in verification_url:
+        if (
+            "coursera.org" in verification_url
+            or "edx.org" in verification_url
+            or "udemy.com" in verification_url
+        ):
             return CourseOnlineRecord(
                 is_available=True,
                 candidate_name=None,  # let compare decide if missing
@@ -263,13 +268,21 @@ class OnlineRecordComparator:
                 date_match_score=0.0,
                 overall_match_score=0.0,
                 online_record=online_record,
-                discrepancies=["Online verification record was not available or could not be queried."],
+                discrepancies=[
+                    "Online verification record was not available or could not be queried."
+                ],
                 copied_qr_detected=False,
             )
 
-        name_score = self._compute_similarity(extracted_fields.candidate_name, online_record.candidate_name)
-        course_score = self._compute_similarity(extracted_fields.course_name, online_record.course_name)
-        id_score = self._compute_similarity(extracted_fields.certificate_id, online_record.certificate_id)
+        name_score = self._compute_similarity(
+            extracted_fields.candidate_name, online_record.candidate_name
+        )
+        course_score = self._compute_similarity(
+            extracted_fields.course_name, online_record.course_name
+        )
+        id_score = self._compute_similarity(
+            extracted_fields.certificate_id, online_record.certificate_id
+        )
         date_score = self._compute_similarity(extracted_fields.issue_date, online_record.issue_date)
 
         # Copied QR detection: online record exists with different recipient or ID
@@ -279,8 +292,9 @@ class OnlineRecordComparator:
             if name_score < 0.60:
                 copied_qr = True
                 discrepancies.append(
-                    f"Recipients do not match: Document indicates '{extracted_fields.candidate_name}', "
-                    f"but online registry is registered to '{online_record.candidate_name}'."
+                    f"Recipients do not match: Document indicates "
+                    f"'{extracted_fields.candidate_name}', but online registry is "
+                    f"registered to '{online_record.candidate_name}'."
                 )
 
         if online_record.certificate_id and extracted_fields.certificate_id:

@@ -20,7 +20,7 @@ import httpx
 from sqlalchemy.orm import Session
 
 from app.models.issuer_registry import IssuerRegistryModel
-from app.schemas.course_certificate import URLVerificationData
+from app.schemas.course_certificate import CourseURLVerificationResult, URLVerificationData
 
 logger = logging.getLogger(__name__)
 

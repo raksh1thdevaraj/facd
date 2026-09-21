@@ -64,9 +64,7 @@ class CourseCertificateVerificationModel(Base):
     report_json_path = Column(String(512), nullable=True)
 
     created_at = Column(DateTime, default=utc_now, nullable=False)
-    updated_at = Column(
-        DateTime, default=utc_now, onupdate=utc_now, nullable=False
-    )
+    updated_at = Column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
 
     # Relationship to user
     user = relationship("AppUserModel", backref="course_verifications", lazy="joined")

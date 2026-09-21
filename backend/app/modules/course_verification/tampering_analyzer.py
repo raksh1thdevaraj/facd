@@ -12,7 +12,6 @@ import uuid
 from pathlib import Path
 from typing import Any, Optional, Union
 
-import cv2
 import numpy as np
 
 from app.config import settings

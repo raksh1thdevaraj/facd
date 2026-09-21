@@ -28,9 +28,7 @@ class QRCodeDetectorService:
     def __init__(self) -> None:
         self.detector = cv2.QRCodeDetector()
 
-    def detect_and_decode(
-        self, image_input: Union[np.ndarray, Path, str]
-    ) -> QRCodeData:
+    def detect_and_decode(self, image_input: Union[np.ndarray, Path, str]) -> QRCodeData:
         """Execute multi-pass QR detection and decoding across certificate image."""
         img = self._load_image(image_input)
         if img is None:
@@ -64,9 +62,7 @@ class QRCodeDetectorService:
             if res.qr_decoded:
                 # Scale bounding box back to original coordinates
                 if res.bounding_box:
-                    res.bounding_box = [
-                        int(v / scale_factor) for v in res.bounding_box
-                    ]
+                    res.bounding_box = [int(v / scale_factor) for v in res.bounding_box]
                 return res
 
         # Pass 5: Orientation Deskewing (+/- 15 deg, 90 deg, 180 deg, 270 deg)

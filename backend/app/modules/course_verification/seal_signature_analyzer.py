@@ -66,10 +66,6 @@ class SealSignatureAnalyzer:
         # Inverse binary threshold
         _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY_INV)
 
-        # Morphological gradient to isolate edges
-        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-        gradient = cv2.morphologyEx(thresh, cv2.MORPH_GRADIENT, kernel)
-
         # Connected component analysis
         num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(thresh)
 

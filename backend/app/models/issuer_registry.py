@@ -30,9 +30,7 @@ class IssuerRegistryModel(Base):
         String(32), default="TRUSTED", nullable=False, index=True
     )  # TRUSTED, UNKNOWN, SUSPICIOUS, MALICIOUS
     created_at = Column(DateTime, default=utc_now, nullable=False)
-    updated_at = Column(
-        DateTime, default=utc_now, onupdate=utc_now, nullable=False
-    )
+    updated_at = Column(DateTime, default=utc_now, onupdate=utc_now, nullable=False)
 
 
 # Convenient alias

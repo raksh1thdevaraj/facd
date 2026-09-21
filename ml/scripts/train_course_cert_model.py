@@ -6,7 +6,6 @@ the 14-dimensional multi-signal feature vectors extracted from course certificat
 
 from __future__ import annotations
 
-import json
 import logging
 from pathlib import Path
 from typing import Any
@@ -28,7 +27,9 @@ from sklearn.metrics import (
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 COURSE_FEATURE_NAMES = [
@@ -115,7 +116,9 @@ def train_course_models(
     reports_dir: Path | None = None,
 ) -> dict[str, Any]:
     """Train candidate models, benchmark, and persist champion model."""
-    features_path = features_csv or Path("dataset/course_certificates/features_course_certs.csv")
+    features_path = features_csv or Path(
+        "dataset/course_certificates/features_course_certs.csv"
+    )
     out_dir = output_dir or Path("ml/models")
     rep_dir = reports_dir or Path("docs")
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -251,7 +254,9 @@ def generate_markdown_report(
     test_count: int,
 ) -> None:
     """Generate professional evaluation markdown document with true metrics."""
-    sorted_features = sorted(feature_importances.items(), key=lambda x: x[1], reverse=True)
+    sorted_features = sorted(
+        feature_importances.items(), key=lambda x: x[1], reverse=True
+    )
 
     rows = []
     for model_name, m_data in results.items():
@@ -289,7 +294,7 @@ The Course Certificate Authenticity Verification Module employs a multi-signal m
 3. Pixel-level error level analysis (ELA), noise variance, and copy-move forensics.
 4. Specific adversarial attack detectors such as copied/transplanted QR codes.
 
-Across 4,700 structured course certificate specimens split strictly by base template (70% Train, 15% Validation, 15% Test), the champion model `{champion_name}` achieved **{results[champion_name]['test']['f1'] * 100:.2f}% Test F1-Score** and **{results[champion_name]['test']['roc_auc']:.4f} ROC-AUC**.
+Across 4,700 structured course certificate specimens split strictly by base template (70% Train, 15% Validation, 15% Test), the champion model `{champion_name}` achieved **{results[champion_name]["test"]["f1"] * 100:.2f}% Test F1-Score** and **{results[champion_name]["test"]["roc_auc"]:.4f} ROC-AUC**.
 
 ---
 
