@@ -1,0 +1,18 @@
+[
+  {
+    "sample": "GEN_00001.png",
+    "certificate_id": "51e136c9-7edc-4e37-ae5d-f17abd89b64f",
+    "verdict": "MANIPULATED",
+    "authenticity_score": 0.5637,
+    "total_time_seconds": 7.38,
+    "within_budget_15s": true
+  },
+  {
+    "sample": "MAN_00001.png",
+    "certificate_id": "c742d3aa-3f8d-4080-b916-abc33899ea40",
+    "verdict": "SUSPICIOUS",
+    "authenticity_score": 0.6138,
+    "total_time_seconds": 7.43,
+    "within_budget_15s": true
+  }
+]

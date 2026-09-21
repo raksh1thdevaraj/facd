@@ -30,7 +30,8 @@ class Settings(BaseSettings):
     # Security
     SECRET_KEY: str = "default-insecure-dev-key-change-in-production-0123456789"
     JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7
 
     # Database
     DATABASE_URL: str = "sqlite:///./dev.db"

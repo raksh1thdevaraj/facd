@@ -24,4 +24,11 @@ export default defineConfig({
       },
     },
   },
+  // @ts-expect-error - vitest types augment UserConfig
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: ['./src/tests/setup.ts'],
+  },
 });
+

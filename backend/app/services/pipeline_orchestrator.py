@@ -1,53 +1,100 @@
-"""Sequential verification pipeline orchestrator executing 10 analytical stages."""
+"""Sequential verification pipeline orchestrator executing 10 analytical stages
+with graceful degradation.
+"""
 
 from __future__ import annotations
 
 import logging
+import time
+import uuid
 from pathlib import Path
+from typing import Any, Callable
 
+import cv2
 import numpy as np
 from sqlalchemy.orm import Session
 
+from app.config import settings
 from app.models.certificate import CertificateModel
 from app.models.forensic import ForensicFindingModel
-from app.models.ml_prediction import MLPredictionModel
 from app.models.ocr_field import OCRFieldModel
-from app.models.template import TemplateMatchResultModel
 from app.models.text_consistency import TextConsistencyModel
 from app.modules.explainability.service import ExplainabilityService
+from app.modules.forensics.service import ForensicService
+from app.modules.ingestion.rasterizer import PDFRasterizer
+from app.modules.ml_classifier.service import BaselineMLService
+from app.modules.ocr.service import OCRService
+from app.modules.preprocessing.service import PreprocessingService
 from app.modules.report_generator.service import ReportService
 from app.modules.score_fusion.service import ScoreFusionService
+from app.modules.template_matching.service import TemplateVerificationService
+from app.modules.text_consistency.service import TextConsistencyService
+from app.modules.visual_model.service import VisualCNNService
+from app.schemas.explainability import FindingBullet, FindingCategory, FindingSeverity
 from app.schemas.pipeline import CertificateFields
 from app.schemas.report import FileMetadata, FullVerificationReport
 from app.services.audit_service import AuditService
+from app.services.fallback_handler import FallbackHandler, run_with_timeout
+from app.services.pipeline_context import PipelineExecutionContext
 
 logger = logging.getLogger(__name__)
 
 
 class VerificationPipelineOrchestrator:
-    """Orchestrates end-to-end multi-stage certificate verification."""
+    """Orchestrates end-to-end multi-stage certificate verification with stage timeout isolation."""
 
     def __init__(self) -> None:
+        self.preprocessing_service = PreprocessingService()
+        self.ocr_service = OCRService()
+        self.text_service = TextConsistencyService()
+        self.forensic_service = ForensicService()
+        self.template_service = TemplateVerificationService()
+        self.ml_service = BaselineMLService()
+        self.visual_service = VisualCNNService()
         self.score_fusion_service = ScoreFusionService()
         self.explainability_service = ExplainabilityService()
         self.report_service = ReportService()
 
+    def execute_stage(
+        self,
+        stage_name: str,
+        timeout_seconds: float,
+        stage_fn: Callable[[], Any],
+        context: PipelineExecutionContext,
+    ) -> Any:
+        """Execute a stage with timeout guard and fallback recovery."""
+        start_time = time.perf_counter()
+        try:
+            result = run_with_timeout(stage_fn, timeout_seconds)
+            elapsed_ms = (time.perf_counter() - start_time) * 1000.0
+            context.stage_timings_ms[stage_name] = round(elapsed_ms, 2)
+            return result
+        except TimeoutError as te:
+            elapsed_ms = (time.perf_counter() - start_time) * 1000.0
+            context.stage_timings_ms[stage_name] = round(elapsed_ms, 2)
+            logger.warning(
+                "Stage '%s' timed out (%.1f ms). Applying fallback.", stage_name, elapsed_ms
+            )
+            return FallbackHandler.get_fallback_result(stage_name, context, str(te))
+        except Exception as exc:
+            elapsed_ms = (time.perf_counter() - start_time) * 1000.0
+            context.stage_timings_ms[stage_name] = round(elapsed_ms, 2)
+            logger.warning("Stage '%s' failed (%s). Applying fallback.", stage_name, exc)
+            return FallbackHandler.get_fallback_result(stage_name, context, str(exc))
+
     def run_pipeline(self, certificate_id: str, db: Session) -> FullVerificationReport:
-        """Execute all pipeline analysis stages sequentially and update database progress.
-
-        Args:
-            certificate_id: Unique UUID of the certificate record.
-            db: Active database session.
-
-        Returns:
-            Completed FullVerificationReport document.
-        """
+        """Execute all pipeline analysis stages sequentially and update database progress."""
         cert = db.query(CertificateModel).filter_by(id=certificate_id).first()
         if cert is None:
             raise ValueError(f"Certificate record '{certificate_id}' not found.")
 
+        context = PipelineExecutionContext(
+            certificate_id=certificate_id,
+            raw_image_path=Path(cert.file_path),
+        )
+
         try:
-            # Stage 1: Initialize Job Status
+            # Stage 1: Ingestion & Input Verification
             cert.job_status = "PROCESSING"
             cert.job_progress = 10
             cert.job_error = None
@@ -57,132 +104,296 @@ class VerificationPipelineOrchestrator:
             if not file_path.exists():
                 raise FileNotFoundError(f"Certificate image file missing at {file_path}")
 
-            # Stage 2: Ingestion & Checksum Verification
+            # Check if PDF input requires rasterization to PNG
+            if file_path.suffix.lower() == ".pdf":
+                raster_dir = settings.UPLOAD_DIR / "rasterized"
+                raster_dir.mkdir(parents=True, exist_ok=True)
+                pages = PDFRasterizer.rasterize_pdf(
+                    file_path, output_dir=raster_dir, dpi=300, max_pages=1
+                )
+                if pages:
+                    context.raw_image_path = pages[0]
+
+            # Read image array into memory bus
+            img_bgr = cv2.imread(str(context.raw_image_path))
+            if img_bgr is None:
+                img_bgr = np.zeros((1000, 700, 3), dtype=np.uint8)
+            context.raw_image = img_bgr
+
             cert.job_progress = 20
             db.commit()
 
-            # Stage 3: Image Preprocessing
-            preprocessed_path = file_path
-            cert.preprocessed_image_path = str(preprocessed_path)
+            # Stage 2: Image Preprocessing (Deskew, CLAHE, Binarization)
+            def _run_preprocessing() -> Any:
+                try:
+                    doc_uuid = uuid.UUID(certificate_id)
+                except ValueError:
+                    doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, certificate_id)
+                return self.preprocessing_service.preprocess(doc_uuid, context.raw_image_path)
+
+            prep_res = self.execute_stage("preprocessing", 10.0, _run_preprocessing, context)
+            if hasattr(prep_res, "enhanced_image") and prep_res.enhanced_image is not None:
+                context.enhanced_image = prep_res.enhanced_image
+                context.binarized_image = prep_res.binarized_image
+            else:
+                context.enhanced_image = context.raw_image
+                context.binarized_image = context.raw_image
+
             cert.job_progress = 30
             db.commit()
 
-            # Stage 4: OCR & Credential Field Extraction
-            extracted_fields = CertificateFields(
-                student_name="Candidate Student",
-                register_number="REG-" + cert.file_hash[:8].upper(),
-                institution_name="Partner Academic Institution",
-                course_degree="Bachelor of Science",
-                grade_or_marks="First Class",
-                issue_date="2024-05-15",
-                certificate_number="CERT-" + cert.file_hash[:12].upper(),
-            )
+            # Stage 3: OCR & Credential Field Extraction
+            def _run_ocr() -> Any:
+                return self.ocr_service.process_document(certificate_id, context.enhanced_image)
 
-            # Store OCR fields in DB
-            for field_name, field_val in [
-                ("student_name", extracted_fields.student_name),
-                ("register_number", extracted_fields.register_number),
-                ("institution_name", extracted_fields.institution_name),
-                ("course_degree", extracted_fields.course_degree),
-                ("grade_or_marks", extracted_fields.grade_or_marks),
-                ("issue_date", extracted_fields.issue_date),
-            ]:
-                ocr_row = OCRFieldModel(
-                    certificate_id=certificate_id,
-                    field_name=field_name,
-                    field_value=field_val,
-                    confidence_score=0.95,
-                    is_flagged=False,
+            ocr_res = self.execute_stage("ocr", 20.0, _run_ocr, context)
+            context.ocr_result = ocr_res
+            context.ocr_fields = ocr_res.fields if ocr_res else CertificateFields()
+            context.ocr_tokens = getattr(self.ocr_service, "last_tokens", [])
+
+            # Persist extracted OCR fields to database
+            added_any = False
+            if context.ocr_fields:
+                field_names = [
+                    "student_name",
+                    "register_number",
+                    "institution_name",
+                    "course_degree",
+                    "grade_or_marks",
+                    "issue_date",
+                    "certificate_number",
+                ]
+                for fn in field_names:
+                    val = getattr(context.ocr_fields, fn, None)
+                    if val:
+                        db.add(
+                            OCRFieldModel(
+                                certificate_id=certificate_id,
+                                field_name=fn,
+                                field_value=str(val),
+                                confidence_score=0.92,
+                                is_flagged=False,
+                            )
+                        )
+                        added_any = True
+
+            if not added_any:
+                raw_text = (
+                    getattr(context.ocr_result, "raw_extracted_text", "")
+                    if context.ocr_result
+                    else ""
                 )
-                db.add(ocr_row)
+                conf = (
+                    getattr(context.ocr_result, "average_ocr_confidence", 0.0)
+                    if context.ocr_result
+                    else 0.0
+                )
+                db.add(
+                    OCRFieldModel(
+                        certificate_id=certificate_id,
+                        field_name="raw_text",
+                        field_value=raw_text or "unextracted",
+                        confidence_score=conf or 0.0,
+                        is_flagged=False,
+                    )
+                )
 
             cert.job_progress = 45
             db.commit()
 
-            # Stage 5: Text Consistency Analysis & Forensics
-            text_score = 0.94
-            consistency_record = TextConsistencyModel(
-                certificate_id=certificate_id,
-                overall_score=text_score,
-                baseline_score=0.95,
-                font_size_score=0.92,
-                stroke_weight_score=0.96,
-                spacing_score=0.93,
-                logical_score=1.0,
-                anomalous_regions_json=[],
-            )
-            db.add(consistency_record)
+            # Stage 4: Text Consistency Analysis
+            def _run_text() -> Any:
+                return self.text_service.analyze(
+                    document_id=certificate_id,
+                    ocr_tokens=context.ocr_tokens,
+                    image_or_path=context.enhanced_image,
+                    extracted_fields=context.ocr_fields,
+                )
 
-            forensic_score = 0.91
-            forensic_row = ForensicFindingModel(
-                certificate_id=certificate_id,
-                finding_type="ELA_CONSISTENCY",
-                confidence_score=forensic_score,
-                description="Uniform error level analysis and compression profiles.",
-            )
-            db.add(forensic_row)
+            text_res = self.execute_stage("text_consistency", 8.0, _run_text, context)
+            context.text_result = text_res
+            if text_res:
+                db.add(
+                    TextConsistencyModel(
+                        certificate_id=certificate_id,
+                        overall_score=text_res.overall_text_consistency_score,
+                        baseline_score=text_res.baseline_alignment_score,
+                        font_size_score=text_res.font_size_consistency_score,
+                        stroke_weight_score=text_res.stroke_weight_consistency_score,
+                        spacing_score=text_res.spacing_consistency_score,
+                        logical_score=text_res.logical_consistency_score,
+                        anomalous_regions_json=[r.model_dump() for r in text_res.anomalous_regions],
+                    )
+                )
 
-            cert.job_progress = 60
+            cert.job_progress = 55
+            db.commit()
+
+            # Stage 5: Image Forensics (ELA & Copy-Move)
+            def _run_forensics() -> Any:
+                return self.forensic_service.analyze(
+                    document_id=certificate_id,
+                    raw_image_or_path=context.raw_image,
+                )
+
+            forensic_res = self.execute_stage("forensics", 10.0, _run_forensics, context)
+            context.forensic_result = forensic_res
+            if forensic_res:
+                db.add(
+                    ForensicFindingModel(
+                        certificate_id=certificate_id,
+                        finding_type="ELA_CONSISTENCY",
+                        confidence_score=forensic_res.overall_forensic_score,
+                        description=(
+                            f"Forensic authenticity score: "
+                            f"{forensic_res.overall_forensic_score:.2f}"
+                        ),
+                    )
+                )
+
+            cert.job_progress = 65
             db.commit()
 
             # Stage 6: Institutional Template Alignment & Record Matching
-            template_score = 0.95
-            tier_status = "TIER_1_VERIFIED"
-            tmpl_match = TemplateMatchResultModel(
-                certificate_id=certificate_id,
-                template_id=None,
-                ssim_score=template_score,
-                seal_score=0.93,
-                tier_status=tier_status,
-                discrepancy_notes="Institutional layout and seal confirmed.",
-            )
-            db.add(tmpl_match)
+            def _run_template() -> Any:
+                f_score = (
+                    context.forensic_result.overall_forensic_score
+                    if context.forensic_result
+                    else 1.0
+                )
+                t_score = (
+                    context.text_result.overall_text_consistency_score
+                    if context.text_result
+                    else 1.0
+                )
+                return self.template_service.verify(
+                    query_img=context.enhanced_image,
+                    extracted_fields=context.ocr_fields,
+                    db=db,
+                    document_id=certificate_id,
+                    certificate_id=certificate_id,
+                    forensic_score=f_score,
+                    text_score=t_score,
+                    save_to_db=True,
+                )
 
-            cert.job_progress = 70
+            tmpl_res = self.execute_stage("template_matching", 8.0, _run_template, context)
+            context.template_result = tmpl_res
+            if tmpl_res and hasattr(tmpl_res, "tier_classification"):
+                context.tier_result = tmpl_res.tier_classification.tier.value
+            else:
+                context.tier_result = "TIER_3_UNVERIFIED"
+
+            cert.job_progress = 75
             db.commit()
 
             # Stage 7: ML Baseline & Visual Deep CNN Inference
-            visual_fake_prob = 0.06
-            tabular_fake_prob = 0.05
-            ml_pred = MLPredictionModel(
-                certificate_id=certificate_id,
-                model_version="v1.0",
-                predicted_class="genuine",
-                manipulation_probability=visual_fake_prob,
-                confidence=0.94,
-                feature_vector_json={
-                    "visual_prob": visual_fake_prob,
-                    "tabular_prob": tabular_fake_prob,
-                },
-                execution_time_ms=15.0,
-            )
-            db.add(ml_pred)
+            def _run_ml() -> Any:
+                return self.ml_service.classify_certificate(
+                    certificate_id=certificate_id,
+                    ocr_result=context.ocr_result,
+                    text_consistency_result=context.text_result,
+                    forensics_result=context.forensic_result,
+                    template_result=context.template_result,
+                    db_session=db,
+                )
 
-            cert.job_progress = 80
+            ml_res = self.execute_stage("ml_classifier", 6.0, _run_ml, context)
+            context.tabular_prediction = ml_res
+
+            def _run_visual() -> Any:
+                return self.visual_service.predict(
+                    image_path=context.raw_image_path,
+                    certificate_id=certificate_id,
+                    db_session=db,
+                )
+
+            visual_res = self.execute_stage("visual_model", 8.0, _run_visual, context)
+            context.visual_prediction = visual_res
+
+            cert.job_progress = 85
             db.commit()
 
             # Stage 8: Multimodal Score Fusion & Verdict Engine
-            decision = self.score_fusion_service.fuse_and_decide(
-                certificate_id=certificate_id,
-                visual_fake_prob=visual_fake_prob,
-                tabular_fake_prob=tabular_fake_prob,
-                forensic_score=forensic_score,
-                text_consistency_score=text_score,
-                template_score=template_score,
-                tier_status=tier_status,
-            )
+            def _run_fusion() -> Any:
+                vis_prob = (
+                    context.visual_prediction.manipulation_probability
+                    if context.visual_prediction
+                    else 0.10
+                )
+                tab_prob = (
+                    context.tabular_prediction.manipulation_probability
+                    if context.tabular_prediction
+                    else 0.10
+                )
+                f_score = (
+                    context.forensic_result.overall_forensic_score
+                    if context.forensic_result
+                    else 0.90
+                )
+                t_score = (
+                    context.text_result.overall_text_consistency_score
+                    if context.text_result
+                    else 0.90
+                )
+                tmpl_score = 0.85
+                if (
+                    context.template_result
+                    and hasattr(context.template_result, "template_metrics")
+                    and context.template_result.template_metrics
+                ):
+                    tmpl_score = context.template_result.template_metrics.overall_template_score
+
+                return self.score_fusion_service.fuse_and_decide(
+                    certificate_id=certificate_id,
+                    visual_fake_prob=vis_prob,
+                    tabular_fake_prob=tab_prob,
+                    forensic_score=f_score,
+                    text_consistency_score=t_score,
+                    template_score=tmpl_score,
+                    tier_status=context.tier_result or "TIER_3_UNVERIFIED",
+                    db_session=None,
+                )
+
+            decision = self.execute_stage("score_fusion", 4.0, _run_fusion, context)
+            if context.warnings and decision:
+                if hasattr(decision, "summary_rationale"):
+                    decision.summary_rationale += " Notice: " + " ".join(context.warnings)
+            context.final_decision = decision
 
             cert.job_progress = 90
             db.commit()
 
             # Stage 9: Explainability & Unified Overlays
-            tabular_vec = np.zeros((1, 26), dtype=np.float32)
-            explainability_report = self.explainability_service.explain_certificate(
-                certificate_id=certificate_id,
-                raw_image_path=file_path,
-                decision=decision,
-                tabular_features=tabular_vec,
-            )
+            def _run_explain() -> Any:
+                tabular_vec = np.zeros((1, 26), dtype=np.float32)
+                return self.explainability_service.explain_certificate(
+                    certificate_id=certificate_id,
+                    raw_image_path=context.raw_image_path,
+                    decision=context.final_decision,
+                    tabular_features=tabular_vec,
+                )
+
+            explainability_report = self.execute_stage("explainability", 8.0, _run_explain, context)
+            if context.warnings and explainability_report:
+                for w in context.warnings:
+                    bullet = FindingBullet(
+                        id=f"WARN_{uuid.uuid4().hex[:6]}",
+                        severity=FindingSeverity.WARNING,
+                        category=FindingCategory.TEMPLATE_MATCH,
+                        title="Pipeline Stage Fallback Advisory",
+                        description=f"Fallback advisory notice: {w}",
+                    )
+                    if hasattr(explainability_report, "key_findings"):
+                        explainability_report.key_findings.append(bullet)
+                if hasattr(explainability_report, "primary_verdict_rationale"):
+                    explainability_report.primary_verdict_rationale += " Notice: " + " ".join(
+                        context.warnings
+                    )
+            context.explainability_report = explainability_report
+
+            cert.job_progress = 95
+            db.commit()
 
             # Stage 10: Official Verification Report Generation & Archival
             file_meta = FileMetadata(
@@ -194,12 +405,13 @@ class VerificationPipelineOrchestrator:
 
             full_report = self.report_service.generate_report(
                 certificate_id=certificate_id,
-                decision=decision,
+                decision=context.final_decision,
                 file_metadata=file_meta,
-                extracted_fields=extracted_fields,
-                explainability_report=explainability_report,
+                extracted_fields=context.ocr_fields or CertificateFields(),
+                explainability_report=context.explainability_report,
                 db=db,
             )
+            context.final_report = full_report
 
             # Mark Certificate as Completed
             cert.job_status = "COMPLETED"
@@ -215,6 +427,7 @@ class VerificationPipelineOrchestrator:
                     "verdict": full_report.verdict.value,
                     "authenticity_score": full_report.authenticity_score,
                     "report_id": full_report.report_id,
+                    "stage_timings_ms": context.stage_timings_ms,
                 },
             )
 

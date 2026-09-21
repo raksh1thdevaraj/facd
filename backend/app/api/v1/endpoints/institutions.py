@@ -212,3 +212,47 @@ async def bulk_import_records(
         status="SUCCESS",
         message=f"Successfully imported {count} student records for institution '{inst.name}'.",
     )
+
+
+@router.patch(
+    "/{institution_id}/toggle-status",
+    response_model=InstitutionResponse,
+    summary="Toggle university active/inactive status",
+)
+def toggle_institution_status(
+    request: Request,
+    institution_id: str,
+    db: Session = Depends(get_db),
+) -> InstitutionResponse:
+    inst = db.query(InstitutionModel).filter_by(id=institution_id).first()
+    if inst is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Institution '{institution_id}' not found.",
+        )
+
+    inst.is_active = not inst.is_active
+    db.commit()
+    db.refresh(inst)
+
+    client_ip = request.client.host if request.client else "127.0.0.1"
+    AuditService.log_action(
+        db=db,
+        action="INSTITUTION_STATUS_TOGGLED",
+        ip_address=client_ip,
+        details={"institution_id": inst.id, "new_status": inst.is_active},
+    )
+
+    t_count = db.query(InstitutionTemplateModel).filter_by(institution_id=inst.id).count()
+    r_count = db.query(InstitutionRecordModel).filter_by(institution_id=inst.id).count()
+
+    return InstitutionResponse(
+        id=inst.id,
+        name=inst.name,
+        code=inst.code,
+        contact_email=inst.contact_email,
+        is_active=inst.is_active,
+        template_count=t_count,
+        record_count=r_count,
+        created_at=inst.created_at,
+    )

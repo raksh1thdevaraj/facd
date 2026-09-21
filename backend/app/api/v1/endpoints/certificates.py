@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import math
 import uuid
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
@@ -188,11 +189,43 @@ def list_certificates(
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
     status_filter: Optional[str] = Query(None, alias="status"),
+    verdict: Optional[str] = Query(None, description="AUTHENTIC, SUSPICIOUS, MANIPULATED"),
+    search: Optional[str] = Query(None, description="Search across filename or ID"),
+    date_from: Optional[str] = Query(None, description="Filter records from date (YYYY-MM-DD)"),
+    date_to: Optional[str] = Query(None, description="Filter records to date (YYYY-MM-DD)"),
     db: Session = Depends(get_db),
 ) -> CertificatePaginatedList:
     query = db.query(CertificateModel)
+
     if status_filter:
         query = query.filter(CertificateModel.job_status == status_filter.upper())
+
+    if search:
+        search_pattern = f"%{search}%"
+        query = query.filter(
+            (CertificateModel.original_filename.ilike(search_pattern))
+            | (CertificateModel.id.ilike(search_pattern))
+        )
+
+    if date_from:
+        try:
+            d_from = datetime.fromisoformat(date_from)
+            query = query.filter(CertificateModel.created_at >= d_from)
+        except Exception:
+            pass
+
+    if date_to:
+        try:
+            d_to = datetime.fromisoformat(date_to) + timedelta(days=1)
+            query = query.filter(CertificateModel.created_at < d_to)
+        except Exception:
+            pass
+
+    if verdict:
+        query = query.join(
+            VerificationReportModel,
+            CertificateModel.id == VerificationReportModel.certificate_id,
+        ).filter(VerificationReportModel.verdict == verdict.upper())
 
     total = query.count()
     offset = (page - 1) * limit
@@ -212,6 +245,7 @@ def list_certificates(
                 created_at=c.created_at,
                 verdict=VerificationVerdict(rep.verdict) if rep and rep.verdict else None,
                 authenticity_score=rep.overall_score if rep else None,
+                report_id=rep.id if rep else None,
             )
         )
 

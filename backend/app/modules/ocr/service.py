@@ -90,6 +90,7 @@ class OCRService:
 
         # Step 1: Detect and extract tokens
         tokens = self.engine.extract_tokens(image)
+        self.last_tokens = tokens
         raw_text = " ".join(t.text for t in tokens).strip()
 
         # Step 2: Segment into reading-order lines

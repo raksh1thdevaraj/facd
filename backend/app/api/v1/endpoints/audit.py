@@ -9,8 +9,10 @@ from fastapi import APIRouter, Depends, Query
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
+from app.api.deps import require_admin
 from app.database import get_db
 from app.models.audit_log import AuditLogModel
+from app.models.user import AppUserModel
 from app.schemas.audit import AuditLogItem, AuditLogPaginatedList
 
 router = APIRouter(prefix="/audit-logs", tags=["Audit Logs"])
@@ -27,6 +29,7 @@ def list_audit_logs(
     action: Optional[str] = Query(None, description="Filter by action name"),
     certificate_id: Optional[str] = Query(None, description="Filter by certificate UUID"),
     db: Session = Depends(get_db),
+    current_user: AppUserModel = Depends(require_admin),
 ) -> AuditLogPaginatedList:
     query = db.query(AuditLogModel)
 

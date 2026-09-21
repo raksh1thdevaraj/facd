@@ -214,11 +214,41 @@ class TabularFeatureExtractor:
         logical_score = 1.0
 
         if isinstance(text_consistency, TextConsistencyResult):
-            baseline_score = float(text_consistency.baseline_score)
-            font_size_score = float(text_consistency.font_size_score)
-            stroke_weight_score = float(text_consistency.stroke_weight_score)
-            spacing_score = float(text_consistency.spacing_score)
-            logical_score = float(text_consistency.logical_score)
+            baseline_score = float(
+                getattr(
+                    text_consistency,
+                    "baseline_alignment_score",
+                    getattr(text_consistency, "baseline_score", 1.0),
+                )
+            )
+            font_size_score = float(
+                getattr(
+                    text_consistency,
+                    "font_size_consistency_score",
+                    getattr(text_consistency, "font_size_score", 1.0),
+                )
+            )
+            stroke_weight_score = float(
+                getattr(
+                    text_consistency,
+                    "stroke_weight_consistency_score",
+                    getattr(text_consistency, "stroke_weight_score", 1.0),
+                )
+            )
+            spacing_score = float(
+                getattr(
+                    text_consistency,
+                    "spacing_consistency_score",
+                    getattr(text_consistency, "spacing_score", 1.0),
+                )
+            )
+            logical_score = float(
+                getattr(
+                    text_consistency,
+                    "logical_consistency_score",
+                    getattr(text_consistency, "logical_score", 1.0),
+                )
+            )
         elif isinstance(text_consistency, TextConsistencyOutput):
             risk = text_consistency.consistency_risk_score
             cleanliness = max(0.0, min(1.0, 1.0 - (risk / 100.0)))

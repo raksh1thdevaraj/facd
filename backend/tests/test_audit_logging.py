@@ -6,12 +6,28 @@ from fastapi.testclient import TestClient
 from PIL import Image
 from sqlalchemy.orm import Session
 
+from app.core.security import create_access_token
 from app.models.audit_log import AuditLogModel
+from app.models.user import AppUserModel
 from app.services.audit_service import AuditService
 
 
 def test_audit_log_service_and_api(client: TestClient, db_session: Session):
     """Verify actions are logged to audit_logs and queryable via API (TC-API-05)."""
+    # 0. Create admin user and auth header
+    admin_user = AppUserModel(
+        id="admin-test-01",
+        email="admin_audit@test.com",
+        full_name="Admin Audit",
+        password_hash="hash",
+        role="ADMIN",
+        is_active=True,
+    )
+    db_session.add(admin_user)
+    db_session.commit()
+    admin_token = create_access_token(subject=admin_user.id, role="ADMIN")
+    headers = {"Authorization": f"Bearer {admin_token}"}
+
     # 1. Log direct action via service
     log_entry = AuditService.log_action(
         db=db_session,
@@ -43,14 +59,14 @@ def test_audit_log_service_and_api(client: TestClient, db_session: Session):
     assert db_log.details_json["filename"] == "audit_cert.png"
 
     # 3. Query GET /api/v1/audit-logs
-    api_res = client.get("/api/v1/audit-logs?page=1&limit=10")
+    api_res = client.get("/api/v1/audit-logs?page=1&limit=10", headers=headers)
     assert api_res.status_code == 200
     data = api_res.json()
     assert data["total"] >= 2
     assert any(item["action"] == "CERTIFICATE_UPLOADED" for item in data["items"])
 
     # 4. Query with action filter
-    filtered_res = client.get("/api/v1/audit-logs?action=TEST_ACTION")
+    filtered_res = client.get("/api/v1/audit-logs?action=TEST_ACTION", headers=headers)
     assert filtered_res.status_code == 200
     filtered_data = filtered_res.json()
     assert len(filtered_data["items"]) >= 1

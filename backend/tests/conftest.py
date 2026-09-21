@@ -55,7 +55,12 @@ def client(db_session: Session) -> Generator[TestClient, None, None]:
     def override_get_db() -> Generator[Session, None, None]:
         yield db_session
 
+    from app.services.task_runner import FastAPIBackgroundTaskRunner, get_task_runner
+
+    test_runner = FastAPIBackgroundTaskRunner(session_factory=TestingSessionLocal)
+
     app.dependency_overrides[get_db] = override_get_db
+    app.dependency_overrides[get_task_runner] = lambda: test_runner
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()

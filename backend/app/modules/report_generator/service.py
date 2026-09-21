@@ -116,7 +116,9 @@ class ReportService:
         return report
 
     def get_report(
-        self, report_id: str, db: Optional[Session] = None
+        self,
+        report_id: str,
+        db: Optional[Session] = None,
     ) -> Optional[FullVerificationReport]:
         """Retrieve archived report by ID from filesystem or database."""
         json_file = self.output_dir / f"{report_id}.json"
@@ -125,8 +127,8 @@ class ReportService:
                 with open(json_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     return FullVerificationReport.model_validate(data)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error("Failed to parse json file for report %s: %s", report_id, e)
 
         # Fallback to DB
         if db is not None:
@@ -134,8 +136,10 @@ class ReportService:
             if record and record.report_data_json:
                 try:
                     return FullVerificationReport.model_validate(record.report_data_json)
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.error(
+                        "Failed to validate report_data_json from DB for %s: %s", report_id, e
+                    )
 
         return None
 
@@ -155,7 +159,14 @@ class ReportService:
     def _persist_to_db(self, report: FullVerificationReport, db: Session) -> None:
         """Upsert report metadata into verification_reports table."""
         try:
-            record = db.query(VerificationReportModel).filter_by(id=report.report_id).first()
+            record = (
+                db.query(VerificationReportModel)
+                .filter(
+                    (VerificationReportModel.id == report.report_id)
+                    | (VerificationReportModel.certificate_id == report.certificate_id)
+                )
+                .first()
+            )
             if record is None:
                 record = VerificationReportModel(
                     id=report.report_id,
@@ -177,11 +188,19 @@ class ReportService:
                 )
                 db.add(record)
             else:
+                record.id = report.report_id
+                record.overall_score = report.authenticity_score
+                record.risk_score = report.risk_score
+                record.verdict = report.verdict.value
+                record.confidence_score = report.confidence_score
+                record.sub_scores_json = [s.model_dump() for s in report.subsystem_scores]
+                record.contributing_factors_json = [f.model_dump() for f in report.findings]
                 record.pdf_path = report.pdf_path
                 record.json_path = report.json_path
                 record.qr_path = report.qr_code_path
                 record.hmac_signature = report.report_hmac_signature
                 record.report_data_json = report.model_dump(mode="json")
             db.commit()
-        except Exception:
+        except Exception as exc:
+            logger.exception("Failed to persist report to database: %s", exc)
             db.rollback()

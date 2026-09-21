@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Any, Optional
 
 from fastapi import BackgroundTasks
 
@@ -28,8 +28,9 @@ class AsyncTaskRunner(ABC):
 class FastAPIBackgroundTaskRunner(AsyncTaskRunner):
     """Executes verification pipeline in background threads using FastAPI BackgroundTasks."""
 
-    def __init__(self) -> None:
+    def __init__(self, session_factory: Optional[Any] = None) -> None:
         self.orchestrator = VerificationPipelineOrchestrator()
+        self.session_factory = session_factory or SessionLocal
 
     def dispatch(
         self, certificate_id: str, background_tasks: Optional[BackgroundTasks] = None
@@ -42,7 +43,7 @@ class FastAPIBackgroundTaskRunner(AsyncTaskRunner):
 
     def _execute_job(self, certificate_id: str) -> None:
         """Worker function running in a separate thread with dedicated database session."""
-        db = SessionLocal()
+        db = self.session_factory()
         try:
             logger.info(
                 "Starting background verification pipeline for certificate: %s", certificate_id

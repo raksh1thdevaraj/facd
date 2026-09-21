@@ -43,6 +43,7 @@ class CertificateListItem(BaseModel):
     created_at: datetime
     verdict: Optional[VerificationVerdict] = None
     authenticity_score: Optional[float] = None
+    report_id: Optional[str] = None
 
 
 class CertificatePaginatedList(BaseModel):
