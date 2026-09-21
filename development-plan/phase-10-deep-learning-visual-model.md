@@ -109,7 +109,12 @@ backend/
 1. Implement `CertificateVisualCNN(nn.Module)`:
    ```python
    class CertificateVisualCNN(nn.Module):
-       def __init__(self, backbone_name: str = "efficientnet_b0", pretrained: bool = True, embedding_dim: int = 512):
+       def __init__(
+           self,
+           backbone_name: str = "efficientnet_b0",
+           pretrained: bool = True,
+           embedding_dim: int = 512,
+       ):
            super().__init__()
            if backbone_name == "efficientnet_b0":
                weights = models.EfficientNet_B0_Weights.DEFAULT if pretrained else None
@@ -136,9 +141,9 @@ backend/
            self.classifier = nn.Linear(embedding_dim, 1)
 
        def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-           features = self.backbone(x)                     # (B, in_features)
-           embeddings = self.embedding_layer(features)     # (B, 512)
-           logits = self.classifier(embeddings)            # (B, 1)
+           features = self.backbone(x)  # (B, in_features)
+           embeddings = self.embedding_layer(features)  # (B, 512)
+           logits = self.classifier(embeddings)  # (B, 1)
            return logits.squeeze(-1), embeddings
    ```
 2. Support model freezing: Implement `freeze_backbone()` and `unfreeze_backbone()` methods for two-stage transfer learning.
@@ -271,7 +276,9 @@ backend/
 5. Check target assertion:
    ```python
    assert test_f1 >= 0.90, f"Visual model F1 {test_f1} is below 0.90 specification"
-   assert test_accuracy >= 0.90, f"Visual model accuracy {test_accuracy} is below 0.90 specification"
+   assert test_accuracy >= 0.90, (
+       f"Visual model accuracy {test_accuracy} is below 0.90 specification"
+   )
    ```
 6. Generate and save visualizations:
    - `ml/reports/dl_confusion_matrix.png`

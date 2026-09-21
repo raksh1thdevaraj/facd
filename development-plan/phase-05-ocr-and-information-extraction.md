@@ -112,15 +112,17 @@ backend/
            return cls._instance
 
        def initialize(self, use_gpu: bool = False, lang: str = "en"):
-           if self._initialized: return
+           if self._initialized:
+               return
            from paddleocr import PaddleOCR
+
            self.ocr = PaddleOCR(
                use_angle_cls=True,
                lang=lang,
                use_gpu=use_gpu,
                show_log=False,
-               enable_mkldnn=True,       # CPU acceleration
-               ocr_version="PP-OCRv4",   # Latest lightweight version
+               enable_mkldnn=True,  # CPU acceleration
+               ocr_version="PP-OCRv4",  # Latest lightweight version
            )
            self._initialized = True
    ```
@@ -235,10 +237,14 @@ backend/
    class BaseFieldExtractor(ABC):
        @property
        @abstractmethod
-       def field_name(self) -> str: pass
+       def field_name(self) -> str:
+           pass
 
        @abstractmethod
-       def extract(self, lines: List[TextLine], all_tokens: List[OCRToken]) -> Optional[ExtractedField]: pass
+       def extract(
+           self, lines: List[TextLine], all_tokens: List[OCRToken]
+       ) -> Optional[ExtractedField]:
+           pass
    ```
 2. Define `ExtractedField`:
    - `field_name: str`

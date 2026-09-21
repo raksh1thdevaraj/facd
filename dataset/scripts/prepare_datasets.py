@@ -21,11 +21,15 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from dataset.scripts.create_metadata import validate_and_report_metadata
-from dataset.scripts.generate_tampered_certificates import main as generate_tampered_main
+from dataset.scripts.generate_tampered_certificates import (
+    main as generate_tampered_main,
+)
 from dataset.scripts.prepare_certificate_dataset import prepare_certificate_directories
 from dataset.scripts.prepare_qr_dataset import generate_qr_test_vectors
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -50,6 +54,10 @@ def run_all_preparations(quick_mode: bool = False) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Master dataset preparation pipeline")
-    parser.add_argument("--quick", action="store_true", help="Skip re-generation if metadata already exists")
+    parser.add_argument(
+        "--quick",
+        action="store_true",
+        help="Skip re-generation if metadata already exists",
+    )
     args = parser.parse_args()
     run_all_preparations(quick_mode=args.quick)

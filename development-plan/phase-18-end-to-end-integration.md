@@ -131,15 +131,26 @@ backend/
 **Implementation:**
 1. Implement stage wrapper:
    ```python
-   def execute_stage(stage_name: str, timeout_seconds: float, stage_fn, context: PipelineExecutionContext, *args, **kwargs):
+   def execute_stage(
+       stage_name: str,
+       timeout_seconds: float,
+       stage_fn,
+       context: PipelineExecutionContext,
+       *args,
+       **kwargs,
+   ):
        start_time = time.perf_counter()
        try:
            # Execute with timeout guard
            result = run_with_timeout(stage_fn, timeout_seconds, context, *args, **kwargs)
-           context.stage_timings_ms[stage_name] = (time.perf_counter() - start_time) * 1000.0
+           context.stage_timings_ms[stage_name] = (
+               time.perf_counter() - start_time
+           ) * 1000.0
            return result
        except TimeoutError:
-           logger.warning(f"Stage '{stage_name}' timed out after {timeout_seconds}s. Proceeding with fallback.")
+           logger.warning(
+               f"Stage '{stage_name}' timed out after {timeout_seconds}s. Proceeding with fallback."
+           )
            context.stage_timings_ms[stage_name] = timeout_seconds * 1000.0
            return get_fallback_result(stage_name, context)
        except Exception as e:

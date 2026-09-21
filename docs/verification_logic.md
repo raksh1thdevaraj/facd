@@ -83,5 +83,7 @@ A counterfeiter steals an authentic Coursera certificate belonging to *John Doe*
    if qr_valid and (name_match_score < 0.70 or cert_id_match_score < 0.85):
        copied_qr_detected = True
        status = "SUSPICIOUS"  # or FRAUDULENT
-       reasons.append("VALID_QR_BUT_CERTIFICATE_DATA_MISMATCH: QR belongs to credential UC-99999 (John Doe), but document claims UC-11111 (Jane Smith).")
+       reasons.append(
+           "VALID_QR_BUT_CERTIFICATE_DATA_MISMATCH: QR belongs to credential UC-99999 (John Doe), but document claims UC-11111 (Jane Smith)."
+       )
    ```

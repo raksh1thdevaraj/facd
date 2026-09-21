@@ -84,7 +84,12 @@ def copy_move_tampering(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Copy a source image patch and duplicate it over a target position."""
     img_h, img_w = img.shape[:2]
-    sx, sy, sw, sh = source_box["x"], source_box["y"], source_box["width"], source_box["height"]
+    sx, sy, sw, sh = (
+        source_box["x"],
+        source_box["y"],
+        source_box["width"],
+        source_box["height"],
+    )
 
     # Bound check
     sx = max(0, min(sx, img_w - 1))
@@ -144,7 +149,9 @@ def splice_seal_or_signature(
     if use_poisson and cv2.countNonZero(alpha_mask) > 100:
         center = (tx + tw // 2, ty + th // 2)
         try:
-            output = cv2.seamlessClone(rgb_asset, output, alpha_mask, center, cv2.NORMAL_CLONE)
+            output = cv2.seamlessClone(
+                rgb_asset, output, alpha_mask, center, cv2.NORMAL_CLONE
+            )
         except (cv2.error, ValueError):
             # Fallback to standard alpha blend
             for c in range(3):
@@ -180,7 +187,12 @@ def apply_recompression_discrepancy(
 ) -> tuple[np.ndarray, dict[str, Any]]:
     """Save a local patch with low quality JPEG and paste back to create ELA compression noise."""
     img_h, img_w = img.shape[:2]
-    x, y, w, h = target_box["x"], target_box["y"], target_box["width"], target_box["height"]
+    x, y, w, h = (
+        target_box["x"],
+        target_box["y"],
+        target_box["width"],
+        target_box["height"],
+    )
 
     x = max(0, min(x, img_w - 1))
     y = max(0, min(y, img_h - 1))
@@ -237,7 +249,9 @@ def apply_manipulation(
 
     if chosen_type == "TEXT_REPLACEMENT":
         # Target CGPA/Grade or Student Name
-        target_field = random.choice(["grade_or_marks", "student_name", "certificate_number"])
+        target_field = random.choice(
+            ["grade_or_marks", "student_name", "certificate_number"]
+        )
         if target_field in field_boxes:
             box = field_boxes[target_field]["bbox_pixel"]
             if target_field == "grade_or_marks":
@@ -247,8 +261,10 @@ def apply_manipulation(
             else:
                 new_val = "CERT-24-999999"
 
-            img_cv, info = inpaint_and_replace_text(img_cv, box, new_val, font_mismatched=True)
-            info["region_id"] = f"REG_{len(manipulated_regions)+1:02d}"
+            img_cv, info = inpaint_and_replace_text(
+                img_cv, box, new_val, font_mismatched=True
+            )
+            info["region_id"] = f"REG_{len(manipulated_regions) + 1:02d}"
             info["field_affected"] = target_field
             info["original_value"] = field_boxes[target_field]["value"]
             info["tampered_value"] = new_val
@@ -262,7 +278,7 @@ def apply_manipulation(
             clone_x = max(10, box["x"] + random.randint(40, 120))
             clone_y = box["y"]
             img_cv, info = copy_move_tampering(img_cv, box, clone_x, clone_y)
-            info["region_id"] = f"REG_{len(manipulated_regions)+1:02d}"
+            info["region_id"] = f"REG_{len(manipulated_regions) + 1:02d}"
             info["field_affected"] = target_field
             manipulated_regions.append(info)
 
@@ -272,8 +288,10 @@ def apply_manipulation(
         if seals:
             splice_seal = random.choice(seals)
             target_pos = (img_w // 2 - 110, img_h - 340)
-            img_cv, info = splice_seal_or_signature(img_cv, splice_seal, target_pos, (220, 220), use_poisson=True)
-            info["region_id"] = f"REG_{len(manipulated_regions)+1:02d}"
+            img_cv, info = splice_seal_or_signature(
+                img_cv, splice_seal, target_pos, (220, 220), use_poisson=True
+            )
+            info["region_id"] = f"REG_{len(manipulated_regions) + 1:02d}"
             info["field_affected"] = "institutional_seal"
             manipulated_regions.append(info)
 
@@ -283,7 +301,7 @@ def apply_manipulation(
         if target_field in field_boxes:
             box = field_boxes[target_field]["bbox_pixel"]
             img_cv, info = apply_recompression_discrepancy(img_cv, box, low_q=60)
-            info["region_id"] = f"REG_{len(manipulated_regions)+1:02d}"
+            info["region_id"] = f"REG_{len(manipulated_regions) + 1:02d}"
             info["field_affected"] = target_field
             manipulated_regions.append(info)
 

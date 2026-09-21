@@ -1,13 +1,13 @@
 """Tests for Course Verification Multi-Signal Decision Engine."""
 
 import pytest
+
 from app.modules.course_verification.decision_engine import CourseDecisionEngine
 from app.schemas.course_certificate import (
     CourseComparisonResult,
     CourseForensicResult,
     CourseOnlineRecord,
     CourseQRResult,
-    CourseSealSignatureResult,
     CourseURLVerificationResult,
     CourseVerificationStatus,
 )
@@ -20,7 +20,9 @@ def decision_engine():
 
 def test_verified_verdict(decision_engine):
     """Clean certificate matching authoritative issuer with online confirmation -> VERIFIED."""
-    qr_res = CourseQRResult(qr_detected=True, qr_decoded=True, payload="https://coursera.org/verify/123")
+    qr_res = CourseQRResult(
+        qr_detected=True, qr_decoded=True, payload="https://coursera.org/verify/123"
+    )
     url_res = CourseURLVerificationResult(
         is_valid_url=True,
         resolved_issuer="Coursera",
@@ -59,7 +61,9 @@ def test_verified_verdict(decision_engine):
 
 def test_copied_qr_attack_forces_fraudulent(decision_engine):
     """Copied QR attack MUST unconditionally trigger FRAUDULENT verdict."""
-    qr_res = CourseQRResult(qr_detected=True, qr_decoded=True, payload="https://coursera.org/verify/123")
+    qr_res = CourseQRResult(
+        qr_detected=True, qr_decoded=True, payload="https://coursera.org/verify/123"
+    )
     url_res = CourseURLVerificationResult(is_valid_url=True, trust_score=1.0)
     comp_res = CourseComparisonResult(
         name_match_score=0.15,
@@ -84,8 +88,12 @@ def test_copied_qr_attack_forces_fraudulent(decision_engine):
 
 
 def test_network_unreachable_yields_unverified_not_fraudulent(decision_engine):
-    """CRITICAL SPEC REQUIREMENT: Network or web accessibility failure must NOT trigger FRAUDULENT!"""
-    qr_res = CourseQRResult(qr_detected=True, qr_decoded=True, payload="https://coursera.org/verify/123")
+    """CRITICAL SPEC REQUIREMENT: Network or web accessibility failure must NOT
+    trigger FRAUDULENT!
+    """
+    qr_res = CourseQRResult(
+        qr_detected=True, qr_decoded=True, payload="https://coursera.org/verify/123"
+    )
     url_res = CourseURLVerificationResult(is_valid_url=True, is_known_issuer=True, trust_score=1.0)
     # Online record was NOT available because issuer site timed out
     comp_res = CourseComparisonResult(

@@ -1,6 +1,7 @@
 """Tests for Cross-Modal Field Matching and Copied QR Attack Detection."""
 
 import pytest
+
 from app.modules.course_verification.comparator import CourseRecordComparator
 from app.schemas.course_certificate import (
     CourseExtractedFields,
@@ -38,7 +39,9 @@ def test_perfect_field_alignment(comparator):
 
 
 def test_copied_qr_attack_interception(comparator):
-    """Critical Spec Test: Valid QR code with valid online record, but recipient name is completely different!"""
+    """Critical Spec Test: Valid QR code with valid online record, but recipient
+    name is completely different!
+    """
     # Forger pasted a valid QR of 'Bob Smith' onto a cert declaring 'Eve Forger'
     extracted = CourseExtractedFields(
         candidate_name="Eve Forger",

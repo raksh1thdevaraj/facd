@@ -127,7 +127,9 @@ backend/
    - Tabular vector shape: `(22,)` (standard-scaled float32).
    - Concatenate along axis 0:
      ```python
-     fused_vector = np.concatenate([visual_embedding, tabular_vector], axis=0)  # Shape (534,)
+     fused_vector = np.concatenate(
+         [visual_embedding, tabular_vector], axis=0
+     )  # Shape (534,)
      ```
 2. Verify dimensional integrity: `assert fused_vector.shape == (534,)`.
 3. Check for NaN or Inf values and replace with zeros.
@@ -156,20 +158,23 @@ backend/
 1. Implement `MultimodalFusionMLP(nn.Module)`:
    ```python
    class MultimodalFusionMLP(nn.Module):
-       def __init__(self, input_dim: int = 534, hidden_dims: List[int] = [256, 64], dropout_rate: float = 0.3):
+       def __init__(
+           self,
+           input_dim: int = 534,
+           hidden_dims: List[int] = [256, 64],
+           dropout_rate: float = 0.3,
+       ):
            super().__init__()
            self.network = nn.Sequential(
                nn.Linear(input_dim, hidden_dims[0]),
                nn.BatchNorm1d(hidden_dims[0]),
                nn.ReLU(inplace=True),
                nn.Dropout(dropout_rate),
-
                nn.Linear(hidden_dims[0], hidden_dims[1]),
                nn.BatchNorm1d(hidden_dims[1]),
                nn.ReLU(inplace=True),
                nn.Dropout(dropout_rate),
-
-               nn.Linear(hidden_dims[1], 1)  # Output logit
+               nn.Linear(hidden_dims[1], 1),  # Output logit
            )
 
        def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -259,7 +264,9 @@ backend/
    ```python
    # VETO 1: Definitive Inconsistency -> Force to MANIPULATED
    if tier_result.tier == TierStatus.TIER_3_INCONSISTENT:
-       if record_result.record_found and (not record_result.name_match or not record_result.cgpa_match):
+       if record_result.record_found and (
+           not record_result.name_match or not record_result.cgpa_match
+       ):
            veto_score = min(raw_authenticity_score, 0.15)
            reason = f"CRITICAL VETO: Certificate details contradict official university database record ({record_result.discrepancies[0]})."
            return veto_score, True, reason
@@ -343,7 +350,9 @@ backend/
 4. Check contractual assertion:
    ```python
    assert best_f1 >= 0.92, f"Multimodal F1 {best_f1} below 0.92 specification"
-   assert best_accuracy >= 0.92, f"Multimodal accuracy {best_accuracy} below 0.92 specification"
+   assert best_accuracy >= 0.92, (
+       f"Multimodal accuracy {best_accuracy} below 0.92 specification"
+   )
    ```
 5. Save evaluation comparison charts and JSON report to `ml/reports/multimodal_metrics.json`.
 

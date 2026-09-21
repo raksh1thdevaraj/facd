@@ -29,7 +29,9 @@ def create_dataset_splits(
 
     # 1. Separate OOD template samples for test split
     ood_samples = [s for s in samples if s.get("source_template_id") == ood_template_id]
-    in_dist_samples = [s for s in samples if s.get("source_template_id") != ood_template_id]
+    in_dist_samples = [
+        s for s in samples if s.get("source_template_id") != ood_template_id
+    ]
 
     # 2. Stratify in-distribution samples by label
     genuine = [s for s in in_dist_samples if not s["is_manipulated"]]
@@ -42,11 +44,17 @@ def create_dataset_splits(
     rng.shuffle(genuine)
     rng.shuffle(manipulated)
 
-    def split_group(group: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    def split_group(
+        group: list[dict[str, Any]],
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
         n = len(group)
         n_train = int(n * train_ratio)
         n_val = int(n * val_ratio)
-        return group[:n_train], group[n_train : n_train + n_val], group[n_train + n_val :]
+        return (
+            group[:n_train],
+            group[n_train : n_train + n_val],
+            group[n_train + n_val :],
+        )
 
     g_train, g_val, g_test = split_group(genuine)
     m_train, m_val, m_test = split_group(manipulated)

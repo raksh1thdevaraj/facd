@@ -48,7 +48,9 @@ def generate_synthetic_record() -> dict[str, str]:
     day = random.randint(10, 28)
     from datetime import timezone
 
-    issue_date = datetime(grad_year, month, day, tzinfo=timezone.utc).strftime("%B %d, %Y")
+    issue_date = datetime(grad_year, month, day, tzinfo=timezone.utc).strftime(
+        "%B %d, %Y"
+    )
     cert_year_short = str(grad_year)[-2:]
 
     return {
@@ -77,7 +79,9 @@ def render_genuine_certificate(
     seal_path = assets_dir / "seals" / template_meta["seal_file"]
     if seal_path.exists():
         seal_img = Image.open(seal_path).convert("RGBA")
-        seal_img = seal_img.resize((seal_anchor["size"], seal_anchor["size"]), Image.Resampling.LANCZOS)
+        seal_img = seal_img.resize(
+            (seal_anchor["size"], seal_anchor["size"]), Image.Resampling.LANCZOS
+        )
         base_img.paste(seal_img, (seal_anchor["x"], seal_anchor["y"]), mask=seal_img)
 
     # Composite Left Signature
@@ -85,16 +89,24 @@ def render_genuine_certificate(
     sig_l_path = assets_dir / "signatures" / template_meta["sig_left_file"]
     if sig_l_path.exists():
         sig_l_img = Image.open(sig_l_path).convert("RGBA")
-        sig_l_img = sig_l_img.resize(tuple(sig_l_anchor["size"]), Image.Resampling.LANCZOS)
-        base_img.paste(sig_l_img, (sig_l_anchor["x"], sig_l_anchor["y"]), mask=sig_l_img)
+        sig_l_img = sig_l_img.resize(
+            tuple(sig_l_anchor["size"]), Image.Resampling.LANCZOS
+        )
+        base_img.paste(
+            sig_l_img, (sig_l_anchor["x"], sig_l_anchor["y"]), mask=sig_l_img
+        )
 
     # Composite Right Signature
     sig_r_anchor = template_meta["sig_right_anchor"]
     sig_r_path = assets_dir / "signatures" / template_meta["sig_right_file"]
     if sig_r_path.exists():
         sig_r_img = Image.open(sig_r_path).convert("RGBA")
-        sig_r_img = sig_r_img.resize(tuple(sig_r_anchor["size"]), Image.Resampling.LANCZOS)
-        base_img.paste(sig_r_img, (sig_r_anchor["x"], sig_r_anchor["y"]), mask=sig_r_img)
+        sig_r_img = sig_r_img.resize(
+            tuple(sig_r_anchor["size"]), Image.Resampling.LANCZOS
+        )
+        base_img.paste(
+            sig_r_img, (sig_r_anchor["x"], sig_r_anchor["y"]), mask=sig_r_img
+        )
 
     # Render Text Fields and compute bounding boxes
     draw = ImageDraw.Draw(base_img)

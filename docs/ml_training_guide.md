@@ -85,5 +85,5 @@ decision = engine.evaluate(
 
 print(decision.status)  # VERIFIED | SUSPICIOUS | FRAUDULENT | UNVERIFIED
 print(decision.overall_authenticity_score)  # e.g., 96.5%
-print(decision.fraud_risk_score)            # e.g., 3.5%
+print(decision.fraud_risk_score)  # e.g., 3.5%
 ```

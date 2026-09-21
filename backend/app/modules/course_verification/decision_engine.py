@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Any
 
 import joblib
 import numpy as np
@@ -75,7 +74,11 @@ class CourseDecisionEngine:
         url_valid_syntax = 1.0 if url_result.is_valid_url else 0.0
         issuer_trusted = 1.0 if url_result.is_known_issuer else 0.0
         domain_match = 1.0 if url_result.domain_match else 0.0
-        online_available = 1.0 if (comparison_result.online_record and comparison_result.online_record.is_available) else 0.0
+        online_available = (
+            1.0
+            if (comparison_result.online_record and comparison_result.online_record.is_available)
+            else 0.0
+        )
 
         tampering_prob = forensic_result.tampering_probability
 
@@ -124,12 +127,19 @@ class CourseDecisionEngine:
         # 1. Critical Hard Rules
         # Copied QR Attack Defense: Valid QR grafted onto someone else's certificate
         if comparison_result.copied_qr_detected:
-            risk_factors.append("CRITICAL: Copied/transplanted QR code detected. Online record belongs to different recipient.")
+            risk_factors.append(
+                "CRITICAL: Copied/transplanted QR code detected. "
+                "Online record belongs to different recipient."
+            )
             return CourseVerificationDecision(
                 status=CourseVerificationStatus.FRAUDULENT,
                 overall_authenticity_score=0.05,
                 fraud_risk_score=0.98,
-                decision_reasons=["Transplanted QR code attack intercepted. QR verification URL resolves to valid issuer record, but recipient name and certificate ID do not match document text."],
+                decision_reasons=[
+                    "Transplanted QR code attack intercepted. QR verification URL resolves "
+                    "to valid issuer record, but recipient name and certificate ID do not match "
+                    "document text."
+                ],
                 risk_factors=risk_factors,
                 signal_scores={
                     "online_verification": 0.0,
@@ -143,12 +153,17 @@ class CourseDecisionEngine:
 
         # Malicious / SSRF Blocked URL
         if url_result.risk_level == "MALICIOUS":
-            risk_factors.append("CRITICAL: Verification URL points to unsafe or internal IP address (SSRF attempt).")
+            risk_factors.append(
+                "CRITICAL: Verification URL points to unsafe or internal IP address (SSRF attempt)."
+            )
             return CourseVerificationDecision(
                 status=CourseVerificationStatus.FRAUDULENT,
                 overall_authenticity_score=0.02,
                 fraud_risk_score=0.99,
-                decision_reasons=["Verification URL points to suspicious or malicious host prohibited by security policy."],
+                decision_reasons=[
+                    "Verification URL points to suspicious or malicious host "
+                    "prohibited by security policy."
+                ],
                 risk_factors=risk_factors,
                 signal_scores={
                     "online_verification": 0.0,
@@ -171,12 +186,16 @@ class CourseDecisionEngine:
 
         # Online Verification Score (0.0 to 1.0)
         online_score = 0.5  # Neutral default if not available
-        has_online = comparison_result.online_record and comparison_result.online_record.is_available
+        has_online = (
+            comparison_result.online_record and comparison_result.online_record.is_available
+        )
         network_unreachable = False
 
         if has_online:
             online_score = 1.0
-            positive_signals.append("Online certificate registry record successfully retrieved and verified.")
+            positive_signals.append(
+                "Online certificate registry record successfully retrieved and verified."
+            )
         elif qr_result.qr_detected and url_result.is_valid_url:
             # QR was found and points to URL, but online record could not be retrieved
             network_unreachable = True
@@ -190,9 +209,15 @@ class CourseDecisionEngine:
         if has_online:
             field_score = comparison_result.overall_match_score
             if field_score >= 0.85:
-                positive_signals.append(f"Certificate text closely matches online issuer records ({field_score*100:.1f}% alignment).")
+                positive_signals.append(
+                    f"Certificate text closely matches online issuer records "
+                    f"({field_score * 100:.1f}% alignment)."
+                )
             elif field_score < 0.50:
-                risk_factors.append(f"Significant discrepancy between certificate text and online records ({field_score*100:.1f}% alignment).")
+                risk_factors.append(
+                    f"Significant discrepancy between certificate text and online records "
+                    f"({field_score * 100:.1f}% alignment)."
+                )
         else:
             field_score = min(1.0, ocr_confidence * 1.1)
 
@@ -201,9 +226,14 @@ class CourseDecisionEngine:
         if forensic_result.copy_move_detected:
             risk_factors.append("Copy-move duplication detected in document layout.")
         if forensic_result.tampering_probability > 0.60:
-            risk_factors.append(f"High pixel-level tampering probability detected ({forensic_result.tampering_probability*100:.1f}%).")
+            risk_factors.append(
+                f"High pixel-level tampering probability detected "
+                f"({forensic_result.tampering_probability * 100:.1f}%)."
+            )
         elif forensic_result.tampering_probability < 0.20:
-            positive_signals.append("Document image forensics indicate uniform compression and pixel integrity.")
+            positive_signals.append(
+                "Document image forensics indicate uniform compression and pixel integrity."
+            )
 
         # QR Verification Score (0.0 to 1.0)
         if qr_result.qr_detected and qr_result.qr_decoded:
@@ -218,9 +248,14 @@ class CourseDecisionEngine:
         # Domain Trust Score (0.0 to 1.0)
         domain_score = url_result.trust_score
         if url_result.is_known_issuer:
-            positive_signals.append(f"Issued by recognized authoritative provider ({url_result.resolved_issuer or 'Authoritative'}).")
+            positive_signals.append(
+                "Issued by recognized authoritative provider "
+                f"({url_result.resolved_issuer or 'Authoritative'})."
+            )
         elif url_result.is_valid_url and not url_result.is_known_issuer:
-            risk_factors.append(f"Issuer domain '{url_result.domain}' is not in authoritative issuer registry.")
+            risk_factors.append(
+                f"Issuer domain '{url_result.domain}' is not in authoritative issuer registry."
+            )
 
         # Signature & Seal Score (0.0 to 1.0)
         sig_seal_score = (sig_result.signature_score + sig_result.seal_score) / 2.0
@@ -256,7 +291,9 @@ class CourseDecisionEngine:
         else:
             ml_prob = 1.0 - overall_authenticity
 
-        fraud_risk = float(np.clip((ml_prob * 0.60) + ((1.0 - overall_authenticity) * 0.40), 0.0, 1.0))
+        fraud_risk = float(
+            np.clip((ml_prob * 0.60) + ((1.0 - overall_authenticity) * 0.40), 0.0, 1.0)
+        )
 
         # 4. Status Determination
         # CRITICAL SPEC RULE: Web accessibility/network issues must NEVER trigger FRAUDULENT
@@ -266,22 +303,41 @@ class CourseDecisionEngine:
                 reasons.append("Document exhibits strong indicators of physical/pixel tampering.")
             else:
                 status = CourseVerificationStatus.UNVERIFIED
-                reasons.append("Online verification registry was unreachable or query timed out. Document cannot be validated online, but no active pixel tampering was found.")
-        elif forensic_result.tampering_probability > 0.65 or forensic_result.copy_move_detected or (has_online and field_score < 0.40):
+                reasons.append(
+                    "Online verification registry was unreachable or query timed out. "
+                    "Document cannot be validated online, but no active pixel tampering was found."
+                )
+        elif (
+            forensic_result.tampering_probability > 0.65
+            or forensic_result.copy_move_detected
+            or (has_online and field_score < 0.40)
+        ):
             status = CourseVerificationStatus.FRAUDULENT
-            reasons.append("Document exhibits strong indicators of digital manipulation or irreconcilable record mismatch.")
+            reasons.append(
+                "Document exhibits strong indicators of digital manipulation or "
+                "irreconcilable record mismatch."
+            )
         elif fraud_risk >= 0.60:
             status = CourseVerificationStatus.FRAUDULENT
             reasons.append("High fraud risk score computed across multi-signal analysis.")
         elif fraud_risk <= 0.25 and overall_authenticity >= 0.75:
             status = CourseVerificationStatus.VERIFIED
-            reasons.append("All verification signals confirm certificate authenticity and consistency with authoritative standards.")
+            reasons.append(
+                "All verification signals confirm certificate authenticity and "
+                "consistency with authoritative standards."
+            )
         elif not qr_result.qr_detected and not has_online:
             status = CourseVerificationStatus.UNVERIFIED
-            reasons.append("Certificate lacks machine-verifiable online credentials (no valid QR code or registry link).")
+            reasons.append(
+                "Certificate lacks machine-verifiable online credentials "
+                "(no valid QR code or registry link)."
+            )
         else:
             status = CourseVerificationStatus.SUSPICIOUS
-            reasons.append("Moderate discrepancy or inconclusive indicators observed. Manual review recommended.")
+            reasons.append(
+                "Moderate discrepancy or inconclusive indicators observed. "
+                "Manual review recommended."
+            )
 
         if positive_signals and not reasons:
             reasons.extend(positive_signals[:2])

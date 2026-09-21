@@ -32,10 +32,12 @@ from enum import Enum
 from typing import List, Optional, Dict, Any, Tuple
 from pydantic import BaseModel, Field
 
+
 class RiskBand(str, Enum):
     LOW = "LOW"
     MEDIUM = "MEDIUM"
     HIGH = "HIGH"
+
 
 class CheckStatus(str, Enum):
     PASSED = "PASSED"
@@ -43,15 +45,19 @@ class CheckStatus(str, Enum):
     FAILED = "FAILED"
     SKIPPED = "SKIPPED"
 
+
 class BoundingBox(BaseModel):
     """Normalized coordinates: 0.0 to 1.0 relative to image width and height."""
+
     x1: float = Field(..., ge=0.0, le=1.0, description="Top-left X")
     y1: float = Field(..., ge=0.0, le=1.0, description="Top-left Y")
     x2: float = Field(..., ge=0.0, le=1.0, description="Bottom-right X")
     y2: float = Field(..., ge=0.0, le=1.0, description="Bottom-right Y")
 
+
 class PixelBoundingBox(BaseModel):
     """Absolute pixel coordinates."""
+
     x: int = Field(..., ge=0)
     y: int = Field(..., ge=0)
     width: int = Field(..., gt=0)
@@ -67,7 +73,7 @@ class IngestionOutput(BaseModel):
     document_id: str = Field(..., description="UUID string")
     original_filename: str
     file_extension: str  # e.g., ".jpg", ".png", ".pdf"
-    mime_type: str       # e.g., "image/jpeg", "application/pdf"
+    mime_type: str  # e.g., "image/jpeg", "application/pdf"
     file_size_bytes: int
     raw_storage_path: str
     is_pdf: bool
@@ -81,13 +87,17 @@ class IngestionOutput(BaseModel):
 ```python
 class PreprocessingOutput(BaseModel):
     document_id: str
-    processed_image_path: str = Field(..., description="Path to clean, deskewed RGB image")
+    processed_image_path: str = Field(
+        ..., description="Path to clean, deskewed RGB image"
+    )
     thumbnail_path: str = Field(..., description="Small web preview image path")
     original_width: int
     original_height: int
     processed_width: int
     processed_height: int
-    deskew_angle_degrees: float = Field(default=0.0, description="Angle rotated to straighten")
+    deskew_angle_degrees: float = Field(
+        default=0.0, description="Angle rotated to straighten"
+    )
     contrast_applied: bool = True
     noise_reduction_applied: bool = True
 ```
@@ -102,6 +112,7 @@ class OCRToken(BaseModel):
     confidence: float = Field(..., ge=0.0, le=1.0)
     bbox: BoundingBox
     pixel_bbox: PixelBoundingBox
+
 
 class CertificateFields(BaseModel):
     student_name: Optional[str] = None
@@ -125,9 +136,12 @@ class CertificateFields(BaseModel):
     certificate_number: Optional[str] = None
     certificate_number_confidence: float = 0.0
 
+
 class OCROutput(BaseModel):
     document_id: str
-    engine_used: str = Field(default="pytesseract", description="'pytesseract' or 'easyocr'")
+    engine_used: str = Field(
+        default="pytesseract", description="'pytesseract' or 'easyocr'"
+    )
     raw_extracted_text: str
     average_ocr_confidence: float = Field(..., ge=0.0, le=1.0)
     tokens: List[OCRToken] = Field(default_factory=list)
@@ -141,17 +155,20 @@ class OCROutput(BaseModel):
 
 ```python
 class ConsistencyCheckItem(BaseModel):
-    rule_id: str          # e.g., "RULE_DATE_LOGIC", "RULE_GRADE_FORMAT"
-    name: str             # Human-readable rule name
+    rule_id: str  # e.g., "RULE_DATE_LOGIC", "RULE_GRADE_FORMAT"
+    name: str  # Human-readable rule name
     status: CheckStatus
     confidence: float = Field(default=1.0, ge=0.0, le=1.0)
-    details: str          # Explanation of findings
+    details: str  # Explanation of findings
     field_affected: Optional[str] = None
+
 
 class TextConsistencyOutput(BaseModel):
     document_id: str
     overall_status: CheckStatus
-    consistency_risk_score: float = Field(..., ge=0.0, le=100.0, description="0=Clean, 100=Inconsistent")
+    consistency_risk_score: float = Field(
+        ..., ge=0.0, le=100.0, description="0=Clean, 100=Inconsistent"
+    )
     checks: List[ConsistencyCheckItem] = Field(default_factory=list)
 ```
 
@@ -164,22 +181,27 @@ class SuspiciousRegion(BaseModel):
     region_id: str
     bbox: BoundingBox
     pixel_bbox: PixelBoundingBox
-    forensic_type: str = Field(..., description="e.g. 'ELA_ANOMALY', 'COPY_MOVE', 'FONT_MISMATCH'")
+    forensic_type: str = Field(
+        ..., description="e.g. 'ELA_ANOMALY', 'COPY_MOVE', 'FONT_MISMATCH'"
+    )
     anomaly_score: float = Field(..., ge=0.0, le=1.0)
     description: str
+
 
 class ForensicsOutput(BaseModel):
     document_id: str
     ela_heatmap_path: str
-    ela_score: float = Field(..., ge=0.0, le=1.0, description="0=Consistent compression, 1=Heavy splicing")
-    
+    ela_score: float = Field(
+        ..., ge=0.0, le=1.0, description="0=Consistent compression, 1=Heavy splicing"
+    )
+
     copy_move_detected: bool = False
     copy_move_clusters_count: int = 0
     copy_move_score: float = Field(..., ge=0.0, le=1.0)
-    
+
     font_irregularity_score: float = Field(..., ge=0.0, le=1.0)
     noise_inconsistency_score: float = Field(..., ge=0.0, le=1.0)
-    
+
     forensics_risk_score: float = Field(..., ge=0.0, le=100.0)
     suspicious_regions: List[SuspiciousRegion] = Field(default_factory=list)
 ```
@@ -206,10 +228,14 @@ class TemplateMatchOutput(BaseModel):
 ```python
 class MLInferenceOutput(BaseModel):
     model_version: str
-    model_type: str = Field(..., description="'tabular_baseline', 'cnn_visual', or 'fused_multimodal'")
+    model_type: str = Field(
+        ..., description="'tabular_baseline', 'cnn_visual', or 'fused_multimodal'"
+    )
     manipulation_probability: float = Field(..., ge=0.0, le=1.0)
     predicted_class: str = Field(..., description="'genuine' or 'manipulated'")
-    feature_contributions: Dict[str, float] = Field(default_factory=dict, description="SHAP/Feature weights")
+    feature_contributions: Dict[str, float] = Field(
+        default_factory=dict, description="SHAP/Feature weights"
+    )
     gradcam_heatmap_path: Optional[str] = None
 ```
 
@@ -220,10 +246,11 @@ class MLInferenceOutput(BaseModel):
 ```python
 class ContributingFactor(BaseModel):
     factor_id: str
-    category: str        # 'FORENSICS', 'TEXT_CONSISTENCY', 'OCR', 'ML_MODEL', 'TEMPLATE'
-    impact: str          # 'LOW', 'MEDIUM', 'HIGH'
+    category: str  # 'FORENSICS', 'TEXT_CONSISTENCY', 'OCR', 'ML_MODEL', 'TEMPLATE'
+    impact: str  # 'LOW', 'MEDIUM', 'HIGH'
     weight_percentage: float
     description: str
+
 
 class ScoreFusionOutput(BaseModel):
     document_id: str
@@ -231,6 +258,7 @@ class ScoreFusionOutput(BaseModel):
     risk_band: RiskBand
     confidence_level: float = Field(..., ge=0.0, le=1.0)
     contributing_factors: List[ContributingFactor] = Field(default_factory=list)
+
 
 class VerificationReportDTO(BaseModel):
     verification_id: str

@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from enum import Enum
 from typing import Any, List, Optional, Union
+
 from pydantic import BaseModel, Field
 
 
@@ -186,8 +188,6 @@ class IssuerResponse(IssuerCreateRequest):
 
 
 # --- Pipeline Domain Models ---
-
-from enum import Enum
 
 
 class CourseVerificationStatus(str, Enum):

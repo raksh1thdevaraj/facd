@@ -374,7 +374,8 @@ from faker import Faker
 from dataclasses import dataclass
 from typing import List
 
-fake = Faker('en_IN')
+fake = Faker("en_IN")
+
 
 @dataclass
 class StudentRecord:
@@ -382,37 +383,46 @@ class StudentRecord:
     register_number: str
     course: str
     institution: str
-    marks: dict           # subject → mark
+    marks: dict  # subject → mark
     total_marks: int
     percentage: float
-    result: str           # "PASS" / "FAIL" / "DISTINCTION"
+    result: str  # "PASS" / "FAIL" / "DISTINCTION"
     exam_date: str
     issue_date: str
     certificate_number: str
+
 
 def generate_register_number(institution_code: str, year: int) -> str:
     """Generate realistic register number like '1VT18CS001'."""
     seq = random.randint(1, 200)
     return f"{institution_code}{year % 100:02d}CS{seq:03d}"
 
+
 def generate_marks(num_subjects: int = 6) -> dict:
     """Generate marks for subjects with realistic distribution."""
-    subjects = ["Mathematics", "Physics", "Computer Science", 
-                "Electronics", "English", "Engineering Drawing"]
+    subjects = [
+        "Mathematics",
+        "Physics",
+        "Computer Science",
+        "Electronics",
+        "English",
+        "Engineering Drawing",
+    ]
     marks = {}
     for subj in subjects[:num_subjects]:
         marks[subj] = random.randint(35, 100)
     return marks
 
+
 def generate_student_record(config: dict) -> StudentRecord:
     """Generate a complete synthetic student record."""
-    institution = random.choice(config['institutions'])
-    course = random.choice(config['courses'])
-    year = random.randint(*config['year_range'])
+    institution = random.choice(config["institutions"])
+    course = random.choice(config["courses"])
+    year = random.randint(*config["year_range"])
     marks = generate_marks()
     total = sum(marks.values())
     percentage = total / len(marks)
-    
+
     return StudentRecord(
         student_name=fake.name(),
         register_number=generate_register_number("1VT", year),
@@ -421,9 +431,13 @@ def generate_student_record(config: dict) -> StudentRecord:
         marks=marks,
         total_marks=total,
         percentage=round(percentage, 2),
-        result="DISTINCTION" if percentage >= 70 else "PASS" if percentage >= 35 else "FAIL",
-        exam_date=f"{random.randint(1,28):02d}/{random.randint(1,12):02d}/{year}",
-        issue_date=f"{random.randint(1,28):02d}/{random.randint(1,12):02d}/{year + 1}",
+        result="DISTINCTION"
+        if percentage >= 70
+        else "PASS"
+        if percentage >= 35
+        else "FAIL",
+        exam_date=f"{random.randint(1, 28):02d}/{random.randint(1, 12):02d}/{year}",
+        issue_date=f"{random.randint(1, 28):02d}/{random.randint(1, 12):02d}/{year + 1}",
         certificate_number=f"VTU/{year}/{random.randint(10000, 99999)}",
     )
 ```
@@ -448,7 +462,11 @@ def generate_student_record(config: dict) -> StudentRecord:
 **Testing:**
 ```python
 def test_generate_student_record():
-    config = {"institutions": ["Test Univ"], "courses": ["B.E."], "year_range": [2020, 2024]}
+    config = {
+        "institutions": ["Test Univ"],
+        "courses": ["B.E."],
+        "year_range": [2020, 2024],
+    }
     record = generate_student_record(config)
     assert record.student_name  # not empty
     assert 35 <= record.percentage <= 100
@@ -606,21 +624,28 @@ Each function applies the appropriate transformations using Pillow and OpenCV.
 4. Record the manipulation bounding box and type.
 
 ```python
-def alter_name(image: Image, layout: dict, new_name: str, method: str = "matched") -> tuple:
+def alter_name(
+    image: Image, layout: dict, new_name: str, method: str = "matched"
+) -> tuple:
     """
     Returns: (manipulated_image, manipulation_bbox)
     """
     field = layout["fields"]["student_name"]
-    bbox = (field["x"], field["y"], field["x"] + field["width"], field["y"] + field["height"])
-    
+    bbox = (
+        field["x"],
+        field["y"],
+        field["x"] + field["width"],
+        field["y"] + field["height"],
+    )
+
     # Erase original region
     draw = ImageDraw.Draw(image)
     draw.rectangle(bbox, fill="white")
-    
+
     # Render new name
     font = get_font(field["font_size"], matched=(method == "matched"))
     draw.text((field["x"], field["y"]), new_name, fill="black", font=font)
-    
+
     return image, bbox
 ```
 
@@ -956,20 +981,25 @@ MAN_001,manipulated/MAN_001_name_altered.png,manipulated,name_altered,"[400,600,
 ```python
 from sklearn.model_selection import GroupShuffleSplit
 
+
 def split_dataset(metadata_df, config):
     # Group by base certificate to prevent leakage
-    groups = metadata_df['base_genuine_id'].fillna(metadata_df['sample_id'])
-    
+    groups = metadata_df["base_genuine_id"].fillna(metadata_df["sample_id"])
+
     # First split: separate test set
-    gss = GroupShuffleSplit(n_splits=1, test_size=0.15, random_state=config['random_seed'])
+    gss = GroupShuffleSplit(
+        n_splits=1, test_size=0.15, random_state=config["random_seed"]
+    )
     train_val_idx, test_idx = next(gss.split(metadata_df, groups=groups))
-    
+
     # Second split: separate validation from training
     train_val_df = metadata_df.iloc[train_val_idx]
     train_val_groups = groups.iloc[train_val_idx]
-    gss2 = GroupShuffleSplit(n_splits=1, test_size=0.176, random_state=config['random_seed'])  # 0.176 * 0.85 ≈ 0.15
+    gss2 = GroupShuffleSplit(
+        n_splits=1, test_size=0.176, random_state=config["random_seed"]
+    )  # 0.176 * 0.85 ≈ 0.15
     train_idx, val_idx = next(gss2.split(train_val_df, groups=train_val_groups))
-    
+
     return train_df, val_df, test_df
 ```
 

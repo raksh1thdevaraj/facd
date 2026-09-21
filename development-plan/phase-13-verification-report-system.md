@@ -151,10 +151,7 @@ backend/
    - Initialize QR generator:
      ```python
      qr = qrcode.QRCode(
-         version=1,
-         error_correction=qrcode.constants.ERROR_CORRECT_M,
-         box_size=10,
-         border=2
+         version=1, error_correction=qrcode.constants.ERROR_CORRECT_M, box_size=10, border=2
      )
      qr.add_data(verification_url)
      qr.make(fit=True)
@@ -185,7 +182,9 @@ backend/
      `canonical = f"{report_data.report_id}|{report_data.certificate_id}|{report_data.file_metadata.sha256_checksum}|{report_data.verdict}|{report_data.authenticity_score:.4f}|{report_data.extracted_fields.roll_number}|{report_data.generated_at.isoformat()}"`.
    - Compute HMAC-SHA256:
      ```python
-     signature = hmac.new(secret_key.encode(), canonical.encode(), hashlib.sha256).hexdigest()
+     signature = hmac.new(
+         secret_key.encode(), canonical.encode(), hashlib.sha256
+     ).hexdigest()
      ```
 2. Implement `verify_report_signature(report_data: FullVerificationReport, signature: str, secret_key: str) -> bool`:
    - Recompute signature and compare using constant-time comparison `hmac.compare_digest()`.

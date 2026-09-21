@@ -23,7 +23,9 @@ from app.schemas.admin import (
 
 
 class AnalyticsService:
-    """Service responsible for aggregating fraud statistics, trends, and platform diagnostic telemetry."""
+    """Service responsible for aggregating fraud statistics, trends, and
+    platform diagnostic telemetry.
+    """
 
     _cache: Optional[AnalyticsSummaryResponse] = None
     _cache_time: float = 0.0

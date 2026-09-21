@@ -156,11 +156,12 @@ backend/
    - Compute full structural similarity map using `skimage.metrics.structural_similarity`:
      ```python
      score, ssim_diff_map = structural_similarity(
-         template_gray, aligned_gray,
+         template_gray,
+         aligned_gray,
          multichannel=False,
          full=True,
          gaussian_weights=True,
-         sigma=1.5
+         sigma=1.5,
      )
      ```
    - If variable mask exists, compute masked mean: `masked_score = float(np.mean(ssim_diff_map[variable_mask == 0]))`.
@@ -267,22 +268,47 @@ backend/
    ```python
    # Rule 1: Definitive Inconsistency -> Tier 3
    if record_result.record_found:
-       if not record_result.name_match or not record_result.degree_match or not record_result.cgpa_match:
-           return TierClassification(tier=TierStatus.TIER_3_INCONSISTENT, reason="Database record mismatch")
+       if (
+           not record_result.name_match
+           or not record_result.degree_match
+           or not record_result.cgpa_match
+       ):
+           return TierClassification(
+               tier=TierStatus.TIER_3_INCONSISTENT, reason="Database record mismatch"
+           )
 
    if template_result.overall_template_score < 0.60:
-       return TierClassification(tier=TierStatus.TIER_3_INCONSISTENT, reason="Counterfeit or mismatched template")
+       return TierClassification(
+           tier=TierStatus.TIER_3_INCONSISTENT, reason="Counterfeit or mismatched template"
+       )
 
    # Rule 2: Ground-Truth Match -> Tier 1
-   if record_result.record_found and record_result.name_match and record_result.roll_no_match:
-       return TierClassification(tier=TierStatus.TIER_1_VERIFIED, reason="Authentic record verified in university database")
+   if (
+       record_result.record_found
+       and record_result.name_match
+       and record_result.roll_no_match
+   ):
+       return TierClassification(
+           tier=TierStatus.TIER_1_VERIFIED,
+           reason="Authentic record verified in university database",
+       )
 
    # Rule 3: Visual & Typographic Consistency -> Tier 2
-   if template_result.overall_template_score >= 0.80 and forensic_score >= 0.70 and text_score >= 0.70:
-       return TierClassification(tier=TierStatus.TIER_2_CONSISTENT, reason="Layout consistent with registered template; record not in database")
+   if (
+       template_result.overall_template_score >= 0.80
+       and forensic_score >= 0.70
+       and text_score >= 0.70
+   ):
+       return TierClassification(
+           tier=TierStatus.TIER_2_CONSISTENT,
+           reason="Layout consistent with registered template; record not in database",
+       )
 
    # Fallback -> Tier 3
-   return TierClassification(tier=TierStatus.TIER_3_UNVERIFIED, reason="Insufficient verification evidence or record not found")
+   return TierClassification(
+       tier=TierStatus.TIER_3_UNVERIFIED,
+       reason="Insufficient verification evidence or record not found",
+   )
    ```
 
 **Inputs:** Record verification result, template match result, forensic score, text score.

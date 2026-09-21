@@ -14,7 +14,9 @@ from app.models.certificate import CertificateModel
 from app.models.course_verification import CourseCertificateVerificationModel
 from app.models.user import AppUserModel
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
+)
 logger = logging.getLogger("verify_migration")
 
 
@@ -29,14 +31,18 @@ def verify_migration():
     print("=" * 60)
     print("MIGRATION INTEGRITY REPORT")
     print("=" * 60)
-    print(f"SQLite Records:")
+    print("SQLite Records:")
     print(f"  - App Users:            {sqlite_users_count}")
     print(f"  - Certificates:         {sqlite_certs_count}")
     print(f"  - Course Verifications: {sqlite_course_count}")
 
     if not fs:
-        print("\n[NOTE] Direct Cloud Firestore client requires GOOGLE_APPLICATION_CREDENTIALS in environment.")
-        print("Backup JSON was generated for offline review in migration/backup_export.json.")
+        print(
+            "\n[NOTE] Direct Cloud Firestore client requires GOOGLE_APPLICATION_CREDENTIALS in environment."
+        )
+        print(
+            "Backup JSON was generated for offline review in migration/backup_export.json."
+        )
         db.close()
         return
 
@@ -45,7 +51,7 @@ def verify_migration():
         fs_certs = len(list(fs.collection("certificates").stream()))
         fs_course = len(list(fs.collection("course_verifications").stream()))
 
-        print(f"\nFirestore Collections:")
+        print("\nFirestore Collections:")
         print(f"  - users:                {fs_users}")
         print(f"  - certificates:         {fs_certs}")
         print(f"  - course_verifications: {fs_course}")
@@ -55,6 +61,7 @@ def verify_migration():
         print(f"  - Certificates Delta:   {sqlite_certs_count - fs_certs}")
         print(f"  - Course Recs Delta:    {sqlite_course_count - fs_course}")
     except Exception as exc:
+        logger.exception("Could not stream collections from Firestore")
         print(f"\nCould not stream collections from Firestore: {exc}")
 
     db.close()

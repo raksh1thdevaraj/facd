@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { checkHealth } from '../services/api';
 import { HealthCheckResponse } from '../types';
-import { Activity, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Activity, CheckCircle2, AlertTriangle, WifiOff } from 'lucide-react';
 
 export const SystemHealthBadge: React.FC = () => {
   const [health, setHealth] = useState<HealthCheckResponse | null>(null);
@@ -18,7 +18,7 @@ export const SystemHealthBadge: React.FC = () => {
           setError(false);
           setLoading(false);
         }
-      } catch (err) {
+      } catch {
         if (isMounted) {
           setError(true);
           setLoading(false);
@@ -43,9 +43,24 @@ export const SystemHealthBadge: React.FC = () => {
     );
   }
 
-  if (error || !health || health.status !== 'ok') {
+  if (error) {
     return (
-      <div className="flex items-center space-x-2 text-xs text-amber-300 bg-amber-950/40 px-3 py-1.5 rounded-full border border-amber-800/50">
+      <div
+        className="flex items-center space-x-2 text-xs text-rose-300 bg-rose-950/40 px-3 py-1.5 rounded-full border border-rose-800/50 shadow-sm"
+        title="Backend API is unreachable on localhost:8000. Start it with: uvicorn app.main:app --port 8000"
+      >
+        <WifiOff className="w-3.5 h-3.5 text-rose-400" />
+        <span>Backend Disconnected</span>
+      </div>
+    );
+  }
+
+  if (!health || health.status !== 'ok') {
+    return (
+      <div
+        className="flex items-center space-x-2 text-xs text-amber-300 bg-amber-950/40 px-3 py-1.5 rounded-full border border-amber-800/50"
+        title={`Services: DB ${health?.services?.database || 'unknown'}, Storage ${health?.services?.storage || 'unknown'}`}
+      >
         <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
         <span>Degraded Service</span>
       </div>
@@ -59,3 +74,4 @@ export const SystemHealthBadge: React.FC = () => {
     </div>
   );
 };
+

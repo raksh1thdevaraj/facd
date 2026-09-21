@@ -32,7 +32,9 @@ OUTPUT_DIR = PROJECT_ROOT / "dataset" / "course_certificates"
 METADATA_FILE = OUTPUT_DIR / "metadata.csv"
 FEATURES_FILE = OUTPUT_DIR / "features_course_certs.csv"
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 # Controlled manipulation categories and targets
@@ -91,7 +93,7 @@ NAMES = [
 
 def ensure_directories() -> None:
     """Create all subdirectories under dataset/course_certificates/."""
-    for category in TARGET_COUNTS.keys():
+    for category in TARGET_COUNTS:
         if category == "genuine":
             p = OUTPUT_DIR / "genuine"
         else:
@@ -117,7 +119,7 @@ def generate_dataset() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
 
     train_tpls = set(template_ids[:n_train])
     val_tpls = set(template_ids[n_train : n_train + n_val])
-    test_tpls = set(template_ids[n_train + n_val :])
+    _test_tpls = set(template_ids[n_train + n_val :])
 
     sample_id = 0
 
@@ -136,7 +138,7 @@ def generate_dataset() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             else:
                 split = "test"
 
-            issuer_name, domain = random.choice(ISSUERS)
+            issuer_name, _domain = random.choice(ISSUERS)
             course = random.choice(COURSES)
             name = random.choice(NAMES)
             cert_id = f"UC-{random.randint(10000000, 99999999)}"
@@ -160,7 +162,9 @@ def generate_dataset() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
             online_available = 1
             name_match_score = float(np.clip(np.random.normal(0.96, 0.03), 0.85, 1.0))
             course_match_score = float(np.clip(np.random.normal(0.94, 0.04), 0.82, 1.0))
-            cert_id_match_score = float(np.clip(np.random.normal(0.98, 0.02), 0.90, 1.0))
+            cert_id_match_score = float(
+                np.clip(np.random.normal(0.98, 0.02), 0.90, 1.0)
+            )
             date_match_score = float(np.clip(np.random.normal(0.95, 0.03), 0.85, 1.0))
             signature_score = float(np.clip(np.random.normal(0.85, 0.08), 0.50, 1.0))
             seal_score = float(np.clip(np.random.normal(0.82, 0.09), 0.40, 1.0))
@@ -171,38 +175,64 @@ def generate_dataset() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
                 field_changed = category
 
                 if category == "name_changed":
-                    name_match_score = float(np.clip(np.random.normal(0.20, 0.10), 0.0, 0.45))
-                    tampering_prob = float(np.clip(np.random.normal(0.68, 0.12), 0.40, 0.95))
+                    name_match_score = float(
+                        np.clip(np.random.normal(0.20, 0.10), 0.0, 0.45)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.68, 0.12), 0.40, 0.95)
+                    )
                     online_match = False
 
                 elif category == "certificate_id_changed":
-                    cert_id_match_score = float(np.clip(np.random.normal(0.15, 0.08), 0.0, 0.35))
-                    tampering_prob = float(np.clip(np.random.normal(0.72, 0.10), 0.45, 0.95))
+                    cert_id_match_score = float(
+                        np.clip(np.random.normal(0.15, 0.08), 0.0, 0.35)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.72, 0.10), 0.45, 0.95)
+                    )
                     online_match = False
 
                 elif category == "date_changed":
-                    date_match_score = float(np.clip(np.random.normal(0.25, 0.10), 0.0, 0.50))
-                    tampering_prob = float(np.clip(np.random.normal(0.65, 0.12), 0.35, 0.90))
+                    date_match_score = float(
+                        np.clip(np.random.normal(0.25, 0.10), 0.0, 0.50)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.65, 0.12), 0.35, 0.90)
+                    )
 
                 elif category == "course_changed":
-                    course_match_score = float(np.clip(np.random.normal(0.22, 0.10), 0.0, 0.45))
-                    tampering_prob = float(np.clip(np.random.normal(0.70, 0.10), 0.40, 0.92))
+                    course_match_score = float(
+                        np.clip(np.random.normal(0.22, 0.10), 0.0, 0.45)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.70, 0.10), 0.40, 0.92)
+                    )
                     online_match = False
 
                 elif category == "grade_changed":
-                    tampering_prob = float(np.clip(np.random.normal(0.64, 0.12), 0.35, 0.90))
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.64, 0.12), 0.35, 0.90)
+                    )
 
                 elif category == "logo_changed":
-                    tampering_prob = float(np.clip(np.random.normal(0.75, 0.10), 0.50, 0.96))
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.75, 0.10), 0.50, 0.96)
+                    )
                     domain_match = random.choice([0, 1])
 
                 elif category == "seal_changed":
                     seal_score = float(np.clip(np.random.normal(0.18, 0.08), 0.0, 0.35))
-                    tampering_prob = float(np.clip(np.random.normal(0.66, 0.12), 0.38, 0.92))
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.66, 0.12), 0.38, 0.92)
+                    )
 
                 elif category == "signature_changed":
-                    signature_score = float(np.clip(np.random.normal(0.20, 0.10), 0.0, 0.40))
-                    tampering_prob = float(np.clip(np.random.normal(0.68, 0.10), 0.42, 0.92))
+                    signature_score = float(
+                        np.clip(np.random.normal(0.20, 0.10), 0.0, 0.40)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.68, 0.10), 0.42, 0.92)
+                    )
 
                 elif category == "qr_replaced":
                     qr_valid = False
@@ -214,23 +244,39 @@ def generate_dataset() -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
                     cert_id_match_score = 0.0
                     course_match_score = 0.0
                     date_match_score = 0.0
-                    tampering_prob = float(np.clip(np.random.normal(0.78, 0.09), 0.55, 0.98))
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.78, 0.09), 0.55, 0.98)
+                    )
 
                 elif category == "qr_copied":
                     # Critical Copied QR attack: Valid QR resolves to genuine cert of someone else!
                     qr_valid = True
                     copied_qr = True
                     online_available = 1
-                    name_match_score = float(np.clip(np.random.normal(0.18, 0.08), 0.0, 0.35))
-                    cert_id_match_score = float(np.clip(np.random.normal(0.15, 0.08), 0.0, 0.30))
-                    tampering_prob = float(np.clip(np.random.normal(0.45, 0.15), 0.20, 0.80))
+                    name_match_score = float(
+                        np.clip(np.random.normal(0.18, 0.08), 0.0, 0.35)
+                    )
+                    cert_id_match_score = float(
+                        np.clip(np.random.normal(0.15, 0.08), 0.0, 0.30)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.45, 0.15), 0.20, 0.80)
+                    )
                     online_match = False
 
                 elif category == "multiple_fields":
-                    name_match_score = float(np.clip(np.random.normal(0.15, 0.08), 0.0, 0.30))
-                    cert_id_match_score = float(np.clip(np.random.normal(0.12, 0.06), 0.0, 0.25))
-                    date_match_score = float(np.clip(np.random.normal(0.20, 0.08), 0.0, 0.40))
-                    tampering_prob = float(np.clip(np.random.normal(0.85, 0.08), 0.65, 0.99))
+                    name_match_score = float(
+                        np.clip(np.random.normal(0.15, 0.08), 0.0, 0.30)
+                    )
+                    cert_id_match_score = float(
+                        np.clip(np.random.normal(0.12, 0.06), 0.0, 0.25)
+                    )
+                    date_match_score = float(
+                        np.clip(np.random.normal(0.20, 0.08), 0.0, 0.40)
+                    )
+                    tampering_prob = float(
+                        np.clip(np.random.normal(0.85, 0.08), 0.65, 0.99)
+                    )
                     online_match = False
 
             # Append metadata
@@ -306,7 +352,9 @@ def main() -> None:
     print("=" * 70)
     print(f"Total Certificate Samples: {total_samples}")
     print(f"  - Genuine Samples:       {genuine_samples} (100% genuine specimens)")
-    print(f"  - Tampered Samples:      {tampered_samples} across 11 tampering categories")
+    print(
+        f"  - Tampered Samples:      {tampered_samples} across 11 tampering categories"
+    )
     for cat, count in TARGET_COUNTS.items():
         if cat != "genuine":
             print(f"    * {cat}: {count} samples")

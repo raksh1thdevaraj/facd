@@ -38,7 +38,9 @@ def initialize_firebase() -> Optional[firebase_admin.App]:
         if cred_path and os.path.exists(cred_path):
             cred = credentials.Certificate(cred_path)
             _firebase_app = firebase_admin.initialize_app(cred, options)
-            logger.info("Firebase Admin initialized with service account certificate from %s", cred_path)
+            logger.info(
+                "Firebase Admin initialized with service account certificate from %s", cred_path
+            )
         else:
             # Try Application Default Credentials (ADC) or project options
             try:
@@ -93,6 +95,7 @@ def verify_firebase_id_token(token: str) -> Optional[Dict[str, Any]]:
     # Firebase ID tokens are always RS256 signed.
     try:
         from jose import jwt as jose_jwt
+
         header = jose_jwt.get_unverified_header(token)
         if header.get("alg") != "RS256":
             return None
@@ -109,4 +112,3 @@ def verify_firebase_id_token(token: str) -> Optional[Dict[str, Any]]:
     except Exception as exc:
         logger.debug("Firebase token verification failed: %s", exc)
         return None
-

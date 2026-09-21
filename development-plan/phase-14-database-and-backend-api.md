@@ -117,12 +117,16 @@ backend/
    ```python
    # Detect SQLite vs PostgreSQL for pool settings
    is_sqlite = settings.DATABASE_URL.startswith("sqlite")
-   engine_args = {"connect_args": {"check_same_thread": False}} if is_sqlite else {
-       "pool_size": 20,
-       "max_overflow": 10,
-       "pool_pre_ping": True,
-       "pool_recycle": 3600
-   }
+   engine_args = (
+       {"connect_args": {"check_same_thread": False}}
+       if is_sqlite
+       else {
+           "pool_size": 20,
+           "max_overflow": 10,
+           "pool_pre_ping": True,
+           "pool_recycle": 3600,
+       }
+   )
    engine = create_engine(settings.DATABASE_URL, **engine_args)
    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
    ```
@@ -248,7 +252,8 @@ backend/
    ```python
    class AsyncTaskRunner(ABC):
        @abstractmethod
-       def dispatch_pipeline(self, certificate_id: UUID) -> None: pass
+       def dispatch_pipeline(self, certificate_id: UUID) -> None:
+           pass
    ```
 2. Implement `FastAPIBackgroundTaskRunner` using `BackgroundTasks`:
    - Dispatches `run_pipeline` in a background thread using a dedicated database session.

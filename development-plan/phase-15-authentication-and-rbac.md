@@ -91,8 +91,10 @@ backend/
    ```python
    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
 
+
    def get_password_hash(password: str) -> str:
        return pwd_context.hash(password)
+
 
    def verify_password(plain_password: str, hashed_password: str) -> bool:
        return pwd_context.verify(plain_password, hashed_password)
@@ -120,14 +122,28 @@ backend/
 **Implementation:**
 1. Implement token encoders:
    ```python
-   def create_access_token(subject: str, role: str, expires_delta: Optional[timedelta] = None) -> str:
-       expire = datetime.utcnow() + (expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES))
+   def create_access_token(
+       subject: str, role: str, expires_delta: Optional[timedelta] = None
+   ) -> str:
+       expire = datetime.utcnow() + (
+           expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+       )
        to_encode = {"sub": str(subject), "role": role, "type": "access", "exp": expire}
        return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
-   def create_refresh_token(subject: str, expires_delta: Optional[timedelta] = None) -> str:
-       expire = datetime.utcnow() + (expires_delta or timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS))
-       to_encode = {"sub": str(subject), "type": "refresh", "exp": expire, "jti": str(uuid.uuid4())}
+
+   def create_refresh_token(
+       subject: str, expires_delta: Optional[timedelta] = None
+   ) -> str:
+       expire = datetime.utcnow() + (
+           expires_delta or timedelta(days=settings.REFRESH_TOKEN_EXPIRE_DAYS)
+       )
+       to_encode = {
+           "sub": str(subject),
+           "type": "refresh",
+           "exp": expire,
+           "jti": str(uuid.uuid4()),
+       }
        return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
    ```
 2. Implement `decode_token(token: str) -> dict`:
@@ -203,8 +219,12 @@ backend/
    def require_role(*allowed_roles: UserRole):
        def role_checker(current_user: AppUser = Depends(get_current_user)) -> AppUser:
            if current_user.role not in allowed_roles:
-               raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Insufficient permissions for this operation.")
+               raise HTTPException(
+                   status_code=status.HTTP_403_FORBIDDEN,
+                   detail="Insufficient permissions for this operation.",
+               )
            return current_user
+
        return role_checker
    ```
 4. Define convenience dependencies:

@@ -67,11 +67,13 @@ def generate_dataset(
 
     all_samples: list[dict[str, Any]] = []
 
-    print(f"Generating {num_genuine} genuine and {num_manipulated} manipulated certificate samples...")
+    print(
+        f"Generating {num_genuine} genuine and {num_manipulated} manipulated certificate samples..."
+    )
 
     # 2. Generate Genuine Certificates
     for i in range(num_genuine):
-        sample_id = f"GEN_{i+1:05d}"
+        sample_id = f"GEN_{i + 1:05d}"
         tpl = random.choice(templates)
         record = generate_synthetic_record()
 
@@ -97,11 +99,13 @@ def generate_dataset(
 
     # 3. Generate Manipulated Certificates
     for i in range(num_manipulated):
-        sample_id = f"MAN_{i+1:05d}"
+        sample_id = f"MAN_{i + 1:05d}"
         tpl = random.choice(templates)
         record = generate_synthetic_record()
 
-        genuine_img, field_boxes = render_genuine_certificate(tpl, record, raw_dir, assets_dir)
+        genuine_img, field_boxes = render_genuine_certificate(
+            tpl, record, raw_dir, assets_dir
+        )
         tampered_img, tampered_regions, applied_types = apply_manipulation(
             genuine_img,
             field_boxes,
@@ -146,7 +150,9 @@ def generate_dataset(
                 "source_template_id": s["source_template_id"],
                 "student_name": s["ground_truth_fields"].get("student_name", ""),
                 "register_number": s["ground_truth_fields"].get("register_number", ""),
-                "certificate_number": s["ground_truth_fields"].get("certificate_number", ""),
+                "certificate_number": s["ground_truth_fields"].get(
+                    "certificate_number", ""
+                ),
                 "course_degree": s["ground_truth_fields"].get("course_degree", ""),
                 "grade_or_marks": s["ground_truth_fields"].get("grade_or_marks", ""),
             }
@@ -179,11 +185,30 @@ def generate_dataset(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate synthetic certificate verification dataset.")
-    parser.add_argument("--samples", type=int, default=200, help="Total number of certificate samples to generate.")
-    parser.add_argument("--output-dir", type=str, default="./datasets", help="Output directory for generated dataset.")
-    parser.add_argument("--ml-dir", type=str, default="./ml/data", help="Output directory for ML data files.")
-    parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility.")
+    parser = argparse.ArgumentParser(
+        description="Generate synthetic certificate verification dataset."
+    )
+    parser.add_argument(
+        "--samples",
+        type=int,
+        default=200,
+        help="Total number of certificate samples to generate.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="./datasets",
+        help="Output directory for generated dataset.",
+    )
+    parser.add_argument(
+        "--ml-dir",
+        type=str,
+        default="./ml/data",
+        help="Output directory for ML data files.",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=42, help="Random seed for reproducibility."
+    )
     args = parser.parse_args()
 
     generate_dataset(

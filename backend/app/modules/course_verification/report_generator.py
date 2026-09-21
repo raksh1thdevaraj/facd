@@ -58,9 +58,19 @@ class CourseReportGenerator:
             if "ReportSubtitle" in self.styles:
                 self.styles.add(ParagraphStyle("Subtitle", parent=self.styles["ReportSubtitle"]))
             else:
-                self.styles.add(ParagraphStyle("Subtitle", parent=self.styles["Normal"], fontSize=9, leading=12))
+                self.styles.add(
+                    ParagraphStyle("Subtitle", parent=self.styles["Normal"], fontSize=9, leading=12)
+                )
         if "Muted" not in self.styles:
-            self.styles.add(ParagraphStyle("Muted", parent=self.styles["Normal"], fontSize=8, leading=10, textColor=HexColor("#64748B")))
+            self.styles.add(
+                ParagraphStyle(
+                    "Muted",
+                    parent=self.styles["Normal"],
+                    fontSize=8,
+                    leading=10,
+                    textColor=HexColor("#64748B"),
+                )
+            )
 
     def generate_json_summary(self, result: CourseVerificationResponse) -> dict[str, Any]:
         """Produce structured verification summary dictionary."""
@@ -76,7 +86,9 @@ class CourseReportGenerator:
             "url_verification": result.url_result.model_dump(),
             "record_comparison": result.comparison_result.model_dump(),
             "pixel_forensics": result.forensic_result.model_dump(),
-            "seal_signature": result.seal_signature_result.model_dump() if result.seal_signature_result else None,
+            "seal_signature": result.seal_signature_result.model_dump()
+            if result.seal_signature_result
+            else None,
             "decision_reasons": result.decision.decision_reasons,
             "risk_factors": result.decision.risk_factors,
             "signal_scores": result.decision.signal_scores,
@@ -115,8 +127,12 @@ class CourseReportGenerator:
                     ),
                 ],
                 [
-                    Paragraph("<b>Course Authenticity Verification Audit Report</b>", self.styles["Title"]),
-                    Paragraph(f"Ref ID: <b>{result.certificate_id or 'N/A'}</b>", self.styles["Normal"]),
+                    Paragraph(
+                        "<b>Course Authenticity Verification Audit Report</b>", self.styles["Title"]
+                    ),
+                    Paragraph(
+                        f"Ref ID: <b>{result.certificate_id or 'N/A'}</b>", self.styles["Normal"]
+                    ),
                 ],
             ],
             colWidths=[360, 160],
@@ -138,35 +154,53 @@ class CourseReportGenerator:
             bg_col = COLOR_AUTHENTIC_BG
             fg_col = COLOR_AUTHENTIC_FG
             status_title = "VERIFIED - AUTHENTIC COURSE CERTIFICATE"
-            status_desc = "Multi-signal analysis confirms that this certificate matches authoritative issuer records with zero indications of tampering."
+            status_desc = (
+                "Multi-signal analysis confirms that this certificate matches "
+                "authoritative issuer records with zero indications of tampering."
+            )
         elif status == CourseVerificationStatus.SUSPICIOUS:
             bg_col = COLOR_SUSPICIOUS_BG
             fg_col = COLOR_SUSPICIOUS_FG
             status_title = "SUSPICIOUS - DISCREPANCIES DETECTED"
-            status_desc = "Minor discrepancies, unknown issuer domain, or inconclusive forensic anomalies detected. Manual review advised."
+            status_desc = (
+                "Minor discrepancies, unknown issuer domain, or inconclusive "
+                "forensic anomalies detected. Manual review advised."
+            )
         elif status == CourseVerificationStatus.FRAUDULENT:
             bg_col = COLOR_MANIPULATED_BG
             fg_col = COLOR_MANIPULATED_FG
             status_title = "FRAUDULENT - MANIPULATION / ATTACK CONFIRMED"
-            status_desc = "High-confidence tampering detected, such as copied QR code, unauthorized field modifications, or malicious URL."
+            status_desc = (
+                "High-confidence tampering detected, such as copied QR code, "
+                "unauthorized field modifications, or malicious URL."
+            )
         else:
             bg_col = COLOR_GRAY_BG
             fg_col = COLOR_GRAY_FG
             status_title = "UNVERIFIED - VERIFICATION UNAVAILABLE"
-            status_desc = "Online registry could not be reached, or certificate does not contain machine-verifiable online credentials."
+            status_desc = (
+                "Online registry could not be reached, or certificate does not "
+                "contain machine-verifiable online credentials."
+            )
+
+        auth_score_text = f"{result.decision.overall_authenticity_score * 100:.1f}%"
+        fraud_score_text = f"{result.decision.fraud_risk_score * 100:.1f}%"
 
         verdict_table = Table(
             [
                 [
-                    Paragraph(f"<b><font size=14 color='{fg_col.hexval()}'>{status_title}</font></b>", self.styles["Normal"]),
+                    Paragraph(
+                        f"<b><font size=14 color='{fg_col.hexval()}'>{status_title}</font></b>",
+                        self.styles["Normal"],
+                    ),
                 ],
                 [
                     Paragraph(status_desc, self.styles["Normal"]),
                 ],
                 [
                     Paragraph(
-                        f"Authenticity Score: <b>{result.decision.overall_authenticity_score * 100:.1f}%</b> &nbsp;|&nbsp; "
-                        f"Fraud Risk Score: <b>{result.decision.fraud_risk_score * 100:.1f}%</b>",
+                        f"Authenticity Score: <b>{auth_score_text}</b> &nbsp;|&nbsp; "
+                        f"Fraud Risk Score: <b>{fraud_score_text}</b>",
                         self.styles["Normal"],
                     )
                 ],
@@ -190,9 +224,24 @@ class CourseReportGenerator:
         elements.append(Paragraph("<b>Extracted Certificate Metadata</b>", self.styles["Heading2"]))
         ext = result.extracted_fields
         meta_data = [
-            ["Candidate Name:", ext.candidate_name or "Not Extracted", "Course Name:", ext.course_name or "Not Extracted"],
-            ["Issuer:", ext.issuer or "Unknown", "Certificate ID:", ext.certificate_id or "Not Extracted"],
-            ["Issue Date:", ext.issue_date or "Not Extracted", "OCR Confidence:", f"{ext.ocr_confidence * 100:.1f}%"],
+            [
+                "Candidate Name:",
+                ext.candidate_name or "Not Extracted",
+                "Course Name:",
+                ext.course_name or "Not Extracted",
+            ],
+            [
+                "Issuer:",
+                ext.issuer or "Unknown",
+                "Certificate ID:",
+                ext.certificate_id or "Not Extracted",
+            ],
+            [
+                "Issue Date:",
+                ext.issue_date or "Not Extracted",
+                "OCR Confidence:",
+                f"{ext.ocr_confidence * 100:.1f}%",
+            ],
         ]
         meta_table = Table(meta_data, colWidths=[100, 160, 100, 160])
         meta_table.setStyle(
@@ -212,16 +261,52 @@ class CourseReportGenerator:
         elements.append(Spacer(1, 14))
 
         # 4. Multi-Signal Score Breakdown
-        elements.append(Paragraph("<b>Multi-Modal Verification Signals</b>", self.styles["Heading2"]))
+        elements.append(
+            Paragraph("<b>Multi-Modal Verification Signals</b>", self.styles["Heading2"])
+        )
         scores = result.decision.signal_scores
+        online_score = scores.get("online_verification", 0.0)
+        field_score = scores.get("field_matching", 0.0)
+        integrity_score = scores.get("document_integrity", 0.0)
+
         sig_data = [
             ["Signal Component", "Weight", "Score", "Status"],
-            ["Online Verification", "25%", f"{scores.get('online_verification', 0.0)*100:.1f}%", "Verified" if scores.get('online_verification', 0.0) >= 0.8 else "Pending / Failed"],
-            ["Field Cross-Matching", "25%", f"{scores.get('field_matching', 0.0)*100:.1f}%", "Aligned" if scores.get('field_matching', 0.0) >= 0.8 else "Mismatch / Inconclusive"],
-            ["Document Integrity (ELA & Noise)", "20%", f"{scores.get('document_integrity', 0.0)*100:.1f}%", "Clean" if scores.get('document_integrity', 0.0) >= 0.7 else "Tampering Detected"],
-            ["QR Code Validation", "15%", f"{scores.get('qr_verification', 0.0)*100:.1f}%", "Valid QR" if scores.get('qr_verification', 0.0) >= 0.8 else "Invalid / Absent"],
-            ["Issuer Domain Trust", "10%", f"{scores.get('domain_trust', 0.0)*100:.1f}%", "Authoritative" if scores.get('domain_trust', 0.0) >= 0.8 else "Unverified Domain"],
-            ["Signature & Seal Forensics", "5%", f"{scores.get('signature_seal', 0.0)*100:.1f}%", "Consistent" if scores.get('signature_seal', 0.0) >= 0.6 else "Flagged"],
+            [
+                "Online Verification",
+                "25%",
+                f"{online_score * 100:.1f}%",
+                "Verified" if online_score >= 0.8 else "Pending / Failed",
+            ],
+            [
+                "Field Cross-Matching",
+                "25%",
+                f"{field_score * 100:.1f}%",
+                "Aligned" if field_score >= 0.8 else "Mismatch / Inconclusive",
+            ],
+            [
+                "Document Integrity (ELA & Noise)",
+                "20%",
+                f"{integrity_score * 100:.1f}%",
+                "Clean" if integrity_score >= 0.7 else "Tampering Detected",
+            ],
+            [
+                "QR Code Validation",
+                "15%",
+                f"{scores.get('qr_verification', 0.0) * 100:.1f}%",
+                "Valid QR" if scores.get("qr_verification", 0.0) >= 0.8 else "Invalid / Absent",
+            ],
+            [
+                "Issuer Domain Trust",
+                "10%",
+                f"{scores.get('domain_trust', 0.0) * 100:.1f}%",
+                "Authoritative" if scores.get("domain_trust", 0.0) >= 0.8 else "Unverified Domain",
+            ],
+            [
+                "Signature & Seal Forensics",
+                "5%",
+                f"{scores.get('signature_seal', 0.0) * 100:.1f}%",
+                "Consistent" if scores.get("signature_seal", 0.0) >= 0.6 else "Flagged",
+            ],
         ]
         sig_table = Table(sig_data, colWidths=[180, 70, 90, 180])
         sig_table.setStyle(
@@ -243,14 +328,23 @@ class CourseReportGenerator:
         elements.append(Spacer(1, 14))
 
         # 5. Explanatory Findings & Risk Factors
-        elements.append(Paragraph("<b>Decision Rationale & Audit Findings</b>", self.styles["Heading2"]))
+        elements.append(
+            Paragraph("<b>Decision Rationale & Audit Findings</b>", self.styles["Heading2"])
+        )
         reasons_text = "<br/>".join([f"• {r}" for r in result.decision.decision_reasons])
-        elements.append(Paragraph(reasons_text or "• All verification checks passed nominal baselines.", self.styles["Normal"]))
+        elements.append(
+            Paragraph(
+                reasons_text or "• All verification checks passed nominal baselines.",
+                self.styles["Normal"],
+            )
+        )
 
         if result.decision.risk_factors:
             elements.append(Spacer(1, 8))
             elements.append(Paragraph("<b>Flagged Risk Factors:</b>", self.styles["Heading3"]))
-            risks_text = "<br/>".join([f"<font color='#B91C1C'>▲ {rf}</font>" for rf in result.decision.risk_factors])
+            risks_text = "<br/>".join(
+                [f"<font color='#B91C1C'>▲ {rf}</font>" for rf in result.decision.risk_factors]
+            )
             elements.append(Paragraph(risks_text, self.styles["Normal"]))
 
         # Build Document

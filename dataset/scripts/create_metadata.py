@@ -14,7 +14,9 @@ import csv
 import logging
 from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -37,13 +39,20 @@ REQUIRED_COLUMNS = [
 def validate_and_report_metadata(metadata_path: Path = METADATA_PATH) -> dict[str, int]:
     """Validate existing metadata.csv or report summary statistics."""
     if not metadata_path.exists():
-        logger.warning("Metadata file does not exist at %s. Run generate_tampered_certificates.py first.", metadata_path)
+        logger.warning(
+            "Metadata file does not exist at %s. Run generate_tampered_certificates.py first.",
+            metadata_path,
+        )
         return {}
 
     counts: dict[str, int] = {}
     splits: dict[str, int] = {}
     tamper_types: dict[str, int] = {}
-    templates_by_split: dict[str, set[str]] = {"train": set(), "val": set(), "test": set()}
+    templates_by_split: dict[str, set[str]] = {
+        "train": set(),
+        "val": set(),
+        "test": set(),
+    }
 
     with open(metadata_path, mode="r", encoding="utf-8") as f:
         reader = csv.DictReader(f)

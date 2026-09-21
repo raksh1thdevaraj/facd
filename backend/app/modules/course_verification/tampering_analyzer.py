@@ -49,7 +49,8 @@ class CourseTamperingAnalyzer:
             copy_move_score = float(forensic_res.copy_move_score)
             noise_score = float(forensic_res.noise_inconsistency_score)
 
-            # Combined tampering probability (lower authenticity score means higher tampering probability)
+            # Combined tampering probability (lower authenticity score means higher
+            # tampering probability)
             # Forensics score is 1.0 = clean, 0.0 = manipulated
             tampering_prob = max(0.0, min(1.0, 1.0 - float(forensic_res.overall_forensic_score)))
 
@@ -71,22 +72,43 @@ class CourseTamperingAnalyzer:
                     pixel_b = getattr(reg, "pixel_bbox", None)
                     norm_b = getattr(reg, "bbox", None)
                     if pixel_b is not None and hasattr(pixel_b, "x"):
-                        regions.append([int(pixel_b.x), int(pixel_b.y), int(pixel_b.width), int(pixel_b.height)])
+                        regions.append(
+                            [
+                                int(pixel_b.x),
+                                int(pixel_b.y),
+                                int(pixel_b.width),
+                                int(pixel_b.height),
+                            ]
+                        )
                     elif norm_b is not None and hasattr(norm_b, "x1"):
-                        regions.append([int(norm_b.x1), int(norm_b.y1), int(norm_b.x2 - norm_b.x1), int(norm_b.y2 - norm_b.y1)])
+                        regions.append(
+                            [
+                                int(norm_b.x1),
+                                int(norm_b.y1),
+                                int(norm_b.x2 - norm_b.x1),
+                                int(norm_b.y2 - norm_b.y1),
+                            ]
+                        )
             elif key_regions and tampering_prob > 0.35:
                 # Include highlighted key regions if elevated tampering detected
                 regions.extend(key_regions)
 
-            heatmap_rel = (
-                f"/storage/reports/{heatmap_name}" if heatmap_path.exists() else None
-            )
+            heatmap_rel = f"/storage/reports/{heatmap_name}" if heatmap_path.exists() else None
 
             return TamperingAnalysisResult(
                 tampering_probability=round(tampering_prob, 4),
                 tampering_regions=regions,
                 tampering_type=tampering_type,
-                model_confidence=round(float(getattr(forensic_res, "confidence_score", getattr(forensic_res, "overall_forensic_score", 0.85))), 4),
+                model_confidence=round(
+                    float(
+                        getattr(
+                            forensic_res,
+                            "confidence_score",
+                            getattr(forensic_res, "overall_forensic_score", 0.85),
+                        )
+                    ),
+                    4,
+                ),
                 ela_anomaly_score=round(1.0 - ela_score, 4),
                 copy_move_score=round(1.0 - copy_move_score, 4),
                 noise_anomaly_score=round(1.0 - noise_score, 4),

@@ -1,6 +1,7 @@
 """Tests for SSRF Protection and Issuer Domain Verification."""
 
 import pytest
+
 from app.modules.course_verification.url_verifier import CourseURLVerifier
 
 
@@ -21,7 +22,11 @@ def test_ssrf_blocked_destinations(url_verifier):
 
     for url in malicious_urls:
         res = url_verifier.verify_url(url, check_accessibility=False)
-        assert res.risk_level == "MALICIOUS" or "SSRF" in (res.remarks or "") or "protected" in (res.error_message or "")
+        assert (
+            res.risk_level == "MALICIOUS"
+            or "SSRF" in (res.remarks or "")
+            or "protected" in (res.error_message or "")
+        )
 
 
 def test_authoritative_issuer_domains(url_verifier):

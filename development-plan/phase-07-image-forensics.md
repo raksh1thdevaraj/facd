@@ -198,7 +198,7 @@ backend/
 1. Implement `find_similar_descriptor_pairs(keypoints, descriptors, ratio_thresh: float = 0.65, min_distance: float = 50.0)`:
    - Build FLANN kd-tree index:
      ```python
-     index_params = dict(algorithm=1, trees=5) # KDTREE
+     index_params = dict(algorithm=1, trees=5)  # KDTREE
      search_params = dict(checks=50)
      flann = cv2.FlannBasedMatcher(index_params, search_params)
      matches = flann.knnMatch(descriptors, descriptors, k=3)

@@ -15,7 +15,9 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 
-def create_guilloche_pattern(width: int, height: int, color: tuple[int, int, int, int] = (220, 215, 205, 40)) -> Image.Image:
+def create_guilloche_pattern(
+    width: int, height: int, color: tuple[int, int, int, int] = (220, 215, 205, 40)
+) -> Image.Image:
     """Create a subtle geometric Guilloché rosette/wave security background pattern."""
     pattern = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     draw = ImageDraw.Draw(pattern)
@@ -97,12 +99,26 @@ def generate_seal_image(
         draw.ellipse([x - 2, y - 2, x + 2, y + 2], fill=color)
 
     # Concentric rings
-    draw.ellipse([center - r_outer, center - r_outer, center + r_outer, center + r_outer], outline=color, width=3)
-    draw.ellipse([center - r_inner, center - r_inner, center + r_inner, center + r_inner], outline=color, width=2)
-    draw.ellipse([center - r_core, center - r_core, center + r_core, center + r_core], outline=color, width=1)
+    draw.ellipse(
+        [center - r_outer, center - r_outer, center + r_outer, center + r_outer],
+        outline=color,
+        width=3,
+    )
+    draw.ellipse(
+        [center - r_inner, center - r_inner, center + r_inner, center + r_inner],
+        outline=color,
+        width=2,
+    )
+    draw.ellipse(
+        [center - r_core, center - r_core, center + r_core, center + r_core],
+        outline=color,
+        width=1,
+    )
 
     # Core insignia (Shield / Star)
-    draw.regular_polygon((center, center, r_core - 15), n_sides=6, rotation=0, outline=color)
+    draw.regular_polygon(
+        (center, center, r_core - 15), n_sides=6, rotation=0, outline=color
+    )
     draw.text((center - 16, center - 12), "★", fill=color)
 
     # Circular text around perimeter
@@ -161,8 +177,8 @@ def generate_all_templates(output_dir: Path) -> list[dict[str, Any]]:
             "template_id": "template_tech_univ",
             "institution_name": "INSTITUTE OF TECHNOLOGY & SCIENCE",
             "motto": "INNOVATION • INTEGRITY • EXCELLENCE",
-            "primary_color": (15, 45, 95),      # Deep Navy
-            "accent_color": (195, 145, 40),     # Gold
+            "primary_color": (15, 45, 95),  # Deep Navy
+            "accent_color": (195, 145, 40),  # Gold
             "bg_color": (250, 248, 243),
             "seal_file": "seal_tech.png",
             "sig_left_file": "sig_dean.png",
@@ -174,8 +190,8 @@ def generate_all_templates(output_dir: Path) -> list[dict[str, Any]]:
             "template_id": "template_heritage_univ",
             "institution_name": "HERITAGE GLOBAL UNIVERSITY",
             "motto": "TRUTH • WISDOM • LEADERSHIP",
-            "primary_color": (80, 20, 25),      # Crimson / Burgundy
-            "accent_color": (175, 130, 50),     # Antique Gold
+            "primary_color": (80, 20, 25),  # Crimson / Burgundy
+            "accent_color": (175, 130, 50),  # Antique Gold
             "bg_color": (248, 245, 238),
             "seal_file": "seal_heritage.png",
             "sig_left_file": "sig_provost.png",
@@ -187,8 +203,8 @@ def generate_all_templates(output_dir: Path) -> list[dict[str, Any]]:
             "template_id": "template_metro_univ",
             "institution_name": "METROPOLITAN STATE UNIVERSITY",
             "motto": "KNOWLEDGE • DIVERSITY • PROGRESS",
-            "primary_color": (20, 70, 50),      # Emerald Forest
-            "accent_color": (180, 140, 60),     # Bronze
+            "primary_color": (20, 70, 50),  # Emerald Forest
+            "accent_color": (180, 140, 60),  # Bronze
             "bg_color": (252, 250, 245),
             "seal_file": "seal_metro.png",
             "sig_left_file": "sig_head.png",
@@ -200,8 +216,8 @@ def generate_all_templates(output_dir: Path) -> list[dict[str, Any]]:
             "template_id": "template_national_academy",
             "institution_name": "NATIONAL ACADEMY OF HIGHER EDUCATION",
             "motto": "DISCOVERY • EMPOWERMENT • SERVICE",
-            "primary_color": (35, 35, 40),      # Charcoal Slate
-            "accent_color": (160, 120, 30),     # Dark Gold
+            "primary_color": (35, 35, 40),  # Charcoal Slate
+            "accent_color": (160, 120, 30),  # Dark Gold
             "bg_color": (246, 244, 240),
             "seal_file": "seal_national.png",
             "sig_left_file": "sig_director.png",
@@ -224,38 +240,66 @@ def generate_all_templates(output_dir: Path) -> list[dict[str, Any]]:
         img.paste(guilloche, (0, 0), mask=guilloche)
 
         # 2. Draw border
-        draw_decorative_border(draw, width, height, spec["primary_color"], spec["accent_color"])
+        draw_decorative_border(
+            draw, width, height, spec["primary_color"], spec["accent_color"]
+        )
 
         # 3. Create and save seal asset
-        seal_img = generate_seal_image(spec["institution_name"], spec["accent_color"], size=220)
+        seal_img = generate_seal_image(
+            spec["institution_name"], spec["accent_color"], size=220
+        )
         seal_path = seals_dir / spec["seal_file"]
         seal_img.save(seal_path, "PNG")
 
         # 4. Create and save signatures
         sig_l_img = generate_signature_image(spec["sig_left_title"], color=(10, 20, 70))
-        sig_r_img = generate_signature_image(spec["sig_right_title"], color=(20, 10, 60))
+        sig_r_img = generate_signature_image(
+            spec["sig_right_title"], color=(20, 10, 60)
+        )
         sig_l_path = sigs_dir / spec["sig_left_file"]
         sig_r_path = sigs_dir / spec["sig_right_file"]
         sig_l_img.save(sig_l_path, "PNG")
         sig_r_img.save(sig_r_path, "PNG")
 
         # 5. Render Header texts on Template
-        draw.text((width // 2 - 320, 90), spec["institution_name"], fill=spec["primary_color"])
+        draw.text(
+            (width // 2 - 320, 90), spec["institution_name"], fill=spec["primary_color"]
+        )
         draw.text((width // 2 - 180, 130), spec["motto"], fill=spec["accent_color"])
-        draw.line([width // 2 - 400, 160, width // 2 + 400, 160], fill=spec["accent_color"], width=2)
-        draw.text((width // 2 - 220, 190), "OFFICIAL DEGREE CERTIFICATE", fill=spec["primary_color"])
+        draw.line(
+            [width // 2 - 400, 160, width // 2 + 400, 160],
+            fill=spec["accent_color"],
+            width=2,
+        )
+        draw.text(
+            (width // 2 - 220, 190),
+            "OFFICIAL DEGREE CERTIFICATE",
+            fill=spec["primary_color"],
+        )
 
         # 6. Static Boilerplate Labels
         draw.text((width // 2 - 140, 290), "This is to certify that", fill=(60, 60, 60))
-        draw.text((width // 2 - 260, 480), "has successfully fulfilled the prescribed requirements for the award of", fill=(60, 60, 60))
-        draw.text((width // 2 - 80, 680), "with academic standing of", fill=(60, 60, 60))
+        draw.text(
+            (width // 2 - 260, 480),
+            "has successfully fulfilled the prescribed requirements for the award of",
+            fill=(60, 60, 60),
+        )
+        draw.text(
+            (width // 2 - 80, 680), "with academic standing of", fill=(60, 60, 60)
+        )
 
         # 7. Signature Labels
         draw.line([220, height - 200, 520, height - 200], fill=(80, 80, 80), width=1)
         draw.text((260, height - 190), spec["sig_left_title"], fill=(80, 80, 80))
 
-        draw.line([width - 520, height - 200, width - 220, height - 200], fill=(80, 80, 80), width=1)
-        draw.text((width - 480, height - 190), spec["sig_right_title"], fill=(80, 80, 80))
+        draw.line(
+            [width - 520, height - 200, width - 220, height - 200],
+            fill=(80, 80, 80),
+            width=1,
+        )
+        draw.text(
+            (width - 480, height - 190), spec["sig_right_title"], fill=(80, 80, 80)
+        )
 
         # 8. Save base template image
         template_filename = f"{spec['template_id']}.png"
@@ -268,16 +312,50 @@ def generate_all_templates(output_dir: Path) -> list[dict[str, Any]]:
             "institution_name": spec["institution_name"],
             "dimensions": [width, height],
             "field_anchors": {
-                "student_name": {"x": width // 2, "y": 380, "align": "center", "font_size": 48},
-                "register_number": {"x": 260, "y": 240, "align": "left", "font_size": 24},
-                "certificate_number": {"x": width - 420, "y": 240, "align": "left", "font_size": 24},
-                "course_degree": {"x": width // 2, "y": 570, "align": "center", "font_size": 40},
-                "grade_or_marks": {"x": width // 2, "y": 750, "align": "center", "font_size": 36},
-                "issue_date": {"x": width // 2, "y": 860, "align": "center", "font_size": 24},
+                "student_name": {
+                    "x": width // 2,
+                    "y": 380,
+                    "align": "center",
+                    "font_size": 48,
+                },
+                "register_number": {
+                    "x": 260,
+                    "y": 240,
+                    "align": "left",
+                    "font_size": 24,
+                },
+                "certificate_number": {
+                    "x": width - 420,
+                    "y": 240,
+                    "align": "left",
+                    "font_size": 24,
+                },
+                "course_degree": {
+                    "x": width // 2,
+                    "y": 570,
+                    "align": "center",
+                    "font_size": 40,
+                },
+                "grade_or_marks": {
+                    "x": width // 2,
+                    "y": 750,
+                    "align": "center",
+                    "font_size": 36,
+                },
+                "issue_date": {
+                    "x": width // 2,
+                    "y": 860,
+                    "align": "center",
+                    "font_size": 24,
+                },
             },
             "seal_anchor": {"x": width // 2 - 110, "y": height - 340, "size": 220},
             "sig_left_anchor": {"x": 230, "y": height - 280, "size": [280, 80]},
-            "sig_right_anchor": {"x": width - 510, "y": height - 280, "size": [280, 80]},
+            "sig_right_anchor": {
+                "x": width - 510,
+                "y": height - 280,
+                "size": [280, 80],
+            },
             "seal_file": spec["seal_file"],
             "sig_left_file": spec["sig_left_file"],
             "sig_right_file": spec["sig_right_file"],

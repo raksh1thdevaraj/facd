@@ -61,7 +61,12 @@ def print_dataset_stats(dataset_dir: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Print dataset statistics.")
-    parser.add_argument("--dataset-dir", type=str, default="./datasets", help="Path to dataset directory.")
+    parser.add_argument(
+        "--dataset-dir",
+        type=str,
+        default="./datasets",
+        help="Path to dataset directory.",
+    )
     args = parser.parse_args()
     print_dataset_stats(Path(args.dataset_dir))
 

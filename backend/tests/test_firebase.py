@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 from fastapi import HTTPException
@@ -10,13 +10,11 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user
 from app.core.firebase import (
-    get_firebase_storage_bucket,
-    get_firestore_client,
     initialize_firebase,
     verify_firebase_id_token,
 )
 from app.models.user import AppUserModel
-from app.services.firestore_service import FirestoreService, firestore_service
+from app.services.firestore_service import FirestoreService
 
 
 def test_firebase_initialize_graceful():

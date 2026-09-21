@@ -85,6 +85,7 @@ from typing import List, Union
 from pydantic import AnyHttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     DEBUG: bool = True
@@ -92,10 +93,16 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = "default-insecure-secret-key-32-chars-long"
 
-    ALLOWED_ORIGINS: Union[str, List[str]] = "http://localhost:5173,http://localhost:3000"
+    ALLOWED_ORIGINS: Union[str, List[str]] = (
+        "http://localhost:5173,http://localhost:3000"
+    )
 
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/cert_verify_db"
-    DATABASE_SYNC_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/cert_verify_db"
+    DATABASE_URL: str = (
+        "postgresql+asyncpg://postgres:postgres@localhost:5432/cert_verify_db"
+    )
+    DATABASE_SYNC_URL: str = (
+        "postgresql+psycopg2://postgres:postgres@localhost:5432/cert_verify_db"
+    )
 
     REDIS_URL: str = "redis://localhost:6379/0"
     USE_ASYNC_CELERY: bool = False
@@ -115,11 +122,9 @@ class Settings(BaseSettings):
     MODEL_DEVICE: str = "auto"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=True,
-        extra="ignore"
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore"
     )
+
 
 settings = Settings()
 ```

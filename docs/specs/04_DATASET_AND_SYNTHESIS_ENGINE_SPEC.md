@@ -65,7 +65,7 @@ graph TD
 3. Inpaint the area using OpenCV Navier-Stokes or Telea algorithm:
    ```python
    mask = np.zeros(img.shape[:2], dtype=np.uint8)
-   mask[y:y+h, x:x+w] = 255
+   mask[y : y + h, x : x + w] = 255
    inpainted = cv2.inpaint(img, mask, inpaintRadius=3, flags=cv2.INPAINT_TELEA)
    ```
 4. Render new synthesized text with either:

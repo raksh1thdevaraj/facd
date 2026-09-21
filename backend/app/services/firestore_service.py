@@ -136,7 +136,9 @@ class FirestoreService:
         if not self.is_available:
             return None
         try:
-            doc = self._db.collection(self.COURSE_VERIFICATIONS_COLLECTION).document(record_id).get()
+            doc = (
+                self._db.collection(self.COURSE_VERIFICATIONS_COLLECTION).document(record_id).get()
+            )
             if doc.exists:
                 return {"id": doc.id, **doc.to_dict()}
             return None

@@ -6,7 +6,6 @@ retrieving audit records, downloading PDF reports, and querying authoritative is
 
 from __future__ import annotations
 
-import io
 import logging
 import uuid
 from pathlib import Path
@@ -23,7 +22,6 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
-from app.config import settings
 from app.database import get_db
 from app.models.course_verification import CourseCertificateVerification
 from app.models.issuer_registry import IssuerRegistry
@@ -47,16 +45,21 @@ router = APIRouter(prefix="/course-certificates", tags=["Course Certificates"])
     summary="Upload and verify a course certificate document",
     description=(
         "Performs complete multi-signal authenticity audit on an uploaded course certificate: "
-        "QR code decoding, SSRF-safe URL verification, OCR field extraction, cross-modal comparison, "
-        "pixel forensics (ELA, noise, copy-move), seal/signature analysis, and ML fraud risk scoring."
+        "QR code decoding, SSRF-safe URL verification, OCR field extraction, "
+        "cross-modal comparison, pixel forensics (ELA, noise, copy-move), "
+        "seal/signature analysis, and ML fraud risk scoring."
     ),
 )
 async def verify_course_certificate(
-    file: UploadFile = File(..., description="Course certificate image (PNG, JPG, JPEG) or document"),
+    file: UploadFile = File(
+        ..., description="Course certificate image (PNG, JPG, JPEG) or document"
+    ),
     db: Session = Depends(get_db),
 ) -> CourseVerificationResponse:
     if not file.filename:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Uploaded file missing filename")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Uploaded file missing filename"
+        )
 
     ext = Path(file.filename).suffix.lower()
     allowed_exts = {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".pdf"}
@@ -81,7 +84,9 @@ async def verify_course_certificate(
         try:
             from app.modules.ingestion.rasterizer import PDFRasterizer
 
-            pages = PDFRasterizer.rasterize_pdf(pdf_path=temp_path, output_dir=upload_dir, dpi=200, max_pages=1)
+            pages = PDFRasterizer.rasterize_pdf(
+                pdf_path=temp_path, output_dir=upload_dir, dpi=200, max_pages=1
+            )
             if pages:
                 image_path_to_process = pages[0]
         except Exception as pdf_err:
@@ -91,12 +96,12 @@ async def verify_course_certificate(
     try:
         response = await service.verify_certificate(image_path=image_path_to_process)
         return response
-    except Exception as e:
-        logger.exception("Error during course certificate verification: %s", e)
+    except Exception as exc:
+        logger.exception("Error during course certificate verification: %s", exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Verification failed: {str(e)}",
-        )
+            detail=f"Verification failed: {exc}",
+        ) from exc
 
 
 @router.get(
@@ -115,7 +120,9 @@ def get_verification_record(
         .first()
     )
     if not record:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found"
+        )
 
     evidence = record.evidence_summary_json or {}
     return {
@@ -153,7 +160,9 @@ def download_verification_report(
         .first()
     )
     if not record:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found"
+        )
 
     evidence = record.evidence_summary_json or {}
     extracted = record.extracted_fields_json or {}
@@ -183,7 +192,8 @@ def download_verification_report(
                 "domain_match": True,
                 "is_known_issuer": bool(record.issuer),
             },
-            "comparison_result": record.field_comparison_json or {
+            "comparison_result": record.field_comparison_json
+            or {
                 "name_match_score": 1.0,
                 "course_match_score": 1.0,
                 "cert_id_match_score": 1.0,
@@ -191,7 +201,8 @@ def download_verification_report(
                 "overall_match_score": 1.0,
                 "copied_qr_detected": False,
             },
-            "forensic_result": record.tampering_analysis_json or {
+            "forensic_result": record.tampering_analysis_json
+            or {
                 "tampering_detected": False,
                 "tampering_probability": 0.0,
                 "copy_move_detected": False,
@@ -262,7 +273,9 @@ def get_verification_qr(
         .first()
     )
     if not record:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found"
+        )
     return {
         "verification_id": str(record.id),
         "qr_data": record.qr_data_json or {},
@@ -286,7 +299,9 @@ def get_online_verification_data(
         .first()
     )
     if not record:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Verification record not found"
+        )
     return {
         "verification_id": str(record.id),
         "issuer": record.issuer,
@@ -310,11 +325,16 @@ def register_issuer(
     official_domain = payload.get("official_domain", "").strip()
     verification_domain = payload.get("verification_domain", official_domain).strip()
     if not issuer_name or not official_domain:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="issuer_name and official_domain are required")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="issuer_name and official_domain are required",
+        )
 
     existing = db.query(IssuerRegistry).filter(IssuerRegistry.issuer_name == issuer_name).first()
     if existing:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Issuer already registered")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, detail="Issuer already registered"
+        )
 
     new_issuer = IssuerRegistry(
         issuer_name=issuer_name,

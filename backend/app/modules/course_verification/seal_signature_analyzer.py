@@ -26,7 +26,9 @@ class SealSignatureAnalyzer:
         """Scan certificate image for signature strokes and circular seal crests."""
         img = self._load_image(image_input)
         if img is None:
-            return SealSignatureResult(details=["Unable to load image for signature/seal analysis."])
+            return SealSignatureResult(
+                details=["Unable to load image for signature/seal analysis."]
+            )
 
         h, w = img.shape[:2]
         details: list[str] = []
@@ -38,7 +40,8 @@ class SealSignatureAnalyzer:
         sig_detected, sig_score = self._analyze_signature_strokes(lower_zone)
         if sig_detected:
             details.append(
-                f"Handwritten or digital signature detected with stroke confidence {int(sig_score * 100)}%."
+                "Handwritten or digital signature detected with stroke confidence "
+                f"{int(sig_score * 100)}%."
             )
         else:
             details.append("No distinct signature strokes detected in signatory zone.")
@@ -47,10 +50,14 @@ class SealSignatureAnalyzer:
         seal_detected, seal_score = self._analyze_seal_crest(img)
         if seal_detected:
             details.append(
-                f"Institutional seal / emblem detected with structural confidence {int(seal_score * 100)}%."
+                "Institutional seal / emblem detected with structural confidence "
+                f"{int(seal_score * 100)}%."
             )
         else:
-            details.append("No circular or embossed institutional seal detected (common in online course badges).")
+            details.append(
+                "No circular or embossed institutional seal detected "
+                "(common in online course badges)."
+            )
 
         return SealSignatureResult(
             signature_detected=sig_detected,

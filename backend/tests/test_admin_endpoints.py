@@ -1,4 +1,6 @@
-"""Integration tests for admin fraud analytics, system health, and history filtering (TC-ADM-01 to TC-ADM-05)."""
+"""Integration tests for admin fraud analytics, system health, and history
+filtering (TC-ADM-01 to TC-ADM-05).
+"""
 
 import uuid
 

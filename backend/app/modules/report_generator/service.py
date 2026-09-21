@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 from typing import List, Optional
 
@@ -24,6 +25,8 @@ from app.schemas.report import (
     SubsystemScoreItem,
     VisualEvidencePaths,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class ReportService:

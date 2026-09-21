@@ -13,16 +13,19 @@ import argparse
 import json
 import logging
 from pathlib import Path
-import numpy as np
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 QR_DIR = PROJECT_ROOT / "dataset" / "qr_threat_samples"
 
 
-def generate_qr_test_vectors(output_dir: Path = QR_DIR, sample_count: int = 50) -> dict[str, int]:
+def generate_qr_test_vectors(
+    output_dir: Path = QR_DIR, sample_count: int = 50
+) -> dict[str, int]:
     """Generate or structure QR testing vectors covering benign, tampered, and copied cases."""
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest: list[dict[str, object]] = []
@@ -64,12 +67,19 @@ def generate_qr_test_vectors(output_dir: Path = QR_DIR, sample_count: int = 50) 
         )
 
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    logger.info("Structured %d QR sample manifests across categories: %s", sample_count, counts)
+    logger.info(
+        "Structured %d QR sample manifests across categories: %s", sample_count, counts
+    )
     return counts
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Prepare QR threat detection dataset")
-    parser.add_argument("--count", type=int, default=50, help="Number of benchmark QR sample metadata to generate")
+    parser.add_argument(
+        "--count",
+        type=int,
+        default=50,
+        help="Number of benchmark QR sample metadata to generate",
+    )
     args = parser.parse_args()
     generate_qr_test_vectors(sample_count=args.count)

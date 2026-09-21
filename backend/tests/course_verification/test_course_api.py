@@ -1,6 +1,5 @@
 """Integration tests for Course Certificate Verification API Endpoints."""
 
-import io
 import cv2
 import numpy as np
 import pytest
@@ -15,7 +14,9 @@ def client():
     return TestClient(app)
 
 
-def generate_test_certificate_image(qr_url: str = "https://coursera.org/verify/UC-12345678") -> bytes:
+def generate_test_certificate_image(
+    qr_url: str = "https://coursera.org/verify/UC-12345678",
+) -> bytes:
     """Create synthetic certificate JPEG bytes containing a real QR code."""
     canvas = np.ones((800, 1100, 3), dtype=np.uint8) * 250
     cv2.putText(
@@ -101,7 +102,12 @@ def test_verify_course_certificate_api_flow(client):
 
     assert "verification_id" in verify_data
     assert "decision" in verify_data
-    assert verify_data["decision"]["status"] in ["VERIFIED", "SUSPICIOUS", "FRAUDULENT", "UNVERIFIED"]
+    assert verify_data["decision"]["status"] in [
+        "VERIFIED",
+        "SUSPICIOUS",
+        "FRAUDULENT",
+        "UNVERIFIED",
+    ]
     assert "extracted_fields" in verify_data
     assert "qr_result" in verify_data
 

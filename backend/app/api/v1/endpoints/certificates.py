@@ -95,6 +95,7 @@ async def upload_certificate(
 
     if settings.USE_FIRESTORE:
         from app.services.firestore_service import firestore_service
+
         firestore_service.save_certificate(
             cert_id,
             {
@@ -105,7 +106,9 @@ async def upload_certificate(
                 "mime_type": file.content_type or "image/png",
                 "job_status": "PENDING",
                 "job_progress": 0,
-                "created_at": cert.created_at.isoformat() if cert.created_at else datetime.utcnow().isoformat(),
+                "created_at": cert.created_at.isoformat()
+                if cert.created_at
+                else datetime.utcnow().isoformat(),
             },
         )
 

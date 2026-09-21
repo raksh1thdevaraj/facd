@@ -448,6 +448,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "version": "0.1.0"}
@@ -512,34 +513,36 @@ Create `backend/app/config.py`:
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
+
 class Settings(BaseSettings):
     # Database
     database_url: str = "sqlite:///./dev.db"
-    
+
     # Security
     secret_key: str = "change-me-in-production"
     access_token_expire_minutes: int = 60
-    
+
     # Storage paths
     upload_dir: Path = Path("./storage/uploads")
     preprocessed_dir: Path = Path("./storage/preprocessed")
     report_dir: Path = Path("./storage/reports")
-    
+
     # OCR
     ocr_engine: str = "paddleocr"
-    
+
     # Model
     model_dir: Path = Path("./ml/models")
     model_version: str = "v1.0"
-    
+
     # Server
     backend_host: str = "0.0.0.0"
     backend_port: int = 8000
     frontend_url: str = "http://localhost:5173"
-    
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
 
 def get_settings() -> Settings:
     return Settings()
@@ -614,14 +617,18 @@ settings = get_settings()
 
 engine = create_engine(
     settings.database_url,
-    connect_args={"check_same_thread": False} if "sqlite" in settings.database_url else {},
+    connect_args={"check_same_thread": False}
+    if "sqlite" in settings.database_url
+    else {},
     echo=False,
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 class Base(DeclarativeBase):
     pass
+
 
 def get_db():
     """FastAPI dependency that yields a database session."""
@@ -652,6 +659,7 @@ def get_db():
 ```python
 def test_database_connection():
     from app.database import engine
+
     with engine.connect() as conn:
         result = conn.execute(text("SELECT 1"))
         assert result.scalar() == 1
@@ -691,6 +699,7 @@ def test_database_connection():
 3. Edit `alembic/env.py` to import the application's `Base` and `engine`:
    ```python
    from app.database import Base, engine
+
    target_metadata = Base.metadata
    ```
 
@@ -744,26 +753,32 @@ Create `backend/app/core/exceptions.py`:
 ```python
 class AppException(Exception):
     """Base application exception."""
+
     def __init__(self, message: str, status_code: int = 500):
         self.message = message
         self.status_code = status_code
         super().__init__(self.message)
 
+
 class NotFoundError(AppException):
     def __init__(self, message: str = "Resource not found"):
         super().__init__(message=message, status_code=404)
+
 
 class ValidationError(AppException):
     def __init__(self, message: str = "Validation failed"):
         super().__init__(message=message, status_code=422)
 
+
 class UnauthorizedError(AppException):
     def __init__(self, message: str = "Unauthorized"):
         super().__init__(message=message, status_code=401)
 
+
 class ForbiddenError(AppException):
     def __init__(self, message: str = "Forbidden"):
         super().__init__(message=message, status_code=403)
+
 
 class FileProcessingError(AppException):
     def __init__(self, message: str = "File processing failed"):
@@ -775,12 +790,10 @@ Register handlers in `main.py`:
 from fastapi.responses import JSONResponse
 from app.core.exceptions import AppException
 
+
 @app.exception_handler(AppException)
 async def app_exception_handler(request, exc: AppException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={"error": exc.message}
-    )
+    return JSONResponse(status_code=exc.status_code, content={"error": exc.message})
 ```
 
 **Inputs:** N/A
@@ -848,26 +861,35 @@ import uuid
 from pathlib import Path
 from app.config import get_settings
 
+
 def ensure_storage_dirs():
     """Create storage directories if they don't exist."""
     settings = get_settings()
-    for dir_path in [settings.upload_dir, settings.preprocessed_dir, settings.report_dir]:
+    for dir_path in [
+        settings.upload_dir,
+        settings.preprocessed_dir,
+        settings.report_dir,
+    ]:
         dir_path.mkdir(parents=True, exist_ok=True)
+
 
 def generate_unique_filename(original_filename: str) -> str:
     """Generate a unique filename preserving the original extension."""
     ext = Path(original_filename).suffix.lower()
     return f"{uuid.uuid4().hex}{ext}"
 
+
 def get_upload_path(filename: str) -> Path:
     """Get the full path for an uploaded file."""
     settings = get_settings()
     return settings.upload_dir / filename
 
+
 def get_preprocessed_path(filename: str) -> Path:
     """Get the full path for a preprocessed image."""
     settings = get_settings()
     return settings.preprocessed_dir / filename
+
 
 def get_report_path(filename: str) -> Path:
     """Get the full path for a generated report."""
@@ -941,6 +963,7 @@ api_router = APIRouter(prefix="/api/v1")
 Modify `backend/app/main.py` to include:
 ```python
 from app.api.v1.router import api_router
+
 app.include_router(api_router)
 ```
 
@@ -1001,6 +1024,7 @@ TEST_DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
 TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 @pytest.fixture(scope="function")
 def db_session():
     Base.metadata.create_all(bind=engine)
@@ -1011,10 +1035,12 @@ def db_session():
         session.close()
         Base.metadata.drop_all(bind=engine)
 
+
 @pytest.fixture(scope="function")
 def client(db_session):
     def override_get_db():
         yield db_session
+
     app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as c:
         yield c

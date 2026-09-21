@@ -72,7 +72,9 @@ def validate_dataset(dataset_dir: Path) -> dict[str, Any]:
     if total_samples > 0:
         ratio = genuine_count / total_samples
         if abs(ratio - 0.5) > 0.05:
-            results["warnings"].append(f"Class imbalance detected: {genuine_count} genuine vs {manipulated_count} manipulated ({ratio:.1%})")
+            results["warnings"].append(
+                f"Class imbalance detected: {genuine_count} genuine vs {manipulated_count} manipulated ({ratio:.1%})"
+            )
 
     # 3. Check ground truth manifests and bounding boxes
     gt_dir = dataset_dir / "ground_truth"
@@ -88,15 +90,24 @@ def validate_dataset(dataset_dir: Path) -> dict[str, Any]:
 
                 # Data leakage check
                 if s_id in all_split_sample_ids:
-                    results["errors"].append(f"Data leakage: sample {s_id} appears in {all_split_sample_ids[s_id]} and {split}")
+                    results["errors"].append(
+                        f"Data leakage: sample {s_id} appears in {all_split_sample_ids[s_id]} and {split}"
+                    )
                 all_split_sample_ids[s_id] = split
 
                 # Bounding box geometry checks
                 for region in sample.get("manipulated_regions", []):
                     bbox = region.get("bbox_normalized", {})
-                    x1, y1, x2, y2 = bbox.get("x1", 0), bbox.get("y1", 0), bbox.get("x2", 0), bbox.get("y2", 0)
+                    x1, y1, x2, y2 = (
+                        bbox.get("x1", 0),
+                        bbox.get("y1", 0),
+                        bbox.get("x2", 0),
+                        bbox.get("y2", 0),
+                    )
                     if not (0.0 <= x1 < x2 <= 1.0) or not (0.0 <= y1 < y2 <= 1.0):
-                        results["errors"].append(f"Invalid bounding box in {s_id} region {region.get('region_id')}: {bbox}")
+                        results["errors"].append(
+                            f"Invalid bounding box in {s_id} region {region.get('region_id')}: {bbox}"
+                        )
 
     if len(results["errors"]) > 0:
         results["status"] = "FAILED"
@@ -105,8 +116,15 @@ def validate_dataset(dataset_dir: Path) -> dict[str, Any]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Validate synthetic certificate verification dataset.")
-    parser.add_argument("--dataset-dir", type=str, default="./datasets", help="Path to dataset directory.")
+    parser = argparse.ArgumentParser(
+        description="Validate synthetic certificate verification dataset."
+    )
+    parser.add_argument(
+        "--dataset-dir",
+        type=str,
+        default="./datasets",
+        help="Path to dataset directory.",
+    )
     args = parser.parse_args()
 
     results = validate_dataset(Path(args.dataset_dir))

@@ -9,11 +9,12 @@ Initializes, cleans, and structures directory trees for:
 
 from __future__ import annotations
 
-import argparse
 import logging
 from pathlib import Path
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -48,7 +49,11 @@ def prepare_certificate_directories(base_dir: Path = CERT_DIR) -> None:
             (sub_path / ".gitkeep").touch()
             created += 1
 
-    logger.info("Checked/created %d course certificate subdirectories under %s", len(SUBDIRS), base_dir)
+    logger.info(
+        "Checked/created %d course certificate subdirectories under %s",
+        len(SUBDIRS),
+        base_dir,
+    )
 
 
 if __name__ == "__main__":

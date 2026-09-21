@@ -251,7 +251,9 @@ class IssuerRegistryModel(Base):
     verification_domain = Column(String(256), nullable=False)
     verification_pattern = Column(String(512), nullable=True)
     certificate_id_pattern = Column(String(256), nullable=True)
-    trusted_status = Column(String(32), default="TRUSTED", nullable=False) # TRUSTED, UNKNOWN, SUSPICIOUS
+    trusted_status = Column(
+        String(32), default="TRUSTED", nullable=False
+    )  # TRUSTED, UNKNOWN, SUSPICIOUS
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 ```
@@ -263,34 +265,41 @@ class CourseCertificateVerificationModel(Base):
     __table_args__ = {"extend_existing": True}
 
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    user_id = Column(String(36), ForeignKey("app_users.id", ondelete="SET NULL"), nullable=True, index=True)
-    
+    user_id = Column(
+        String(36),
+        ForeignKey("app_users.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
+    )
+
     # Document info
     uploaded_file_path = Column(String(512), nullable=False)
     file_hash = Column(String(64), nullable=False, index=True)
     original_filename = Column(String(256), nullable=False)
     mime_type = Column(String(64), nullable=False)
-    
+
     # Extracted data
     extracted_fields_json = Column(JSON, nullable=True)
     qr_data_json = Column(JSON, nullable=True)
     verification_url = Column(String(512), nullable=True)
     issuer = Column(String(256), nullable=True)
-    
+
     # Online verification
     online_verification_data_json = Column(JSON, nullable=True)
     field_comparison_json = Column(JSON, nullable=True)
-    
+
     # Forensic & ML signals
     tampering_analysis_json = Column(JSON, nullable=True)
     ml_prediction_json = Column(JSON, nullable=True)
-    
+
     # Final verdict & scores
     authenticity_score = Column(Float, nullable=False, default=0.0)
     fraud_risk_score = Column(Float, nullable=False, default=0.0)
-    final_status = Column(String(32), nullable=False, index=True) # VERIFIED, SUSPICIOUS, FRAUDULENT, UNVERIFIED, etc.
+    final_status = Column(
+        String(32), nullable=False, index=True
+    )  # VERIFIED, SUSPICIOUS, FRAUDULENT, UNVERIFIED, etc.
     evidence_summary_json = Column(JSON, nullable=True)
-    
+
     # Report paths
     report_pdf_path = Column(String(512), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

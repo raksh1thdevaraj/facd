@@ -103,10 +103,12 @@ backend/
    class BasePreprocessingStep(ABC):
        @property
        @abstractmethod
-       def name(self) -> str: pass
+       def name(self) -> str:
+           pass
 
        @abstractmethod
-       def process(self, image: np.ndarray, context: dict) -> Tuple[np.ndarray, dict]: pass
+       def process(self, image: np.ndarray, context: dict) -> Tuple[np.ndarray, dict]:
+           pass
    ```
 2. Create `PreprocessingResult` dataclass:
    - `enhanced_image: np.ndarray` (RGB, deskewed, contrast-enhanced)
