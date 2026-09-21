@@ -1,0 +1,122 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # PostgreSQL 15 Relational Database
+  # ----------------------------------------------------------------------------
+  db:
+    image: postgres:15-alpine
+    container_name: cert_verify_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cert_verification_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-cert_verification_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - cert_verify_network
+
+  # ----------------------------------------------------------------------------
+  # Redis 7 In-Memory Cache & Message Broker
+  # ----------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: cert_verify_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cert_verify_network
+
+  # ----------------------------------------------------------------------------
+  # FastAPI Backend API Server
+  # ----------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cert_verify_backend
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DEBUG: ${DEBUG:-False}
+      APP_NAME: "AI Certificate Verification Engine"
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-cert_verification_db}
+      REDIS_URL: redis://redis:6379/0
+      USE_ASYNC_CELERY: ${USE_ASYNC_CELERY:-False}
+      SECRET_KEY: ${SECRET_KEY:-default-insecure-dev-key-change-in-production-0123456789}
+      STORAGE_BASE_DIR: /app/storage
+      UPLOAD_DIR: /app/storage/uploads
+      PREPROCESSED_DIR: /app/storage/preprocessed
+      REPORT_DIR: /app/storage/reports
+      TEMPLATES_DIR: /app/storage/templates
+      MODEL_DIR: /app/ml/models
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:80,http://127.0.0.1:5173}
+    ports:
+      - "8000:8000"
+    volumes:
+      - storage_data:/app/storage
+      - ./ml/models:/app/ml/models:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks:
+      - cert_verify_network
+
+  # ----------------------------------------------------------------------------
+  # React + Vite Frontend UI (Nginx Alpine)
+  # ----------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cert_verify_frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:80/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - cert_verify_network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  storage_data:
+    driver: local
+
+networks:
+  cert_verify_network:
+    driver: bridge

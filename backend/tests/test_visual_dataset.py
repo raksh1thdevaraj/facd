@@ -42,4 +42,3 @@ def test_create_dataloaders():
 
     val_batch = next(iter(val_loader))
     assert val_batch["image"].shape[1:] == (3, 256, 256)
-

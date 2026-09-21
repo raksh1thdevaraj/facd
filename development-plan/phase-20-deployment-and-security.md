@@ -414,12 +414,12 @@ CHIP DEP-11 & CHIP DEP-12 (Deployment & Security Tests)
 
 ## 10. Phase Completion Checklist
 
-- [ ] Multi-stage backend Dockerfile runs as non-root user with Poppler, OpenCV, and PyTorch.
-- [ ] Multi-stage frontend Dockerfile compiles React app and serves via lightweight Nginx.
-- [ ] Docker Compose orchestrates backend, frontend, PostgreSQL, and Redis with health checks.
-- [ ] Nginx gateway enforces 10MB upload limit and injects HSTS, CSP, and X-Frame-Options headers.
-- [ ] Secrets and database credentials isolated via `.env.production` with random 64-char keys.
-- [ ] GitHub Actions CI pipeline tests linting, pytest ($\ge 80\%$ coverage), and Docker builds.
-- [ ] Automated database backup and restore scripts tested and functional.
-- [ ] Single-command deployment script `deploy.sh` spins up verified production stack.
-- [ ] Test cases TC-DEP-01 through TC-DEP-05 passing with 100% success rate.
+- [x] Multi-stage backend Dockerfile runs as non-root user with Poppler, OpenCV, and PyTorch.
+- [x] Multi-stage frontend Dockerfile compiles React app and serves via lightweight Nginx.
+- [x] Docker Compose orchestrates backend, frontend, PostgreSQL, and Redis with health checks.
+- [x] Nginx gateway enforces 10MB upload limit and injects HSTS, CSP, and X-Frame-Options headers.
+- [x] Secrets and database credentials isolated via `.env.production` with random 64-char keys.
+- [x] GitHub Actions CI pipeline tests linting, pytest ($\ge 80\%$ coverage), and Docker builds.
+- [x] Automated database backup and restore scripts tested and functional.
+- [x] Single-command deployment script `deploy.sh` spins up verified production stack.
+- [x] Test cases TC-DEP-01 through TC-DEP-05 passing with 100% success rate.

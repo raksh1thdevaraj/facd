@@ -8,6 +8,7 @@ python-multipart>=0.0.9
 # Database & Storage
 sqlalchemy>=2.0.28
 alembic>=1.13.1
+psycopg2-binary>=2.9.9
 
 # Security & Authentication
 python-jose[cryptography]>=3.3.0

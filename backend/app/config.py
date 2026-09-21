@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import List, Union
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -77,6 +77,25 @@ class Settings(BaseSettings):
                     pass
             return [origin.strip() for origin in v.split(",") if origin.strip()]
         return v
+
+    @model_validator(mode="after")
+    def validate_production_security(self) -> "Settings":
+        """Enforce production security constraints on secrets and keys (NFR-02)."""
+        if self.ENVIRONMENT == "production":
+            insecure_keys = [
+                "default-insecure-dev-key-change-in-production-0123456789",
+                "change-this-in-production-use-strong-secret-key-at-least-32-chars-long",
+                "change_me",
+                "secret",
+                "secret_key",
+                "password",
+            ]
+            if self.SECRET_KEY in insecure_keys or len(self.SECRET_KEY) < 32:
+                raise ValueError(
+                    "Production security violation: Insecure, default, or short "
+                    "SECRET_KEY (<32 chars) detected in production mode (NFR-02)!"
+                )
+        return self
 
     def ensure_directories_exist(self) -> None:
         """Ensure all required runtime storage directories exist."""

@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from typing import Any, Dict
 
@@ -20,6 +19,7 @@ def check_ingestion_health() -> Dict[str, Any]:
         storage_writable = True
 
         import shutil
+
         total, used, free = shutil.disk_usage(str(storage_dir))
         disk_free_gb = round(free / (1024**3), 2)
     except Exception:

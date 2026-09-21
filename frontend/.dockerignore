@@ -1,0 +1,26 @@
+# Node dependencies and build artifacts
+node_modules
+dist
+dist-ssr
+*.local
+
+# Git
+.git
+.gitignore
+
+# Tests and Coverage
+coverage
+.nyc_output
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db

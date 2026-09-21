@@ -1,7 +1,7 @@
 # Scientific Model Evaluation & Benchmark Report (Phase 19)
 
 **Project:** AI-Based Detection of Fake or Manipulated Academic Certificates  
-**Evaluation Date:** 2026-09-21 08:31 UTC  
+**Evaluation Date:** 2026-09-21 08:59 UTC  
 **Dataset Split:** Held-out Test Split (90 certificate samples)  
 **Primary Standard:** NFR-01 (Accuracy $\ge 92\%$, F1-Score $\ge 0.92$)  
 **Evaluation Status:** **PASSED (Compliant with NFR-01)**

@@ -1,0 +1,57 @@
+version: '3.8'
+
+# ==============================================================================
+# Production Docker Compose Overrides
+# Routes traffic through the secure Nginx Reverse Proxy Gateway
+# Removes direct public exposure of backend and database ports
+# ==============================================================================
+
+services:
+  # Expose database only inside the internal Docker network
+  db:
+    ports: []
+    restart: always
+
+  # Expose Redis only inside the internal Docker network
+  redis:
+    ports: []
+    restart: always
+
+  # Backend runs internally, proxied by Nginx gateway
+  backend:
+    ports: []
+    restart: always
+    environment:
+      ENVIRONMENT: production
+      DEBUG: "False"
+
+  # Frontend runs internally, proxied by Nginx gateway
+  frontend:
+    ports: []
+    restart: always
+
+  # ----------------------------------------------------------------------------
+  # Production Edge Nginx Gateway (SSL Termination, Security Headers, 10MB Limit)
+  # ----------------------------------------------------------------------------
+  gateway:
+    image: nginx:1.25-alpine
+    container_name: cert_verify_gateway
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    networks:
+      - cert_verify_network
