@@ -21,12 +21,6 @@ router = APIRouter(tags=["Documents"])
         "extracts forensic metadata, and rasterizes PDFs."
     ),
 )
-@router.post(
-    "/certificates/upload",
-    response_model=IngestedDocumentResponse,
-    status_code=status.HTTP_201_CREATED,
-    include_in_schema=False,
-)
 async def upload_document(
     file: UploadFile = File(..., description="Certificate image or PDF file"),
     template_id: Optional[str] = Form(None, description="Optional registered template ID"),

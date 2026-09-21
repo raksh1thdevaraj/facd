@@ -188,9 +188,7 @@ class FullVerificationReport(BaseModel):
                 predicted_class=(
                     "genuine" if self.verdict == VerificationVerdict.AUTHENTIC else "manipulated"
                 ),
-                feature_contributions={
-                    f.feature_name: f.shap_value for f in self.top_features
-                },
+                feature_contributions={f.feature_name: f.shap_value for f in self.top_features},
                 gradcam_heatmap_path=self.visual_evidence.gradcam_heatmap,
             ),
             contributing_factors=contributing,

@@ -58,3 +58,46 @@ def get_ingestion_health() -> dict:
     from app.modules.ingestion.health import check_ingestion_health
 
     return check_ingestion_health()
+
+
+@router.get(
+    "/health/detailed",
+    status_code=status.HTTP_200_OK,
+    summary="Detailed diagnostic health probe across all subsystems",
+)
+def get_detailed_health(db: Session = Depends(get_db)) -> dict:
+    """Perform diagnostic health checks across database, storage, and ML models."""
+    from pathlib import Path
+
+    # 1. DB check
+    db_ok = False
+    try:
+        db.execute(text("SELECT 1"))
+        db_ok = True
+    except Exception:
+        db_ok = False
+
+    # 2. Storage check
+    upload_ok = Path(settings.UPLOAD_DIR).exists()
+    reports_ok = Path(settings.REPORT_DIR).exists()
+
+    # 3. Models check
+    rf_model_ok = (Path(settings.MODEL_DIR) / "baseline_model_v1.joblib").exists()
+    meta_model_ok = (Path(settings.MODEL_DIR) / "meta_classifier.joblib").exists()
+
+    all_ok = db_ok and upload_ok and reports_ok
+
+    return {
+        "status": "healthy" if all_ok else "degraded",
+        "database": {"connected": db_ok, "dialect": settings.DATABASE_URL.split("://")[0]},
+        "storage": {
+            "upload_dir": str(settings.UPLOAD_DIR),
+            "upload_dir_exists": upload_ok,
+            "report_dir": str(settings.REPORT_DIR),
+            "report_dir_exists": reports_ok,
+        },
+        "models": {
+            "random_forest_baseline": rf_model_ok,
+            "stacking_meta_classifier": meta_model_ok,
+        },
+    }

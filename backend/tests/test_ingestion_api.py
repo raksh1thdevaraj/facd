@@ -32,7 +32,7 @@ def test_upload_valid_png():
     assert len(data["sha256_checksum"]) == 64
 
 
-def test_upload_valid_pdf_and_certificates_alias():
+def test_upload_valid_pdf():
     pdf_buf = io.BytesIO()
     c = canvas.Canvas(pdf_buf, pagesize=letter)
     c.drawString(100, 700, "Bachelor of Science in Computer Science")
@@ -41,7 +41,7 @@ def test_upload_valid_pdf_and_certificates_alias():
     pdf_buf.seek(0)
 
     response = client.post(
-        "/api/v1/certificates/upload",
+        "/api/v1/documents/upload",
         files={"file": ("transcript.pdf", pdf_buf.getvalue(), "application/pdf")},
     )
 

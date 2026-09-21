@@ -15,8 +15,13 @@ class InstitutionModel(Base):
     name = Column(String(255), nullable=False, index=True)
     code = Column(String(64), nullable=True, index=True)
     domain = Column(String(255), nullable=True)
+    contact_email = Column(String(255), nullable=True)
     address = Column(Text, nullable=True)
+    is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    updated_at = Column(
+        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
+    )
 
 
 class InstitutionTemplateModel(Base):
@@ -53,5 +58,6 @@ class TemplateMatchResultModel(Base):
     tier_status = Column(String(64), nullable=False)
     record_found = Column(Boolean, nullable=False, default=False)
     discrepancies_json = Column(JSON, nullable=True, default=list)
+    discrepancy_notes = Column(Text, nullable=True)
     visual_diff_path = Column(String(512), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

@@ -116,20 +116,39 @@ class ReportAssembler:
         exec_summary = decision.summary_rationale
 
         if explainability_report is not None:
-            findings = explainability_report.findings
-            top_features = (
-                explainability_report.top_positive_features
-                + explainability_report.top_negative_features
+            findings = getattr(
+                explainability_report,
+                "key_findings",
+                getattr(explainability_report, "findings", []),
             )
-            if explainability_report.summary_paragraph:
-                exec_summary = explainability_report.summary_paragraph
+            top_features = getattr(
+                explainability_report,
+                "top_contributing_features",
+                getattr(explainability_report, "top_positive_features", [])
+                + getattr(explainability_report, "top_negative_features", []),
+            )
+            summary_text = getattr(
+                explainability_report,
+                "primary_verdict_rationale",
+                getattr(explainability_report, "summary_paragraph", None),
+            )
+            if summary_text:
+                exec_summary = summary_text
 
         # 5. Visual Evidence Paths Integration
         if visual_evidence is None:
             visual_evidence = VisualEvidencePaths()
-        if explainability_report and explainability_report.overlay_image_path:
-            if not visual_evidence.unified_overlay:
-                visual_evidence.unified_overlay = explainability_report.overlay_image_path
+        overlay_p = (
+            getattr(
+                explainability_report,
+                "unified_overlay_path",
+                getattr(explainability_report, "overlay_image_path", None),
+            )
+            if explainability_report
+            else None
+        )
+        if overlay_p and not visual_evidence.unified_overlay:
+            visual_evidence.unified_overlay = overlay_p
 
         auth_pct = round(decision.overall_authenticity_score * 100.0, 1)
         verif_url = f"{base_url.rstrip('/')}/verify-report/{rep_id}"

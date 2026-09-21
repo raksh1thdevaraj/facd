@@ -10,6 +10,12 @@ from app.schemas.ingestion import (
     IngestionStatus,
     MetadataModel,
 )
+from app.schemas.ml_prediction import (
+    FEATURE_NAMES,
+    FeatureImportanceItem,
+    FeatureVector,
+    PredictionResult,
+)
 from app.schemas.ocr import (
     ExtractedFieldDTO,
     OCRConfig,
@@ -60,12 +66,6 @@ from app.schemas.text_consistency import (
     AnomalyType,
     TextConsistencyConfig,
     TextConsistencyResult,
-)
-from app.schemas.ml_prediction import (
-    FEATURE_NAMES,
-    FeatureImportanceItem,
-    FeatureVector,
-    PredictionResult,
 )
 
 __all__ = [
