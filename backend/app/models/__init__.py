@@ -2,7 +2,9 @@
 
 from app.models.audit_log import AuditLogModel
 from app.models.certificate import CertificateModel
+from app.models.course_verification import CourseCertificateVerificationModel
 from app.models.forensic import ForensicFindingModel
+from app.models.issuer_registry import IssuerRegistryModel
 from app.models.ml_prediction import MLPredictionModel
 from app.models.ocr_field import OCRFieldModel
 from app.models.record import InstitutionRecordModel
@@ -28,4 +30,6 @@ __all__ = [
     "InstitutionTemplateModel",
     "InstitutionRecordModel",
     "AuditLogModel",
+    "IssuerRegistryModel",
+    "CourseCertificateVerificationModel",
 ]

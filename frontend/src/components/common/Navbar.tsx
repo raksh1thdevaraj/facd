@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShieldCheck, UploadCloud, History, LogIn, LogOut, User as UserIcon } from 'lucide-react';
+import { ShieldCheck, UploadCloud, History, LogIn, LogOut, User as UserIcon, Award } from 'lucide-react';
 import { SystemHealthBadge } from '../SystemHealthBadge';
 import { useAuth } from '../../context/AuthContext';
 
@@ -39,6 +39,18 @@ export const Navbar: React.FC = () => {
           >
             <UploadCloud className="w-4 h-4 text-emerald-400" />
             <span>Verify Document</span>
+          </Link>
+
+          <Link
+            to="/course-verification"
+            className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors ${
+              isActive('/course-verification')
+                ? 'text-slate-100 bg-slate-800 border border-slate-700'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+            }`}
+          >
+            <Award className="w-4 h-4 text-teal-400" />
+            <span>Course Verification</span>
           </Link>
 
           <Link

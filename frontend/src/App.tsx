@@ -11,6 +11,7 @@ import { HistoryPage } from './pages/HistoryPage';
 import { LoginPage } from './pages/LoginPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { CourseVerificationPage } from './pages/CourseVerificationPage';
 import { RoleGuard } from './components/common/RoleGuard';
 
 export const App: React.FC = () => {
@@ -23,6 +24,7 @@ export const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/upload" element={<UploadPage />} />
+              <Route path="/course-verification" element={<CourseVerificationPage />} />
               <Route path="/results/:id" element={<ResultsPage />} />
               <Route path="/verify-report/:id" element={<VerifyReportPage />} />
               <Route path="/history" element={<HistoryPage />} />

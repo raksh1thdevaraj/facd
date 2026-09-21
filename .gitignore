@@ -96,3 +96,18 @@ Thumbs.db
 # Logs
 logs/
 *.log
+
+# Large Datasets & Archives
+dataset/raw/
+dataset/processed/
+dataset/external/*
+!dataset/external/*/README.md
+uploads/
+*.zip
+*.rar
+*.7z
+*.lmdb
+*.pkl
+*.pt
+*.pth
+*.onnx
