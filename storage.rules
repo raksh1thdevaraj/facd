@@ -12,7 +12,7 @@ service firebase.storage {
     
     function isVerifier() {
       return isAuthenticated() && (
-        request.auth.token.role in ['institution_verifier', 'admin', 'INSTITUTION_VERIFIER', 'ADMIN', 'verifier']
+        request.auth.token.role in ['institution_verifier', 'admin', 'INSTITUTION_VERIFIER', 'ADMIN', 'verifier', 'user']
       );
     }
 

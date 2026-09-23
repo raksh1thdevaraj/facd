@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types/auth';
 import { ShieldAlert } from 'lucide-react';
 
-
 interface RoleGuardProps {
   children: ReactNode;
   allowedRoles?: UserRole[];
@@ -12,7 +11,7 @@ interface RoleGuardProps {
 
 export const RoleGuard: React.FC<RoleGuardProps> = ({
   children,
-  allowedRoles = ['ADMIN', 'INSTITUTION_VERIFIER'],
+  allowedRoles = ['admin'],
 }) => {
   const { user, isAuthenticated, loading } = useAuth();
   const location = useLocation();
@@ -30,9 +29,10 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Check role authorization (allow ADMIN everywhere)
+  // Check role authorization (admin has access everywhere)
   const hasAccess =
-    user.role === 'ADMIN' || (allowedRoles && allowedRoles.includes(user.role));
+    user.role === 'admin' ||
+    Boolean(allowedRoles && allowedRoles.includes(user.role));
 
   if (!hasAccess) {
     return (

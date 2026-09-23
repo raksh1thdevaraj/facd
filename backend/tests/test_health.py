@@ -16,7 +16,7 @@ def test_root_health_endpoint(client: TestClient) -> None:
     response = client.get("/health")
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] in ["ok", "degraded"]
+    assert data["status"] in ["healthy", "ok", "degraded"]
     assert "services" in data
     assert data["services"]["database"] == "connected"
     assert data["services"]["storage"] == "accessible"
@@ -27,9 +27,23 @@ def test_api_v1_health_endpoint(client: TestClient) -> None:
     response = client.get("/api/v1/health")
     assert response.status_code == 200
     data = response.json()
-    assert data["status"] in ["ok", "degraded"]
+    assert data["status"] in ["healthy", "ok", "degraded"]
     assert data["version"] == "0.1.0"
     assert data["services"]["database"] == "connected"
+
+
+def test_api_health_endpoint(client: TestClient) -> None:
+    """Verify GET /api/health returns lightweight status check specification."""
+    response = client.get("/api/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] in ["healthy", "degraded"]
+    assert "timestamp" in data
+    assert "db_connected" in data
+    assert data["db_connected"] is True
+    assert "model_engine" in data
+    assert "latency_ms" in data
+    assert data["latency_ms"] >= 0.0
 
 
 def test_404_not_found(client: TestClient) -> None:

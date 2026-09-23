@@ -22,9 +22,11 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
+from app.api.deps import get_current_user
 from app.database import get_db
 from app.models.course_verification import CourseCertificateVerification
 from app.models.issuer_registry import IssuerRegistry
+from app.models.user import AppUserModel
 from app.modules.course_verification.report_generator import CourseReportGenerator
 from app.modules.course_verification.service import CourseVerificationService
 from app.modules.course_verification.url_verifier import CourseURLVerifier
@@ -54,6 +56,7 @@ async def verify_course_certificate(
     file: UploadFile = File(
         ..., description="Course certificate image (PNG, JPG, JPEG) or document"
     ),
+    current_user: AppUserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> CourseVerificationResponse:
     if not file.filename:

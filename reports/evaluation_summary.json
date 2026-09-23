@@ -1,0 +1,43 @@
+{
+  "behavioral_model": {
+    "accuracy": 1.0,
+    "precision_legitimate": 1.0,
+    "precision_fraud": 1.0,
+    "recall": 1.0,
+    "f1_score": 1.0,
+    "roc_auc": 1.0,
+    "confusion_matrix": [
+      [
+        912,
+        0
+      ],
+      [
+        0,
+        88
+      ]
+    ]
+  },
+  "visual_forensics": {
+    "accuracy": 0.92,
+    "precision": 0.92,
+    "recall": 1.0,
+    "f1_score": 0.9583,
+    "roc_auc": 0.5829,
+    "confusion_matrix": [
+      [
+        0,
+        8
+      ],
+      [
+        0,
+        92
+      ]
+    ]
+  },
+  "latency": {
+    "mean_ms": 136.77,
+    "p95_ms": 209.64,
+    "target_sla_ms": 250.0,
+    "sla_met": true
+  }
+}

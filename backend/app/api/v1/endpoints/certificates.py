@@ -5,9 +5,9 @@ from __future__ import annotations
 import hashlib
 import math
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Optional, cast
 
 from fastapi import (
     APIRouter,
@@ -23,10 +23,12 @@ from fastapi import (
 from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
+from app.api.deps import get_current_user
 from app.config import settings
 from app.database import get_db
 from app.models.certificate import CertificateModel
 from app.models.report import VerificationReportModel
+from app.models.user import AppUserModel
 from app.schemas.certificate import (
     CertificateDetailResponse,
     CertificateListItem,
@@ -55,6 +57,7 @@ async def upload_certificate(
     request: Request,
     background_tasks: BackgroundTasks,
     file: UploadFile = File(..., description="Certificate image or PDF document"),
+    current_user: AppUserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
     task_runner: AsyncTaskRunner = Depends(get_task_runner),
 ) -> CertificateUploadResponse:
@@ -81,6 +84,7 @@ async def upload_certificate(
     # Register in database
     cert = CertificateModel(
         id=cert_id,
+        user_id=current_user.id,
         file_path=str(target_path),
         file_hash=file_hash,
         original_filename=filename,
@@ -108,7 +112,7 @@ async def upload_certificate(
                 "job_progress": 0,
                 "created_at": cert.created_at.isoformat()
                 if cert.created_at
-                else datetime.utcnow().isoformat(),
+                else datetime.now(timezone.utc).isoformat(),
             },
         )
 
@@ -119,10 +123,9 @@ async def upload_certificate(
         action="CERTIFICATE_UPLOADED",
         certificate_id=cert_id,
         ip_address=client_ip,
-        details={"filename": filename, "file_size": len(content), "file_hash": file_hash},
     )
 
-    # Dispatch Background Analysis
+    # Trigger processing pipeline
     task_runner.dispatch(certificate_id=cert_id, background_tasks=background_tasks)
 
     poll_url = f"/api/v1/certificates/{cert_id}/status"
@@ -132,7 +135,7 @@ async def upload_certificate(
         poll_url=poll_url,
         filename=filename,
         file_hash=file_hash,
-        created_at=cert.created_at,
+        created_at=cast(datetime, cert.created_at) if cert.created_at else datetime.now(timezone.utc),
     )
 
 
@@ -156,11 +159,11 @@ def get_certificate_status(
     report_id = rep.id if rep else None
 
     return CertificateStatusResponse(
-        id=cert.id,
-        status=cert.job_status,
-        progress=cert.job_progress,
-        error=cert.job_error,
-        report_id=report_id,
+        id=str(cert.id),
+        status=str(cert.job_status),
+        progress=cast(int, cert.job_progress),
+        error=str(cert.job_error) if cert.job_error else None,
+        report_id=str(report_id) if report_id else None,
     )
 
 
@@ -182,20 +185,20 @@ def get_certificate_details(
     rep = db.query(VerificationReportModel).filter_by(certificate_id=certificate_id).first()
 
     return CertificateDetailResponse(
-        id=cert.id,
-        filename=cert.original_filename,
-        file_hash=cert.file_hash,
-        file_size=cert.file_size,
-        mime_type=cert.mime_type,
-        status=cert.job_status,
-        progress=cert.job_progress,
-        error=cert.job_error,
-        created_at=cert.created_at,
-        updated_at=cert.updated_at,
-        preprocessed_image_path=cert.preprocessed_image_path,
-        report_id=rep.id if rep else None,
-        verdict=VerificationVerdict(rep.verdict) if rep and rep.verdict else None,
-        authenticity_score=rep.overall_score if rep else None,
+        id=str(cert.id),
+        filename=str(cert.original_filename),
+        file_hash=str(cert.file_hash),
+        file_size=cast(int, cert.file_size),
+        mime_type=str(cert.mime_type),
+        status=str(cert.job_status),
+        progress=cast(int, cert.job_progress),
+        error=str(cert.job_error) if cert.job_error else None,
+        created_at=cast(datetime, cert.created_at),
+        updated_at=cast(datetime, cert.updated_at),
+        preprocessed_image_path=str(cert.preprocessed_image_path) if cert.preprocessed_image_path else None,
+        report_id=str(rep.id) if rep and rep.id else None,
+        verdict=VerificationVerdict(str(rep.verdict)) if rep and rep.verdict else None,
+        authenticity_score=cast(float, rep.overall_score) if rep and rep.overall_score is not None else None,
     )
 
 
@@ -212,9 +215,14 @@ def list_certificates(
     search: Optional[str] = Query(None, description="Search across filename or ID"),
     date_from: Optional[str] = Query(None, description="Filter records from date (YYYY-MM-DD)"),
     date_to: Optional[str] = Query(None, description="Filter records to date (YYYY-MM-DD)"),
+    current_user: AppUserModel = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> CertificatePaginatedList:
     query = db.query(CertificateModel)
+
+    # Restrict regular users to their own uploaded certificates
+    if current_user.role != "admin":
+        query = query.filter(CertificateModel.user_id == current_user.id)
 
     if status_filter:
         query = query.filter(CertificateModel.job_status == status_filter.upper())
@@ -255,16 +263,16 @@ def list_certificates(
         rep = db.query(VerificationReportModel).filter_by(certificate_id=c.id).first()
         items.append(
             CertificateListItem(
-                id=c.id,
-                filename=c.original_filename,
-                file_hash=c.file_hash,
-                file_size=c.file_size,
-                status=c.job_status,
-                progress=c.job_progress,
-                created_at=c.created_at,
-                verdict=VerificationVerdict(rep.verdict) if rep and rep.verdict else None,
-                authenticity_score=rep.overall_score if rep else None,
-                report_id=rep.id if rep else None,
+                id=str(c.id),
+                filename=str(c.original_filename),
+                file_hash=str(c.file_hash),
+                file_size=cast(int, c.file_size),
+                status=str(c.job_status),
+                progress=cast(int, c.job_progress),
+                created_at=cast(datetime, c.created_at),
+                verdict=VerificationVerdict(str(rep.verdict)) if rep and rep.verdict else None,
+                authenticity_score=cast(float, rep.overall_score) if rep and rep.overall_score is not None else None,
+                report_id=str(rep.id) if rep and rep.id else None,
             )
         )
 
@@ -290,7 +298,7 @@ def delete_certificate(
 
     # Remove file on disk if exists
     try:
-        p = Path(cert.file_path)
+        p = Path(str(cert.file_path))
         if p.exists():
             p.unlink()
     except Exception:

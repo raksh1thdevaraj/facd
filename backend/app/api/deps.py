@@ -147,7 +147,7 @@ def require_role(*roles: UserRole | str):
     allowed_set: Set[UserRole] = {normalize_role(r) for r in roles}
 
     def role_dependency(current_user: AppUserModel = Depends(get_current_user)) -> AppUserModel:
-        if not is_role_authorized(current_user.role, allowed_set):
+        if not is_role_authorized(str(current_user.role), allowed_set):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Insufficient permissions for this operation.",
@@ -159,4 +159,5 @@ def require_role(*roles: UserRole | str):
 
 # Convenience RBAC dependency shortcuts
 require_admin = require_role(UserRole.ADMIN)
-require_verifier = require_role(UserRole.ADMIN, UserRole.INSTITUTION_VERIFIER)
+require_verifier = require_role(UserRole.ADMIN, UserRole.USER)
+require_user = require_role(UserRole.ADMIN, UserRole.USER)

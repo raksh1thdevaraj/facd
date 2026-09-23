@@ -15,7 +15,7 @@ class UserBase(BaseModel):
     """Base user properties."""
 
     email: str = Field(..., description="User's unique email address")
-    full_name: str = Field(..., min_length=2, max_length=255, description="Full legal name")
+    full_name: Optional[str] = Field(default=None, max_length=255, description="Full legal name")
 
     @field_validator("email")
     @classmethod
@@ -29,8 +29,9 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     """Schema for registering a new user."""
 
+    name: Optional[str] = Field(default=None, description="Alias for full_name")
     password: str = Field(..., min_length=8, description="Plaintext password")
-    role: UserRole = Field(default=UserRole.PUBLIC_USER, description="Assigned role")
+    role: UserRole = Field(default=UserRole.USER, description="Assigned role (default: user)")
     institution_id: Optional[str] = Field(
         default=None, description="Optional institution UUID if affiliated"
     )
@@ -39,6 +40,7 @@ class UserCreate(UserBase):
     @classmethod
     def parse_role(cls, v: str | UserRole) -> UserRole:
         return normalize_role(v)
+
 
 
 class UserUpdate(BaseModel):

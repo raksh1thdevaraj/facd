@@ -67,10 +67,11 @@ class AuthService:
         # 4. Hash password and persist user
         pwd_hash = get_password_hash(user_in.password)
         user_role = normalize_role(user_in.role).value
+        resolved_name = (user_in.name or user_in.full_name or normalized_email.split("@")[0]).strip()
 
         user = AppUserModel(
             email=normalized_email,
-            full_name=user_in.full_name.strip(),
+            full_name=resolved_name,
             password_hash=pwd_hash,
             role=user_role,
             institution_id=user_in.institution_id,
@@ -84,8 +85,8 @@ class AuthService:
         AuditService.log_action(
             db=db,
             action="USER_REGISTERED",
-            user_id=user.id,
-            details={"email": user.email, "role": user.role},
+            user_id=str(user.id),
+            details={"email": str(user.email), "role": str(user.role)},
         )
         logger.info("Successfully registered user %s with role %s", user.email, user.role)
         return user
@@ -94,11 +95,18 @@ class AuthService:
     def authenticate_user(cls, db: Session, email: str, password: str) -> Optional[AppUserModel]:
         """Authenticate user credentials using constant-time hash comparison."""
         normalized_email = email.strip().lower()
-        user = db.query(AppUserModel).filter_by(email=normalized_email).first()
+        user = (
+            db.query(AppUserModel)
+            .filter(
+                (AppUserModel.email == normalized_email)
+                | (AppUserModel.full_name == email.strip())
+            )
+            .first()
+        )
         if not user or not user.is_active:
             return None
 
-        if not verify_password(password, user.password_hash):
+        if not verify_password(password, str(user.password_hash)):
             return None
 
         return user
@@ -106,17 +114,9 @@ class AuthService:
     @classmethod
     def create_user_tokens(cls, user: AppUserModel) -> TokenResponse:
         """Generate JWT access and refresh token pair for authenticated user."""
-        access_token = create_access_token(subject=user.id, role=user.role)
-        refresh_token = create_refresh_token(subject=user.id)
-        user_resp = UserResponse(
-            id=user.id,
-            email=user.email,
-            full_name=user.full_name,
-            role=user.role,
-            institution_id=user.institution_id,
-            is_active=user.is_active,
-            created_at=user.created_at,
-        )
+        access_token = create_access_token(subject=str(user.id), role=str(user.role))
+        refresh_token = create_refresh_token(subject=str(user.id))
+        user_resp = UserResponse.model_validate(user)
         return TokenResponse(
             access_token=access_token,
             refresh_token=refresh_token,
@@ -130,7 +130,7 @@ class AuthService:
         cls, db: Session, user: AppUserModel, current_password: str, new_password: str
     ) -> bool:
         """Validate current credentials and update to new salted hash."""
-        if not verify_password(current_password, user.password_hash):
+        if not verify_password(current_password, str(user.password_hash)):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Current password is incorrect.",
@@ -143,13 +143,13 @@ class AuthService:
                 detail=msg,
             )
 
-        user.password_hash = get_password_hash(new_password)
+        setattr(user, "password_hash", get_password_hash(new_password))
         db.commit()
         db.refresh(user)
 
         AuditService.log_action(
             db=db,
             action="USER_PASSWORD_CHANGED",
-            user_id=user.id,
+            user_id=str(user.id),
         )
         return True

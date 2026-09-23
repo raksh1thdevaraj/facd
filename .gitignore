@@ -79,6 +79,7 @@ ml/data/*
 !ml/data/.gitkeep
 ml/models/*
 !ml/models/.gitkeep
+models/
 datasets/generated/*
 !datasets/generated/.gitkeep
 
@@ -107,6 +108,10 @@ dataset/raw/
 dataset/processed/
 dataset/external/*
 !dataset/external/*/README.md
+datasets/cord-v2/
+datasets/funsd/
+datasets/d1Certificate forgery detection/
+datasets/Image-Forgery-Datasets-List-main/
 uploads/
 *.zip
 *.rar
@@ -116,3 +121,6 @@ uploads/
 *.pt
 *.pth
 *.onnx
+*.onnx.data
+*.arrow
+

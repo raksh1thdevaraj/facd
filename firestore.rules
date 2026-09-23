@@ -24,14 +24,21 @@ service cloud.firestore {
 
     // 1. Users Collection
     match /users/{userId} {
-      allow read: if isOwner(userId) || isVerifier();
+      // Allow read so unauthenticated clients can resolve username -> email and verifier profiles
+      allow read: if true;
       allow create: if isOwner(userId) && (
         !('role' in request.resource.data) || 
-        request.resource.data.role in ['student', 'PUBLIC_USER'] ||
+        request.resource.data.role in ['user', 'admin', 'student', 'PUBLIC_USER'] ||
         isAdmin()
       );
-      allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
+      allow update: if (isOwner(userId) && (!('role' in request.resource.data) || request.resource.data.role == resource.data.role)) || isAdmin();
       allow delete: if isAdmin();
+    }
+
+    // 1b. Admins Collection (Role discovery)
+    match /admins/{adminId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
     }
 
     // 2. Certificates Collection

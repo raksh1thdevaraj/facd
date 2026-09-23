@@ -1,22 +1,47 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, LoginCredentials, RegisterData } from '../types/auth';
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { User, UserRole, LoginCredentials, RegisterData, isAdminUser, isPublicUser } from '../types/auth';
 import { authService } from '../services/authService';
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
-  login: (credentials: LoginCredentials) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
+  isAdmin: boolean;
+  isPublic: boolean;
+  isAuthModalOpen: boolean;
+  activeAuthRole: UserRole | null;
+  authModalMessage: string | null;
+  openAuthModal: (defaultRole?: UserRole, message?: string) => void;
+  closeAuthModal: () => void;
+  login: (credentials: LoginCredentials) => Promise<User>;
+  register: (data: RegisterData) => Promise<{ success: boolean; email: string; username: string }>;
   logout: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
+  const [activeAuthRole, setActiveAuthRole] = useState<UserRole | null>(null);
+  const [authModalMessage, setAuthModalMessage] = useState<string | null>(null);
+
+  const openAuthModal = (defaultRole?: UserRole, message?: string) => {
+    if (defaultRole) setActiveAuthRole(defaultRole);
+    if (message) {
+      setAuthModalMessage(message);
+    } else {
+      setAuthModalMessage(null);
+    }
+    setIsAuthModalOpen(true);
+  };
+
+  const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
+    setAuthModalMessage(null);
+  };
 
   const refreshProfile = async () => {
     try {
@@ -31,19 +56,38 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    // Subscribe to Firebase Auth state listener
+    // Attempt session restoration from stored token or Firebase
+    const initAuth = async () => {
+      try {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          const profile = await authService.getProfile();
+          setUser(profile);
+        }
+      } catch {
+        setUser(null);
+        authService.clearTokens();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initAuth();
+
+    // Subscribe to Firebase Auth state listener if present
     const unsubscribe = authService.onAuthStateChanged(async (fbUser) => {
       if (fbUser) {
-        try {
-          const profile = await authService.getProfileForUid(fbUser.uid, fbUser);
-          setUser(profile);
-          const token = await fbUser.getIdToken();
-          localStorage.setItem('access_token', token);
-        } catch (err) {
-          console.error('Error fetching user profile on auth state change:', err);
+        // Only restore session if email is verified
+        if (fbUser.emailVerified) {
+          try {
+            const profile = await authService.getProfileForUid(fbUser.uid, fbUser);
+            setUser(profile);
+            const token = await fbUser.getIdToken();
+            localStorage.setItem('access_token', token);
+          } catch (err) {
+            console.error('Error fetching user profile on auth state change:', err);
+          }
         }
-      } else {
-        setUser(null);
       }
       setLoading(false);
     });
@@ -51,14 +95,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, []);
 
-  const login = async (credentials: LoginCredentials) => {
+  const login = async (credentials: LoginCredentials): Promise<User> => {
     const res = await authService.login(credentials);
     setUser(res.user);
+    setIsAuthModalOpen(false);
+    setAuthModalMessage(null);
+    return res.user;
   };
 
-  const register = async (data: RegisterData) => {
-    const newUser = await authService.register(data);
-    setUser(newUser);
+  const register = async (data: RegisterData): Promise<{ success: boolean; email: string; username: string }> => {
+    const res = await authService.register(data);
+    return res;
   };
 
   const logout = async () => {
@@ -72,6 +119,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user,
         loading,
         isAuthenticated: !!user,
+        isAdmin: isAdminUser(user),
+        isPublic: isPublicUser(user),
+        isAuthModalOpen,
+        activeAuthRole,
+        authModalMessage,
+        openAuthModal,
+        closeAuthModal,
         login,
         register,
         logout,
@@ -83,10 +137,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
-export const useAuth = (): AuthContextType => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export { useAuth } from '../hooks/useAuth';

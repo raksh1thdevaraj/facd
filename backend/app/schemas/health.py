@@ -12,9 +12,18 @@ class ServiceStatus(BaseModel):
     storage: str = Field(..., description="'accessible' or 'inaccessible'")
 
 
+class LightweightHealthResponse(BaseModel):
+    status: str = Field(..., description="'healthy' or 'degraded'")
+    timestamp: str = Field(..., description="ISO 8601 UTC timestamp")
+    db_connected: bool = Field(..., description="Database connection status")
+    model_engine: str = Field(default="online", description="'online' or 'offline'")
+    latency_ms: float = Field(..., description="Observed ping latency in milliseconds")
+
+
 class HealthCheckResponse(BaseModel):
-    status: str = Field(default="ok", description="'ok' or 'degraded'")
+    status: str = Field(default="healthy", description="'healthy', 'ok' or 'degraded'")
     app_name: str
     environment: str
     version: str = "0.1.0"
     services: ServiceStatus
+

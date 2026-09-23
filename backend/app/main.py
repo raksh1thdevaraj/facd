@@ -1,5 +1,17 @@
+import sys
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import AsyncGenerator
+
+# Ensure both backend/ and project root are in sys.path
+_current_file = Path(__file__).resolve()
+_backend_dir = _current_file.parent.parent
+_root_dir = _backend_dir.parent
+
+if str(_backend_dir) not in sys.path:
+    sys.path.insert(0, str(_backend_dir))
+if str(_root_dir) not in sys.path:
+    sys.path.insert(0, str(_root_dir))
 
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -72,8 +84,14 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
     )
 
 
-# Root Health Check probe (for load balancers and container monitors)
+from app.api.v1.endpoints.auth import router as auth_router
+
+# Root and /api Health Check probes
 app.include_router(health_router, prefix="")
+app.include_router(health_router, prefix="/api")
+
+# Auth endpoints available at /api and /api/v1
+app.include_router(auth_router, prefix="/api")
 
 # API v1 Router
 app.include_router(api_v1_router, prefix=settings.API_V1_STR)

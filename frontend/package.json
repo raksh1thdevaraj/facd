@@ -11,6 +11,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@types/three": "^0.186.0",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "firebase": "^12.19.0",
@@ -18,7 +19,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "tailwind-merge": "^2.2.1"
+    "tailwind-merge": "^2.2.1",
+    "three": "^0.186.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",
