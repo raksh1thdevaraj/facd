@@ -17,7 +17,9 @@ from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.api.v1.endpoints.auth import router as auth_router
 from app.api.v1.endpoints.health import router as health_router
+from app.api.v1.endpoints.verification_hub import router as verification_router
 from app.api.v1.router import api_v1_router
 from app.config import settings
 from app.core.exceptions import AppException
@@ -84,11 +86,13 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
     )
 
 
-from app.api.v1.endpoints.auth import router as auth_router
-
 # Root and /api Health Check probes
 app.include_router(health_router, prefix="")
 app.include_router(health_router, prefix="/api")
+
+# Verification endpoints at root (/verify), /api (/api/verify), and /api/v1
+app.include_router(verification_router, prefix="")
+app.include_router(verification_router, prefix="/api")
 
 # Auth endpoints available at /api and /api/v1
 app.include_router(auth_router, prefix="/api")

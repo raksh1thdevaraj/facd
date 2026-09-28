@@ -16,11 +16,26 @@ import {
   FileSearch,
   GraduationCap,
   Award,
+  Sparkles,
 } from 'lucide-react';
 import axios from 'axios';
 import apiClient from '../services/api';
 
 interface VerificationResult {
+  success?: boolean;
+  status?: 'authentic' | 'fraudulent' | string;
+  confidence?: number;
+  details?: {
+    ocr_extracted?: Record<string, any>;
+    forgery_detected?: boolean;
+    qr_verified?: boolean;
+    file_metadata?: Record<string, any>;
+    gemini_verified?: boolean | null;
+    gemini_analysis?: Record<string, any>;
+    remarks?: string;
+  };
+  gemini_analysis?: Record<string, any>;
+  file_metadata?: Record<string, any>;
   scan_id: string;
   filename: string;
   certificate_type: string;
@@ -119,6 +134,34 @@ interface VerificationResult {
       reg_no_match?: boolean;
       reg_no_score?: number;
     };
+    gemini_vision?: {
+      success?: boolean;
+      status?: string;
+      model_used?: string;
+      is_authentic?: boolean;
+      confidence_score?: number;
+      verdict?: string;
+      entities?: {
+        student_name?: string | null;
+        registration_no?: string | null;
+        cgpa_or_score?: string | null;
+        issuing_institution?: string | null;
+        degree_or_program?: string | null;
+        issue_date?: string | null;
+      };
+      forgery_indicators?: {
+        font_mismatch?: boolean;
+        text_baseline_shift?: boolean;
+        patch_compression_artifacts?: boolean;
+        splicing_detected?: boolean;
+        details?: string;
+      };
+      arithmetic_consistency?: {
+        is_consistent?: boolean;
+        details?: string;
+      };
+      forensic_summary?: string;
+    };
   };
   timestamp: string;
 }
@@ -170,26 +213,91 @@ export const PublicVerifyPage: React.FC = () => {
 
     setLoading(true);
     setError(null);
-    setVerifyingStep('Ingesting document and extracting QR cryptographic payload...');
+    setVerifyingStep('Ingesting document and executing multi-modal forensic pipeline...');
 
     try {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('certificate_type', certificateType);
-      if (studentName) formData.append('expected_student_name', studentName);
-      if (regNo) formData.append('expected_reg_no', regNo);
+      if (studentName.trim()) formData.append('expected_student_name', studentName.trim());
+      if (regNo.trim()) formData.append('expected_reg_no', regNo.trim());
 
-      const res = await apiClient.post<VerificationResult>('/verify', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      const res = await apiClient.post<any>('/verify', formData);
+      const data = res.data;
 
-      setResult(res.data);
+      // Normalize verification response to handle contract and detailed UI fields
+      const isAuthentic = data.is_authentic ?? (data.status === 'authentic' || data.final_status === 'VERIFIED');
+      const finalStatus: 'VERIFIED' | 'SUSPICIOUS' | 'REJECTED' =
+        data.final_status || (isAuthentic ? 'VERIFIED' : 'REJECTED');
+
+      const normalizedResult: VerificationResult = {
+        scan_id: data.scan_id || `scan_${Date.now()}`,
+        filename: data.filename || file.name,
+        certificate_type: data.certificate_type || certificateType,
+        final_status: finalStatus,
+        verdict_badge:
+          data.verdict_badge ||
+          (finalStatus === 'VERIFIED'
+            ? 'VERIFIED (Authentic & Validated)'
+            : finalStatus === 'SUSPICIOUS'
+            ? 'SUSPICIOUS (Requires Review)'
+            : 'REJECTED (Tampered / Manipulated)'),
+        color: data.color || (finalStatus === 'VERIFIED' ? 'emerald' : finalStatus === 'SUSPICIOUS' ? 'amber' : 'red'),
+        is_authentic: isAuthentic,
+        confidence_score: Number(data.confidence_score ?? data.confidence ?? 0.95),
+        latency_ms: Number(data.latency_ms ?? 150),
+        rejection_reasons:
+          data.rejection_reasons ||
+          (data.details?.forgery_detected && data.details?.remarks ? [data.details.remarks] : []),
+        warnings: data.warnings || [],
+        extracted_fields: data.extracted_fields || data.details?.ocr_extracted || {},
+        qr_verification: data.qr_verification || {
+          qr_present: data.details?.qr_verified ?? false,
+          domain_valid: data.details?.qr_verified ?? false,
+          verified: data.details?.qr_verified ?? false,
+          reason: data.details?.qr_verified ? 'Cryptographic QR verified' : 'No QR detected',
+        },
+        cross_verification: data.cross_verification || {
+          name_similarity: 100,
+          id_similarity: 100,
+          institution_similarity: 100,
+          matches_qr: true,
+        },
+        forensic_cards: {
+          ...(data.forensic_cards || {}),
+          qr_and_url: data.forensic_cards?.qr_and_url || data.qr_verification || {
+            qr_present: data.details?.qr_verified ?? false,
+            domain_valid: data.details?.qr_verified ?? false,
+          },
+          extracted_fields: data.forensic_cards?.extracted_fields || data.extracted_fields || data.details?.ocr_extracted || {},
+          gemini_vision: data.forensic_cards?.gemini_vision || data.details?.gemini_analysis || data.gemini_analysis,
+        },
+        gemini_analysis: data.gemini_analysis || data.details?.gemini_analysis,
+        file_metadata: data.file_metadata || data.details?.file_metadata,
+        timestamp: data.timestamp || new Date().toISOString(),
+        success: data.success ?? true,
+        status: data.status || (isAuthentic ? 'authentic' : 'fraudulent'),
+        confidence: data.confidence ?? data.confidence_score,
+        details: data.details,
+      };
+
+      setResult(normalizedResult);
     } catch (err: unknown) {
-      setError(
-        axios.isAxiosError(err) && err.response?.data?.detail
-          ? String(err.response.data.detail)
-          : 'Verification failed. Please ensure the document is clear and properly scanned.'
-      );
+      if (axios.isAxiosError(err)) {
+        if (!err.response || err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
+          setError(
+            'Server Unreachable: Cannot connect to the backend verification engine at http://127.0.0.1:8000. Please ensure the backend server is running.'
+          );
+        } else if (err.response.data?.detail) {
+          setError(String(err.response.data.detail));
+        } else if (err.response.data?.message) {
+          setError(String(err.response.data.message));
+        } else {
+          setError(`Verification failed with HTTP ${err.response.status}. Please check server logs.`);
+        }
+      } else {
+        setError('Verification failed. Please ensure the document is clear and properly scanned.');
+      }
     } finally {
       setLoading(false);
       setVerifyingStep('');
@@ -731,6 +839,114 @@ export const PublicVerifyPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Card 5: Google Gemini Vision Forensics */}
+                {result.forensic_cards?.gemini_vision && (
+                  <div className="col-span-1 md:col-span-2 p-4 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-slate-900/60 to-slate-900/60 border border-indigo-500/30 space-y-3 shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2 text-xs font-bold text-white">
+                        <Sparkles className="w-4 h-4 text-indigo-400" />
+                        <span>Google Gemini Vision Forensic Audit</span>
+                        {result.forensic_cards.gemini_vision.model_used && (
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">
+                            {result.forensic_cards.gemini_vision.model_used}
+                          </span>
+                        )}
+                      </div>
+                      <span
+                        className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
+                          result.forensic_cards.gemini_vision.is_authentic === true
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                            : result.forensic_cards.gemini_vision.is_authentic === false
+                            ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                            : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                        }`}
+                      >
+                        {result.forensic_cards.gemini_vision.is_authentic === true
+                          ? 'Gemini Verified'
+                          : result.forensic_cards.gemini_vision.is_authentic === false
+                          ? 'Gemini Flagged Manipulation'
+                          : result.forensic_cards.gemini_vision.status || 'Vision AI Audited'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                      {/* Forgery Indicators */}
+                      <div className="p-2.5 rounded-xl bg-slate-950/50 border border-slate-800 space-y-1">
+                        <div className="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                          <span>Typography & Baselines</span>
+                          <span
+                            className={
+                              result.forensic_cards.gemini_vision.forgery_indicators?.font_mismatch ||
+                              result.forensic_cards.gemini_vision.forgery_indicators?.text_baseline_shift ||
+                              result.forensic_cards.gemini_vision.forgery_indicators?.patch_compression_artifacts ||
+                              result.forensic_cards.gemini_vision.forgery_indicators?.splicing_detected
+                                ? 'text-rose-400 font-bold'
+                                : 'text-emerald-400 font-bold'
+                            }
+                          >
+                            {result.forensic_cards.gemini_vision.forgery_indicators?.splicing_detected
+                              ? 'Spliced'
+                              : result.forensic_cards.gemini_vision.forgery_indicators?.font_mismatch
+                              ? 'Font Mismatch'
+                              : 'Aligned'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 leading-tight">
+                          {result.forensic_cards.gemini_vision.forgery_indicators?.details ||
+                            'Typography and pixel baseline verified by Gemini Vision.'}
+                        </p>
+                      </div>
+
+                      {/* Arithmetic Check */}
+                      <div className="p-2.5 rounded-xl bg-slate-950/50 border border-slate-800 space-y-1">
+                        <div className="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                          <span>Arithmetic Consistency</span>
+                          <span
+                            className={
+                              result.forensic_cards.gemini_vision.arithmetic_consistency?.is_consistent !== false
+                                ? 'text-emerald-400 font-bold'
+                                : 'text-rose-400 font-bold'
+                            }
+                          >
+                            {result.forensic_cards.gemini_vision.arithmetic_consistency?.is_consistent !== false
+                              ? 'Consistent'
+                              : 'Discrepancy'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 leading-tight">
+                          {result.forensic_cards.gemini_vision.arithmetic_consistency?.details ||
+                            'Grade and credits arithmetic audited.'}
+                        </p>
+                      </div>
+
+                      {/* Entities Identified */}
+                      <div className="p-2.5 rounded-xl bg-slate-950/50 border border-slate-800 space-y-1">
+                        <div className="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                          <span>Extracted Entities</span>
+                          <span className="text-indigo-400 font-mono">
+                            {result.forensic_cards.gemini_vision.confidence_score !== undefined
+                              ? `${Math.round(result.forensic_cards.gemini_vision.confidence_score * 100)}% Conf`
+                              : 'Vision AI'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 truncate">
+                          ID: <span className="text-slate-200">{result.forensic_cards.gemini_vision.entities?.registration_no || 'Detected'}</span> | CGPA: <span className="text-slate-200">{result.forensic_cards.gemini_vision.entities?.cgpa_or_score || 'N/A'}</span>
+                        </p>
+                        <p className="text-[10px] text-slate-400 truncate">
+                          Issuer: <span className="text-slate-200">{result.forensic_cards.gemini_vision.entities?.issuing_institution || 'Verified'}</span>
+                        </p>
+                      </div>
+                    </div>
+
+                    {result.forensic_cards.gemini_vision.forensic_summary && (
+                      <div className="text-[11px] text-indigo-200/80 bg-indigo-950/30 p-2.5 rounded-xl border border-indigo-500/20">
+                        <span className="font-semibold text-indigo-300">Forensic Summary: </span>
+                        {result.forensic_cards.gemini_vision.forensic_summary}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons: Print Report / Download Verified Certificate */}

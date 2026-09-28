@@ -27,6 +27,12 @@ apiClient.interceptors.request.use(async (config) => {
   if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // Remove default Content-Type for multipart FormData so boundary is generated automatically
+  if (config.data instanceof FormData && config.headers) {
+    delete config.headers['Content-Type'];
+  }
+
   return config;
 });
 

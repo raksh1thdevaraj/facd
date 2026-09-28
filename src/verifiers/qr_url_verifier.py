@@ -51,6 +51,8 @@ class QRURLVerifier:
             "blockchain-creds.edu",
             "kongu.edu",
             "uts.edu.au",
+            "vtu.ac.in",
+            "results.vtu.ac.in",
             "cmu.edu",
             "mit.edu",
             "stanford.edu",

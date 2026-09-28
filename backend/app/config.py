@@ -47,7 +47,9 @@ class Settings(BaseSettings):
     PREPROCESSED_DIR: Path = Path("./storage/preprocessed")
     REPORT_DIR: Path = Path("./storage/reports")
     TEMPLATES_DIR: Path = Path("./storage/templates")
-    MAX_UPLOAD_SIZE_BYTES: int = 10 * 1024 * 1024  # 10 MB
+    MAX_UPLOAD_SIZE_BYTES: int = (
+        50 * 1024 * 1024
+    )  # 50 MB (Supports large high-resolution mark sheets & certificates)
 
     # OCR Configuration
     OCR_ENGINE: str = "easyocr"
@@ -64,6 +66,8 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
     ]
 
     # Firebase Configuration
@@ -73,6 +77,11 @@ class Settings(BaseSettings):
     FIREBASE_CREDENTIALS_PATH: Union[str, None] = None
     USE_FIREBASE_AUTH: bool = True
     USE_FIRESTORE: bool = True
+
+    # Google Gemini Vision Configuration
+    GEMINI_API_KEY: Union[str, None] = None
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+
 
     @field_validator("CORS_ORIGINS", mode="after")
     @classmethod

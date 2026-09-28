@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 import uuid
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from fastapi import (
     APIRouter,
@@ -22,7 +22,7 @@ from fastapi import (
 )
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, get_optional_current_user
 from app.database import get_db
 from app.models.course_verification import CourseCertificateVerification
 from app.models.issuer_registry import IssuerRegistry
@@ -56,7 +56,7 @@ async def verify_course_certificate(
     file: UploadFile = File(
         ..., description="Course certificate image (PNG, JPG, JPEG) or document"
     ),
-    current_user: AppUserModel = Depends(get_current_user),
+    current_user: Optional[AppUserModel] = Depends(get_optional_current_user),
     db: Session = Depends(get_db),
 ) -> CourseVerificationResponse:
     if not file.filename:
