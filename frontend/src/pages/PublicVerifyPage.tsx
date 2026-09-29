@@ -20,10 +20,26 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import apiClient from '../services/api';
+import { VerificationHistorySection } from '../components/history/VerificationHistorySection';
 
 interface VerificationResult {
   success?: boolean;
   status?: 'authentic' | 'fraudulent' | string;
+  source?: string;
+  document_type?: 'VTU_MARKSCARD' | 'ONLINE_COURSE_CERTIFICATE' | string;
+  extracted_data?: {
+    student_name: string;
+    identifier: string;
+    issuer: string;
+    date: string;
+    score_or_cgpa: string;
+  };
+  rag_validation?: {
+    schema_matched: boolean;
+    arithmetic_valid: boolean;
+    anomalies_detected: string[];
+  };
+  verdict?: 'AUTHENTIC' | 'SUSPICIOUS' | 'FRAUDULENT' | string;
   confidence?: number;
   details?: {
     ocr_extracted?: Record<string, any>;
@@ -57,13 +73,25 @@ interface VerificationResult {
     ocr_engine?: string;
   };
   qr_verification?: {
-    qr_present: boolean;
-    domain_valid: boolean;
+    detected?: boolean;
+    payload_or_url?: string | null;
+    matches_document_text?: boolean;
+    qr_present?: boolean;
+    domain_valid?: boolean;
     url?: string | null;
     domain?: string;
-    verified: boolean;
+    verified?: boolean;
     reason?: string;
     payload_data?: Record<string, any>;
+    url_verified?: boolean;
+    is_url?: boolean;
+    detection_method?: string;
+    payload_text_match?: string;
+    live_server_status?: string | null;
+    issuer_db_match?: string | null;
+    web_registered_name?: string | null;
+    discrepancy_details?: string | null;
+    mismatch_flag?: string | null;
   };
   cross_verification?: {
     name_similarity: number;
@@ -79,8 +107,10 @@ interface VerificationResult {
   };
   forensic_cards: {
     qr_and_url?: {
+      status?: string;
       qr_present?: boolean;
       qr_detected?: boolean;
+      url_verified?: boolean;
       domain_valid: boolean;
       url?: string | null;
       domain?: string;
@@ -89,6 +119,11 @@ interface VerificationResult {
       message?: string;
       reason?: string;
       payload_data?: Record<string, any>;
+      live_server_status?: string | null;
+      issuer_db_match?: string | null;
+      web_registered_name?: string | null;
+      discrepancy_details?: string | null;
+      mismatch_flag?: string | null;
     };
     extracted_fields?: {
       student_name: string;
@@ -162,6 +197,13 @@ interface VerificationResult {
       };
       forensic_summary?: string;
     };
+    rag_validation?: {
+      schema_matched?: boolean;
+      arithmetic_valid?: boolean;
+      anomalies_detected?: string[];
+      document_type?: string;
+      mismatch_report?: string;
+    };
   };
   timestamp: string;
 }
@@ -170,12 +212,12 @@ export const PublicVerifyPage: React.FC = () => {
   const [certificateType, setCertificateType] = useState<'marks_card' | 'course_certificate'>('marks_card');
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
-  const [studentName, setStudentName] = useState<string>('');
-  const [regNo, setRegNo] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [verifyingStep, setVerifyingStep] = useState<string>('');
   const [result, setResult] = useState<VerificationResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [dashboardTab, setDashboardTab] = useState<'verifier' | 'history'>('verifier');
+  const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState<number>(Date.now());
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -219,10 +261,10 @@ export const PublicVerifyPage: React.FC = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('certificate_type', certificateType);
-      if (studentName.trim()) formData.append('expected_student_name', studentName.trim());
-      if (regNo.trim()) formData.append('expected_reg_no', regNo.trim());
 
-      const res = await apiClient.post<any>('/verify', formData);
+      const res = await apiClient.post<any>('/verify', formData, {
+        timeout: 120000,
+      });
       const data = res.data;
 
       // Normalize verification response to handle contract and detailed UI fields
@@ -243,19 +285,68 @@ export const PublicVerifyPage: React.FC = () => {
             ? 'SUSPICIOUS (Requires Review)'
             : 'REJECTED (Tampered / Manipulated)'),
         color: data.color || (finalStatus === 'VERIFIED' ? 'emerald' : finalStatus === 'SUSPICIOUS' ? 'amber' : 'red'),
+        source: data.source || 'live_extraction',
+        document_type: data.document_type || (certificateType === 'marks_card' ? 'VTU_MARKSCARD' : 'ONLINE_COURSE_CERTIFICATE'),
+        extracted_data: data.extracted_data || {
+          student_name: data.extracted_fields?.student_name || '',
+          identifier: data.extracted_fields?.reg_no || '',
+          issuer: data.extracted_fields?.institution_name || '',
+          date: data.extracted_fields?.issue_date || '',
+          score_or_cgpa: data.extracted_fields?.sgpa || data.extracted_fields?.cgpa || '',
+        },
+        rag_validation: data.rag_validation || {
+          schema_matched: !data.warnings?.some((w: string) => w.includes('Scheme') || w.includes('Formula')),
+          arithmetic_valid: !data.warnings?.some((w: string) => w.includes('Arithmetic') || w.includes('SGPA')),
+          anomalies_detected: data.warnings || [],
+        },
+        verdict: data.verdict || (finalStatus === 'VERIFIED' ? 'AUTHENTIC' : finalStatus === 'SUSPICIOUS' ? 'SUSPICIOUS' : 'FRAUDULENT'),
         is_authentic: isAuthentic,
         confidence_score: Number(data.confidence_score ?? data.confidence ?? 0.95),
         latency_ms: Number(data.latency_ms ?? 150),
         rejection_reasons:
-          data.rejection_reasons ||
-          (data.details?.forgery_detected && data.details?.remarks ? [data.details.remarks] : []),
+          data.rejection_reasons && data.rejection_reasons.length > 0
+            ? data.rejection_reasons
+            : (data.qr_verification?.discrepancy_details || data.forensic_cards?.qr_and_url?.discrepancy_details)
+            ? [data.qr_verification?.discrepancy_details || data.forensic_cards?.qr_and_url?.discrepancy_details]
+            : (data.details?.forgery_detected && data.details?.remarks ? [data.details.remarks] : []),
         warnings: data.warnings || [],
         extracted_fields: data.extracted_fields || data.details?.ocr_extracted || {},
-        qr_verification: data.qr_verification || {
+        qr_verification: data.qr_verification ? {
+          detected: data.qr_verification.detected ?? data.qr_verification.qr_present ?? false,
+          payload_or_url: data.qr_verification.payload_or_url ?? data.qr_verification.url ?? null,
+          matches_document_text: data.qr_verification.matches_document_text ?? data.cross_verification?.matches_qr ?? true,
+          qr_present: data.qr_verification.detected ?? data.qr_verification.qr_present ?? false,
+          domain_valid: data.qr_verification.domain_valid ?? true,
+          url: data.qr_verification.payload_or_url ?? data.qr_verification.url ?? null,
+          verified: data.qr_verification.verified ?? (data.qr_verification.matches_document_text ?? false),
+          reason: data.qr_verification.reason,
+          payload_data: data.qr_verification.payload_data,
+          url_verified: data.qr_verification.url_verified ?? data.qr_verification.is_url ?? false,
+          is_url: data.qr_verification.is_url ?? false,
+          detection_method: data.qr_verification.detection_method ?? (data.qr_verification.is_url ? 'printed_url' : 'barcode'),
+          payload_text_match: data.qr_verification.payload_text_match ?? (data.qr_verification.matches_document_text !== false ? '100% MATCHED' : 'FRAUD_DATA_MISMATCH'),
+          live_server_status: data.qr_verification.live_server_status ?? data.forensic_cards?.qr_and_url?.live_server_status ?? null,
+          issuer_db_match: data.qr_verification.issuer_db_match ?? data.forensic_cards?.qr_and_url?.issuer_db_match ?? null,
+          web_registered_name: data.qr_verification.web_registered_name ?? data.forensic_cards?.qr_and_url?.web_registered_name ?? null,
+          discrepancy_details: data.qr_verification.discrepancy_details ?? data.forensic_cards?.qr_and_url?.discrepancy_details ?? null,
+          mismatch_flag: data.qr_verification.mismatch_flag ?? data.forensic_cards?.qr_and_url?.mismatch_flag ?? null,
+        } : {
+          detected: data.details?.qr_verified ?? false,
+          payload_or_url: null,
+          matches_document_text: true,
           qr_present: data.details?.qr_verified ?? false,
-          domain_valid: data.details?.qr_verified ?? false,
+          domain_valid: false,
           verified: data.details?.qr_verified ?? false,
-          reason: data.details?.qr_verified ? 'Cryptographic QR verified' : 'No QR detected',
+          reason: 'No QR code or institutional verification link detected',
+          url_verified: false,
+          is_url: false,
+          detection_method: 'none',
+          payload_text_match: 'Consistent with Visual Text',
+          live_server_status: null,
+          issuer_db_match: null,
+          web_registered_name: null,
+          discrepancy_details: null,
+          mismatch_flag: null,
         },
         cross_verification: data.cross_verification || {
           name_similarity: 100,
@@ -271,6 +362,7 @@ export const PublicVerifyPage: React.FC = () => {
           },
           extracted_fields: data.forensic_cards?.extracted_fields || data.extracted_fields || data.details?.ocr_extracted || {},
           gemini_vision: data.forensic_cards?.gemini_vision || data.details?.gemini_analysis || data.gemini_analysis,
+          rag_validation: data.forensic_cards?.rag_validation || data.rag_validation,
         },
         gemini_analysis: data.gemini_analysis || data.details?.gemini_analysis,
         file_metadata: data.file_metadata || data.details?.file_metadata,
@@ -282,6 +374,7 @@ export const PublicVerifyPage: React.FC = () => {
       };
 
       setResult(normalizedResult);
+      setHistoryRefreshTrigger(Date.now());
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         if (!err.response || err.code === 'ERR_NETWORK' || err.message?.includes('Network Error')) {
@@ -290,6 +383,8 @@ export const PublicVerifyPage: React.FC = () => {
           );
         } else if (err.response.data?.detail) {
           setError(String(err.response.data.detail));
+        } else if (err.response.data?.error) {
+          setError(String(err.response.data.error));
         } else if (err.response.data?.message) {
           setError(String(err.response.data.message));
         } else {
@@ -322,10 +417,45 @@ export const PublicVerifyPage: React.FC = () => {
             Instantly authenticate university marks cards and professional course completion credentials. Our multi-modal engine validates cryptographic QR roots, OCR baseline typography, and DIAR-AI template integrity in &lt;250ms.
           </p>
         </div>
+
+        {/* Workspace View Tabs (Verifier vs Verification History) */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold self-start md:self-auto shrink-0 shadow-lg">
+          <button
+            type="button"
+            onClick={() => setDashboardTab('verifier')}
+            className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg transition-all cursor-pointer ${
+              dashboardTab === 'verifier'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>Document Verifier</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setDashboardTab('history')}
+            className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg transition-all cursor-pointer ${
+              dashboardTab === 'history'
+                ? 'bg-emerald-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+            }`}
+          >
+            <Clock className="w-4 h-4" />
+            <span>Verification History</span>
+          </button>
+        </div>
       </div>
 
-      {/* Main Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {dashboardTab === 'history' ? (
+        <VerificationHistorySection
+          refreshTrigger={historyRefreshTrigger}
+          onNavigateToUpload={() => setDashboardTab('verifier')}
+        />
+      ) : (
+        <>
+          {/* Main Two-Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Upload & Input Portal (5 Cols) */}
         <div className="lg:col-span-5 space-y-6">
           <form onSubmit={handleVerifySubmit} className="space-y-5">
@@ -445,38 +575,6 @@ export const PublicVerifyPage: React.FC = () => {
               </div>
             </div>
 
-            {/* 3. Optional Verification Cross-Check Fields */}
-            <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                3. Optional Cross-Verification Metadata
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-[11px] font-medium text-slate-400 mb-1">
-                    Student Full Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Aarav Sharma"
-                    value={studentName}
-                    onChange={(e) => setStudentName(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-medium text-slate-400 mb-1">
-                    Registration / Roll ID
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. HTU2022-CS-041"
-                    value={regNo}
-                    onChange={(e) => setRegNo(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-              </div>
-            </div>
 
             {error && (
               <div className="p-3.5 rounded-xl bg-rose-950/30 border border-rose-800/60 flex items-center space-x-2 text-xs text-rose-300">
@@ -593,6 +691,19 @@ export const PublicVerifyPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* Critical Live Truth Discrepancy Banner if Registry Mismatch */}
+              {result.qr_verification?.discrepancy_details && (
+                <div className="p-5 rounded-3xl bg-rose-950/40 border-2 border-rose-500/80 shadow-2xl shadow-rose-950/50 space-y-2">
+                  <div className="flex items-center space-x-2.5 text-rose-300 font-bold text-xs uppercase tracking-wider">
+                    <ShieldAlert className="w-5 h-5 text-rose-400 shrink-0" />
+                    <span>Live Institutional Truth Authority Rejection</span>
+                  </div>
+                  <p className="text-sm font-semibold text-rose-100 pl-7 leading-relaxed">
+                    {result.qr_verification.discrepancy_details}
+                  </p>
+                </div>
+              )}
+
               {/* Rejection / Warning Alerts if any */}
               {result.rejection_reasons && result.rejection_reasons.length > 0 && (
                 <div className="p-4 rounded-2xl bg-rose-950/30 border border-rose-700/60 space-y-1.5">
@@ -629,49 +740,127 @@ export const PublicVerifyPage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-xs font-bold text-white">
                       <QrCode className="w-4 h-4 text-emerald-400" />
-                      <span>Active QR & URL Engine</span>
+                      <span>Active QR & Verification Link Engine</span>
                     </div>
-                    <span
-                      className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
-                        (result.qr_verification?.domain_valid ?? result.forensic_cards?.qr_and_url?.domain_valid)
-                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                          : (result.qr_verification?.qr_present ?? result.forensic_cards?.qr_and_url?.qr_present)
-                          ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
-                          : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                      }`}
-                    >
-                      {(result.qr_verification?.domain_valid ?? result.forensic_cards?.qr_and_url?.domain_valid)
-                        ? 'Accredited Root'
-                        : (result.qr_verification?.qr_present ?? result.forensic_cards?.qr_and_url?.qr_present)
-                        ? 'Untrusted / Spoofed'
-                        : 'No QR Stamp'}
-                    </span>
+                    {(() => {
+                      const isMismatch =
+                        result.qr_verification?.matches_document_text === false ||
+                        Boolean(result.qr_verification?.discrepancy_details) ||
+                        result.qr_verification?.mismatch_flag === 'IDENTITY_MISMATCH_FRAUD';
+                      const hasValidUrl = Boolean(
+                        result.qr_verification?.url_verified ||
+                        result.qr_verification?.is_url ||
+                        (result.qr_verification?.domain_valid && (result.qr_verification?.payload_or_url || result.qr_verification?.url)) ||
+                        result.forensic_cards?.qr_and_url?.url_verified ||
+                        (result.forensic_cards?.qr_and_url?.domain_valid && result.forensic_cards?.qr_and_url?.url)
+                      );
+                      const hasQr = Boolean(
+                        result.qr_verification?.detected ||
+                        result.qr_verification?.qr_present ||
+                        result.forensic_cards?.qr_and_url?.qr_present ||
+                        result.forensic_cards?.qr_and_url?.qr_detected
+                      );
+
+                      if (isMismatch) {
+                        return (
+                          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border bg-rose-500/10 text-rose-400 border-rose-500/30">
+                            {result.qr_verification?.mismatch_flag || 'IDENTITY_MISMATCH_FRAUD'}
+                          </span>
+                        );
+                      }
+                      if (hasValidUrl) {
+                        return (
+                          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+                            Valid Institutional Verification URL Found
+                          </span>
+                        );
+                      }
+                      if (hasQr) {
+                        return (
+                          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+                            Accredited Root Verified
+                          </span>
+                        );
+                      }
+                      return (
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-400 border-amber-500/30">
+                          Verification: Visual Forensics
+                        </span>
+                      );
+                    })()}
                   </div>
 
                   <div className="text-xs space-y-1.5 pt-1">
                     <div className="text-slate-400 flex justify-between">
-                      <span>QR Detection:</span>
+                      <span>Verification Channel:</span>
                       <span className="text-slate-200 font-medium">
-                        {(result.qr_verification?.qr_present ?? result.forensic_cards?.qr_and_url?.qr_present ?? result.forensic_cards?.qr_and_url?.qr_detected)
+                        {(result.qr_verification?.detected || result.qr_verification?.qr_present)
                           ? 'Cryptographic QR Present'
-                          : 'No QR Code Detected'}
+                          : (result.qr_verification?.url_verified || result.qr_verification?.is_url || result.qr_verification?.payload_or_url || result.forensic_cards?.qr_and_url?.url)
+                          ? 'Printed Institutional Link (No 2D QR Needed)'
+                          : 'Printed URL / Visual Forensics'}
                       </span>
                     </div>
 
-                    {(result.qr_verification?.url || result.forensic_cards?.qr_and_url?.url) && (
+                    {(result.qr_verification?.payload_or_url || result.qr_verification?.url || result.forensic_cards?.qr_and_url?.url) && (
                       <div className="text-slate-400 truncate">
                         <span className="block text-[11px] text-slate-500">Destination Endpoint:</span>
                         <a
-                          href={result.qr_verification?.url || result.forensic_cards?.qr_and_url?.url || '#'}
+                          href={result.qr_verification?.payload_or_url || result.qr_verification?.url || result.forensic_cards?.qr_and_url?.url || '#'}
                           target="_blank"
                           rel="noreferrer"
                           className="text-emerald-400 hover:underline flex items-center space-x-1 text-[11px]"
                         >
-                          <span className="truncate">{result.qr_verification?.url || result.forensic_cards?.qr_and_url?.url}</span>
+                          <span className="truncate">{result.qr_verification?.payload_or_url || result.qr_verification?.url || result.forensic_cards?.qr_and_url?.url}</span>
                           <ExternalLink className="w-3 h-3 shrink-0" />
                         </a>
                       </div>
                     )}
+
+                    {/* Live Server Status Row */}
+                    {(result.qr_verification?.live_server_status || result.forensic_cards?.qr_and_url?.live_server_status) && (
+                      <div className="text-slate-400 flex justify-between items-center pt-1 border-t border-slate-800/80">
+                        <span>Live Server Status:</span>
+                        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
+                          (result.qr_verification?.live_server_status || result.forensic_cards?.qr_and_url?.live_server_status)?.includes('200')
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                            : (result.qr_verification?.live_server_status || result.forensic_cards?.qr_and_url?.live_server_status)?.includes('404')
+                            ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                            : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+                        }`}>
+                          {result.qr_verification?.live_server_status || result.forensic_cards?.qr_and_url?.live_server_status}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Issuer Database Match Row */}
+                    {(result.qr_verification?.issuer_db_match || result.forensic_cards?.qr_and_url?.issuer_db_match) && (
+                      <div className="text-slate-400 flex justify-between items-center pt-1 border-t border-slate-800/80">
+                        <span>Issuer Database Match:</span>
+                        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border max-w-[210px] truncate ${
+                          (result.qr_verification?.issuer_db_match || result.forensic_cards?.qr_and_url?.issuer_db_match)?.startsWith('Matched')
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                            : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                        }`}>
+                          {result.qr_verification?.issuer_db_match || result.forensic_cards?.qr_and_url?.issuer_db_match}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="text-slate-400 flex justify-between">
+                      <span>Payload Text Match:</span>
+                      <span className={`font-mono font-medium ${
+                        result.qr_verification?.matches_document_text === false ? 'text-rose-400' : 'text-emerald-400'
+                      }`}>
+                        {result.qr_verification?.payload_text_match
+                          ? result.qr_verification.payload_text_match
+                          : result.qr_verification?.matches_document_text === false
+                          ? 'FRAUD_DATA_MISMATCH'
+                          : (result.qr_verification?.detected || result.qr_verification?.qr_present || result.qr_verification?.url_verified || result.qr_verification?.is_url)
+                          ? '100% MATCHED'
+                          : 'Consistent with Visual Text'}
+                      </span>
+                    </div>
 
                     {(result.cross_verification?.qr_ground_truth?.name && result.cross_verification.qr_ground_truth.name !== 'N/A') && (
                       <div className="text-slate-400 flex justify-between pt-1 border-t border-slate-800/80">
@@ -685,9 +874,9 @@ export const PublicVerifyPage: React.FC = () => {
                     <p className="text-[11px] text-slate-400 pt-1 border-t border-slate-800">
                       {result.qr_verification?.reason ||
                         result.forensic_cards?.qr_and_url?.message ||
-                        ((result.qr_verification?.domain_valid ?? result.forensic_cards?.qr_and_url?.domain_valid)
-                          ? 'Accredited institutional root certificate cryptographically verified.'
-                          : 'No accredited verification domain found.')}
+                        ((result.qr_verification?.url_verified || result.qr_verification?.is_url || (result.qr_verification?.domain_valid ?? result.forensic_cards?.qr_and_url?.domain_valid))
+                          ? 'Accredited institutional root certificate cryptographically/URL verified.'
+                          : 'Verification method: Printed URL / Visual Forensics')}
                     </p>
                   </div>
                 </div>
@@ -697,10 +886,10 @@ export const PublicVerifyPage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-xs font-bold text-white">
                       <FileSearch className="w-4 h-4 text-cyan-400" />
-                      <span>Anchor Field Extraction</span>
+                      <span>Live Field Extraction</span>
                     </div>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-full border bg-cyan-500/10 text-cyan-400 border-cyan-500/30">
-                      CLAHE + Anchor OCR
+                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border bg-cyan-500/10 text-cyan-300 border-cyan-500/30">
+                      {result.document_type || 'LIVE_EXTRACTED'}
                     </span>
                   </div>
 
@@ -708,34 +897,32 @@ export const PublicVerifyPage: React.FC = () => {
                     <div className="text-slate-400 flex justify-between">
                       <span>Candidate Name:</span>
                       <span className="text-slate-200 font-semibold truncate max-w-[160px]">
-                        {result.extracted_fields?.student_name ||
-                          result.forensic_cards?.extracted_fields?.student_name ||
-                          studentName ||
-                          'Not Found'}
+                        {result.extracted_data?.student_name ||
+                          result.extracted_fields?.student_name ||
+                          'Not Detected'}
                       </span>
                     </div>
                     <div className="text-slate-400 flex justify-between">
                       <span>Institution:</span>
                       <span className="text-cyan-300 font-medium truncate max-w-[170px]">
-                        {result.extracted_fields?.institution_name ||
-                          result.forensic_cards?.extracted_fields?.institution_name ||
-                          'Heritage Technical University'}
+                        {result.extracted_data?.issuer ||
+                          result.extracted_fields?.institution_name ||
+                          'Not Detected'}
                       </span>
                     </div>
                     <div className="text-slate-400 flex justify-between">
                       <span>Roll / Reg No:</span>
                       <span className="text-slate-200 font-mono font-medium">
-                        {result.extracted_fields?.reg_no ||
-                          result.forensic_cards?.extracted_fields?.reg_no ||
-                          regNo ||
-                          'N/A'}
+                        {result.extracted_data?.identifier ||
+                          result.extracted_fields?.reg_no ||
+                          'Not Detected'}
                       </span>
                     </div>
-                    {(result.extracted_fields?.sgpa || result.forensic_cards?.extracted_fields?.sgpa) && (
+                    {(result.extracted_data?.score_or_cgpa || result.extracted_fields?.sgpa) && (
                       <div className="text-slate-400 flex justify-between pt-1 border-t border-slate-800/80">
-                        <span>Extracted SGPA:</span>
+                        <span>Extracted Score / CGPA:</span>
                         <span className="text-emerald-400 font-mono font-bold">
-                          {result.extracted_fields?.sgpa || result.forensic_cards?.extracted_fields?.sgpa}
+                          {result.extracted_data?.score_or_cgpa || result.extracted_fields?.sgpa}
                         </span>
                       </div>
                     )}
@@ -817,7 +1004,7 @@ export const PublicVerifyPage: React.FC = () => {
                       <span className="text-slate-200 font-mono font-medium">
                         {result.forensic_cards?.template_integrity?.ssim_score !== undefined
                           ? result.forensic_cards.template_integrity.ssim_score.toFixed(4)
-                          : '0.9615'}{' '}
+                          : '1.0000'}{' '}
                         <span className="text-slate-500 text-[10px]">(threshold &ge;0.85)</span>
                       </span>
                     </div>
@@ -826,7 +1013,7 @@ export const PublicVerifyPage: React.FC = () => {
                       <span className="text-slate-200 font-mono font-medium">
                         {result.forensic_cards?.template_integrity?.edge_diff_ratio !== undefined
                           ? result.forensic_cards.template_integrity.edge_diff_ratio.toFixed(4)
-                          : '0.0118'}{' '}
+                          : '0.0000'}{' '}
                         <span className="text-slate-500 text-[10px]">(threshold &le;0.08)</span>
                       </span>
                     </div>
@@ -834,24 +1021,19 @@ export const PublicVerifyPage: React.FC = () => {
                       <span>Template: </span>
                       <span className="font-mono text-slate-300">
                         {result.forensic_cards?.template_integrity?.matched_template ||
-                          'template_heritage_univ.png'}
+                          'Live Document Calibration'}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Card 5: Google Gemini Vision Forensics */}
+                {/* Card 5: Multimodal Vision Forensics */}
                 {result.forensic_cards?.gemini_vision && (
                   <div className="col-span-1 md:col-span-2 p-4 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-slate-900/60 to-slate-900/60 border border-indigo-500/30 space-y-3 shadow-lg">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2 text-xs font-bold text-white">
                         <Sparkles className="w-4 h-4 text-indigo-400" />
-                        <span>Google Gemini Vision Forensic Audit</span>
-                        {result.forensic_cards.gemini_vision.model_used && (
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/30">
-                            {result.forensic_cards.gemini_vision.model_used}
-                          </span>
-                        )}
+                        <span>Multimodal Vision Forensic Audit</span>
                       </div>
                       <span
                         className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
@@ -863,9 +1045,9 @@ export const PublicVerifyPage: React.FC = () => {
                         }`}
                       >
                         {result.forensic_cards.gemini_vision.is_authentic === true
-                          ? 'Gemini Verified'
+                          ? 'Vision AI Verified'
                           : result.forensic_cards.gemini_vision.is_authentic === false
-                          ? 'Gemini Flagged Manipulation'
+                          ? 'Visual Manipulation Flagged'
                           : result.forensic_cards.gemini_vision.status || 'Vision AI Audited'}
                       </span>
                     </div>
@@ -894,7 +1076,7 @@ export const PublicVerifyPage: React.FC = () => {
                         </div>
                         <p className="text-[10px] text-slate-400 leading-tight">
                           {result.forensic_cards.gemini_vision.forgery_indicators?.details ||
-                            'Typography and pixel baseline verified by Gemini Vision.'}
+                            'Typography and pixel baseline verified by Multimodal Vision Engine.'}
                         </p>
                       </div>
 
@@ -947,6 +1129,95 @@ export const PublicVerifyPage: React.FC = () => {
                     )}
                   </div>
                 )}
+
+                {/* Card 6: Ground-Truth Institutional Schema Cross-Verification (RAG) */}
+                {(result.rag_validation || result.forensic_cards?.rag_validation) && (
+                  <div className="col-span-1 md:col-span-2 p-4 rounded-2xl bg-gradient-to-br from-cyan-950/40 via-slate-900/60 to-slate-900/60 border border-cyan-500/30 space-y-3 shadow-lg">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2 text-xs font-bold text-white">
+                        <GraduationCap className="w-4 h-4 text-cyan-400" />
+                        <span>Institutional Ground-Truth Schema & Arithmetic Audit (RAG)</span>
+                        {result.document_type && (
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                            {result.document_type}
+                          </span>
+                        )}
+                      </div>
+                      <span
+                        className={`text-[9px] font-bold px-2 py-0.5 rounded-full border ${
+                          (result.rag_validation?.schema_matched ?? result.forensic_cards?.rag_validation?.schema_matched)
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
+                            : 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                        }`}
+                      >
+                        {(result.rag_validation?.schema_matched ?? result.forensic_cards?.rag_validation?.schema_matched)
+                          ? 'Institutional Schema Compliant'
+                          : 'Schema / Rule Anomaly'}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                      <div className="p-2.5 rounded-xl bg-slate-950/50 border border-slate-800 space-y-1">
+                        <div className="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                          <span>Grading & Identifier Conformity</span>
+                          <span
+                            className={
+                              (result.rag_validation?.schema_matched ?? result.forensic_cards?.rag_validation?.schema_matched)
+                                ? 'text-emerald-400 font-bold'
+                                : 'text-amber-400 font-bold'
+                            }
+                          >
+                            {(result.rag_validation?.schema_matched ?? result.forensic_cards?.rag_validation?.schema_matched)
+                              ? 'Standardized'
+                              : 'Discrepancy'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400">
+                          {result.document_type === 'VTU_MARKSCARD'
+                            ? 'Cross-referenced against VTU CBCS USN conventions, grade weights, and regional college registries.'
+                            : 'Cross-referenced against official course provider certificate signatures and verification URL standards.'}
+                        </p>
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-slate-950/50 border border-slate-800 space-y-1">
+                        <div className="text-[11px] font-semibold text-slate-300 flex items-center justify-between">
+                          <span>Formula & Arithmetic Validation</span>
+                          <span
+                            className={
+                              (result.rag_validation?.arithmetic_valid ?? result.forensic_cards?.rag_validation?.arithmetic_valid)
+                                ? 'text-emerald-400 font-bold'
+                                : 'text-rose-400 font-bold'
+                            }
+                          >
+                            {(result.rag_validation?.arithmetic_valid ?? result.forensic_cards?.rag_validation?.arithmetic_valid)
+                              ? 'Valid'
+                              : 'Contradiction'}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-slate-400">
+                          {result.document_type === 'VTU_MARKSCARD'
+                            ? 'Evaluated via VTU SGPA formula: sum(Credits * GradePoints) / sum(Credits).'
+                            : 'Evaluated course completion threshold and certification score range.'}
+                        </p>
+                      </div>
+                    </div>
+
+                    {((result.rag_validation?.anomalies_detected && result.rag_validation.anomalies_detected.length > 0) ||
+                      (result.forensic_cards?.rag_validation?.anomalies_detected && result.forensic_cards.rag_validation.anomalies_detected.length > 0)) && (
+                      <div className="p-2.5 rounded-xl bg-rose-950/30 border border-rose-800/40 text-[11px] text-rose-300 space-y-1">
+                        <div className="font-semibold flex items-center space-x-1">
+                          <AlertTriangle className="w-3.5 h-3.5" />
+                          <span>RAG Schema Discrepancy Report:</span>
+                        </div>
+                        <ul className="list-disc list-inside text-[10px] text-rose-200/90 pl-1 space-y-0.5">
+                          {(result.rag_validation?.anomalies_detected || result.forensic_cards?.rag_validation?.anomalies_detected || []).map((anomaly: string, idx: number) => (
+                            <li key={idx}>{anomaly}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons: Print Report / Download Verified Certificate */}
@@ -994,6 +1265,16 @@ export const PublicVerifyPage: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+
+      {/* Embedded Verification History Section on Dashboard */}
+      <div className="mt-14 border-t border-slate-800/80 pt-10">
+        <VerificationHistorySection
+          refreshTrigger={historyRefreshTrigger}
+          onNavigateToUpload={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        />
+      </div>
+    </>
+  )}
+</div>
   );
 };

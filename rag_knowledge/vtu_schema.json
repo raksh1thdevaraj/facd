@@ -1,0 +1,40 @@
+{
+  "schema_name": "VTU_CBCS_GRADING_SCHEMA",
+  "document_type": "VTU_MARKSCARD",
+  "authority": "Visvesvaraya Technological University",
+  "aliases": [
+    "VTU",
+    "VISVESVARAYA TECHNOLOGICAL UNIVERSITY",
+    "VTU BELAGAVI",
+    "VTU BELGAUM",
+    "VTU RO",
+    "JNANA SANGAMA"
+  ],
+  "usn_pattern": "^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$",
+  "usn_format_description": "10-character alphanumeric: Region digit (1-4), 2-letter College Code, 2-digit Year of Admission, 2-letter Branch Code, 3-digit Roll Number",
+  "regional_centers": [
+    {"code": "1", "region": "Bengaluru"},
+    {"code": "2", "region": "Belagavi"},
+    {"code": "3", "region": "Kalaburagi"},
+    {"code": "4", "region": "Mysuru"}
+  ],
+  "grading_rules": {
+    "O": {"name": "Outstanding", "grade_points": 10, "min_marks": 90, "max_marks": 100},
+    "A+": {"name": "Excellent", "grade_points": 9, "min_marks": 80, "max_marks": 89},
+    "A": {"name": "Very Good", "grade_points": 8, "min_marks": 70, "max_marks": 79},
+    "B+": {"name": "Good", "grade_points": 7, "min_marks": 60, "max_marks": 69},
+    "B": {"name": "Above Average", "grade_points": 6, "min_marks": 55, "max_marks": 59},
+    "C": {"name": "Average", "grade_points": 5, "min_marks": 50, "max_marks": 54},
+    "P": {"name": "Pass", "grade_points": 4, "min_marks": 40, "max_marks": 49},
+    "F": {"name": "Fail", "grade_points": 0, "min_marks": 0, "max_marks": 39}
+  },
+  "sgpa_formula": "sum(Ci * Gi) / sum(Ci)",
+  "cgpa_formula": "sum(C_total_i * SGPA_i) / sum(C_total_i)",
+  "standard_credits_per_semester": [20, 24],
+  "official_domains": [
+    "vtu.ac.in",
+    "results.vtu.ac.in",
+    "exam.vtu.ac.in",
+    "universitysolutions.in"
+  ]
+}

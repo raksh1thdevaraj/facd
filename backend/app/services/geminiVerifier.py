@@ -1,3 +1,4 @@
+# ruff: noqa: N999
 """
 Google Gemini Vision Forensic Verification Service.
 
@@ -28,11 +29,11 @@ try:
     GOOGLE_GENAI_AVAILABLE = True
 except ImportError:
     GOOGLE_GENAI_AVAILABLE = False
-    genai = None  # type: ignore
-    types = None  # type: ignore
-    APIError = Exception  # type: ignore
-    ClientError = Exception  # type: ignore
-    ServerError = Exception  # type: ignore
+    genai: Any = None
+    types: Any = None
+    APIError: Any = Exception
+    ClientError: Any = Exception
+    ServerError: Any = Exception
 
 from app.config import settings
 
@@ -40,12 +41,29 @@ logger = logging.getLogger(__name__)
 
 # Fallback sequence of Gemini vision models in case of model deprecation or capacity spikes
 CANDIDATE_MODELS = [
-    "gemini-2.5-flash",
-    "gemini-3.8-flash",
-    "gemini-flash-latest",
-    "gemini-3.5-flash",
     "gemini-3.1-flash-lite",
+    "gemini-3.5-flash",
+    "gemini-3-flash-preview",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.7-flash",
+    "gemini-3.8-flash",
 ]
+
+DEFAULT_INSTITUTIONAL_SCHEMA_RULES = """
+AUTHORITATIVE INSTITUTIONAL REFERENCE SCHEMA & LOGICAL AUDIT:
+1. VTU CBCS MARKS CARD RULES (Visvesvaraya Technological University):
+   - USN Pattern: 10-character alphanumeric: Region digit (1-4), 2-letter College Code, 2-digit Year, 2-letter Branch, 3-digit Roll (e.g. 1MS21CS001, 1RV20EC045).
+   - Regional Centers: 1=Bengaluru, 2=Belagavi, 3=Kalaburagi, 4=Mysuru.
+   - Grading Rules: O (10 pts, 90-100), A+ (9 pts, 80-89), A (8 pts, 70-79), B+ (7 pts, 60-69), B (6 pts, 55-59), C (5 pts, 50-54), P (4 pts, 40-49), F (0 pts, 0-39).
+   - SGPA Formula: sum(Ci * Gi) / sum(Ci). Typical semester total credits: 20 to 24.
+   - Accredited Domains: vtu.ac.in, results.vtu.ac.in, exam.vtu.ac.in, universitysolutions.in.
+
+2. ONLINE COURSE CREDENTIAL RULES:
+   - Coursera: Official domain coursera.org. Verify URL: https://coursera.org/verify/<ID>. Certificate ID: 10-24 character uppercase alphanumeric string.
+   - NPTEL / Swayam: Official domains nptel.ac.in, archive.nptel.ac.in, swayam.gov.in. Verify URL: https://nptel.ac.in/noc/... Certificate ID pattern: NPTEL<year><discipline><session><id>. Award Criteria: Elite+Gold (>=90%), Elite+Silver (75-89%), Elite (60-74%), Successfully Completed (40-59%).
+   - Unacademy: Official domain unacademy.com. Verify URL: https://unacademy.com/certificate/<ID> or /verify/<ID>.
+"""
 
 FORENSIC_PROMPT_TEMPLATE = """
 You are an authoritative senior document forensics examiner specializing in the authenticity
@@ -53,14 +71,14 @@ assessment of academic credentials, university marks cards, and official certifi
 
 Analyze the attached certificate document image with rigorous forensic scrutiny.
 
-Conduct an exhaustive forensic review across the following three core dimensions:
-1. EXTRACTED ENTITIES:
-   - Identify USN, Registration Number, or Student ID
-   - Identify Full Candidate / Student Name
-   - Identify CGPA, SGPA, Percentage, or Final Grade
-   - Identify Issuing University, College, or Certificate Authority
-   - Identify Degree Program, Specialization, or Course Title
-   - Identify Issue Date or Graduation Year
+Conduct an exhaustive forensic review across the following core dimensions:
+1. EXTRACTED VISUAL ENTITIES:
+   - Extract actual candidate / student name visible on document (return null if not legible).
+   - Extract USN, Registration Number, or Certificate ID visible on document (return null if not legible).
+   - Extract CGPA, SGPA, Percentage, or Final Grade visible on document.
+   - Extract Issuing University, College, or Certificate Authority visible on document.
+   - Extract Degree Program, Specialization, Course Title, or Branch.
+   - Extract Issue Date or Completion Year visible on document.
 
 2. FORGERY INDICATORS:
    - Font Mismatch: Detect mismatched font families, inconsistent weights, differing stroke thicknesses, or irregular kerning.
@@ -68,13 +86,17 @@ Conduct an exhaustive forensic review across the following three core dimensions
    - Patch Compression Artifacts: Detect localized JPEG blockiness, rectangular boundary compression halos, clone stamping traces, or blur patches surrounding altered text.
    - Splicing / Digital Overlay: Detect pasted text boxes, inconsistent background grain/noise, or mismatched paper texture.
 
-3. ARITHMETIC CONSISTENCY:
-   - For marks cards and grade sheets, compute whether subject credits, grade points, and component scores mathematically align with the stated SGPA/CGPA or Total Marks.
+3. ARITHMETIC CONSISTENCY & SCHEMA CROSS-EXAMINATION:
+   - For marks cards and grade sheets, compute whether subject credits, grade points, and component scores mathematically align with the stated SGPA/CGPA or Total Marks using the institutional schema rules below.
+   - Verify whether stated award or percentage matches institutional grading tiers.
    - Flag any mathematical contradiction, out-of-range percentage, or impossible grade point calculation.
+   - Does the certificate format, ID pattern, or verification URL match official institutional standards?
+
+{schema_rules_section}
 
 Context hints:
-- Expected Student Name (if provided): "{expected_student_name}"
-- Expected Registration No (if provided): "{expected_reg_no}"
+- Expected Student Name (if provided for cross-check): "{expected_student_name}"
+- Expected Registration No (if provided for cross-check): "{expected_reg_no}"
 - Declared Certificate Type: "{certificate_type}"
 
 You MUST respond strictly with a valid JSON object matching this schema without any markdown formatting:
@@ -98,6 +120,10 @@ You MUST respond strictly with a valid JSON object matching this schema without 
     "is_consistent": <true or false>,
     "details": "<mathematical evaluation of scores and grade points>"
   }},
+  "schema_validation": {{
+    "schema_matched": <true or false>,
+    "discrepancies": ["<anomaly details or empty>"]
+  }},
   "is_authentic": <true or false>,
   "confidence_score": <float between 0.00 and 1.00>,
   "verdict": "<'VERIFIED' | 'SUSPICIOUS' | 'REJECTED'>",
@@ -115,8 +141,11 @@ class GeminiVerifier:
         model: Optional[str] = None,
         timeout_ms: int = 30000,
     ) -> None:
+        self._explicitly_disabled = False
         if api_key is not None:
             self.api_key = api_key.strip()
+            if not self.api_key:
+                self._explicitly_disabled = True
         else:
             self.api_key = (
                 getattr(settings, "GEMINI_API_KEY", None) or os.getenv("GEMINI_API_KEY", "")
@@ -127,13 +156,18 @@ class GeminiVerifier:
         else:
             self.primary_model = (
                 getattr(settings, "GEMINI_MODEL", None)
-                or os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+                or os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
             ).strip()
 
         self.timeout_ms = timeout_ms
         self._client: Optional[Any] = None
 
-        if GOOGLE_GENAI_AVAILABLE and self.api_key:
+        if (
+            GOOGLE_GENAI_AVAILABLE
+            and genai is not None
+            and types is not None
+            and self.api_key
+        ):
             try:
                 self._client = genai.Client(
                     api_key=self.api_key,
@@ -199,6 +233,7 @@ class GeminiVerifier:
         certificate_type: str = "marks_card",
         expected_student_name: Optional[str] = None,
         expected_reg_no: Optional[str] = None,
+        schema_rules_context: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Execute deep forensic document analysis on certificate image.
@@ -208,13 +243,39 @@ class GeminiVerifier:
             certificate_type: Type of document ("marks_card" or "course_certificate").
             expected_student_name: Optional candidate name for cross-validation.
             expected_reg_no: Optional student/registration ID for cross-validation.
+            schema_rules_context: Optional institutional schema rules context for RAG validation.
 
         Returns:
             Structured dictionary with entities, forgery indicators, arithmetic consistency,
             authenticity verdict, and confidence score.
         """
+        # Dynamic client recovery if key exists in env/settings but client wasn't initialized
+        if (
+            self._client is None
+            and not getattr(self, "_explicitly_disabled", False)
+            and GOOGLE_GENAI_AVAILABLE
+            and genai is not None
+            and types is not None
+        ):
+            active_key = (
+                self.api_key
+                or os.getenv("GEMINI_API_KEY", "")
+                or getattr(settings, "GEMINI_API_KEY", "")
+                or ""
+            ).strip()
+            if active_key:
+                self.api_key = active_key
+                try:
+                    self._client = genai.Client(
+                        api_key=self.api_key,
+                        http_options=types.HttpOptions(timeout=self.timeout_ms),
+                    )
+                    logger.info("Dynamically initialized Gemini Client with model '%s'", self.primary_model)
+                except Exception as dyn_err:
+                    logger.warning("Dynamic Gemini Client init failed: %s", dyn_err)
+
         # Guard: Check availability
-        if not self.is_available:
+        if not self.is_available or types is None:
             return {
                 "success": False,
                 "status": "SKIPPED",
@@ -222,8 +283,8 @@ class GeminiVerifier:
                 "confidence_score": 0.0,
                 "verdict": "UNVERIFIED",
                 "entities": {
-                    "student_name": expected_student_name,
-                    "registration_no": expected_reg_no,
+                    "student_name": None,
+                    "registration_no": None,
                     "cgpa_or_score": None,
                     "issuing_institution": None,
                     "degree_or_program": None,
@@ -234,13 +295,17 @@ class GeminiVerifier:
                     "text_baseline_shift": False,
                     "patch_compression_artifacts": False,
                     "splicing_detected": False,
-                    "details": "Gemini Vision check skipped (API key not configured or client uninitialized).",
+                    "details": "Multimodal Vision check skipped (API key not configured or client uninitialized).",
                 },
                 "arithmetic_consistency": {
                     "is_consistent": True,
-                    "details": "Gemini arithmetic consistency check skipped.",
+                    "details": "Arithmetic consistency check skipped.",
                 },
-                "forensic_summary": "Gemini Vision API is not configured. Local forensic pipeline used.",
+                "schema_validation": {
+                    "schema_matched": True,
+                    "discrepancies": [],
+                },
+                "forensic_summary": "Multimodal Vision API is not configured. Local forensic pipeline used.",
                 "model_used": None,
                 "error": "GEMINI_API_KEY_NOT_CONFIGURED"
                 if not self.api_key
@@ -261,10 +326,12 @@ class GeminiVerifier:
                 "forensic_summary": "Failed to read or encode uploaded certificate image.",
             }
 
+        schema_rules = schema_rules_context or DEFAULT_INSTITUTIONAL_SCHEMA_RULES
         prompt = FORENSIC_PROMPT_TEMPLATE.format(
             expected_student_name=expected_student_name or "N/A",
             expected_reg_no=expected_reg_no or "N/A",
             certificate_type=certificate_type,
+            schema_rules_section=schema_rules,
         )
 
         image_part = types.Part.from_bytes(data=img_bytes, mime_type=mime_type)
@@ -304,10 +371,12 @@ class GeminiVerifier:
                     model_name,
                     err_msg[:120],
                 )
-                # If 404 (model deprecated / not found) or 503 (high demand spike), proceed to next candidate
+                # If 404 (model deprecated / not found), 429 (quota rate-limit), or 503 (demand spike), proceed to next candidate
                 if (
                     "404" in err_msg
                     or "503" in err_msg
+                    or "429" in err_msg
+                    or "RESOURCE_EXHAUSTED" in err_msg
                     or "NOT_FOUND" in err_msg
                     or "UNAVAILABLE" in err_msg
                 ):
@@ -325,22 +394,30 @@ class GeminiVerifier:
                 "confidence_score": 0.0,
                 "verdict": "UNVERIFIED",
                 "entities": {
-                    "student_name": expected_student_name,
-                    "registration_no": expected_reg_no,
+                    "student_name": None,
+                    "registration_no": None,
+                    "cgpa_or_score": None,
+                    "issuing_institution": None,
+                    "degree_or_program": None,
+                    "issue_date": None,
                 },
                 "forgery_indicators": {
                     "font_mismatch": False,
                     "text_baseline_shift": False,
                     "patch_compression_artifacts": False,
                     "splicing_detected": False,
-                    "details": f"Gemini Vision service temporarily unavailable: {str(last_error)}",
+                    "details": f"Multimodal Vision service temporarily unavailable: {str(last_error)}",
                 },
                 "arithmetic_consistency": {
                     "is_consistent": True,
                     "details": "Arithmetic check unavailable during service degradation.",
                 },
+                "schema_validation": {
+                    "schema_matched": True,
+                    "discrepancies": [],
+                },
                 "forensic_summary": (
-                    "Gemini Vision service experienced high demand or temporary network outage. "
+                    "Multimodal Vision service experienced high demand or temporary network outage. "
                     "Verification gracefully fell back to local deterministic pipeline."
                 ),
                 "model_used": None,
@@ -376,6 +453,7 @@ class GeminiVerifier:
         entities = parsed.get("entities", {})
         forgery_indicators = parsed.get("forgery_indicators", {})
         arithmetic = parsed.get("arithmetic_consistency", {})
+        schema_val = parsed.get("schema_validation", {})
 
         is_authentic = bool(parsed.get("is_authentic", False))
         confidence_val = float(parsed.get("confidence_score", 0.85 if is_authentic else 0.20))
@@ -411,8 +489,12 @@ class GeminiVerifier:
                 "is_consistent": bool(arithmetic.get("is_consistent", True)),
                 "details": arithmetic.get("details", "Marks card calculations are consistent."),
             },
+            "schema_validation": {
+                "schema_matched": bool(schema_val.get("schema_matched", True)),
+                "discrepancies": schema_val.get("discrepancies", []),
+            },
             "forensic_summary": parsed.get(
-                "forensic_summary", "Document analyzed with Gemini Vision."
+                "forensic_summary", "Document analyzed with Multimodal Vision Forensic Engine."
             ),
         }
 
@@ -434,6 +516,7 @@ def verify_certificate_with_gemini(
     certificate_type: str = "marks_card",
     expected_student_name: Optional[str] = None,
     expected_reg_no: Optional[str] = None,
+    schema_rules_context: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Convenience helper function to verify a certificate with Gemini Vision."""
     verifier = get_gemini_verifier()
@@ -442,4 +525,5 @@ def verify_certificate_with_gemini(
         certificate_type=certificate_type,
         expected_student_name=expected_student_name,
         expected_reg_no=expected_reg_no,
+        schema_rules_context=schema_rules_context,
     )

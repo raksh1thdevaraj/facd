@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShieldCheck, LogOut, ExternalLink, User as UserIcon } from 'lucide-react';
+import { ShieldCheck, LogOut, ExternalLink, User as UserIcon, History } from 'lucide-react';
 import { SystemHealthBadge } from '../SystemHealthBadge';
 import { useAuth } from '../../context/AuthContext';
 
@@ -67,6 +67,16 @@ export const Navbar: React.FC = () => {
                   {isAdmin ? 'Admin' : 'User'}
                 </span>
               </div>
+
+              {/* History Navigation Link */}
+              <Link
+                to="/history"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer bg-slate-900/90 hover:bg-slate-800 text-slate-300 border-slate-700/80 hover:border-slate-600"
+                title="View Verification History"
+              >
+                <History className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="hidden sm:inline">History</span>
+              </Link>
 
               {/* Action to Open Assigned Workspace (/verify for User, /admin for Admin) */}
               <button

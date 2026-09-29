@@ -5,6 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
+  timeout: 120000, // 120 seconds explicit timeout to prevent client abort during analysis
   headers: {
     'Content-Type': 'application/json',
   },
@@ -28,9 +29,15 @@ apiClient.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  // Remove default Content-Type for multipart FormData so boundary is generated automatically
+  // When sending FormData, explicitly delete Content-Type so browser/axios sets multipart boundary
   if (config.data instanceof FormData && config.headers) {
-    delete config.headers['Content-Type'];
+    if (typeof (config.headers as any).delete === 'function') {
+      (config.headers as any).delete('Content-Type');
+      (config.headers as any).delete('content-type');
+    } else {
+      delete config.headers['Content-Type'];
+      delete config.headers['content-type'];
+    }
   }
 
   return config;
@@ -58,6 +65,17 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    // 0. Transparently retry transient 503 / connection errors (e.g. hot-reloads) once
+    if (
+      originalRequest &&
+      !originalRequest._networkRetry &&
+      (error.response?.status === 503 || error.code === 'ERR_NETWORK' || error.message?.includes('Network Error'))
+    ) {
+      originalRequest._networkRetry = true;
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      return apiClient(originalRequest);
+    }
 
     // Skip refresh attempt on login or refresh endpoint failures
     if (
@@ -123,6 +141,31 @@ apiClient.interceptors.response.use(
       } finally {
         isRefreshing = false;
       }
+    }
+
+    // 3. Network and Server Unavailable Retry Interceptor (502/503/504/ECONNREFUSED/ECONNRESET)
+    const isNetworkError =
+      !error.response ||
+      error.code === 'ECONNABORTED' ||
+      error.code === 'ERR_NETWORK' ||
+      error.message?.includes('Network Error');
+    const isServerUnavailable =
+      error.response?.status === 502 ||
+      error.response?.status === 503 ||
+      error.response?.status === 504;
+
+    if (
+      (isNetworkError || isServerUnavailable) &&
+      (!originalRequest._retryCount || originalRequest._retryCount < 2) &&
+      !originalRequest.url?.includes('/health')
+    ) {
+      originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+      const delayMs = originalRequest._retryCount * 1200;
+
+      // Wait briefly before retrying to give backend a chance to initialize
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+      return apiClient(originalRequest);
     }
 
     return Promise.reject(error);

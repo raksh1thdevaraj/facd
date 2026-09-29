@@ -16,6 +16,7 @@ from app.models.template import (
 )
 from app.models.text_consistency import TextConsistencyModel
 from app.models.user import AppUserModel
+from app.models.verification_history import VerificationHistoryModel
 
 __all__ = [
     "InstitutionModel",
@@ -32,4 +33,5 @@ __all__ = [
     "AuditLogModel",
     "IssuerRegistryModel",
     "CourseCertificateVerificationModel",
+    "VerificationHistoryModel",
 ]

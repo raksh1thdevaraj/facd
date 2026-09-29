@@ -68,6 +68,13 @@ from app.schemas.text_consistency import (
     TextConsistencyResult,
 )
 
+from app.schemas.verification_history import (
+    VerificationHistoryClearResponse,
+    VerificationHistoryDetail,
+    VerificationHistoryPaginatedList,
+    VerificationHistorySummary,
+)
+
 __all__ = [
     "RiskBand",
     "CheckStatus",
@@ -121,4 +128,8 @@ __all__ = [
     "FeatureVector",
     "FeatureImportanceItem",
     "PredictionResult",
+    "VerificationHistorySummary",
+    "VerificationHistoryDetail",
+    "VerificationHistoryPaginatedList",
+    "VerificationHistoryClearResponse",
 ]

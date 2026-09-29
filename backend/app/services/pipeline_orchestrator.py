@@ -431,6 +431,48 @@ class VerificationPipelineOrchestrator:
                 },
             )
 
+            # Persist to unified Verification History store (SQLite + data/history.json)
+            try:
+                from app.services.history_service import history_service
+
+                student_name = "Not Detected"
+                identifier = "Not Detected"
+                institution = "Visvesvaraya Technological University"
+                if context.ocr_fields:
+                    student_name = getattr(context.ocr_fields, "student_name", None) or "Not Detected"
+                    identifier = getattr(context.ocr_fields, "usn", None) or getattr(context.ocr_fields, "reg_no", None) or "Not Detected"
+                    institution = getattr(context.ocr_fields, "institution_name", None) or institution
+
+                t_flags = []
+                if hasattr(full_report, "tampering_flags") and full_report.tampering_flags:
+                    t_flags = list(full_report.tampering_flags)
+                elif context.warnings:
+                    t_flags = list(context.warnings)
+
+                qr_detected = bool(
+                    context.template_result
+                    and hasattr(context.template_result, "qr_payload")
+                    and context.template_result.qr_payload
+                )
+
+                history_service.record_verification_async(
+                    record_id=certificate_id,
+                    timestamp_iso=datetime.now(timezone.utc).isoformat(),
+                    original_filename=cert.original_filename,
+                    document_type="VTU_MARKSCARD",
+                    student_name=student_name,
+                    identifier=identifier,
+                    issuer=institution,
+                    verdict=full_report.verdict.value,
+                    confidence_score=float(full_report.authenticity_score),
+                    qr_status=qr_detected,
+                    tampering_flags=t_flags,
+                    remarks=getattr(full_report, "notes", "") or f"Automated audit verdict: {full_report.verdict.value}",
+                    full_details=full_report.model_dump() if hasattr(full_report, "model_dump") else {},
+                )
+            except Exception as hist_err:
+                logger.warning("Could not record verification history for %s: %s", certificate_id, hist_err)
+
             return full_report
 
         except Exception as exc:

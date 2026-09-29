@@ -80,6 +80,16 @@ class UnifiedCrossVerifier:
         # 2. Step 2: High-Accuracy Structured Field Extraction (Name, ID, SGPA, Institution)
         extracted_fields = self.extractor.extract_structured_fields(image_bgr)
 
+        # 2b. Fallback: Check for verification URL in extracted OCR raw text
+        if not qr_result.get("qr_present") and extracted_fields.get("raw_text"):
+            retry_qr = self.qr_verifier.extract_and_verify_qr(
+                image_input=image_bgr,
+                raw_text=extracted_fields.get("raw_text"),
+                extracted_data=extracted_fields,
+            )
+            if retry_qr.get("qr_present"):
+                qr_result = retry_qr
+
         # 3. Step 3: Visual & Template Integrity (DIAR-AI)
         template_result = verify_template_alignment(
             user_img=image_bgr,
@@ -175,7 +185,8 @@ class UnifiedCrossVerifier:
 
         # Gate A: QR Presence & Domain Authenticity
         if not qr_result["qr_present"]:
-            warnings.append("No institutional QR code detected for cryptographic cross-verification")
+            # Informational only - Never mark tampered or reject authentic documents for lacking a 2D QR code
+            warnings.append("Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)")
         elif not qr_result["domain_valid"]:
             rejection_reasons.append(
                 f"Untrusted or spoofed verification domain: {qr_result.get('domain', 'Unknown')}. Domain not in accredited registry."
@@ -232,9 +243,13 @@ class UnifiedCrossVerifier:
             final_status = "REJECTED"
             verdict_badge = "REJECTED (Tampered / Manipulated)"
             color = "red"
-        elif qr_result["qr_present"] and qr_result["domain_valid"] and name_similarity >= 90.0:
+        elif qr_result.get("qr_present") and qr_result.get("domain_valid") and name_similarity >= 80.0:
             final_status = "VERIFIED"
-            verdict_badge = "VERIFIED (Authentic & Validated)"
+            verdict_badge = "VERIFIED (Accredited Root / URL Validated)"
+            color = "emerald"
+        elif template_result.get("ssim_passed", True) and not rejection_reasons:
+            final_status = "VERIFIED"
+            verdict_badge = "VERIFIED (Visual Integrity Validated)"
             color = "emerald"
         elif warnings:
             final_status = "SUSPICIOUS"
@@ -246,11 +261,11 @@ class UnifiedCrossVerifier:
             color = "emerald"
 
         # Multi-factor confidence score
-        qr_factor = 1.0 if (qr_result["qr_present"] and qr_result["domain_valid"]) else 0.5
+        qr_factor = 1.0 if (qr_result.get("qr_present") and qr_result.get("domain_valid")) else 0.85
         cross_factor = min(1.0, max(0.0, name_similarity / 100.0))
-        ssim_factor = template_result.get("ssim_score", 0.90)
+        ssim_factor = template_result.get("ssim_score", 0.95)
         confidence_score = round(
-            (qr_factor * 0.40) + (cross_factor * 0.35) + (ssim_factor * 0.25),
+            (qr_factor * 0.35) + (cross_factor * 0.35) + (ssim_factor * 0.30),
             3,
         )
 

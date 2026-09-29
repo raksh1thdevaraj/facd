@@ -1,6 +1,17 @@
 import json
+import os
 from pathlib import Path
 from typing import List, Union
+
+from dotenv import load_dotenv
+
+# Ensure .env is explicitly loaded from both project root and backend dir
+_curr_dir = Path(__file__).resolve().parent
+_backend_dir = _curr_dir.parent
+_root_dir = _backend_dir.parent
+load_dotenv(_root_dir / ".env")
+load_dotenv(_backend_dir / ".env")
+load_dotenv()
 
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict

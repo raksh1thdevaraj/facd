@@ -17,14 +17,79 @@ export default defineConfig({
       '/api': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
+        secure: false,
+        timeout: 120000,
+        // @ts-expect-error - http-proxy option
+        proxyTimeout: 120000,
+        configure: (proxy) => {
+          proxy.on('error', (_err, _req, res) => {
+            if (res && !res.headersSent && typeof res.writeHead === 'function') {
+              res.writeHead(503, {
+                'Content-Type': 'application/json',
+                'Retry-After': '2',
+              });
+              res.end(
+                JSON.stringify({
+                  success: false,
+                  error:
+                    'Backend service is initializing or momentarily unavailable. Automatic retry in progress.',
+                  status_code: 503,
+                })
+              );
+            }
+          });
+        },
       },
       '/verify': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
+        secure: false,
+        timeout: 120000,
+        // @ts-expect-error - http-proxy option
+        proxyTimeout: 120000,
+        configure: (proxy) => {
+          proxy.on('error', (_err, _req, res) => {
+            if (res && !res.headersSent && typeof res.writeHead === 'function') {
+              res.writeHead(503, {
+                'Content-Type': 'application/json',
+                'Retry-After': '2',
+              });
+              res.end(
+                JSON.stringify({
+                  success: false,
+                  error:
+                    'Backend service is initializing or momentarily unavailable. Automatic retry in progress.',
+                  status_code: 503,
+                })
+              );
+            }
+          });
+        },
       },
       '/health': {
         target: 'http://127.0.0.1:8000',
         changeOrigin: true,
+        secure: false,
+        timeout: 120000,
+        // @ts-expect-error - http-proxy option
+        proxyTimeout: 120000,
+        configure: (proxy) => {
+          proxy.on('error', (_err, _req, res) => {
+            if (res && !res.headersSent && typeof res.writeHead === 'function') {
+              res.writeHead(503, {
+                'Content-Type': 'application/json',
+                'Retry-After': '2',
+              });
+              res.end(
+                JSON.stringify({
+                  status: 'initializing',
+                  error: 'Backend service is starting up.',
+                  uptime: 0,
+                })
+              );
+            }
+          });
+        },
       },
     },
   },

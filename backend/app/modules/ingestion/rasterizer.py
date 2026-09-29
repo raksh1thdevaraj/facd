@@ -110,3 +110,20 @@ class PDFRasterizer:
             raise
         except Exception as exc:
             raise PDFConversionError(f"Error during PDF rasterization: {exc}") from exc
+
+    @classmethod
+    def extract_text_from_pdf(cls, pdf_path: Path) -> str:
+        """Extract digital text directly from PDF pages using pypdfium2."""
+        try:
+            import pypdfium2 as pdfium
+
+            doc = pdfium.PdfDocument(str(pdf_path))
+            texts: List[str] = []
+            for page in doc:
+                textpage = page.get_textpage()
+                t = textpage.get_text_range()
+                if t:
+                    texts.append(t)
+            return "\n".join(texts)
+        except Exception:
+            return ""

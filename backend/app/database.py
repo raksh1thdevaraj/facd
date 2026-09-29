@@ -8,7 +8,7 @@ from app.config import settings
 
 # Configure connection args and pooling based on dialect
 is_sqlite = settings.DATABASE_URL.startswith("sqlite")
-connect_args = {"check_same_thread": False} if is_sqlite else {}
+connect_args = {"check_same_thread": False, "timeout": 30} if is_sqlite else {}
 pool_kwargs = (
     {}
     if is_sqlite
@@ -29,13 +29,20 @@ engine = create_engine(
 )
 
 
-# Enforce foreign key constraints for SQLite
+# Enforce foreign key constraints and WAL mode for SQLite
 @event.listens_for(Engine, "connect")
 def set_sqlite_pragma(dbapi_connection: Any, connection_record: Any) -> None:
     if is_sqlite:
         cursor = dbapi_connection.cursor()
-        cursor.execute("PRAGMA foreign_keys=ON")
-        cursor.close()
+        try:
+            cursor.execute("PRAGMA foreign_keys=ON")
+            cursor.execute("PRAGMA journal_mode=WAL")
+            cursor.execute("PRAGMA synchronous=NORMAL")
+            cursor.execute("PRAGMA busy_timeout=5000")
+        except Exception:
+            pass
+        finally:
+            cursor.close()
 
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, future=True)

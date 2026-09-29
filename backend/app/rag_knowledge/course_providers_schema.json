@@ -1,0 +1,61 @@
+{
+  "document_type": "ONLINE_COURSE_CERTIFICATE",
+  "providers": [
+    {
+      "provider_id": "COURSERA",
+      "name": "Coursera Inc.",
+      "aliases": ["COURSERA", "COURSERA.ORG", "COURSERA INC"],
+      "official_domains": ["coursera.org"],
+      "verification_url_patterns": [
+        "^https?://(www\\.)?coursera\\.org/verify/(specialization/)?[A-Z0-9]+",
+        "^coursera\\.org/verify/(specialization/)?[A-Z0-9]+",
+        "coursera\\.org/verify/"
+      ],
+      "certificate_id_pattern": "^[A-Z0-9]{10,24}$",
+      "certificate_id_description": "10-24 character uppercase alphanumeric hash string",
+      "signature_styles": ["Digital instructor signature at footer", "Institutional partner seal/logo"]
+    },
+    {
+      "provider_id": "NPTEL",
+      "name": "National Programme on Technology Enhanced Learning (NPTEL / Swayam)",
+      "aliases": [
+        "NPTEL",
+        "SWAYAM",
+        "IIT",
+        "IISc",
+        "MHRD",
+        "NATIONAL PROGRAMME ON TECHNOLOGY ENHANCED LEARNING"
+      ],
+      "official_domains": [
+        "nptel.ac.in",
+        "archive.nptel.ac.in",
+        "swayam.gov.in"
+      ],
+      "verification_url_patterns": [
+        "^https?://(www\\.)?(archive\\.)?nptel\\.ac\\.in/noc/.*",
+        "^https?://(www\\.)?swayam\\.gov\\.in/.*",
+        "^https?://(www\\.)?nptel\\.ac\\.in/.*"
+      ],
+      "certificate_id_pattern": "^NPTEL\\d{2}[A-Z]{2}\\d{2}[A-Z0-9]+$",
+      "certificate_id_description": "Begins with NPTEL followed by year digits, discipline characters, and session code",
+      "award_criteria": {
+        "Elite + Gold": {"min_score": 90},
+        "Elite + Silver": {"min_score": 75, "max_score": 89},
+        "Elite": {"min_score": 60, "max_score": 74},
+        "Successfully Completed": {"min_score": 40, "max_score": 59}
+      }
+    },
+    {
+      "provider_id": "UNACADEMY",
+      "name": "Unacademy",
+      "aliases": ["UNACADEMY", "SORTING HAT TECHNOLOGIES"],
+      "official_domains": ["unacademy.com"],
+      "verification_url_patterns": [
+        "^https?://(www\\.)?unacademy\\.com/certificate/.*",
+        "^https?://(www\\.)?unacademy\\.com/verify/.*"
+      ],
+      "certificate_id_pattern": "^[A-Z0-9\\-]+$",
+      "certificate_id_description": "Alphanumeric certificate identifier with optional hyphens"
+    }
+  ]
+}
