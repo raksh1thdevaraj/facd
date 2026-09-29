@@ -25,9 +25,9 @@ from sqlalchemy.orm import Session
 
 
 def seed_admin(
-    email: str = "admin@certishield.ai",
-    password: str = "Admin@123456",
-    name: str = "System Administrator",
+    email: str = "admin",
+    password: str = "12345678",
+    name: str = "admin",
 ) -> None:
     """Create or update the initial platform administrator account."""
     Base.metadata.create_all(bind=engine)
@@ -75,9 +75,9 @@ def seed_admin(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Seed initial admin user account for CertiShield AI.")
-    parser.add_argument("--email", default="admin@certishield.ai", help="Admin email address")
-    parser.add_argument("--password", default="Admin@123456", help="Admin password (min 8 chars, 1 uppercase, 1 digit, 1 special)")
-    parser.add_argument("--name", default="System Administrator", help="Admin full name")
+    parser.add_argument("--email", default="admin", help="Admin username or email address")
+    parser.add_argument("--password", default="12345678", help="Admin password")
+    parser.add_argument("--name", default="admin", help="Admin display name")
     args = parser.parse_args()
 
     seed_admin(email=args.email, password=args.password, name=args.name)

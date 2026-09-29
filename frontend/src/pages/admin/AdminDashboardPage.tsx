@@ -1,34 +1,25 @@
 import React, { useState } from 'react';
 import { AnalyticsOverview } from './AnalyticsOverview';
-import { BehavioralMonitorTab } from './BehavioralMonitorTab';
 import { VerificationScansTab } from './VerificationScansTab';
 import { SystemHealthTab } from './SystemHealthTab';
-import { InstitutionsManager } from './InstitutionsManager';
-import { TemplatesManager } from './TemplatesManager';
 import { AuditLogsViewer } from './AuditLogsViewer';
 import {
   BarChart3,
   Activity,
-  Building2,
-  Stamp,
   ShieldCheck,
   FileCode,
-  Flame,
   FileSearch,
 } from 'lucide-react';
 
-type AdminTab = 'overview' | 'behavioral' | 'scans' | 'diagnostics' | 'institutions' | 'templates' | 'audit';
+type AdminTab = 'overview' | 'scans' | 'diagnostics' | 'audit';
 
 export const AdminDashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<AdminTab>('overview');
 
   const tabs: { id: AdminTab; label: string; icon: React.ElementType; badge?: string }[] = [
     { id: 'overview', label: 'Fraud Telemetry', icon: BarChart3 },
-    { id: 'behavioral', label: 'Behavioral Monitor', icon: Flame, badge: 'Khormi et al.' },
     { id: 'scans', label: 'Scans Ledger', icon: FileSearch },
     { id: 'diagnostics', label: 'System Health', icon: Activity },
-    { id: 'institutions', label: 'Universities', icon: Building2 },
-    { id: 'templates', label: 'Master Templates', icon: Stamp },
     { id: 'audit', label: 'Audit Trail', icon: FileCode },
   ];
 
@@ -48,7 +39,7 @@ export const AdminDashboardPage: React.FC = () => {
               </span>
             </div>
             <p className="text-xs text-slate-400 mt-1">
-              System telemetry, pre-issuance registrar anomaly detection, and certificate verification audits
+              System telemetry, verification ledger audits, and diagnostic infrastructure health
             </p>
           </div>
         </div>
@@ -70,11 +61,7 @@ export const AdminDashboardPage: React.FC = () => {
               >
                 <Icon
                   className={`w-3.5 h-3.5 ${
-                    isActive
-                      ? tab.id === 'behavioral'
-                        ? 'text-rose-400'
-                        : 'text-emerald-400'
-                      : ''
+                    isActive ? 'text-emerald-400' : ''
                   }`}
                 />
                 <span>{tab.label}</span>
@@ -92,11 +79,8 @@ export const AdminDashboardPage: React.FC = () => {
       {/* Tab Panels */}
       <div>
         {activeTab === 'overview' && <AnalyticsOverview />}
-        {activeTab === 'behavioral' && <BehavioralMonitorTab />}
         {activeTab === 'scans' && <VerificationScansTab />}
         {activeTab === 'diagnostics' && <SystemHealthTab />}
-        {activeTab === 'institutions' && <InstitutionsManager />}
-        {activeTab === 'templates' && <TemplatesManager />}
         {activeTab === 'audit' && <AuditLogsViewer />}
       </div>
     </div>

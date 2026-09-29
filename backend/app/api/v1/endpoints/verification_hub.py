@@ -20,7 +20,7 @@ from typing import Any, Dict, List, Optional, Union
 import cv2
 import numpy as np
 from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from sqlalchemy.orm import Session
 from src.verifiers.qr_url_verifier import QRURLVerifier
 from src.verify_certificate import get_certificate_verifier
@@ -1142,3 +1142,43 @@ def get_scan_result(
         if hasattr(db_record, "created_at") and db_record.created_at
         else datetime.now(timezone.utc).isoformat(),
     }
+
+
+@router.get(
+    "/{scan_id}/export-pdf",
+    summary="Download Official Forensic Verification Certificate PDF",
+)
+def export_scan_pdf(
+    scan_id: str,
+    db: Session = Depends(get_db),
+) -> Response:
+    """Compile and stream the official forensic audit certificate as an attachment."""
+    from app.services.pdf_certificate_generator import ForensicCertificateGenerator
+
+    scan_data = get_scan_result(scan_id=scan_id, db=db)
+    pdf_bytes = ForensicCertificateGenerator.generate(scan_data)
+    clean_id = scan_id.replace("scan_", "")[:8].upper()
+    headers = {
+        "Content-Disposition": f"attachment; filename=Forensic_Audit_Certificate_{clean_id}.pdf"
+    }
+    return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)
+
+
+@router.post(
+    "/export-pdf",
+    summary="Compile and export Forensic Verification Certificate PDF from payload",
+)
+def export_pdf_from_payload(
+    payload: Dict[str, Any],
+) -> Response:
+    """Generate and stream the official forensic audit certificate directly from scan payload."""
+    from app.services.pdf_certificate_generator import ForensicCertificateGenerator
+
+    pdf_bytes = ForensicCertificateGenerator.generate(payload)
+    scan_id = str(payload.get("id") or payload.get("scan_id") or "EVAL")
+    clean_id = scan_id.replace("scan_", "")[:8].upper()
+    headers = {
+        "Content-Disposition": f"attachment; filename=Forensic_Audit_Certificate_{clean_id}.pdf"
+    }
+    return Response(content=pdf_bytes, media_type="application/pdf", headers=headers)
+

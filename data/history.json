@@ -1,5 +1,593 @@
 [
   {
+    "id": "42fc2184-9fbb-45cb-a51c-90f2bb0cea2a",
+    "timestamp": "2026-09-29T10:38:57.068237+00:00",
+    "original_filename": "project cert2.pdf",
+    "document_type": "ONLINE_COURSE_CERTIFICATE",
+    "student_name": "RISHI R K",
+    "identifier": "T788AX8VFG1H",
+    "issuer": "EDUCBA and Coursera",
+    "verdict": "AUTHENTIC",
+    "confidence_score": 0.98,
+    "qr_status": true,
+    "tampering_flags": [
+      "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+    ],
+    "remarks": "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)",
+    "full_details": {
+      "certificate_type": "course_certificate",
+      "final_status": "VERIFIED",
+      "verdict_badge": "AUTHENTIC (Accredited Verification Link Validated)",
+      "color": "emerald",
+      "is_authentic": true,
+      "confidence_score": 0.98,
+      "rejection_reasons": [],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+      ],
+      "extracted_fields": {
+        "institution_name": "UNKNOWN INSTITUTION",
+        "student_name": "NOT_FOUND",
+        "reg_no": "NOT_FOUND",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "NOT_FOUND",
+        "raw_text": "",
+        "ocr_engine": "adaptive_contour_anchor",
+        "degree_or_program": "Enterprise Project Planning and Management"
+      },
+      "qr_verification": {
+        "detected": true,
+        "qr_present": true,
+        "is_url": true,
+        "url_verified": true,
+        "domain_valid": true,
+        "payload_or_url": "https://coursera.org/verify/T788AX8VFG1H",
+        "matches_document_text": true,
+        "detection_method": "regex_text_fallback",
+        "payload_text_match": "100% MATCHED",
+        "reason": "Live COURSERA registry verified: Credential ID 'T788AX8VFG1H' matches registered learner 'RISHI R K'",
+        "live_server_status": "Verified 200 OK",
+        "issuer_db_match": "Matched: [RISHI R K]",
+        "web_registered_name": "RISHI R K",
+        "discrepancy_details": null,
+        "mismatch_flag": null
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": true,
+          "is_url": true,
+          "url": "https://coursera.org/verify/T788AX8VFG1H",
+          "domain": "coursera.org",
+          "domain_valid": true,
+          "verified": true,
+          "reason": "Live COURSERA registry verified: Credential ID 'T788AX8VFG1H' matches registered learner 'RISHI R K'",
+          "payload_data": {
+            "status": "endpoint_verified",
+            "url": "https://coursera.org/verify/T788AX8VFG1H",
+            "host": "coursera.org",
+            "path": "/verify/T788AX8VFG1H",
+            "remote_reachable": true,
+            "status_code": 200
+          },
+          "detected": true,
+          "payload_or_url": "https://coursera.org/verify/T788AX8VFG1H",
+          "detection_method": "regex_text_fallback",
+          "url_verified": true,
+          "matches_document_text": true,
+          "payload_text_match": "100% MATCHED",
+          "live_server_status": "Verified 200 OK",
+          "issuer_db_match": "Matched: [RISHI R K]",
+          "web_registered_name": "RISHI R K",
+          "discrepancy_details": null,
+          "mismatch_flag": null
+        },
+        "extracted_fields": {
+          "institution_name": "UNKNOWN INSTITUTION",
+          "student_name": "NOT_FOUND",
+          "reg_no": "NOT_FOUND",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "NOT_FOUND",
+          "raw_text": "",
+          "ocr_engine": "adaptive_contour_anchor",
+          "degree_or_program": "Enterprise Project Planning and Management"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": false,
+          "error": "No reference templates found for comparison",
+          "ssim_score": 0.0,
+          "edge_diff_ratio": 1.0,
+          "template_name": null
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "RISHI R K",
+            "registration_no": "T788AX8VFG1H",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA and Coursera",
+            "degree_or_program": "Enterprise Project Planning and Management",
+            "issue_date": "Sep 24, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "The document displays consistent typography and background noise patterns typical of digital Coursera-generated certificates. No evidence of localized pixel manipulation or cloning."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Not applicable as no numerical grades or scores are present on this certificate."
+          },
+          "forensic_summary": "The certificate conforms to standard Coursera digital issuance formats. The verification URL is valid and matches the provided ID pattern. Note: The issue date (Sep 24, 2026) is in the future relative to the current date, which may indicate a system error in the certificate generation or a placeholder date, but the document structure itself is consistent with authentic Coursera templates."
+        },
+        "rag_validation": {
+          "document_type": "ONLINE_COURSE_CERTIFICATE",
+          "schema_matched": true,
+          "arithmetic_valid": true,
+          "anomalies_detected": [],
+          "mismatch_report": "All institutional schema and arithmetic rules fully validated."
+        }
+      },
+      "latency_ms": 2602.24,
+      "scan_id": "42fc2184-9fbb-45cb-a51c-90f2bb0cea2a",
+      "filename": "project cert2.pdf",
+      "timestamp": "2026-09-29T10:38:51.313909+00:00",
+      "file_metadata": {
+        "filename": "project cert2.pdf",
+        "file_size": 304316,
+        "mime_type": "application/pdf",
+        "extension": ".pdf",
+        "resolution": "2200x1700"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-3.1-flash-lite",
+        "is_authentic": true,
+        "confidence_score": 0.95,
+        "verdict": "VERIFIED",
+        "entities": {
+          "student_name": "RISHI R K",
+          "registration_no": "T788AX8VFG1H",
+          "cgpa_or_score": null,
+          "issuing_institution": "EDUCBA and Coursera",
+          "degree_or_program": "Enterprise Project Planning and Management",
+          "issue_date": "Sep 24, 2026"
+        },
+        "forgery_indicators": {
+          "font_mismatch": false,
+          "text_baseline_shift": false,
+          "patch_compression_artifacts": false,
+          "splicing_detected": false,
+          "details": "The document displays consistent typography and background noise patterns typical of digital Coursera-generated certificates. No evidence of localized pixel manipulation or cloning."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": true,
+          "details": "Not applicable as no numerical grades or scores are present on this certificate."
+        },
+        "schema_validation": {
+          "schema_matched": true,
+          "discrepancies": []
+        },
+        "forensic_summary": "The certificate conforms to standard Coursera digital issuance formats. The verification URL is valid and matches the provided ID pattern. Note: The issue date (Sep 24, 2026) is in the future relative to the current date, which may indicate a system error in the certificate generation or a placeholder date, but the document structure itself is consistent with authentic Coursera templates."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "ONLINE_COURSE_CERTIFICATE",
+      "extracted_data": {
+        "student_name": "RISHI R K",
+        "identifier": "T788AX8VFG1H",
+        "issuer": "EDUCBA and Coursera",
+        "date": "Sep 24, 2026",
+        "score_or_cgpa": ""
+      },
+      "rag_validation": {
+        "schema_matched": true,
+        "arithmetic_valid": true,
+        "anomalies_detected": []
+      },
+      "verdict": "AUTHENTIC",
+      "status": "authentic",
+      "confidence": 0.98,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "RISHI R K",
+          "identifier": "T788AX8VFG1H",
+          "issuer": "EDUCBA and Coursera",
+          "date": "Sep 24, 2026",
+          "score_or_cgpa": ""
+        },
+        "forgery_detected": false,
+        "qr_verified": true,
+        "file_metadata": {
+          "filename": "project cert2.pdf",
+          "file_size": 304316,
+          "mime_type": "application/pdf",
+          "extension": ".pdf",
+          "resolution": "2200x1700"
+        },
+        "gemini_verified": true,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "RISHI R K",
+            "registration_no": "T788AX8VFG1H",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA and Coursera",
+            "degree_or_program": "Enterprise Project Planning and Management",
+            "issue_date": "Sep 24, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "The document displays consistent typography and background noise patterns typical of digital Coursera-generated certificates. No evidence of localized pixel manipulation or cloning."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Not applicable as no numerical grades or scores are present on this certificate."
+          },
+          "schema_validation": {
+            "schema_matched": true,
+            "discrepancies": []
+          },
+          "forensic_summary": "The certificate conforms to standard Coursera digital issuance formats. The verification URL is valid and matches the provided ID pattern. Note: The issue date (Sep 24, 2026) is in the future relative to the current date, which may indicate a system error in the certificate generation or a placeholder date, but the document structure itself is consistent with authentic Coursera templates."
+        },
+        "remarks": "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+      }
+    }
+  },
+  {
+    "id": "55d303b6-68c8-4f38-a5e9-f5ea698b4d88",
+    "timestamp": "2026-09-29T10:32:38.579353+00:00",
+    "original_filename": "test_cert.png",
+    "document_type": "VTU_MARKSCARD",
+    "student_name": "RAKSHITH DEVARAJ",
+    "identifier": "R21EN001",
+    "issuer": "REVA UNIVERSITY, BENGALURU",
+    "verdict": "FRAUDULENT",
+    "confidence_score": 0.25,
+    "qr_status": false,
+    "tampering_flags": [
+      "[Visual Integrity] Font mismatch detected across certificate typography",
+      "[Visual Integrity] Text baseline shift or irregular vertical character alignment detected",
+      "[Visual Integrity] Patch compression artifacts or clone stamping detected",
+      "[Visual Integrity] Digital splicing or layer tampering detected",
+      "Arithmetic Inconsistency: No data present to perform arithmetic validation."
+    ],
+    "remarks": "[Visual Integrity] Font mismatch detected across certificate typography; [Visual Integrity] Text baseline shift or irregular vertical character alignment detected; [Visual Integrity] Patch compression artifacts or clone stamping detected; [Visual Integrity] Digital splicing or layer tampering detected; Arithmetic Inconsistency: No data present to perform arithmetic validation.",
+    "full_details": {
+      "certificate_type": "marks_card",
+      "final_status": "REJECTED",
+      "verdict_badge": "FRAUDULENT (Discrepancy / Tampering Detected)",
+      "color": "red",
+      "is_authentic": false,
+      "confidence_score": 0.25,
+      "rejection_reasons": [
+        "[Visual Integrity] Font mismatch detected across certificate typography",
+        "[Visual Integrity] Text baseline shift or irregular vertical character alignment detected",
+        "[Visual Integrity] Patch compression artifacts or clone stamping detected",
+        "[Visual Integrity] Digital splicing or layer tampering detected",
+        "Arithmetic Inconsistency: No data present to perform arithmetic validation."
+      ],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)",
+        "USN 'R21EN001' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+      ],
+      "extracted_fields": {
+        "institution_name": "REVA UNIVERSITY, BENGALURU",
+        "student_name": "RAKSHITH DEVARAJ",
+        "reg_no": "R21EN001",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "8.85",
+        "raw_text": "REVA UNIVERSITY, BENGALURU\nStudent Name: RAKSHITH DEVARAJ\nReg No: R21EN001\nSGPA: 8.85",
+        "ocr_engine": "adaptive_contour_anchor"
+      },
+      "qr_verification": {
+        "detected": false,
+        "qr_present": false,
+        "is_url": false,
+        "url_verified": true,
+        "domain_valid": false,
+        "payload_or_url": null,
+        "matches_document_text": true,
+        "detection_method": "visual_forensics",
+        "payload_text_match": "Consistent with Visual Text",
+        "reason": "Verification method: Printed URL / Visual Forensics (No physical 2D barcode detected)",
+        "live_server_status": null,
+        "issuer_db_match": null,
+        "web_registered_name": null,
+        "discrepancy_details": null,
+        "mismatch_flag": null
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": false,
+          "detected": false,
+          "verified": false,
+          "payload_or_url": null,
+          "matches_document_text": true,
+          "is_url": false,
+          "url": null,
+          "domain_valid": false,
+          "reason": "Verification method: Printed URL / Visual Forensics (No physical 2D barcode detected)",
+          "payload_data": {},
+          "url_verified": true,
+          "detection_method": "visual_forensics",
+          "payload_text_match": "Consistent with Visual Text",
+          "live_server_status": null,
+          "issuer_db_match": null,
+          "web_registered_name": null,
+          "discrepancy_details": null,
+          "mismatch_flag": null
+        },
+        "extracted_fields": {
+          "institution_name": "REVA UNIVERSITY, BENGALURU",
+          "student_name": "RAKSHITH DEVARAJ",
+          "reg_no": "R21EN001",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "8.85",
+          "raw_text": "REVA UNIVERSITY, BENGALURU\nStudent Name: RAKSHITH DEVARAJ\nReg No: R21EN001\nSGPA: 8.85",
+          "ocr_engine": "adaptive_contour_anchor"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": true,
+          "ssim_score": 0.8539,
+          "ssim_passed": true,
+          "ssim_threshold": 0.85,
+          "edge_diff_ratio": 0.0456,
+          "edge_passed": true,
+          "edge_diff_threshold": 0.08,
+          "matched_template": "template_metro_univ.png"
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": false,
+          "confidence_score": 1.0,
+          "verdict": "REJECTED",
+          "entities": {
+            "student_name": null,
+            "registration_no": null,
+            "cgpa_or_score": null,
+            "issuing_institution": null,
+            "degree_or_program": null,
+            "issue_date": null
+          },
+          "forgery_indicators": {
+            "font_mismatch": true,
+            "text_baseline_shift": true,
+            "patch_compression_artifacts": true,
+            "splicing_detected": true,
+            "details": "The provided image is a solid black square. It contains no text, no document structure, no institutional branding, and no data fields. It is a blank image file."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": false,
+            "details": "No data present to perform arithmetic validation."
+          },
+          "forensic_summary": "The submitted file is a blank black image. It lacks all required forensic features, text, and structural elements of an academic certificate, rendering it invalid."
+        },
+        "rag_validation": {
+          "document_type": "VTU_MARKSCARD",
+          "schema_matched": false,
+          "arithmetic_valid": false,
+          "anomalies_detected": [
+            "USN 'R21EN001' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)",
+            "Arithmetic Inconsistency: No data present to perform arithmetic validation."
+          ],
+          "mismatch_report": "USN 'R21EN001' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$); Arithmetic Inconsistency: No data present to perform arithmetic validation."
+        }
+      },
+      "latency_ms": 1364.38,
+      "scan_id": "55d303b6-68c8-4f38-a5e9-f5ea698b4d88",
+      "filename": "test_cert.png",
+      "timestamp": "2026-09-29T10:32:37.957298+00:00",
+      "file_metadata": {
+        "filename": "test_cert.png",
+        "file_size": 589,
+        "mime_type": "image/png",
+        "extension": ".png",
+        "resolution": "200x200"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-3.1-flash-lite",
+        "is_authentic": false,
+        "confidence_score": 1.0,
+        "verdict": "REJECTED",
+        "entities": {
+          "student_name": null,
+          "registration_no": null,
+          "cgpa_or_score": null,
+          "issuing_institution": null,
+          "degree_or_program": null,
+          "issue_date": null
+        },
+        "forgery_indicators": {
+          "font_mismatch": true,
+          "text_baseline_shift": true,
+          "patch_compression_artifacts": true,
+          "splicing_detected": true,
+          "details": "The provided image is a solid black square. It contains no text, no document structure, no institutional branding, and no data fields. It is a blank image file."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": false,
+          "details": "No data present to perform arithmetic validation."
+        },
+        "schema_validation": {
+          "schema_matched": false,
+          "discrepancies": [
+            "Document is completely blank; does not conform to any VTU marks card schema."
+          ]
+        },
+        "forensic_summary": "The submitted file is a blank black image. It lacks all required forensic features, text, and structural elements of an academic certificate, rendering it invalid."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "VTU_MARKSCARD",
+      "extracted_data": {
+        "student_name": "RAKSHITH DEVARAJ",
+        "identifier": "R21EN001",
+        "issuer": "REVA UNIVERSITY, BENGALURU",
+        "date": "",
+        "score_or_cgpa": "8.85"
+      },
+      "rag_validation": {
+        "schema_matched": false,
+        "arithmetic_valid": false,
+        "anomalies_detected": [
+          "USN 'R21EN001' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)",
+          "Arithmetic Inconsistency: No data present to perform arithmetic validation."
+        ]
+      },
+      "verdict": "FRAUDULENT",
+      "status": "fraudulent",
+      "confidence": 0.25,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "RAKSHITH DEVARAJ",
+          "identifier": "R21EN001",
+          "issuer": "REVA UNIVERSITY, BENGALURU",
+          "date": "",
+          "score_or_cgpa": "8.85"
+        },
+        "forgery_detected": true,
+        "qr_verified": false,
+        "file_metadata": {
+          "filename": "test_cert.png",
+          "file_size": 589,
+          "mime_type": "image/png",
+          "extension": ".png",
+          "resolution": "200x200"
+        },
+        "gemini_verified": false,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": false,
+          "confidence_score": 1.0,
+          "verdict": "REJECTED",
+          "entities": {
+            "student_name": null,
+            "registration_no": null,
+            "cgpa_or_score": null,
+            "issuing_institution": null,
+            "degree_or_program": null,
+            "issue_date": null
+          },
+          "forgery_indicators": {
+            "font_mismatch": true,
+            "text_baseline_shift": true,
+            "patch_compression_artifacts": true,
+            "splicing_detected": true,
+            "details": "The provided image is a solid black square. It contains no text, no document structure, no institutional branding, and no data fields. It is a blank image file."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": false,
+            "details": "No data present to perform arithmetic validation."
+          },
+          "schema_validation": {
+            "schema_matched": false,
+            "discrepancies": [
+              "Document is completely blank; does not conform to any VTU marks card schema."
+            ]
+          },
+          "forensic_summary": "The submitted file is a blank black image. It lacks all required forensic features, text, and structural elements of an academic certificate, rendering it invalid."
+        },
+        "remarks": "[Visual Integrity] Font mismatch detected across certificate typography; [Visual Integrity] Text baseline shift or irregular vertical character alignment detected; [Visual Integrity] Patch compression artifacts or clone stamping detected; [Visual Integrity] Digital splicing or layer tampering detected; Arithmetic Inconsistency: No data present to perform arithmetic validation."
+      }
+    }
+  },
+  {
     "id": "736462fc-43f3-4165-a8c6-bc25acd47c83",
     "timestamp": "2026-09-29T09:32:26.024531+00:00",
     "original_filename": "test_cert.png",

@@ -13,7 +13,6 @@ import {
   Users,
   Cpu,
   Target,
-  Sparkles,
   AlertTriangle,
 } from 'lucide-react';
 
@@ -144,8 +143,8 @@ export const AnalyticsOverview: React.FC = () => {
         />
       </div>
 
-      {/* Model Performance & Research Paper Validation Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Model Performance & Verification SLA Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Visual Tamper Model (MobileNetV2) */}
         <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
@@ -177,39 +176,6 @@ export const AnalyticsOverview: React.FC = () => {
               <span className="font-mono text-slate-200">
                 {((telemetry?.model_performance?.visual_forensics?.accuracy ?? 0.92) * 100).toFixed(1)}%
               </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Behavioral Fraud Model (Khormi et al.) */}
-        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-                Behavioral Issuance Model
-              </h4>
-            </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-              Khormi et al. (IEEE 2026)
-            </span>
-          </div>
-          <div className="space-y-2 pt-1 text-xs">
-            <div className="flex justify-between text-slate-400">
-              <span>ROC-AUC Metric:</span>
-              <span className="font-mono font-bold text-cyan-400">
-                {(telemetry?.model_performance?.behavioral_fraud?.roc_auc ?? 1.0).toFixed(3)}
-              </span>
-            </div>
-            <div className="flex justify-between text-slate-400">
-              <span>Fraud Precision:</span>
-              <span className="font-mono font-bold text-slate-200">
-                {((telemetry?.model_performance?.behavioral_fraud?.precision ?? 1.0) * 100).toFixed(1)}%
-              </span>
-            </div>
-            <div className="flex justify-between text-slate-400">
-              <span>Model Algorithm:</span>
-              <span className="font-mono text-slate-300">Logistic Regression + SMOTE</span>
             </div>
           </div>
         </div>

@@ -1,20 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ShieldCheck, LogOut, ExternalLink, User as UserIcon, History } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShieldCheck, LogOut, User as UserIcon } from 'lucide-react';
 import { SystemHealthBadge } from '../SystemHealthBadge';
 import { useAuth } from '../../context/AuthContext';
 
 export const Navbar: React.FC = () => {
-  const navigate = useNavigate();
   const { user, isAuthenticated, isAdmin, logout, openAuthModal } = useAuth();
-
-  const handleOpenWorkspace = () => {
-    if (isAdmin) {
-      navigate('/admin');
-    } else {
-      navigate('/verify');
-    }
-  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#0b0f19]/90 backdrop-blur-xl">
@@ -49,8 +40,12 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center">
           {isAuthenticated && user ? (
             <div className="flex items-center space-x-2.5 sm:space-x-3">
-              {/* User Avatar & Role Badge */}
-              <div className="flex items-center space-x-2 bg-slate-900/90 border border-slate-700/80 px-2.5 py-1.5 rounded-xl text-xs text-slate-200 shadow-sm">
+              {/* User Avatar & Role Badge (Optionally links to assigned console) */}
+              <Link
+                to={isAdmin ? '/admin' : '/verify'}
+                className="flex items-center space-x-2 bg-slate-900/90 hover:bg-slate-800/90 border border-slate-700/80 hover:border-slate-600 px-2.5 py-1.5 rounded-xl text-xs text-slate-200 shadow-sm transition-all cursor-pointer"
+                title={isAdmin ? 'Go to Admin Console' : 'Go to Verification Workspace'}
+              >
                 <div className="w-6 h-6 rounded-lg bg-slate-800 border border-slate-600 flex items-center justify-center text-slate-200 font-bold text-xs shrink-0">
                   {user.full_name ? user.full_name.charAt(0).toUpperCase() : <UserIcon className="w-3.5 h-3.5" />}
                 </div>
@@ -66,31 +61,7 @@ export const Navbar: React.FC = () => {
                 >
                   {isAdmin ? 'Admin' : 'User'}
                 </span>
-              </div>
-
-              {/* History Navigation Link */}
-              <Link
-                to="/history"
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer bg-slate-900/90 hover:bg-slate-800 text-slate-300 border-slate-700/80 hover:border-slate-600"
-                title="View Verification History"
-              >
-                <History className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline">History</span>
               </Link>
-
-              {/* Action to Open Assigned Workspace (/verify for User, /admin for Admin) */}
-              <button
-                onClick={handleOpenWorkspace}
-                className={`inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
-                  isAdmin
-                    ? 'bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border-rose-700/60 hover:border-rose-500'
-                    : 'bg-emerald-950/40 hover:bg-emerald-900/60 text-emerald-300 border-emerald-700/60 hover:border-emerald-500'
-                }`}
-                title={isAdmin ? 'Open Admin Console' : 'Open Verification Workspace'}
-              >
-                <span>{isAdmin ? 'Admin Console' : 'Workspace'}</span>
-                <ExternalLink className="w-3 h-3 ml-0.5" />
-              </button>
 
               {/* Logout Button */}
               <button

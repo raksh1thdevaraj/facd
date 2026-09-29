@@ -17,10 +17,15 @@ import {
   GraduationCap,
   Award,
   Sparkles,
+  Download,
+  Loader2,
 } from 'lucide-react';
 import axios from 'axios';
 import apiClient from '../services/api';
 import { VerificationHistorySection } from '../components/history/VerificationHistorySection';
+import { CertificateExportModal } from '../components/verification/CertificateExportModal';
+import { ForensicAuditCertificate } from '../components/verification/ForensicAuditCertificate';
+import { exportCertificateElementToPdf } from '../utils/pdfExport';
 
 interface VerificationResult {
   success?: boolean;
@@ -218,6 +223,41 @@ export const PublicVerifyPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [dashboardTab, setDashboardTab] = useState<'verifier' | 'history'>('verifier');
   const [historyRefreshTrigger, setHistoryRefreshTrigger] = useState<number>(Date.now());
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState<boolean>(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
+
+  const handleQuickDownloadPdf = async () => {
+    if (!result) return;
+    try {
+      setIsGeneratingPdf(true);
+      const cleanScanId = result.scan_id.replace(/^scan_/, '').slice(0, 8);
+      const filename = `Forensic_Audit_Certificate_${cleanScanId || 'EVAL'}.pdf`;
+
+      // 1. First attempt: Client-side high-resolution canvas capture
+      const certEl = document.getElementById('forensic-audit-certificate-hidden-root');
+      if (certEl) {
+        await exportCertificateElementToPdf(certEl, { filename });
+        return;
+      }
+
+      // 2. Fallback attempt: Stream from backend ReportLab endpoint
+      const resp = await apiClient.post('/verify/export-pdf', result, { responseType: 'blob' });
+      const blob = new Blob([resp.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err: unknown) {
+      console.error('Direct PDF export error, launching certificate modal fallback:', err);
+      setIsCertificateModalOpen(true);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -1220,24 +1260,45 @@ export const PublicVerifyPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Action Buttons: Print Report / Download Verified Certificate */}
+              {/* Action Buttons: Download PDF / Print Cryptographic Audit Certificate */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
-                  onClick={() => window.print()}
-                  className="flex-1 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center justify-center space-x-2 transition-colors cursor-pointer"
+                  onClick={handleQuickDownloadPdf}
+                  disabled={isGeneratingPdf}
+                  className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-500 hover:to-amber-700 text-white text-xs font-bold border border-amber-600/50 shadow-lg shadow-amber-600/25 flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
+                  title="Generate and download authoritative A4 Forensic Verification Audit Certificate in PDF format"
                 >
-                  <Printer className="w-4 h-4 text-slate-400" />
+                  {isGeneratingPdf ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-200" />
+                      <span>Compiling Forensic PDF...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-4 h-4 text-amber-200" />
+                      <span>Download Audit Certificate (PDF)</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setIsCertificateModalOpen(true)}
+                  className="py-3 px-5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center justify-center space-x-2 transition-colors cursor-pointer"
+                  title="Open certificate preview and print"
+                >
+                  <Printer className="w-4 h-4 text-slate-300" />
                   <span>Print Cryptographic Audit Certificate</span>
                 </button>
+
                 <button
                   onClick={() => {
                     setResult(null);
                     setFile(null);
                     setFilePreview(null);
                   }}
-                  className="px-6 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-bold border border-slate-800 transition-colors"
+                  className="px-5 py-3 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-bold border border-slate-800 transition-colors cursor-pointer"
                 >
-                  Verify Another Document
+                  Verify Another
                 </button>
               </div>
             </div>
@@ -1273,6 +1334,24 @@ export const PublicVerifyPage: React.FC = () => {
           onNavigateToUpload={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         />
       </div>
+      {/* Hidden container for print stylesheet and instant canvas capture */}
+      {result && (
+        <div style={{ position: 'fixed', left: '-9999px', top: '-9999px', pointerEvents: 'none' }}>
+          <ForensicAuditCertificate
+            id="forensic-audit-certificate-hidden-root"
+            data={result}
+          />
+        </div>
+      )}
+
+      {/* Interactive Certificate Preview & Export Modal */}
+      {result && (
+        <CertificateExportModal
+          isOpen={isCertificateModalOpen}
+          onClose={() => setIsCertificateModalOpen(false)}
+          certificateData={result}
+        />
+      )}
     </>
   )}
 </div>

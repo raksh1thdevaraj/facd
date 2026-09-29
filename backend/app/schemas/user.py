@@ -21,9 +21,9 @@ class UserBase(BaseModel):
     @classmethod
     def validate_email_format(cls, v: str) -> str:
         cleaned = v.strip().lower()
-        if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", cleaned):
-            raise ValueError("Invalid email address format")
-        return cleaned
+        if cleaned in ("admin", "administrator", "root") or re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", cleaned):
+            return cleaned
+        raise ValueError("Invalid email address format")
 
 
 class UserCreate(UserBase):

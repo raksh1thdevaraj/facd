@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, FileCheck, Layers, Settings } from 'lucide-react';
+import { ShieldCheck, FileCheck } from 'lucide-react';
 import { SystemHealthBadge } from './SystemHealthBadge';
 
 export const Header: React.FC = () => {
@@ -28,20 +28,6 @@ export const Header: React.FC = () => {
           >
             <FileCheck className="w-4 h-4 text-emerald-400" />
             <span>Verify Document</span>
-          </a>
-          <a
-            href="#history"
-            className="flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-colors"
-          >
-            <Layers className="w-4 h-4" />
-            <span>History</span>
-          </a>
-          <a
-            href="#admin"
-            className="flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 transition-colors"
-          >
-            <Settings className="w-4 h-4" />
-            <span>Administration</span>
           </a>
         </nav>
 

@@ -11,11 +11,15 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@types/qrcode": "^1.5.6",
     "@types/three": "^0.186.0",
     "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "firebase": "^12.19.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "lucide-react": "^0.358.0",
+    "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
