@@ -1,16 +1,16 @@
 # Graph Report - AI-Based-Detection-of-Fake-or-Manipulated-Academic-Certificates  (2026-09-29)
 
 ## Corpus Check
-- 561 files · ~509,783 words
+- 561 files · ~494,413 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 5125 nodes · 9992 edges · 268 communities (230 shown, 22 thin omitted)
+- 5125 nodes · 9993 edges · 268 communities (230 shown, 22 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 831 edges (avg confidence: 0.94)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d876443b`
+- Built from commit: `33195ca5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -271,7 +271,7 @@
 ## God Nodes (most connected - your core abstractions)
 1. `OCRToken` - 86 edges
 2. `TextLine` - 80 edges
-3. `CertificateFields` - 74 edges
+3. `CertificateFields` - 75 edges
 4. `BoundingBox` - 64 edges
 5. `PixelBoundingBox` - 62 edges
 6. `react` - 54 edges
@@ -863,7 +863,7 @@ Nodes (18): Unit tests for ML model evaluation (Phase 09 - TC-MOD-02). Tests hel
 
 ### Community 166 - "database.py"
 Cohesion: 0.04
-Nodes (47): Run migrations in 'offline' mode., Run migrations in 'online' mode., run_migrations_offline(), run_migrations_online(), Create all 12 database tables, foreign keys, and indexes., upgrade(), Any, set_sqlite_pragma() (+39 more)
+Nodes (48): Run migrations in 'offline' mode., Run migrations in 'online' mode., run_migrations_offline(), run_migrations_online(), Create all 12 database tables, foreign keys, and indexes., upgrade(), Any, set_sqlite_pragma() (+40 more)
 
 ### Community 168 - "export_model.py"
 Cohesion: 0.32
@@ -1219,7 +1219,7 @@ Nodes (3): MobileNetTamperDetector, Tensor, MobileNetV2 Transfer Learning Archit
 
 ## Knowledge Gaps
 - **1063 isolated node(s):** `entrypoint.sh script`, `ai-certificate-verification-backend`, `run_all_tests.sh script`, `smoke_test.sh script`, `name` (+1058 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2783 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 2782 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **22 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions

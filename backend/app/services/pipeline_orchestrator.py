@@ -7,6 +7,7 @@ from __future__ import annotations
 import logging
 import time
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
@@ -88,9 +89,10 @@ class VerificationPipelineOrchestrator:
         if cert is None:
             raise ValueError(f"Certificate record '{certificate_id}' not found.")
 
+        file_path = Path(str(cert.file_path))
         context = PipelineExecutionContext(
             certificate_id=certificate_id,
-            raw_image_path=Path(cert.file_path),
+            raw_image_path=file_path,
         )
 
         try:
@@ -100,7 +102,6 @@ class VerificationPipelineOrchestrator:
             cert.job_error = None
             db.commit()
 
-            file_path = Path(cert.file_path)
             if not file_path.exists():
                 raise FileNotFoundError(f"Certificate image file missing at {file_path}")
 
@@ -115,7 +116,7 @@ class VerificationPipelineOrchestrator:
                     context.raw_image_path = pages[0]
 
             # Read image array into memory bus
-            img_bgr = cv2.imread(str(context.raw_image_path))
+            img_bgr = cv2.imread(str(context.raw_image_path or file_path))
             if img_bgr is None:
                 img_bgr = np.zeros((1000, 700, 3), dtype=np.uint8)
             context.raw_image = img_bgr
@@ -129,22 +130,23 @@ class VerificationPipelineOrchestrator:
                     doc_uuid = uuid.UUID(certificate_id)
                 except ValueError:
                     doc_uuid = uuid.uuid5(uuid.NAMESPACE_DNS, certificate_id)
-                return self.preprocessing_service.preprocess(doc_uuid, context.raw_image_path)
+                return self.preprocessing_service.preprocess(doc_uuid, context.raw_image_path or file_path)
 
             prep_res = self.execute_stage("preprocessing", 10.0, _run_preprocessing, context)
             if hasattr(prep_res, "enhanced_image") and prep_res.enhanced_image is not None:
                 context.enhanced_image = prep_res.enhanced_image
                 context.binarized_image = prep_res.binarized_image
             else:
-                context.enhanced_image = context.raw_image
-                context.binarized_image = context.raw_image
+                context.enhanced_image = img_bgr
+                context.binarized_image = img_bgr
 
             cert.job_progress = 30
             db.commit()
 
             # Stage 3: OCR & Credential Field Extraction
             def _run_ocr() -> Any:
-                return self.ocr_service.process_document(certificate_id, context.enhanced_image)
+                ocr_img = context.enhanced_image if context.enhanced_image is not None else img_bgr
+                return self.ocr_service.process_document(certificate_id, ocr_img)
 
             ocr_res = self.execute_stage("ocr", 20.0, _run_ocr, context)
             context.ocr_result = ocr_res
@@ -231,9 +233,10 @@ class VerificationPipelineOrchestrator:
 
             # Stage 5: Image Forensics (ELA & Copy-Move)
             def _run_forensics() -> Any:
+                raw_img = context.raw_image if context.raw_image is not None else img_bgr
                 return self.forensic_service.analyze(
                     document_id=certificate_id,
-                    raw_image_or_path=context.raw_image,
+                    raw_image_or_path=raw_img,
                 )
 
             forensic_res = self.execute_stage("forensics", 10.0, _run_forensics, context)
@@ -256,6 +259,8 @@ class VerificationPipelineOrchestrator:
 
             # Stage 6: Institutional Template Alignment & Record Matching
             def _run_template() -> Any:
+                tmpl_img = context.enhanced_image if context.enhanced_image is not None else img_bgr
+                tmpl_fields = context.ocr_fields or CertificateFields()
                 f_score = (
                     context.forensic_result.overall_forensic_score
                     if context.forensic_result
@@ -267,8 +272,8 @@ class VerificationPipelineOrchestrator:
                     else 1.0
                 )
                 return self.template_service.verify(
-                    query_img=context.enhanced_image,
-                    extracted_fields=context.ocr_fields,
+                    query_img=tmpl_img,
+                    extracted_fields=tmpl_fields,
                     db=db,
                     document_id=certificate_id,
                     certificate_id=certificate_id,
@@ -302,8 +307,9 @@ class VerificationPipelineOrchestrator:
             context.tabular_prediction = ml_res
 
             def _run_visual() -> Any:
+                vis_path = context.raw_image_path or file_path
                 return self.visual_service.predict(
-                    image_path=context.raw_image_path,
+                    image_path=vis_path,
                     certificate_id=certificate_id,
                     db_session=db,
                 )
@@ -367,10 +373,12 @@ class VerificationPipelineOrchestrator:
             # Stage 9: Explainability & Unified Overlays
             def _run_explain() -> Any:
                 tabular_vec = np.zeros((1, 26), dtype=np.float32)
+                exp_path = context.raw_image_path or file_path
+                exp_decision = context.final_decision or decision
                 return self.explainability_service.explain_certificate(
                     certificate_id=certificate_id,
-                    raw_image_path=context.raw_image_path,
-                    decision=context.final_decision,
+                    raw_image_path=exp_path,
+                    decision=exp_decision,
                     tabular_features=tabular_vec,
                 )
 
@@ -386,26 +394,27 @@ class VerificationPipelineOrchestrator:
                     )
                     if hasattr(explainability_report, "key_findings"):
                         explainability_report.key_findings.append(bullet)
-                if hasattr(explainability_report, "primary_verdict_rationale"):
-                    explainability_report.primary_verdict_rationale += " Notice: " + " ".join(
-                        context.warnings
-                    )
+                    if hasattr(explainability_report, "primary_verdict_rationale"):
+                        explainability_report.primary_verdict_rationale += " Notice: " + " ".join(
+                            context.warnings
+                        )
             context.explainability_report = explainability_report
 
             cert.job_progress = 95
             db.commit()
 
             # Stage 10: Official Verification Report Generation & Archival
+            cert_file_size = getattr(cert, "file_size", 0)
             file_meta = FileMetadata(
-                filename=cert.original_filename,
-                file_size_kb=round(cert.file_size / 1024.0, 1),
-                file_format=cert.mime_type.split("/")[-1].upper(),
-                sha256_checksum=cert.file_hash,
+                filename=str(cert.original_filename),
+                file_size_kb=round(float(cert_file_size) / 1024.0, 1),
+                file_format=str(cert.mime_type).split("/")[-1].upper(),
+                sha256_checksum=str(cert.file_hash),
             )
 
             full_report = self.report_service.generate_report(
                 certificate_id=certificate_id,
-                decision=context.final_decision,
+                decision=context.final_decision or decision,
                 file_metadata=file_meta,
                 extracted_fields=context.ocr_fields or CertificateFields(),
                 explainability_report=context.explainability_report,
@@ -444,21 +453,21 @@ class VerificationPipelineOrchestrator:
                     institution = getattr(context.ocr_fields, "institution_name", None) or institution
 
                 t_flags = []
-                if hasattr(full_report, "tampering_flags") and full_report.tampering_flags:
-                    t_flags = list(full_report.tampering_flags)
+                report_flags = getattr(full_report, "tampering_flags", None)
+                if report_flags:
+                    t_flags = list(report_flags)
                 elif context.warnings:
                     t_flags = list(context.warnings)
 
                 qr_detected = bool(
                     context.template_result
-                    and hasattr(context.template_result, "qr_payload")
-                    and context.template_result.qr_payload
+                    and getattr(context.template_result, "qr_payload", None)
                 )
 
                 history_service.record_verification_async(
                     record_id=certificate_id,
                     timestamp_iso=datetime.now(timezone.utc).isoformat(),
-                    original_filename=cert.original_filename,
+                    original_filename=str(cert.original_filename),
                     document_type="VTU_MARKSCARD",
                     student_name=student_name,
                     identifier=identifier,

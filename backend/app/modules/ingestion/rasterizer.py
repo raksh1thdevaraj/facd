@@ -35,7 +35,7 @@ class PDFRasterizer:
         if is_poppler_installed():
             try:
                 import pdf2image
-                from pdf2image.exceptions import PDFPageCountError, PDFPasswordIncorrect
+                from pdf2image.exceptions import PDFPageCountError, PDFSyntaxError
 
                 try:
                     images = pdf2image.convert_from_path(
@@ -51,12 +51,13 @@ class PDFRasterizer:
                         img.save(out_file, format="PNG")
                         generated_paths.append(out_file)
                     return generated_paths
-                except PDFPasswordIncorrect as exc:
-                    raise EncryptedPdfError(
-                        "Password-protected PDF files cannot be processed. "
-                        "Please upload an unprotected copy."
-                    ) from exc
-                except PDFPageCountError:
+                except (PDFSyntaxError, PDFPageCountError) as exc:
+                    err_msg = str(exc).lower()
+                    if "password" in err_msg or "encrypted" in err_msg:
+                        raise EncryptedPdfError(
+                            "Password-protected PDF files cannot be processed. "
+                            "Please upload an unprotected copy."
+                        ) from exc
                     # Fall back to pypdfium2 if Poppler fails on this file
                     pass
             except EncryptedPdfError:
@@ -90,7 +91,7 @@ class PDFRasterizer:
 
             for page_idx in range(pages_to_render):
                 page = doc.get_page(page_idx)
-                rendered = page.render(scale=scale)
+                rendered = page.render(scale=scale)  # type: ignore[arg-type]
                 pil_image = rendered.to_pil()
 
                 # Verify minimum dimensions for 300 DPI page

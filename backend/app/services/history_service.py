@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from services.historyStore import history_store
 from sqlalchemy import asc, desc, or_
 from sqlalchemy.orm import Session
 
@@ -39,9 +40,6 @@ def _ensure_ledger_file() -> None:
                 json.dump([], f, indent=2)
     except Exception as exc:
         logger.warning("Could not initialize ledger file %s: %s", LEDGER_FILE, exc)
-
-
-from services.historyStore import history_store
 
 
 class VerificationHistoryService:
@@ -112,7 +110,7 @@ class VerificationHistoryService:
             "issuer": issuer or "Not Detected",
             "verdict": normalized_verdict,
             "confidence_score": round(conf, 4),
-            "qr_status": bool(qr_status),
+            "qr_status": qr_status,
             "tampering_flags": flags,
             "remarks": remarks or "",
             "full_details": full_details or {},
@@ -136,7 +134,7 @@ class VerificationHistoryService:
                 existing.issuer = record_dict["issuer"]
                 existing.verdict = normalized_verdict
                 existing.confidence_score = conf
-                existing.qr_status = bool(qr_status)
+                existing.qr_status = qr_status
                 existing.tampering_flags = flags
                 existing.remarks = remarks or ""
                 existing.full_details = full_details or {}
@@ -152,7 +150,7 @@ class VerificationHistoryService:
                     issuer=record_dict["issuer"],
                     verdict=normalized_verdict,
                     confidence_score=conf,
-                    qr_status=bool(qr_status),
+                    qr_status=qr_status,
                     tampering_flags=flags,
                     remarks=remarks or "",
                     full_details=full_details or {},
