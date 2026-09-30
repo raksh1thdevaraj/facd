@@ -167,6 +167,20 @@ def _save_scan_record(
         logger.warning("Could not record verification history for scan %s: %s", scan_id, h_err)
 
 
+@router.get(
+    "",
+    summary="Public Verification Hub Status",
+    response_model=Dict[str, Any],
+)
+def get_verification_hub_status() -> Dict[str, Any]:
+    """Status probe for verification hub ensuring GET /verify returns 200 OK."""
+    return {
+        "status": "ready",
+        "service": "Public Verification Hub",
+        "accepts": ["POST"],
+    }
+
+
 @router.post(
     "",
     summary="Verify an academic marks card or course completion certificate",

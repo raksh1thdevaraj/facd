@@ -47,6 +47,11 @@ export default defineConfig({
         timeout: 120000,
         // @ts-expect-error - http-proxy option
         proxyTimeout: 120000,
+        bypass: (req) => {
+          if (req.headers.accept?.includes('text/html')) {
+            return '/index.html';
+          }
+        },
         configure: (proxy) => {
           proxy.on('error', (_err, _req, res) => {
             if (res && !res.headersSent && typeof res.writeHead === 'function') {
