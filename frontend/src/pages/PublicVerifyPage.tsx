@@ -22,10 +22,25 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import apiClient from '../services/api';
-import { VerificationHistorySection } from '../components/history/VerificationHistorySection';
-import { CertificateExportModal } from '../components/verification/CertificateExportModal';
-import { ForensicAuditCertificate } from '../components/verification/ForensicAuditCertificate';
 import { exportCertificateElementToPdf } from '../utils/pdfExport';
+
+const VerificationHistorySection = React.lazy(() =>
+  import('../components/history/VerificationHistorySection').then((m) => ({
+    default: m.VerificationHistorySection,
+  }))
+);
+
+const CertificateExportModal = React.lazy(() =>
+  import('../components/verification/CertificateExportModal').then((m) => ({
+    default: m.CertificateExportModal,
+  }))
+);
+
+const ForensicAuditCertificate = React.lazy(() =>
+  import('../components/verification/ForensicAuditCertificate').then((m) => ({
+    default: m.ForensicAuditCertificate,
+  }))
+);
 
 interface VerificationResult {
   success?: boolean;
@@ -303,7 +318,7 @@ export const PublicVerifyPage: React.FC = () => {
       formData.append('certificate_type', certificateType);
 
       const res = await apiClient.post<any>('/verify', formData, {
-        timeout: 120000,
+        timeout: 180000,
       });
       const data = res.data;
 
@@ -471,6 +486,12 @@ export const PublicVerifyPage: React.FC = () => {
           >
             <ShieldCheck className="w-4 h-4" />
             <span>Document Verifier</span>
+            {loading && (
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 animate-pulse ml-1">
+                <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                Analyzing
+              </span>
+            )}
           </button>
           <button
             type="button"
@@ -487,15 +508,27 @@ export const PublicVerifyPage: React.FC = () => {
         </div>
       </div>
 
-      {dashboardTab === 'history' ? (
-        <VerificationHistorySection
-          refreshTrigger={historyRefreshTrigger}
-          onNavigateToUpload={() => setDashboardTab('verifier')}
-        />
-      ) : (
-        <>
-          {/* Main Two-Column Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Tab 2: Dedicated Verification History View */}
+      <div className={dashboardTab === 'history' ? 'block' : 'hidden'}>
+        <React.Suspense
+          fallback={
+            <div className="min-h-[300px] flex items-center justify-center p-8 text-center text-slate-400 text-xs">
+              <Loader2 className="w-6 h-6 animate-spin text-emerald-400 mr-2" />
+              Loading verification history...
+            </div>
+          }
+        >
+          <VerificationHistorySection
+            refreshTrigger={historyRefreshTrigger}
+            onNavigateToUpload={() => setDashboardTab('verifier')}
+          />
+        </React.Suspense>
+      </div>
+
+      {/* Tab 1: Document Verifier Workspace */}
+      <div className={dashboardTab === 'verifier' ? 'space-y-8' : 'hidden'}>
+        {/* Main Two-Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Upload & Input Portal (5 Cols) */}
         <div className="lg:col-span-5 space-y-6">
           <form onSubmit={handleVerifySubmit} className="space-y-5">
@@ -1327,33 +1360,46 @@ export const PublicVerifyPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Embedded Verification History Section on Dashboard */}
-      <div className="mt-14 border-t border-slate-800/80 pt-10">
-        <VerificationHistorySection
-          refreshTrigger={historyRefreshTrigger}
-          onNavigateToUpload={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        />
+        {/* Embedded Verification History Section on Dashboard */}
+        <div className="mt-14 border-t border-slate-800/80 pt-10">
+          <React.Suspense
+            fallback={
+              <div className="min-h-[200px] flex items-center justify-center text-slate-400 text-xs">
+                <Loader2 className="w-5 h-5 animate-spin text-emerald-400 mr-2" />
+                Loading verification records...
+              </div>
+            }
+          >
+            <VerificationHistorySection
+              refreshTrigger={historyRefreshTrigger}
+              onNavigateToUpload={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            />
+          </React.Suspense>
+        </div>
       </div>
+
       {/* Hidden container for print stylesheet and instant canvas capture */}
       {result && (
         <div style={{ position: 'fixed', left: '-9999px', top: '-9999px', pointerEvents: 'none' }}>
-          <ForensicAuditCertificate
-            id="forensic-audit-certificate-hidden-root"
-            data={result}
-          />
+          <React.Suspense fallback={null}>
+            <ForensicAuditCertificate
+              id="forensic-audit-certificate-hidden-root"
+              data={result}
+            />
+          </React.Suspense>
         </div>
       )}
 
       {/* Interactive Certificate Preview & Export Modal */}
-      {result && (
-        <CertificateExportModal
-          isOpen={isCertificateModalOpen}
-          onClose={() => setIsCertificateModalOpen(false)}
-          certificateData={result}
-        />
+      {result && isCertificateModalOpen && (
+        <React.Suspense fallback={null}>
+          <CertificateExportModal
+            isOpen={isCertificateModalOpen}
+            onClose={() => setIsCertificateModalOpen(false)}
+            certificateData={result}
+          />
+        </React.Suspense>
       )}
-    </>
-  )}
-</div>
+    </div>
   );
 };

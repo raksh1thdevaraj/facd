@@ -2,8 +2,8 @@
   "name": "certificate-fraud-detection-functions",
   "scripts": {
     "lint": "eslint --ext .js,.ts .",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
+    "build": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc",
+    "build:watch": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",

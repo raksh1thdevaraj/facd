@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "test": "vitest run",
+    "dev": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js",
+    "build": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc && node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js build",
+    "preview": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js preview",
+    "test": "node --max-old-space-size=4096 ./node_modules/vitest/vitest.mjs run",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {

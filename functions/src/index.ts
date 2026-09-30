@@ -157,7 +157,7 @@ export const processCertificateUpload = onObjectFinalized(
         },
         {
           headers: { "Content-Type": "application/json" },
-          timeout: 120000,
+          timeout: 180000,
           validateStatus: () => true, // Handle status code manually
         }
       );

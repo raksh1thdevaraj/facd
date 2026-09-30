@@ -1,20 +1,48 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/common/Navbar';
 import { InstitutionalFooter } from './components/landing/InstitutionalFooter';
 import { LandingPage } from './pages/LandingPage';
-import { UploadPage } from './pages/UploadPage';
-import { ResultsPage } from './pages/ResultsPage';
-import { VerifyReportPage } from './pages/VerifyReportPage';
-import { HistoryPage } from './pages/HistoryPage';
-import { LoginPage } from './pages/LoginPage';
-import { NotFoundPage } from './pages/NotFoundPage';
-import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
-import { CourseVerificationPage } from './pages/CourseVerificationPage';
-import { PublicVerifyPage } from './pages/PublicVerifyPage';
 import { ProtectedView } from './components/auth/ProtectedView';
 import { AuthGatewayModal } from './components/auth/AuthGatewayModal';
+
+// Route-level code splitting to optimize initial bundle and dashboard load
+const UploadPage = React.lazy(() =>
+  import('./pages/UploadPage').then((m) => ({ default: m.UploadPage }))
+);
+const ResultsPage = React.lazy(() =>
+  import('./pages/ResultsPage').then((m) => ({ default: m.ResultsPage }))
+);
+const VerifyReportPage = React.lazy(() =>
+  import('./pages/VerifyReportPage').then((m) => ({ default: m.VerifyReportPage }))
+);
+const HistoryPage = React.lazy(() =>
+  import('./pages/HistoryPage').then((m) => ({ default: m.HistoryPage }))
+);
+const LoginPage = React.lazy(() =>
+  import('./pages/LoginPage').then((m) => ({ default: m.LoginPage }))
+);
+const NotFoundPage = React.lazy(() =>
+  import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
+);
+const AdminDashboardPage = React.lazy(() =>
+  import('./pages/admin/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage }))
+);
+const CourseVerificationPage = React.lazy(() =>
+  import('./pages/CourseVerificationPage').then((m) => ({ default: m.CourseVerificationPage }))
+);
+const PublicVerifyPage = React.lazy(() =>
+  import('./pages/PublicVerifyPage').then((m) => ({ default: m.PublicVerifyPage }))
+);
+
+const RouteLoadingFallback: React.FC = () => (
+  <div className="min-h-[50vh] flex flex-col items-center justify-center space-y-3">
+    <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
+    <span className="text-xs text-slate-400 font-mono tracking-wider">Loading enclave module...</span>
+  </div>
+);
 
 const AppContent: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
@@ -25,7 +53,8 @@ const AppContent: React.FC = () => {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <Routes>
+        <React.Suspense fallback={<RouteLoadingFallback />}>
+          <Routes>
           {/* Default Root: Landing Page when unauthenticated or public */}
           <Route path="/" element={<LandingPage />} />
 
@@ -116,6 +145,7 @@ const AppContent: React.FC = () => {
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </React.Suspense>
       </main>
 
       {/* Institutional Cryptographic Footer */}

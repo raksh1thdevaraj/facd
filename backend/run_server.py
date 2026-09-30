@@ -120,7 +120,9 @@ def run():
         ],
         access_log=True,
         log_level="info",
-        timeout_keep_alive=75,
+        timeout_keep_alive=180,
+        limit_concurrency=100,
+        timeout_graceful_shutdown=15,
     )
 
 

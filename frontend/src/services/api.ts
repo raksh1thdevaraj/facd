@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
-  timeout: 120000, // 120 seconds explicit timeout to prevent client abort during analysis
+  timeout: 180000, // 180 seconds explicit timeout to prevent client abort during analysis
   headers: {
     'Content-Type': 'application/json',
   },
@@ -143,28 +143,31 @@ apiClient.interceptors.response.use(
       }
     }
 
-    // 3. Network and Server Unavailable Retry Interceptor (502/503/504/ECONNREFUSED/ECONNRESET)
-    const isNetworkError =
+    // 3. Network and Server Unavailable Retry Interceptor (ECONNRESET, ETIMEDOUT, ECONNABORTED, 502/503/504)
+    const isNetworkDropout =
       !error.response ||
+      error.code === 'ECONNRESET' ||
+      error.code === 'ETIMEDOUT' ||
       error.code === 'ECONNABORTED' ||
       error.code === 'ERR_NETWORK' ||
-      error.message?.includes('Network Error');
-    const isServerUnavailable =
+      error.code === 'ECONNREFUSED' ||
+      error.message?.includes('Network Error') ||
+      error.message?.includes('timeout');
+    const isTransientServerError =
       error.response?.status === 502 ||
       error.response?.status === 503 ||
       error.response?.status === 504;
 
     if (
-      (isNetworkError || isServerUnavailable) &&
+      (isNetworkDropout || isTransientServerError) &&
       (!originalRequest._retryCount || originalRequest._retryCount < 2) &&
       !originalRequest.url?.includes('/health')
     ) {
       originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
-      const delayMs = originalRequest._retryCount * 1200;
+      // Exponential backoff: ~2s on retry 1, ~4s on retry 2 with small jitter
+      const delayMs = Math.min(6000, Math.pow(2, originalRequest._retryCount) * 1000 + Math.random() * 300);
 
-      // Wait briefly before retrying to give backend a chance to initialize
       await new Promise((resolve) => setTimeout(resolve, delayMs));
-
       return apiClient(originalRequest);
     }
 

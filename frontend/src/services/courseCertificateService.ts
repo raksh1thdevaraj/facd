@@ -17,6 +17,7 @@ export const courseCertificateService = {
       '/course-certificates/verify',
       formData,
       {
+        timeout: 180000,
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -304,7 +304,7 @@ class LiveURLVerifier:
                 "sanitized_url": clean_url,
                 "provider": provider,
                 "token": token,
-                "url_status": "TIMEOUT",
+                "url_status": "TIMEOUT_FALLBACK",
                 "http_status_code": 408,
                 "is_valid": True,  # Neutral on network timeout: do not falsely penalize if offline
                 "is_mismatch": False,

@@ -84,3 +84,66 @@ def test_synthetic_valid_image_upload(client):
     assert res.status_code == 200
     data = res.json()
     assert "final_status" in data or "is_authentic" in data
+
+
+def test_concurrent_health_and_status_during_verification(client):
+    """Verify that dashboard health and status queries respond concurrently without blocking."""
+    import concurrent.futures
+
+    img = Image.new("RGB", (100, 100), color=(250, 250, 250))
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    valid_bytes = buf.getvalue()
+
+    def _call_verify():
+        files = {"file": ("concurrent_test.png", valid_bytes, "image/png")}
+        return client.post(
+            "/verify",
+            files=files,
+            data={"certificate_type": "marks_card"},
+        )
+
+    def _call_health():
+        return client.get("/health")
+
+    def _call_status():
+        return client.get("/status")
+
+    def _call_history():
+        return client.get("/api/verifications/history")
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        # Launch verify
+        verify_fut = executor.submit(_call_verify)
+        # Concurrently query health, status, and history
+        health_fut = executor.submit(_call_health)
+        status_fut = executor.submit(_call_status)
+        history_fut = executor.submit(_call_history)
+
+        health_res = health_fut.result(timeout=10)
+        status_res = status_fut.result(timeout=10)
+        history_res = history_fut.result(timeout=10)
+        verify_res = verify_fut.result(timeout=60)
+
+    assert health_res.status_code == 200
+    assert status_res.status_code == 200
+    assert history_res.status_code == 200
+    assert verify_res.status_code == 200
+
+
+def test_live_url_timeout_fallback_resilience():
+    """Verify that an external URL scrape timeout returns TIMEOUT_FALLBACK without crashing."""
+    from unittest.mock import patch
+    import httpx
+    from app.services.live_url_verifier import LiveURLVerifier
+
+    verifier = LiveURLVerifier()
+    with patch("httpx.Client.get", side_effect=httpx.TimeoutException("Connection timed out")):
+        res = verifier.verify_live_url("https://coursera.org/verify/FAKE1234")
+
+    assert res["executed"] is True
+    assert res["url_status"] == "TIMEOUT_FALLBACK"
+    assert res["is_valid"] is True
+    assert res["is_mismatch"] is False
+    assert "timed out" in res["reason"].lower()
+

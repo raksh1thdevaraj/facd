@@ -66,6 +66,21 @@ def get_health(db: Session = Depends(get_db)) -> dict:
     }
 
 
+@router.get(
+    "/status",
+    status_code=status.HTTP_200_OK,
+    summary="Lightweight non-blocking operational status probe",
+)
+def get_service_status() -> dict:
+    """Ultra-fast, zero-overhead status probe for dashboard polling and readiness checks."""
+    return {
+        "status": "ok",
+        "service": "operational",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "uptime": max(0.0, round(time.time() - _SERVER_START_TIME, 2)),
+    }
+
+
 
 @router.get(
     "/health/ingestion",

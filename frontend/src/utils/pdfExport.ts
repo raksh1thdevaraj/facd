@@ -1,6 +1,3 @@
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-
 export interface ExportPdfOptions {
   filename?: string;
   onStart?: () => void;
@@ -10,6 +7,7 @@ export interface ExportPdfOptions {
 
 /**
  * Capture an authoritative certificate DOM node and compile into a standard A4 portrait 300DPI PDF.
+ * Uses dynamic imports for html2canvas and jsPDF to prevent bundling heavy PDF libraries on initial page load.
  */
 export async function exportCertificateElementToPdf(
   element: HTMLElement,
@@ -19,6 +17,13 @@ export async function exportCertificateElementToPdf(
 
   try {
     options?.onStart?.();
+
+    const [html2canvasModule, jspdfModule] = await Promise.all([
+      import('html2canvas'),
+      import('jspdf'),
+    ]);
+    const html2canvas = html2canvasModule.default;
+    const jsPDF = jspdfModule.default;
 
     // High-resolution canvas rendering with anti-aliasing
     const canvas = await html2canvas(element, {

@@ -73,6 +73,14 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def add_keep_alive_headers(request: Request, call_next):
+    """Enforce persistent HTTP keep-alive sockets during long-running forensic evaluations."""
+    response = await call_next(request)
+    response.headers["Keep-Alive"] = "timeout=180, max=1000"
+    return response
+
+
 import logging
 
 logger = logging.getLogger("uvicorn.error")
