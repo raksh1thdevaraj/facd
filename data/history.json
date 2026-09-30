@@ -1,18 +1,878 @@
 [
   {
-    "id": "cert-pipe-001",
-    "timestamp": "2026-09-29T11:02:49.770839+00:00",
-    "original_filename": "valid_cert.png",
-    "document_type": "VTU_MARKSCARD",
-    "student_name": "RAKSHITH DEVARAJA",
-    "identifier": "Not Detected",
-    "issuer": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY",
-    "verdict": "SUSPICIOUS",
-    "confidence_score": 0.777,
-    "qr_status": false,
-    "tampering_flags": [],
-    "remarks": "Automated audit verdict: SUSPICIOUS",
+    "id": "2c2f5642-c895-4f77-8538-30560bec96ed",
+    "timestamp": "2026-09-30T14:55:24.539453+00:00",
+    "original_filename": "Fakcerti.pdf",
+    "document_type": "ONLINE_COURSE_CERTIFICATE",
+    "student_name": "VIRAT KOHLI",
+    "identifier": "ST4861PPAN5J",
+    "issuer": "EDUCBA",
+    "verdict": "FRAUDULENT",
+    "confidence_score": 0.05,
+    "qr_status": true,
+    "tampering_flags": [
+      "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'."
+    ],
+    "remarks": "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'.",
     "full_details": {
-      "report_id": "18bc5d81-1a30-48f2-b065-13e05e936d51",
-      "certificate_id": "cert-pipe-001",
-      "generated_at": 
+      "certificate_type": "course_certificate",
+      "final_status": "REJECTED",
+      "verdict_badge": "FRAUDULENT (Identity / Registry Mismatch)",
+      "color": "red",
+      "is_authentic": false,
+      "confidence_score": 0.05,
+      "rejection_reasons": [
+        "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'."
+      ],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+      ],
+      "extracted_fields": {
+        "institution_name": "UNKNOWN INSTITUTION",
+        "student_name": "NOT_FOUND",
+        "reg_no": "NOT_FOUND",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "NOT_FOUND",
+        "raw_text": "",
+        "ocr_engine": "adaptive_contour_anchor",
+        "degree_or_program": "Project Planning and Productivity Mastery"
+      },
+      "qr_verification": {
+        "detected": true,
+        "qr_present": true,
+        "is_url": true,
+        "url_verified": true,
+        "domain_valid": true,
+        "payload_or_url": "https://coursera.org/verify/ST4861PPAN5J",
+        "matches_document_text": false,
+        "detection_method": "regex_text_fallback",
+        "payload_text_match": "MISMATCH DETECTED",
+        "reason": "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'.",
+        "live_server_status": "Verified 200 OK",
+        "issuer_db_match": "Mismatch: Registered to [RISHI R K]",
+        "web_registered_name": "RISHI R K",
+        "discrepancy_details": "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'.",
+        "mismatch_flag": "IDENTITY_MISMATCH_FRAUD"
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": true,
+          "is_url": true,
+          "url": "https://coursera.org/verify/ST4861PPAN5J",
+          "domain": "coursera.org",
+          "domain_valid": true,
+          "verified": true,
+          "reason": "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'.",
+          "payload_data": {
+            "status": "endpoint_verified",
+            "url": "https://coursera.org/verify/ST4861PPAN5J",
+            "host": "coursera.org",
+            "path": "/verify/ST4861PPAN5J",
+            "remote_reachable": true,
+            "status_code": 200
+          },
+          "detected": true,
+          "payload_or_url": "https://coursera.org/verify/ST4861PPAN5J",
+          "detection_method": "regex_text_fallback",
+          "url_verified": true,
+          "matches_document_text": false,
+          "payload_text_match": "MISMATCH DETECTED",
+          "live_server_status": "Verified 200 OK",
+          "issuer_db_match": "Mismatch: Registered to [RISHI R K]",
+          "web_registered_name": "RISHI R K",
+          "discrepancy_details": "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'.",
+          "mismatch_flag": "IDENTITY_MISMATCH_FRAUD"
+        },
+        "extracted_fields": {
+          "institution_name": "UNKNOWN INSTITUTION",
+          "student_name": "NOT_FOUND",
+          "reg_no": "NOT_FOUND",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "NOT_FOUND",
+          "raw_text": "",
+          "ocr_engine": "adaptive_contour_anchor",
+          "degree_or_program": "Project Planning and Productivity Mastery"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": false,
+          "error": "No reference templates found for comparison",
+          "ssim_score": 0.0,
+          "edge_diff_ratio": 1.0,
+          "template_name": null
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "VIRAT KOHLI",
+            "registration_no": "ST4861PPAN5J",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA",
+            "degree_or_program": "Project Planning and Productivity Mastery",
+            "issue_date": "Sep 19, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "The document exhibits standard digital generation characteristics consistent with Coursera-issued certificates. No evidence of localized pixel manipulation, cloning, or inconsistent compression artifacts found."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Not applicable; the certificate does not contain numerical grades or scores requiring arithmetic validation."
+          },
+          "forensic_summary": "The certificate conforms to the standard Coursera digital template. The verification URL is valid and points to the official Coursera domain. The certificate ID 'ST4861PPAN5J' adheres to the expected alphanumeric pattern for Coursera credentials. No signs of tampering or digital forgery detected."
+        },
+        "rag_validation": {
+          "document_type": "ONLINE_COURSE_CERTIFICATE",
+          "schema_matched": true,
+          "arithmetic_valid": true,
+          "anomalies_detected": [],
+          "mismatch_report": "All institutional schema and arithmetic rules fully validated."
+        }
+      },
+      "latency_ms": 2635.53,
+      "scan_id": "2c2f5642-c895-4f77-8538-30560bec96ed",
+      "filename": "Fakcerti.pdf",
+      "timestamp": "2026-09-30T14:55:17.795090+00:00",
+      "file_metadata": {
+        "filename": "Fakcerti.pdf",
+        "file_size": 1782833,
+        "mime_type": "application/pdf",
+        "extension": ".pdf",
+        "resolution": "2200x1700"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-3.1-flash-lite",
+        "is_authentic": true,
+        "confidence_score": 0.95,
+        "verdict": "VERIFIED",
+        "entities": {
+          "student_name": "VIRAT KOHLI",
+          "registration_no": "ST4861PPAN5J",
+          "cgpa_or_score": null,
+          "issuing_institution": "EDUCBA",
+          "degree_or_program": "Project Planning and Productivity Mastery",
+          "issue_date": "Sep 19, 2026"
+        },
+        "forgery_indicators": {
+          "font_mismatch": false,
+          "text_baseline_shift": false,
+          "patch_compression_artifacts": false,
+          "splicing_detected": false,
+          "details": "The document exhibits standard digital generation characteristics consistent with Coursera-issued certificates. No evidence of localized pixel manipulation, cloning, or inconsistent compression artifacts found."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": true,
+          "details": "Not applicable; the certificate does not contain numerical grades or scores requiring arithmetic validation."
+        },
+        "schema_validation": {
+          "schema_matched": true,
+          "discrepancies": []
+        },
+        "forensic_summary": "The certificate conforms to the standard Coursera digital template. The verification URL is valid and points to the official Coursera domain. The certificate ID 'ST4861PPAN5J' adheres to the expected alphanumeric pattern for Coursera credentials. No signs of tampering or digital forgery detected."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "ONLINE_COURSE_CERTIFICATE",
+      "extracted_data": {
+        "student_name": "VIRAT KOHLI",
+        "identifier": "ST4861PPAN5J",
+        "issuer": "EDUCBA",
+        "date": "Sep 19, 2026",
+        "score_or_cgpa": ""
+      },
+      "rag_validation": {
+        "schema_matched": true,
+        "arithmetic_valid": true,
+        "anomalies_detected": []
+      },
+      "verdict": "FRAUDULENT",
+      "status": "fraudulent",
+      "confidence": 0.05,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "VIRAT KOHLI",
+          "identifier": "ST4861PPAN5J",
+          "issuer": "EDUCBA",
+          "date": "Sep 19, 2026",
+          "score_or_cgpa": ""
+        },
+        "forgery_detected": true,
+        "qr_verified": true,
+        "file_metadata": {
+          "filename": "Fakcerti.pdf",
+          "file_size": 1782833,
+          "mime_type": "application/pdf",
+          "extension": ".pdf",
+          "resolution": "2200x1700"
+        },
+        "gemini_verified": true,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "VIRAT KOHLI",
+            "registration_no": "ST4861PPAN5J",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA",
+            "degree_or_program": "Project Planning and Productivity Mastery",
+            "issue_date": "Sep 19, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "The document exhibits standard digital generation characteristics consistent with Coursera-issued certificates. No evidence of localized pixel manipulation, cloning, or inconsistent compression artifacts found."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Not applicable; the certificate does not contain numerical grades or scores requiring arithmetic validation."
+          },
+          "schema_validation": {
+            "schema_matched": true,
+            "discrepancies": []
+          },
+          "forensic_summary": "The certificate conforms to the standard Coursera digital template. The verification URL is valid and points to the official Coursera domain. The certificate ID 'ST4861PPAN5J' adheres to the expected alphanumeric pattern for Coursera credentials. No signs of tampering or digital forgery detected."
+        },
+        "remarks": "Critical Discrepancy: Certificate displays 'VIRAT KOHLI', but COURSERA registry records this credential ID under 'RISHI R K'."
+      }
+    }
+  },
+  {
+    "id": "6a299a14-a966-4e26-840a-df4d089a1657",
+    "timestamp": "2026-09-30T14:54:29.291072+00:00",
+    "original_filename": "Fakceri.pdf",
+    "document_type": "ONLINE_COURSE_CERTIFICATE",
+    "student_name": "VIRAT KOHLI",
+    "identifier": "ST4861lPPAN5J",
+    "issuer": "EDUCBA",
+    "verdict": "FRAUDULENT",
+    "confidence_score": 0.05,
+    "qr_status": true,
+    "tampering_flags": [
+      "The official COURSERA portal confirmed no credential record exists for ID 'ST4861lPPAN5J'.",
+      "[Visual Integrity] Digital splicing or layer tampering detected"
+    ],
+    "remarks": "The official COURSERA portal confirmed no credential record exists for ID 'ST4861lPPAN5J'.; [Visual Integrity] Digital splicing or layer tampering detected",
+    "full_details": {
+      "certificate_type": "course_certificate",
+      "final_status": "REJECTED",
+      "verdict_badge": "FRAUDULENT (Identity / Registry Mismatch)",
+      "color": "red",
+      "is_authentic": false,
+      "confidence_score": 0.05,
+      "rejection_reasons": [
+        "The official COURSERA portal confirmed no credential record exists for ID 'ST4861lPPAN5J'.",
+        "[Visual Integrity] Digital splicing or layer tampering detected"
+      ],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)",
+        "Certificate ID 'ST4861lPPAN5J' does not match standard COURSERA ID pattern"
+      ],
+      "extracted_fields": {
+        "institution_name": "UNKNOWN INSTITUTION",
+        "student_name": "NOT_FOUND",
+        "reg_no": "NOT_FOUND",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "NOT_FOUND",
+        "raw_text": "",
+        "ocr_engine": "adaptive_contour_anchor",
+        "degree_or_program": "Project Planning and Productivity Mastery"
+      },
+      "qr_verification": {
+        "detected": true,
+        "qr_present": true,
+        "is_url": true,
+        "url_verified": true,
+        "domain_valid": true,
+        "payload_or_url": "https://coursera.org/verify/ST4861lPPAN5J",
+        "matches_document_text": false,
+        "detection_method": "regex_text_fallback",
+        "payload_text_match": "MISMATCH DETECTED",
+        "reason": "Unable to parse learner name from Coursera page",
+        "live_server_status": "Invalid Record 404",
+        "issuer_db_match": "Mismatch: Unregistered / 404",
+        "web_registered_name": null,
+        "discrepancy_details": "The official COURSERA portal confirmed no credential record exists for ID 'ST4861lPPAN5J'.",
+        "mismatch_flag": "INVALID_URL_404"
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": true,
+          "is_url": true,
+          "url": "https://coursera.org/verify/ST4861lPPAN5J",
+          "domain": "coursera.org",
+          "domain_valid": true,
+          "verified": true,
+          "reason": "Unable to parse learner name from Coursera page",
+          "payload_data": {
+            "status": "endpoint_verified",
+            "url": "https://coursera.org/verify/ST4861lPPAN5J",
+            "host": "coursera.org",
+            "path": "/verify/ST4861lPPAN5J",
+            "remote_reachable": true,
+            "status_code": 200
+          },
+          "detected": true,
+          "payload_or_url": "https://coursera.org/verify/ST4861lPPAN5J",
+          "detection_method": "regex_text_fallback",
+          "url_verified": true,
+          "matches_document_text": false,
+          "payload_text_match": "MISMATCH DETECTED",
+          "live_server_status": "Invalid Record 404",
+          "issuer_db_match": "Mismatch: Unregistered / 404",
+          "web_registered_name": null,
+          "discrepancy_details": "The official COURSERA portal confirmed no credential record exists for ID 'ST4861lPPAN5J'.",
+          "mismatch_flag": "INVALID_URL_404"
+        },
+        "extracted_fields": {
+          "institution_name": "UNKNOWN INSTITUTION",
+          "student_name": "NOT_FOUND",
+          "reg_no": "NOT_FOUND",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "NOT_FOUND",
+          "raw_text": "",
+          "ocr_engine": "adaptive_contour_anchor",
+          "degree_or_program": "Project Planning and Productivity Mastery"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": false,
+          "error": "No reference templates found for comparison",
+          "ssim_score": 0.0,
+          "edge_diff_ratio": 1.0,
+          "template_name": null
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.5-flash",
+          "is_authentic": false,
+          "confidence_score": 0.99,
+          "verdict": "REJECTED",
+          "entities": {
+            "student_name": "VIRAT KOHLI",
+            "registration_no": "ST4861lPPAN5J",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA",
+            "degree_or_program": "Project Planning and Productivity Mastery",
+            "issue_date": "Sep 19, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": true,
+            "details": "The certificate contains a future issue date of 'Sep 19, 2026', which is chronologically impossible and indicates a fabricated or mock document. The name 'VIRAT KOHLI' is a well-known public figure, further suggesting this is a placeholder or generated mock certificate."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "No grades or marks are present to verify mathematically."
+          },
+          "forensic_summary": "The document is rejected as authentic due to a critical chronological anomaly: the issue date is set in the future (September 19, 2026). Additionally, the use of a famous cricketer's name ('Virat Kohli') strongly suggests this is a fabricated, mock, or template-generated certificate rather than a genuine academic credential."
+        },
+        "rag_validation": {
+          "document_type": "ONLINE_COURSE_CERTIFICATE",
+          "schema_matched": false,
+          "arithmetic_valid": true,
+          "anomalies_detected": [
+            "Certificate ID 'ST4861lPPAN5J' does not match standard COURSERA ID pattern"
+          ],
+          "mismatch_report": "Certificate ID 'ST4861lPPAN5J' does not match standard COURSERA ID pattern"
+        }
+      },
+      "latency_ms": 2600.93,
+      "scan_id": "6a299a14-a966-4e26-840a-df4d089a1657",
+      "filename": "Fakceri.pdf",
+      "timestamp": "2026-09-30T14:54:23.512970+00:00",
+      "file_metadata": {
+        "filename": "Fakceri.pdf",
+        "file_size": 1275944,
+        "mime_type": "application/pdf",
+        "extension": ".pdf",
+        "resolution": "2200x1700"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-3.5-flash",
+        "is_authentic": false,
+        "confidence_score": 0.99,
+        "verdict": "REJECTED",
+        "entities": {
+          "student_name": "VIRAT KOHLI",
+          "registration_no": "ST4861lPPAN5J",
+          "cgpa_or_score": null,
+          "issuing_institution": "EDUCBA",
+          "degree_or_program": "Project Planning and Productivity Mastery",
+          "issue_date": "Sep 19, 2026"
+        },
+        "forgery_indicators": {
+          "font_mismatch": false,
+          "text_baseline_shift": false,
+          "patch_compression_artifacts": false,
+          "splicing_detected": true,
+          "details": "The certificate contains a future issue date of 'Sep 19, 2026', which is chronologically impossible and indicates a fabricated or mock document. The name 'VIRAT KOHLI' is a well-known public figure, further suggesting this is a placeholder or generated mock certificate."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": true,
+          "details": "No grades or marks are present to verify mathematically."
+        },
+        "schema_validation": {
+          "schema_matched": false,
+          "discrepancies": [
+            "The issue date 'Sep 19, 2026' is in the future, making the credential invalid."
+          ]
+        },
+        "forensic_summary": "The document is rejected as authentic due to a critical chronological anomaly: the issue date is set in the future (September 19, 2026). Additionally, the use of a famous cricketer's name ('Virat Kohli') strongly suggests this is a fabricated, mock, or template-generated certificate rather than a genuine academic credential."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "ONLINE_COURSE_CERTIFICATE",
+      "extracted_data": {
+        "student_name": "VIRAT KOHLI",
+        "identifier": "ST4861lPPAN5J",
+        "issuer": "EDUCBA",
+        "date": "Sep 19, 2026",
+        "score_or_cgpa": ""
+      },
+      "rag_validation": {
+        "schema_matched": false,
+        "arithmetic_valid": true,
+        "anomalies_detected": [
+          "Certificate ID 'ST4861lPPAN5J' does not match standard COURSERA ID pattern"
+        ]
+      },
+      "verdict": "FRAUDULENT",
+      "status": "fraudulent",
+      "confidence": 0.05,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "VIRAT KOHLI",
+          "identifier": "ST4861lPPAN5J",
+          "issuer": "EDUCBA",
+          "date": "Sep 19, 2026",
+          "score_or_cgpa": ""
+        },
+        "forgery_detected": true,
+        "qr_verified": true,
+        "file_metadata": {
+          "filename": "Fakceri.pdf",
+          "file_size": 1275944,
+          "mime_type": "application/pdf",
+          "extension": ".pdf",
+          "resolution": "2200x1700"
+        },
+        "gemini_verified": false,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.5-flash",
+          "is_authentic": false,
+          "confidence_score": 0.99,
+          "verdict": "REJECTED",
+          "entities": {
+            "student_name": "VIRAT KOHLI",
+            "registration_no": "ST4861lPPAN5J",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA",
+            "degree_or_program": "Project Planning and Productivity Mastery",
+            "issue_date": "Sep 19, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": true,
+            "details": "The certificate contains a future issue date of 'Sep 19, 2026', which is chronologically impossible and indicates a fabricated or mock document. The name 'VIRAT KOHLI' is a well-known public figure, further suggesting this is a placeholder or generated mock certificate."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "No grades or marks are present to verify mathematically."
+          },
+          "schema_validation": {
+            "schema_matched": false,
+            "discrepancies": [
+              "The issue date 'Sep 19, 2026' is in the future, making the credential invalid."
+            ]
+          },
+          "forensic_summary": "The document is rejected as authentic due to a critical chronological anomaly: the issue date is set in the future (September 19, 2026). Additionally, the use of a famous cricketer's name ('Virat Kohli') strongly suggests this is a fabricated, mock, or template-generated certificate rather than a genuine academic credential."
+        },
+        "remarks": "The official COURSERA portal confirmed no credential record exists for ID 'ST4861lPPAN5J'.; [Visual Integrity] Digital splicing or layer tampering detected"
+      }
+    }
+  },
+  {
+    "id": "dc84ea31-e09d-4e01-9429-4f54ef31b815",
+    "timestamp": "2026-09-30T14:53:30.255633+00:00",
+    "original_filename": "project cert1.pdf",
+    "document_type": "ONLINE_COURSE_CERTIFICATE",
+    "student_name": "RISHI R K",
+    "identifier": "ST4861PPAN5J",
+    "issuer": "EDUCBA",
+    "verdict": "AUTHENTIC",
+    "confidence_score": 0.98,
+    "qr_status": true,
+    "tampering_flags": [
+      "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+    ],
+    "remarks": "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)",
+    "full_details": {
+      "certificate_type": "course_certificate",
+      "final_status": "VERIFIED",
+      "verdict_badge": "AUTHENTIC (Accredited Verification Link Validated)",
+      "color": "emerald",
+      "is_authentic": true,
+      "confidence_score": 0.98,
+      "rejection_reasons": [],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+      ],
+      "extracted_fields": {
+        "institution_name": "UNKNOWN INSTITUTION",
+        "student_name": "NOT_FOUND",
+        "reg_no": "NOT_FOUND",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "NOT_FOUND",
+        "raw_text": "",
+        "ocr_engine": "adaptive_contour_anchor",
+        "degree_or_program": "Project Planning and Productivity Mastery"
+      },
+      "qr_verification": {
+        "detected": true,
+        "qr_present": true,
+        "is_url": true,
+        "url_verified": true,
+        "domain_valid": true,
+        "payload_or_url": "https://coursera.org/verify/ST4861PPAN5J",
+        "matches_document_text": true,
+        "detection_method": "regex_text_fallback",
+        "payload_text_match": "100% MATCHED",
+        "reason": "Live COURSERA registry verified: Credential ID 'ST4861PPAN5J' matches registered learner 'RISHI R K'",
+        "live_server_status": "Verified 200 OK",
+        "issuer_db_match": "Matched: [RISHI R K]",
+        "web_registered_name": "RISHI R K",
+        "discrepancy_details": null,
+        "mismatch_flag": null
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": true,
+          "is_url": true,
+          "url": "https://coursera.org/verify/ST4861PPAN5J",
+          "domain": "coursera.org",
+          "domain_valid": true,
+          "verified": true,
+          "reason": "Live COURSERA registry verified: Credential ID 'ST4861PPAN5J' matches registered learner 'RISHI R K'",
+          "payload_data": {
+            "status": "endpoint_verified",
+            "url": "https://coursera.org/verify/ST4861PPAN5J",
+            "host": "coursera.org",
+            "path": "/verify/ST4861PPAN5J",
+            "remote_reachable": true,
+            "status_code": 200
+          },
+          "detected": true,
+          "payload_or_url": "https://coursera.org/verify/ST4861PPAN5J",
+          "detection_method": "regex_text_fallback",
+          "url_verified": true,
+          "matches_document_text": true,
+          "payload_text_match": "100% MATCHED",
+          "live_server_status": "Verified 200 OK",
+          "issuer_db_match": "Matched: [RISHI R K]",
+          "web_registered_name": "RISHI R K",
+          "discrepancy_details": null,
+          "mismatch_flag": null
+        },
+        "extracted_fields": {
+          "institution_name": "UNKNOWN INSTITUTION",
+          "student_name": "NOT_FOUND",
+          "reg_no": "NOT_FOUND",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "NOT_FOUND",
+          "raw_text": "",
+          "ocr_engine": "adaptive_contour_anchor",
+          "degree_or_program": "Project Planning and Productivity Mastery"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": false,
+          "error": "No reference templates found for comparison",
+          "ssim_score": 0.0,
+          "edge_diff_ratio": 1.0,
+          "template_name": null
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "RISHI R K",
+            "registration_no": "ST4861PPAN5J",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA",
+            "degree_or_program": "Project Planning and Productivity Mastery",
+            "issue_date": "Sep 19, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "The document displays consistent typography and uniform background noise patterns. No evidence of localized pixel distortion, cloning, or digital splicing detected."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Not applicable; the certificate does not contain numerical grades or scores requiring arithmetic validation."
+          },
+          "forensic_summary": "The certificate conforms to standard Coursera formatting. The verification URL and ID pattern (ST4861PPAN5J) align with official Coursera specifications. Note: The issue date (Sep 19, 2026) is in the future relative to current time, which may indicate a system-generated placeholder or a future-dated issuance, but the document structure itself is consistent with authentic templates."
+        },
+        "rag_validation": {
+          "document_type": "ONLINE_COURSE_CERTIFICATE",
+          "schema_matched": true,
+          "arithmetic_valid": true,
+          "anomalies_detected": [],
+          "mismatch_report": "All institutional schema and arithmetic rules fully validated."
+        }
+      },
+      "latency_ms": 2292.88,
+      "scan_id": "dc84ea31-e09d-4e01-9429-4f54ef31b815",
+      "filename": "project cert1.pdf",
+      "timestamp": "2026-09-30T14:53:24.016166+00:00",
+      "file_metadata": {
+        "filename": "project cert1.pdf",
+        "file_size": 304835,
+        "mime_type": "application/pdf",
+        "extension": ".pdf",
+        "resolution": "2200x1700"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-3.1-flash-lite",
+        "is_authentic": true,
+        "confidence_score": 0.95,
+        "verdict": "VERIFIED",
+        "entities": {
+          "student_name": "RISHI R K",
+          "registration_no": "ST4861PPAN5J",
+          "cgpa_or_score": null,
+          "issuing_institution": "EDUCBA",
+          "degree_or_program": "Project Planning and Productivity Mastery",
+          "issue_date": "Sep 19, 2026"
+        },
+        "forgery_indicators": {
+          "font_mismatch": false,
+          "text_baseline_shift": false,
+          "patch_compression_artifacts": false,
+          "splicing_detected": false,
+          "details": "The document displays consistent typography and uniform background noise patterns. No evidence of localized pixel distortion, cloning, or digital splicing detected."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": true,
+          "details": "Not applicable; the certificate does not contain numerical grades or scores requiring arithmetic validation."
+        },
+        "schema_validation": {
+          "schema_matched": true,
+          "discrepancies": []
+        },
+        "forensic_summary": "The certificate conforms to standard Coursera formatting. The verification URL and ID pattern (ST4861PPAN5J) align with official Coursera specifications. Note: The issue date (Sep 19, 2026) is in the future relative to current time, which may indicate a system-generated placeholder or a future-dated issuance, but the document structure itself is consistent with authentic templates."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "ONLINE_COURSE_CERTIFICATE",
+      "extracted_data": {
+        "student_name": "RISHI R K",
+        "identifier": "ST4861PPAN5J",
+        "issuer": "EDUCBA",
+        "date": "Sep 19, 2026",
+        "score_or_cgpa": ""
+      },
+      "rag_validation": {
+        "schema_matched": true,
+        "arithmetic_valid": true,
+        "anomalies_detected": []
+      },
+      "verdict": "AUTHENTIC",
+      "status": "authentic",
+      "confidence": 0.98,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "RISHI R K",
+          "identifier": "ST4861PPAN5J",
+          "issuer": "EDUCBA",
+          "date": "Sep 19, 2026",
+          "score_or_cgpa": ""
+        },
+        "forgery_detected": false,
+        "qr_verified": true,
+        "file_metadata": {
+          "filename": "project cert1.pdf",
+          "file_size": 304835,
+          "mime_type": "application/pdf",
+          "extension": ".pdf",
+          "resolution": "2200x1700"
+        },
+        "gemini_verified": true,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "RISHI R K",
+            "registration_no": "ST4861PPAN5J",
+            "cgpa_or_score": null,
+            "issuing_institution": "EDUCBA",
+            "degree_or_program": "Project Planning and Productivity Mastery",
+            "issue_date": "Sep 19, 2026"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "The document displays consistent typography and uniform background noise patterns. No evidence of localized pixel distortion, cloning, or digital splicing detected."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Not applicable; the certificate does not contain numerical grades or scores requiring arithmetic validation."
+          },
+          "schema_validation": {
+            "schema_matched": true,
+            "discrepancies": []
+          },
+          "forensic_summary": "The certificate conforms to standard Coursera formatting. The verification URL and ID pattern (ST4861PPAN5J) align with official Coursera specifications. Note: The issue date (Sep 19, 2026) is in the future relative to current time, which may indicate a system-generated placeholder or a future-dated issuance, but the document structure itself is consistent with authentic templates."
+        },
+        "remarks": "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+      }
+    }
+  }
+]

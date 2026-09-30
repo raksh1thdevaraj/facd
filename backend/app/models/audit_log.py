@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import JSON, Column, DateTime, ForeignKey, String
 
 from app.database import Base
+
+
+def utc_now() -> datetime:
+    return datetime.now(timezone.utc)
 
 
 class AuditLogModel(Base):
@@ -26,4 +30,4 @@ class AuditLogModel(Base):
     action = Column(String(64), nullable=False, index=True)
     ip_address = Column(String(45), nullable=True)  # Supports IPv4 and IPv6
     details_json = Column(JSON, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
+    created_at = Column(DateTime, default=utc_now, nullable=False, index=True)

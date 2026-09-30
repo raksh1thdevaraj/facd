@@ -79,7 +79,7 @@ ml/data/*
 !ml/data/.gitkeep
 ml/models/*
 !ml/models/.gitkeep
-models/
+/models/
 datasets/generated/*
 !datasets/generated/.gitkeep
 
