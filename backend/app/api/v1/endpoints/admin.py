@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import csv
 import json
 import os
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -190,25 +192,35 @@ def get_behavioral_logs(
     dataset_log_path = Path("datasets/tabular/issuance_access_logs.csv")
     if dataset_log_path.exists():
         try:
-            df = pd.read_csv(dataset_log_path)
-            # Pick a mixture of normal and compromised rows for demonstration
-            compromised_sample = df[df["target"] == 1].head(10)
-            normal_sample = df[df["target"] == 0].head(25)
-            combined = pd.concat([compromised_sample, normal_sample]).sample(frac=1.0, random_state=42)
+            compromised_sample: List[Dict[str, Any]] = []
+            normal_sample: List[Dict[str, Any]] = []
+            with open(dataset_log_path, "r", encoding="utf-8") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    target_val = str(row.get("target", "0")).strip()
+                    if target_val == "1" and len(compromised_sample) < 10:
+                        compromised_sample.append(row)
+                    elif target_val == "0" and len(normal_sample) < 25:
+                        normal_sample.append(row)
+                    if len(compromised_sample) >= 10 and len(normal_sample) >= 25:
+                        break
 
-            for _, row in combined.iterrows():
+            combined = compromised_sample + normal_sample
+            random.Random(42).shuffle(combined)
+
+            for row in combined:
                 evaluation = monitor.evaluate_event(
-                    timestamp=str(row["timestamp"]),
-                    source_ip=str(row["source_ip"]),
-                    device_type=str(row["device_type"]),
-                    location=str(row["location"]),
-                    action=str(row["action"]),
-                    user_id=str(row["masked_user"]),
+                    timestamp=str(row.get("timestamp", "")),
+                    source_ip=str(row.get("source_ip", "")),
+                    device_type=str(row.get("device_type", "")),
+                    location=str(row.get("location", "")),
+                    action=str(row.get("action", "")),
+                    user_id=str(row.get("masked_user", "")),
                 )
-                evaluation["location"] = str(row["location"])
-                evaluation["device_type"] = str(row["device_type"])
-                evaluation["action"] = str(row["action"])
-                evaluation["source_ip"] = str(row["source_ip"])
+                evaluation["location"] = str(row.get("location", ""))
+                evaluation["device_type"] = str(row.get("device_type", ""))
+                evaluation["action"] = str(row.get("action", ""))
+                evaluation["source_ip"] = str(row.get("source_ip", ""))
 
                 if threat_filter and evaluation["threat_level"].upper() != threat_filter.upper():
                     continue
