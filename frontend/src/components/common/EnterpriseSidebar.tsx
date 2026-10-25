@@ -3,13 +3,12 @@ import {
   FileSearch,
   History,
   Calculator,
-  Activity,
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
 
-export type EnterpriseTab = 'inspection' | 'ledger' | 'schemes' | 'diagnostics';
+export type EnterpriseTab = 'inspection' | 'ledger' | 'schemes';
 
 interface EnterpriseSidebarProps {
   activeTab: EnterpriseTab;
@@ -45,13 +44,6 @@ export const EnterpriseSidebar: React.FC<EnterpriseSidebarProps> = ({
       shortLabel: 'Schemes',
       icon: Calculator,
       badge: 'CBCS',
-    },
-    {
-      id: 'diagnostics' as EnterpriseTab,
-      label: 'Forensic Engine Diagnostics',
-      shortLabel: 'Diagnostics',
-      icon: Activity,
-      badge: null,
     },
   ];
 
