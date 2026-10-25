@@ -13,6 +13,7 @@ const ProtectedAppHarness: React.FC = () => {
     <div>
       <Routes>
         <Route path="/" element={<div data-testid="landing-view">Inspection Console</div>} />
+        <Route path="/login" element={<div data-testid="landing-view">Inspection Console</div>} />
         <Route
           path="/verify"
           element={

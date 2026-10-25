@@ -1,5 +1,309 @@
 [
   {
+    "id": "53ec048b-eea0-4b07-8091-b1a45163e99b",
+    "timestamp": "2026-10-25T16:34:21.146389+00:00",
+    "original_filename": "Gemini_Generated_Image_lrfiq7lrfiq7lrfi.png",
+    "document_type": "VTU_MARKSCARD",
+    "student_name": "SHREYAS K",
+    "identifier": "1BG19CS098",
+    "issuer": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+    "verdict": "FRAUDULENT",
+    "confidence_score": 0.25,
+    "qr_status": false,
+    "tampering_flags": [
+      "[Visual Integrity] Font mismatch detected across certificate typography",
+      "[Visual Integrity] Text baseline shift or irregular vertical character alignment detected",
+      "[Visual Integrity] Patch compression artifacts or clone stamping detected",
+      "[Visual Integrity] Digital splicing or layer tampering detected",
+      "Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+    ],
+    "remarks": "[Visual Integrity] Font mismatch detected across certificate typography; [Visual Integrity] Text baseline shift or irregular vertical character alignment detected; [Visual Integrity] Patch compression artifacts or clone stamping detected; [Visual Integrity] Digital splicing or layer tampering detected; Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points).",
+    "full_details": {
+      "certificate_type": "marks_card",
+      "final_status": "REJECTED",
+      "verdict_badge": "FRAUDULENT (Discrepancy / Tampering Detected)",
+      "color": "red",
+      "is_authentic": false,
+      "confidence_score": 0.25,
+      "rejection_reasons": [
+        "[Visual Integrity] Font mismatch detected across certificate typography",
+        "[Visual Integrity] Text baseline shift or irregular vertical character alignment detected",
+        "[Visual Integrity] Patch compression artifacts or clone stamping detected",
+        "[Visual Integrity] Digital splicing or layer tampering detected",
+        "Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+      ],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)"
+      ],
+      "extracted_fields": {
+        "institution_name": "UNKNOWN INSTITUTION",
+        "student_name": "NOT_FOUND",
+        "reg_no": "NOT_FOUND",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "NOT_FOUND",
+        "raw_text": "",
+        "ocr_engine": "adaptive_contour_anchor",
+        "degree_or_program": "B.E. Computer Science & Engineering"
+      },
+      "qr_verification": {
+        "detected": false,
+        "qr_present": false,
+        "is_url": false,
+        "url_verified": true,
+        "domain_valid": false,
+        "payload_or_url": null,
+        "matches_document_text": true,
+        "detection_method": "visual_forensics",
+        "payload_text_match": "Consistent with Visual Text",
+        "reason": "Verification method: Printed URL / Visual Forensics (No physical 2D barcode detected)",
+        "live_server_status": null,
+        "issuer_db_match": null,
+        "web_registered_name": null,
+        "discrepancy_details": null,
+        "mismatch_flag": null
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": false,
+          "detected": false,
+          "verified": false,
+          "payload_or_url": null,
+          "matches_document_text": true,
+          "is_url": false,
+          "url": null,
+          "domain_valid": false,
+          "reason": "Verification method: Printed URL / Visual Forensics (No physical 2D barcode detected)",
+          "payload_data": {},
+          "url_verified": true,
+          "detection_method": "visual_forensics",
+          "payload_text_match": "Consistent with Visual Text",
+          "live_server_status": null,
+          "issuer_db_match": null,
+          "web_registered_name": null,
+          "discrepancy_details": null,
+          "mismatch_flag": null
+        },
+        "extracted_fields": {
+          "institution_name": "UNKNOWN INSTITUTION",
+          "student_name": "NOT_FOUND",
+          "reg_no": "NOT_FOUND",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "NOT_FOUND",
+          "raw_text": "",
+          "ocr_engine": "adaptive_contour_anchor",
+          "degree_or_program": "B.E. Computer Science & Engineering"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": false,
+          "ssim_score": 0.4117,
+          "ssim_passed": false,
+          "ssim_threshold": 0.85,
+          "edge_diff_ratio": 0.188,
+          "edge_passed": false,
+          "edge_diff_threshold": 0.08,
+          "matched_template": "template_heritage_univ.png"
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": false,
+          "confidence_score": 0.95,
+          "verdict": "REJECTED",
+          "entities": {
+            "student_name": "SHREYAS K",
+            "registration_no": "1BG19CS098",
+            "cgpa_or_score": "SGPA: 8.75, CGPA: 9.00",
+            "issuing_institution": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+            "degree_or_program": "B.E. Computer Science & Engineering",
+            "issue_date": "February 05, 2022"
+          },
+          "forgery_indicators": {
+            "font_mismatch": true,
+            "text_baseline_shift": true,
+            "patch_compression_artifacts": true,
+            "splicing_detected": true,
+            "details": "The document contains multiple severe anomalies. The 'coursera' logo is superimposed over the official university watermark. The text 'SHREYAS K' and the USN '1BG19CS098' exhibit inconsistent kerning and baseline alignment compared to the surrounding printed text. There are visible rectangular compression artifacts around the grade and credit columns, suggesting digital manipulation or 'pasting' of data. The font used for the student name and USN does not match the standard typeface used by VTU for official grade cards."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": false,
+            "details": "Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+          },
+          "forensic_summary": "The document is a fraudulent fabrication. It features unauthorized branding (Coursera), inconsistent grading point values that deviate from the official VTU schema, and clear evidence of digital splicing and text manipulation. The document is not an authentic university record."
+        },
+        "rag_validation": {
+          "document_type": "VTU_MARKSCARD",
+          "schema_matched": false,
+          "arithmetic_valid": false,
+          "anomalies_detected": [
+            "Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+          ],
+          "mismatch_report": "Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+        }
+      },
+      "latency_ms": 4371.0,
+      "scan_id": "53ec048b-eea0-4b07-8091-b1a45163e99b",
+      "filename": "Gemini_Generated_Image_lrfiq7lrfiq7lrfi.png",
+      "timestamp": "2026-10-25T16:34:16.268218+00:00",
+      "file_metadata": {
+        "filename": "Gemini_Generated_Image_lrfiq7lrfiq7lrfi.png",
+        "file_size": 8097823,
+        "mime_type": "image/png",
+        "extension": ".png",
+        "resolution": "2048x2048"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-3.1-flash-lite",
+        "is_authentic": false,
+        "confidence_score": 0.95,
+        "verdict": "REJECTED",
+        "entities": {
+          "student_name": "SHREYAS K",
+          "registration_no": "1BG19CS098",
+          "cgpa_or_score": "SGPA: 8.75, CGPA: 9.00",
+          "issuing_institution": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+          "degree_or_program": "B.E. Computer Science & Engineering",
+          "issue_date": "February 05, 2022"
+        },
+        "forgery_indicators": {
+          "font_mismatch": true,
+          "text_baseline_shift": true,
+          "patch_compression_artifacts": true,
+          "splicing_detected": true,
+          "details": "The document contains multiple severe anomalies. The 'coursera' logo is superimposed over the official university watermark. The text 'SHREYAS K' and the USN '1BG19CS098' exhibit inconsistent kerning and baseline alignment compared to the surrounding printed text. There are visible rectangular compression artifacts around the grade and credit columns, suggesting digital manipulation or 'pasting' of data. The font used for the student name and USN does not match the standard typeface used by VTU for official grade cards."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": false,
+          "details": "Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+        },
+        "schema_validation": {
+          "schema_matched": false,
+          "discrepancies": [
+            "Grading scale mismatch: Document assigns 9 points for 'A', whereas official VTU schema defines 'A' as 8 points.",
+            "Unauthorized branding: Inclusion of 'coursera' logo on an official university document is non-standard and indicates tampering.",
+            "USN format: While the USN follows the pattern, the document's overall layout and branding are inconsistent with official VTU grade cards."
+          ]
+        },
+        "forensic_summary": "The document is a fraudulent fabrication. It features unauthorized branding (Coursera), inconsistent grading point values that deviate from the official VTU schema, and clear evidence of digital splicing and text manipulation. The document is not an authentic university record."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "VTU_MARKSCARD",
+      "extracted_data": {
+        "student_name": "SHREYAS K",
+        "identifier": "1BG19CS098",
+        "issuer": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+        "date": "February 05, 2022",
+        "score_or_cgpa": "SGPA: 8.75, CGPA: 9.00"
+      },
+      "rag_validation": {
+        "schema_matched": false,
+        "arithmetic_valid": false,
+        "anomalies_detected": [
+          "Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+        ]
+      },
+      "verdict": "FRAUDULENT",
+      "status": "fraudulent",
+      "confidence": 0.25,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "SHREYAS K",
+          "identifier": "1BG19CS098",
+          "issuer": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+          "date": "February 05, 2022",
+          "score_or_cgpa": "SGPA: 8.75, CGPA: 9.00"
+        },
+        "forgery_detected": true,
+        "qr_verified": false,
+        "file_metadata": {
+          "filename": "Gemini_Generated_Image_lrfiq7lrfiq7lrfi.png",
+          "file_size": 8097823,
+          "mime_type": "image/png",
+          "extension": ".png",
+          "resolution": "2048x2048"
+        },
+        "gemini_verified": false,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-3.1-flash-lite",
+          "is_authentic": false,
+          "confidence_score": 0.95,
+          "verdict": "REJECTED",
+          "entities": {
+            "student_name": "SHREYAS K",
+            "registration_no": "1BG19CS098",
+            "cgpa_or_score": "SGPA: 8.75, CGPA: 9.00",
+            "issuing_institution": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+            "degree_or_program": "B.E. Computer Science & Engineering",
+            "issue_date": "February 05, 2022"
+          },
+          "forgery_indicators": {
+            "font_mismatch": true,
+            "text_baseline_shift": true,
+            "patch_compression_artifacts": true,
+            "splicing_detected": true,
+            "details": "The document contains multiple severe anomalies. The 'coursera' logo is superimposed over the official university watermark. The text 'SHREYAS K' and the USN '1BG19CS098' exhibit inconsistent kerning and baseline alignment compared to the surrounding printed text. There are visible rectangular compression artifacts around the grade and credit columns, suggesting digital manipulation or 'pasting' of data. The font used for the student name and USN does not match the standard typeface used by VTU for official grade cards."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": false,
+            "details": "Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+          },
+          "schema_validation": {
+            "schema_matched": false,
+            "discrepancies": [
+              "Grading scale mismatch: Document assigns 9 points for 'A', whereas official VTU schema defines 'A' as 8 points.",
+              "Unauthorized branding: Inclusion of 'coursera' logo on an official university document is non-standard and indicates tampering.",
+              "USN format: While the USN follows the pattern, the document's overall layout and branding are inconsistent with official VTU grade cards."
+            ]
+          },
+          "forensic_summary": "The document is a fraudulent fabrication. It features unauthorized branding (Coursera), inconsistent grading point values that deviate from the official VTU schema, and clear evidence of digital splicing and text manipulation. The document is not an authentic university record."
+        },
+        "remarks": "[Visual Integrity] Font mismatch detected across certificate typography; [Visual Integrity] Text baseline shift or irregular vertical character alignment detected; [Visual Integrity] Patch compression artifacts or clone stamping detected; [Visual Integrity] Digital splicing or layer tampering detected; Arithmetic Inconsistency: Calculation check: (3*8 + 4*8 + 3*9 + 3*9 + 3*9 + 3*9 + 2*9 + 2*9 + 1*10) = (24 + 32 + 27 + 27 + 27 + 27 + 18 + 18 + 10) = 210. Total credits = 24. SGPA = 210 / 24 = 8.75. While the arithmetic matches the provided table, the grading scale used in the table (e.g., Grade 'A' = 9 points) contradicts the official VTU CBCS schema provided in the instructions (where 'A' = 8 points)."
+      }
+    }
+  },
+  {
     "id": "bc524d58-dece-445d-a527-ac18e78aaf46",
     "timestamp": "2026-10-25T16:07:01.004088+00:00",
     "original_filename": "certificate.png",

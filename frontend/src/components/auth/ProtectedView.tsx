@@ -15,7 +15,7 @@ export const ProtectedView: React.FC<ProtectedViewProps> = ({
   children,
   requiredRole,
 }) => {
-  const { isAuthenticated, loading, openAuthModal, user } = useAuth();
+  const { isAuthenticated, loading, openAuthModal, userProfile, isPending, isAdmin } = useAuth();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -25,36 +25,41 @@ export const ProtectedView: React.FC<ProtectedViewProps> = ({
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4">
-        <Loader2 className="w-10 h-10 animate-spin text-emerald-400" />
+      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4 bg-[#f8fafc]">
+        <Loader2 className="w-8 h-8 animate-spin text-indigo-700" />
         <div className="text-center space-y-1">
-          <p className="text-sm font-mono text-emerald-400">VERIFYING AUTHENTICATED SESSION...</p>
-          <p className="text-xs text-slate-500">Validating cryptographic credentials</p>
+          <p className="text-xs font-mono text-indigo-900 tracking-wider">VERIFYING AUTHENTICATED SESSION...</p>
+          <p className="text-xs text-slate-500">Validating institutional credentials</p>
         </div>
       </div>
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+  if (!isAuthenticated || !userProfile) {
+    return <Navigate to="/login" replace />;
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
-    // If admin is required and user is not admin
-    if (requiredRole === 'admin' && user?.role !== 'admin') {
-      return (
-        <div className="max-w-md mx-auto my-16 glass-card rounded-2xl p-8 border border-rose-800/60 text-center space-y-4">
-          <div className="p-3 bg-rose-500/20 text-rose-400 rounded-2xl w-fit mx-auto border border-rose-500/30">
-            <ShieldAlert className="w-8 h-8" />
-          </div>
-          <h3 className="text-lg font-bold text-slate-100">Access Denied</h3>
-          <p className="text-xs text-slate-400">
-            Your account role (<span className="font-mono text-emerald-400">{user?.role}</span>) does not have permission to view administrative controls.
-          </p>
+  // Pending approval gating
+  if (isPending || userProfile.status === 'pending') {
+    return <Navigate to="/pending-approval" replace />;
+  }
+
+  // Role validation
+  if (requiredRole === 'admin' && !isAdmin) {
+    return (
+      <div className="max-w-md mx-auto my-16 bg-white rounded-2xl p-8 border border-rose-200 shadow-sm text-center space-y-4">
+        <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl w-fit mx-auto border border-rose-100">
+          <ShieldAlert className="w-8 h-8" />
         </div>
-      );
-    }
+        <h3 className="text-lg font-bold text-slate-900">Access Denied</h3>
+        <p className="text-xs text-slate-600">
+          Your account role (<span className="font-mono text-indigo-700">{userProfile?.role}</span>) does not have permission to view administrative controls.
+        </p>
+      </div>
+    );
   }
 
   return <>{children}</>;
 };
+
+export default ProtectedView;

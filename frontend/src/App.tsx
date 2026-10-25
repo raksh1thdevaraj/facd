@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { ProtectedView } from './components/auth/ProtectedView';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { AdminRoute } from './components/auth/AdminRoute';
 import { AuthGatewayModal } from './components/auth/AuthGatewayModal';
 import { InspectionConsolePage } from './pages/InspectionConsolePage';
 
@@ -19,6 +20,9 @@ const HistoryPage = React.lazy(() =>
 const LoginPage = React.lazy(() =>
   import('./pages/LoginPage').then((m) => ({ default: m.LoginPage }))
 );
+const PendingApprovalPage = React.lazy(() =>
+  import('./pages/PendingApprovalPage').then((m) => ({ default: m.PendingApprovalPage }))
+);
 const NotFoundPage = React.lazy(() =>
   import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage }))
 );
@@ -27,7 +31,7 @@ const AdminDashboardPage = React.lazy(() =>
 );
 
 const RouteLoadingFallback: React.FC = () => (
-  <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-3">
+  <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-3 bg-[#f8fafc]">
     <Loader2 className="w-8 h-8 text-indigo-700 animate-spin" />
     <span className="text-xs text-slate-500 font-mono tracking-wider">
       Loading institutional forensic module...
@@ -36,60 +40,91 @@ const RouteLoadingFallback: React.FC = () => (
 );
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userProfile } = useAuth();
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col selection:bg-indigo-500/20 selection:text-indigo-900">
       <React.Suspense fallback={<RouteLoadingFallback />}>
         <Routes>
-          {/* Master Institutional Examination & Inspection Console */}
-          <Route path="/" element={<InspectionConsolePage />} />
-          <Route path="/console" element={<InspectionConsolePage />} />
-          <Route path="/verify" element={<InspectionConsolePage />} />
+          {/* Master Institutional Examination & Inspection Console (Protected) */}
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <InspectionConsolePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/console"
+            element={
+              <ProtectedRoute>
+                <InspectionConsolePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/verify"
+            element={
+              <ProtectedRoute>
+                <InspectionConsolePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/workspace" element={<Navigate to="/" replace />} />
           <Route path="/dashboard" element={<Navigate to="/" replace />} />
 
-          {/* Audit Ledger & History */}
+          {/* Pending Approval Gating View (Public for authenticated pending users) */}
+          <Route path="/pending-approval" element={<PendingApprovalPage />} />
+
+          {/* Audit Ledger & History (Protected) */}
           <Route
             path="/history"
             element={
-              <ProtectedView>
+              <ProtectedRoute>
                 <HistoryPage />
-              </ProtectedView>
+              </ProtectedRoute>
             }
           />
 
-          {/* Forensic Results Dossier */}
+          {/* Forensic Results Dossier (Protected) */}
           <Route
             path="/results/:id"
             element={
-              <ProtectedView>
+              <ProtectedRoute>
                 <ResultsPage />
-              </ProtectedView>
+              </ProtectedRoute>
             }
           />
 
-          {/* Public Verification Report */}
+          {/* Public Verification Report (Public) */}
           <Route path="/verify-report/:id" element={<VerifyReportPage />} />
 
           {/* Dedicated Login */}
           <Route
             path="/login"
             element={
-              isAuthenticated ? (
-                <Navigate to="/" replace />
+              isAuthenticated && userProfile?.status === 'approved' ? (
+                userProfile.role === 'admin' ? (
+                  <Navigate to="/admin" replace />
+                ) : (
+                  <Navigate to="/" replace />
+                )
+              ) : isAuthenticated && userProfile?.status === 'pending' ? (
+                <Navigate to="/pending-approval" replace />
               ) : (
                 <LoginPage />
               )
             }
           />
 
-          {/* Admin Management Console */}
+          {/* Admin Supervisory Dashboard (AdminRoute Protected) */}
           <Route
             path="/admin"
             element={
-              <ProtectedView requiredRole="admin">
+              <AdminRoute>
                 <AdminDashboardPage />
-              </ProtectedView>
+              </AdminRoute>
             }
           />
 

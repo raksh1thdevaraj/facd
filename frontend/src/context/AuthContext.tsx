@@ -1,28 +1,35 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import { User, UserRole, LoginCredentials, RegisterData, isAdminUser, isPublicUser } from '../types/auth';
+import { User as FirebaseUser } from 'firebase/auth';
+import { UserProfile, UserRole, LoginCredentials, RegisterData } from '../types/auth';
 import { authService } from '../services/authService';
 
 export interface AuthContextType {
-  user: User | null;
+  currentUser: FirebaseUser | null;
+  userProfile: UserProfile | null;
+  user: UserProfile | null; // backwards-compatible alias
   loading: boolean;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isApproved: boolean;
+  isPending: boolean;
+  isRejected: boolean;
   isPublic: boolean;
   isAuthModalOpen: boolean;
   activeAuthRole: UserRole | null;
   authModalMessage: string | null;
   openAuthModal: (defaultRole?: UserRole, message?: string) => void;
   closeAuthModal: () => void;
-  login: (credentials: LoginCredentials) => Promise<User>;
-  register: (data: RegisterData) => Promise<{ success: boolean; email: string; username: string }>;
+  login: (credentials: LoginCredentials) => Promise<UserProfile>;
+  register: (data: RegisterData) => Promise<{ success: boolean; email: string; username: string; userProfile: UserProfile }>;
   logout: () => Promise<void>;
-  refreshProfile: () => Promise<void>;
+  refreshProfile: () => Promise<UserProfile | null>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<FirebaseUser | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState<boolean>(false);
   const [activeAuthRole, setActiveAuthRole] = useState<UserRole | null>(null);
@@ -30,11 +37,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const openAuthModal = (defaultRole?: UserRole, message?: string) => {
     if (defaultRole) setActiveAuthRole(defaultRole);
-    if (message) {
-      setAuthModalMessage(message);
-    } else {
-      setAuthModalMessage(null);
-    }
+    setAuthModalMessage(message || null);
     setIsAuthModalOpen(true);
   };
 
@@ -43,51 +46,38 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setAuthModalMessage(null);
   };
 
-  const refreshProfile = async () => {
+  const refreshProfile = async (): Promise<UserProfile | null> => {
     try {
+      if (currentUser) {
+        const profile = await authService.getUserProfile(currentUser.uid, currentUser);
+        setUserProfile(profile);
+        return profile;
+      }
       const profile = await authService.getProfile();
-      setUser(profile);
+      setUserProfile(profile);
+      return profile;
     } catch {
-      setUser(null);
-      authService.clearTokens();
+      setUserProfile(null);
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    // Attempt session restoration from stored token or Firebase
-    const initAuth = async () => {
-      try {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-          const profile = await authService.getProfile();
-          setUser(profile);
-        }
-      } catch {
-        setUser(null);
-        authService.clearTokens();
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initAuth();
-
-    // Subscribe to Firebase Auth state listener if present
+    // Subscribe to Firebase Auth state changes
     const unsubscribe = authService.onAuthStateChanged(async (fbUser) => {
+      setCurrentUser(fbUser);
       if (fbUser) {
-        // Only restore session if email is verified
-        if (fbUser.emailVerified) {
-          try {
-            const profile = await authService.getProfileForUid(fbUser.uid, fbUser);
-            setUser(profile);
-            const token = await fbUser.getIdToken();
-            localStorage.setItem('access_token', token);
-          } catch (err) {
-            console.error('Error fetching user profile on auth state change:', err);
-          }
+        try {
+          const profile = await authService.getUserProfile(fbUser.uid, fbUser);
+          setUserProfile(profile);
+        } catch (err) {
+          console.error('[AuthContext] Error fetching user profile on auth state change:', err);
+          setUserProfile(null);
         }
+      } else {
+        setUserProfile(null);
       }
       setLoading(false);
     });
@@ -95,32 +85,48 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, []);
 
-  const login = async (credentials: LoginCredentials): Promise<User> => {
+  const login = async (credentials: LoginCredentials): Promise<UserProfile> => {
     const res = await authService.login(credentials);
-    setUser(res.user);
+    setUserProfile(res.user);
     setIsAuthModalOpen(false);
     setAuthModalMessage(null);
     return res.user;
   };
 
-  const register = async (data: RegisterData): Promise<{ success: boolean; email: string; username: string }> => {
+  const register = async (
+    data: RegisterData
+  ): Promise<{ success: boolean; email: string; username: string; userProfile: UserProfile }> => {
     const res = await authService.register(data);
+    setUserProfile(res.userProfile);
     return res;
   };
 
   const logout = async () => {
     await authService.logout();
-    setUser(null);
+    setCurrentUser(null);
+    setUserProfile(null);
   };
+
+  const isAdmin = userProfile?.role === 'admin';
+  const isApproved = userProfile?.status === 'approved';
+  const isPending = userProfile?.status === 'pending';
+  const isRejected = userProfile?.status === 'rejected';
+  const isPublic = userProfile?.role === 'user';
+  const isAuthenticated = !!currentUser && !!userProfile;
 
   return (
     <AuthContext.Provider
       value={{
-        user,
+        currentUser,
+        userProfile,
+        user: userProfile,
         loading,
-        isAuthenticated: !!user,
-        isAdmin: isAdminUser(user),
-        isPublic: isPublicUser(user),
+        isAuthenticated,
+        isAdmin,
+        isApproved,
+        isPending,
+        isRejected,
+        isPublic,
         isAuthModalOpen,
         activeAuthRole,
         authModalMessage,
