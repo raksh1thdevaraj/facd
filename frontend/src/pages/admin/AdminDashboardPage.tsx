@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { authService } from '../../services/authService';
 import { UserProfile, UserRole, UserStatus, OrganizationType } from '../../types/auth';
@@ -17,11 +18,14 @@ import {
   Building2,
   Briefcase,
   BadgeCheck,
+  LogOut,
+  ArrowLeft,
   X
 } from 'lucide-react';
 
 export const AdminDashboardPage: React.FC = () => {
-  const { currentUser, userProfile: currentAdmin } = useAuth();
+  const { currentUser, userProfile: currentAdmin, logout } = useAuth();
+  const navigate = useNavigate();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [actionInProgress, setActionInProgress] = useState<string | null>(null);
@@ -207,13 +211,37 @@ export const AdminDashboardPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Admin identifier */}
-        <div className="flex items-center space-x-2 self-start sm:self-auto bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm text-xs font-mono text-slate-600">
-          <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span className="font-semibold text-slate-800">{currentAdmin?.email || 'admin@facd.edu'}</span>
-          <span className="px-1.5 py-0.5 rounded text-[10px] bg-indigo-50 text-indigo-700 font-bold border border-indigo-100 uppercase">
-            Admin
-          </span>
+        {/* Navigation & Admin identifier & Logout */}
+        <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
+          <Link
+            to="/"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold border border-slate-200 shadow-sm transition-all"
+            title="Switch to Forensic Inspection Console"
+          >
+            <ArrowLeft className="w-3.5 h-3.5 text-slate-500" />
+            <span>Inspection Console</span>
+          </Link>
+
+          <div className="flex items-center space-x-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm text-xs font-mono text-slate-600">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="font-semibold text-slate-800">{currentAdmin?.email || 'admin@facd.edu'}</span>
+            <span className="px-1.5 py-0.5 rounded text-[10px] bg-indigo-50 text-indigo-700 font-bold border border-indigo-100 uppercase">
+              Admin
+            </span>
+          </div>
+
+          <button
+            id="btn-admin-logout"
+            onClick={async () => {
+              await logout();
+              navigate('/login');
+            }}
+            title="Sign out of Administrator account"
+            className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-rose-50 text-rose-600 hover:text-rose-700 text-xs font-semibold border border-rose-200 shadow-sm transition-all cursor-pointer"
+          >
+            <LogOut className="w-3.5 h-3.5 text-rose-500" />
+            <span>Log Out</span>
+          </button>
         </div>
       </div>
 

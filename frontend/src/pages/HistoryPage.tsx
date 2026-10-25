@@ -160,10 +160,10 @@ export const HistoryPage: React.FC = () => {
           </button>
 
           <Link
-            to="/upload"
-            className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-emerald-600/20 transition-all"
+            to="/"
+            className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-indigo-900 hover:bg-indigo-800 text-white text-xs sm:text-sm font-semibold shadow-md transition-all"
           >
-            <span>Verify New Certificate</span>
+            <span>Inspection Console</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

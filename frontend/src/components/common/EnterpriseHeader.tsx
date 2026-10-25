@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Download,
   Building2,
   UserCheck,
   Layers,
   LogOut,
+  Shield,
   User as UserIcon,
 } from 'lucide-react';
 import { SystemHealthBadge } from '../SystemHealthBadge';
@@ -94,6 +96,17 @@ export const EnterpriseHeader: React.FC<EnterpriseHeaderProps> = ({
           {/* User Profile / Auth Action */}
           {isAuthenticated && user ? (
             <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="hidden md:inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-semibold transition-colors"
+                  title="Supervisory Admin Dashboard"
+                >
+                  <Shield className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>Admin Console</span>
+                </Link>
+              )}
+
               <div className="flex items-center space-x-2 px-2.5 py-1 rounded-lg bg-slate-100 border border-slate-200 text-xs">
                 <div className="w-6 h-6 rounded-md bg-indigo-900 text-white font-bold text-xs flex items-center justify-center">
                   {user.full_name ? user.full_name.charAt(0).toUpperCase() : <UserIcon className="w-3.5 h-3.5" />}
@@ -109,11 +122,13 @@ export const EnterpriseHeader: React.FC<EnterpriseHeaderProps> = ({
               </div>
 
               <button
+                id="btn-header-logout"
                 onClick={() => logout()}
-                title="Sign out"
-                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-colors"
+                title="Sign out of account"
+                className="inline-flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-slate-700 hover:text-rose-700 bg-white hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-xs font-semibold transition-all shadow-xs cursor-pointer"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5 text-rose-500" />
+                <span className="font-medium text-rose-600">Log Out</span>
               </button>
             </div>
           ) : (

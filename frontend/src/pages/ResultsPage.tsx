@@ -75,11 +75,11 @@ export const ResultsPage: React.FC = () => {
         </div>
         <div className="pt-2">
           <Link
-            to="/upload"
+            to="/"
             className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-medium border border-slate-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Upload Another Certificate</span>
+            <span>Inspection Console</span>
           </Link>
         </div>
       </div>
