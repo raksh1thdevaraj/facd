@@ -191,28 +191,28 @@ export const AuthGatewayModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-md bg-black/80 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md rounded-3xl bg-[#0e1424] border border-slate-700/80 shadow-2xl shadow-emerald-950/40 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 backdrop-blur-xs bg-slate-900/50 animate-in fade-in duration-200">
+      <div className="relative w-full max-w-md rounded-2xl bg-white border border-slate-200 shadow-2xl overflow-hidden text-slate-900">
         {/* Close Button */}
         <button
           onClick={closeAuthModal}
-          className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors z-10 cursor-pointer"
+          className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors z-10 cursor-pointer"
           aria-label="Close"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Modal Header */}
-        <div className="px-8 pt-8 pb-5 border-b border-slate-800/80 bg-gradient-to-b from-slate-900/70 to-transparent">
+        <div className="px-8 pt-8 pb-5 border-b border-slate-100 bg-slate-50">
           <div className="flex items-center space-x-3 mb-1">
-            <div className="p-2.5 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 text-white shadow-lg shadow-emerald-500/25">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="p-2.5 rounded-xl bg-indigo-900 text-white shadow-xs">
+              <ShieldCheck className="w-6 h-6 text-indigo-200" />
             </div>
             <div>
-              <h3 className="text-xl font-black text-white tracking-tight font-display">
-                CertiShield Security Gateway
+              <h3 className="text-lg font-bold text-slate-900 tracking-tight font-display">
+                Forensic Officer Gateway
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 {viewMode === 'register'
                   ? 'Create account to access verification tools'
                   : viewMode === 'forgot'
@@ -226,8 +226,8 @@ export const AuthGatewayModal: React.FC = () => {
 
           {/* Prompt Message Banner if redirected from guarded route */}
           {authModalMessage && viewMode === 'login' && (
-            <div className="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center space-x-2 text-xs text-amber-300">
-              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+            <div className="mt-3 p-3 rounded-lg bg-amber-50 border border-amber-200 flex items-center space-x-2 text-xs text-amber-800">
+              <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
               <span className="font-medium">{authModalMessage}</span>
             </div>
           )}
@@ -281,20 +281,20 @@ export const AuthGatewayModal: React.FC = () => {
               <div>
                 <label
                   htmlFor="login-identifier"
-                  className="block text-xs font-semibold text-slate-300 mb-1.5"
+                  className="block text-xs font-semibold text-slate-700 mb-1.5"
                 >
-                  Username or Email
+                  Username or Institutional Email
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
                     id="login-identifier"
                     type="text"
                     required
-                    placeholder="e.g. user@institution.edu or username"
+                    placeholder="e.g. examiner@vtu.ac.in or username"
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-colors"
                   />
                 </div>
               </div>
@@ -303,20 +303,20 @@ export const AuthGatewayModal: React.FC = () => {
                 <div className="flex items-center justify-between mb-1.5">
                   <label
                     htmlFor="login-password"
-                    className="block text-xs font-semibold text-slate-300"
+                    className="block text-xs font-semibold text-slate-700"
                   >
                     Password
                   </label>
                   <button
                     type="button"
                     onClick={switchToForgot}
-                    className="text-[11px] text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                    className="text-[11px] text-indigo-700 hover:text-indigo-900 font-medium transition-colors cursor-pointer"
                   >
                     Forgot Password?
                   </button>
                 </div>
                 <div className="relative">
-                  <KeyRound className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
+                  <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
                     id="login-password"
                     type="password"
@@ -324,7 +324,7 @@ export const AuthGatewayModal: React.FC = () => {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 transition-colors"
                   />
                 </div>
               </div>
@@ -333,26 +333,26 @@ export const AuthGatewayModal: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/25 flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99]"
+                  className="w-full py-2.5 rounded-lg bg-indigo-900 hover:bg-indigo-800 text-white font-semibold text-xs shadow-sm flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99]"
                 >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <>
                       <Lock className="w-4 h-4" />
-                      <span>Sign In</span>
+                      <span>Sign In as Forensic Officer</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="flex items-center justify-center text-xs text-slate-400 pt-3 border-t border-slate-800/80">
-                <span>Need an account?</span>
+              <div className="flex items-center justify-center text-xs text-slate-500 pt-3 border-t border-slate-100">
+                <span>Need examiner credentials?</span>
                 <button
                   type="button"
                   onClick={switchToRegister}
-                  className="ml-1.5 font-semibold text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                  className="ml-1.5 font-semibold text-indigo-700 hover:text-indigo-900 transition-colors cursor-pointer"
                 >
                   Register
                 </button>

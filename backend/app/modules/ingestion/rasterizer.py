@@ -2,6 +2,8 @@ import shutil
 from pathlib import Path
 from typing import List
 
+from PIL import Image
+
 from app.core.exceptions import EncryptedPdfError, PDFConversionError
 
 
@@ -94,12 +96,17 @@ class PDFRasterizer:
                 rendered = page.render(scale=scale)  # type: ignore[arg-type]
                 pil_image = rendered.to_pil()
 
-                # Verify minimum dimensions for 300 DPI page
+                # If dimensions are abnormally small, scale up cleanly for OCR and forensic analysis
                 w, h = pil_image.size
-                if w < 600 or h < 600:
+                if w < 100 or h < 100:
                     raise PDFConversionError(
-                        f"Rasterized page {page_idx + 1} resolution ({w}x{h}) is too low."
+                        f"Rasterized page {page_idx + 1} dimensions ({w}x{h}) are too small to contain a valid certificate."
                     )
+                if w < 800 or h < 800:
+                    min_dim = min(w, h)
+                    upscale_factor = max(1.0, 1200.0 / min_dim)
+                    new_w, new_h = int(w * upscale_factor), int(h * upscale_factor)
+                    pil_image = pil_image.resize((new_w, new_h), resample=Image.Resampling.LANCZOS)
 
                 out_file = output_dir / f"{pdf_path.stem}_page_{page_idx + 1}.png"
                 pil_image.save(out_file, format="PNG")

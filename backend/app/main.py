@@ -76,9 +76,24 @@ app.add_middleware(
 @app.middleware("http")
 async def add_keep_alive_headers(request: Request, call_next):
     """Enforce persistent HTTP keep-alive sockets during long-running forensic evaluations."""
-    response = await call_next(request)
-    response.headers["Keep-Alive"] = "timeout=180, max=1000"
-    return response
+    try:
+        response = await call_next(request)
+        response.headers["Keep-Alive"] = "timeout=180, max=1000"
+        return response
+    except Exception as exc:
+        err_str = str(exc) or "Internal server processing error"
+        logger.exception("[PROCESS ERROR INTERCEPTED] Middleware caught exception on %s %s: %s", request.method, request.url.path, err_str)
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "success": False,
+                "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                "error_code": "INTERNAL_SERVER_ERROR",
+                "message": err_str,
+                "error": err_str,
+                "detail": err_str,
+            },
+        )
 
 
 import logging

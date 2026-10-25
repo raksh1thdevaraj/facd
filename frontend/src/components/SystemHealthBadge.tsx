@@ -25,12 +25,10 @@ export const SystemHealthBadge: React.FC = () => {
     const startTime = performance.now();
 
     try {
-      // 1. Primary probe to /api/health with tight 3.5s timeout
       let res;
       try {
         res = await axios.get<HealthData>('/api/health', { timeout: 3500 });
       } catch (primaryErr) {
-        // Fallback probe to root /health in case of route proxy jitter
         if (axios.isAxiosError(primaryErr) && primaryErr.response?.status === 503) {
           if (isMountedRef.current) {
             setIsInitializing(true);
@@ -68,7 +66,6 @@ export const SystemHealthBadge: React.FC = () => {
     } catch {
       if (isMountedRef.current) {
         consecutiveFailuresRef.current += 1;
-        // Require 2 consecutive failures before showing error badge
         if (consecutiveFailuresRef.current >= 2) {
           setIsOperational(false);
           setIsInitializing(false);
@@ -85,7 +82,6 @@ export const SystemHealthBadge: React.FC = () => {
     isMountedRef.current = true;
     fetchHealth();
 
-    // Adaptive polling: poll every 3s if degraded/recovering, otherwise every 15s
     const pollInterval = isOperational && !isInitializing ? 15000 : 3000;
     const intervalId = setInterval(fetchHealth, pollInterval);
 
@@ -95,73 +91,68 @@ export const SystemHealthBadge: React.FC = () => {
     };
   }, [fetchHealth, isOperational, isInitializing]);
 
-  // Case 1: Operational / Healthy
   if (isOperational && !isInitializing) {
     return (
       <button
         type="button"
         onClick={fetchHealth}
-        className="group relative inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-medium shadow-sm transition-all hover:border-emerald-500/60 cursor-pointer focus:outline-none"
-        title={`Engine Active • ${latency}ms (Click to refresh)`}
+        className="group relative inline-flex items-center space-x-2 px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-medium transition-all hover:bg-emerald-100/70 cursor-pointer focus:outline-none"
+        title={`Forensic Engine Online • ${latency}ms latency (Click to probe)`}
         aria-label="Engine status: Active"
       >
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
         </span>
-        <span className="font-semibold tracking-wide">Engine Active</span>
-        {isChecking && <span className="text-[10px] opacity-70 animate-pulse">↻</span>}
+        <span className="font-semibold tracking-tight text-[11px]">Forensic Engine: Online</span>
+        <span className="text-[10px] text-emerald-600 font-mono hidden sm:inline">{latency}ms</span>
+        {isChecking && <span className="text-[10px] text-emerald-600 animate-pulse">↻</span>}
 
-        {/* Hover Tooltip displaying latency and click advisory */}
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-slate-900 border border-slate-700 text-slate-200 text-[11px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 whitespace-nowrap z-50">
-          Operational • {latency}ms • Click to refresh
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 px-2 py-1 bg-slate-900 border border-slate-700 text-slate-100 text-[10px] rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 whitespace-nowrap z-50">
+          Multimodal Gemini + Firestore: Operational ({latency}ms)
         </div>
       </button>
     );
   }
 
-  // Case 2: Initializing / Warming up
   if (isInitializing) {
     return (
       <button
         type="button"
         onClick={fetchHealth}
-        className="group relative inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-amber-950/60 border border-amber-500/40 text-amber-400 text-xs font-mono font-medium shadow-sm transition-all hover:border-amber-500/70 cursor-pointer focus:outline-none"
+        className="group relative inline-flex items-center space-x-2 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-xs font-mono font-medium transition-all hover:bg-amber-100/70 cursor-pointer focus:outline-none"
         title="Engine Initializing • Connecting... (Click to retry)"
         aria-label="Engine status: Initializing"
       >
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
         </span>
-        <span className="font-semibold tracking-wide">Engine Starting...</span>
+        <span className="font-semibold tracking-tight text-[11px]">Connecting Engine...</span>
 
-        {/* Hover Tooltip */}
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-slate-900 border border-amber-700 text-amber-300 text-[11px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 whitespace-nowrap z-50">
-          Backend is initializing • Auto-reconnecting • Click to retry
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 px-2 py-1 bg-slate-900 border border-slate-700 text-slate-100 text-[10px] rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 whitespace-nowrap z-50">
+          Backend initializing • Click to retry
         </div>
       </button>
     );
   }
 
-  // Case 3: Offline / Server Unreachable
   return (
     <button
       type="button"
       onClick={fetchHealth}
-      className="group relative inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-rose-950/60 border border-[#EF4444]/40 text-[#EF4444] text-xs font-mono font-medium shadow-sm transition-all hover:border-[#EF4444]/80 cursor-pointer focus:outline-none"
-      title="System Issues Detected • Server Unreachable (Click to retry)"
-      aria-label="Engine status: System Issues Detected"
+      className="group relative inline-flex items-center space-x-2 px-2.5 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-800 text-xs font-mono font-medium transition-all hover:bg-rose-100/70 cursor-pointer focus:outline-none"
+      title="System Offline (Click to retry)"
+      aria-label="Engine status: System Offline"
     >
       <span className="relative flex h-2 w-2">
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#EF4444]" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
       </span>
-      <span className="font-semibold tracking-wide">System Issues Detected</span>
-      {isChecking && <span className="text-[10px] opacity-70 animate-pulse">↻</span>}
+      <span className="font-semibold tracking-tight text-[11px]">Engine Standby</span>
+      {isChecking && <span className="text-[10px] text-rose-600 animate-pulse">↻</span>}
 
-      {/* Hover Tooltip */}
-      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1 bg-slate-900 border border-rose-800 text-rose-300 text-[11px] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 whitespace-nowrap z-50">
-        System Issues Detected • Server Unreachable • Click to retry
+      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 px-2 py-1 bg-slate-900 border border-slate-700 text-slate-100 text-[10px] rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-150 whitespace-nowrap z-50">
+        Backend offline • Click to retry
       </div>
     </button>
   );

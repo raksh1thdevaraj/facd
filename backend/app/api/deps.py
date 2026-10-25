@@ -138,7 +138,7 @@ def get_optional_current_user(
         return None
     try:
         return get_current_user(token=token, db=db)
-    except HTTPException:
+    except Exception:
         return None
 
 

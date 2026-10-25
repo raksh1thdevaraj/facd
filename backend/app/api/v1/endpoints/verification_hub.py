@@ -80,6 +80,7 @@ def _save_scan_record(
 
     # Save to database if available
     try:
+        conf_val = float(result.get("confidence_score") or 0.0)
         db_model = CourseCertificateVerificationModel(
             id=scan_id,
             user_id=user_id,
@@ -92,8 +93,8 @@ def _save_scan_record(
             else "image/png",
             job_status="COMPLETED",
             final_status=result.get("final_status", "SUSPICIOUS"),
-            authenticity_score=result.get("confidence_score", 0.0),
-            fraud_risk_score=round(1.0 - result.get("confidence_score", 0.0), 3),
+            authenticity_score=conf_val,
+            fraud_risk_score=round(max(0.0, 1.0 - conf_val), 3),
             qr_data_json=result.get("forensic_cards", {}).get("qr_and_url"),
             tampering_analysis_json=result.get("forensic_cards", {}).get("layout_alignment"),
             seal_signature_json=result.get("forensic_cards", {}).get("template_integrity"),
@@ -988,6 +989,8 @@ def _run_heavy_verification_pipeline(
             content={
                 "success": False,
                 "error": err_msg,
+                "detail": err_msg,
+                "message": err_msg,
             },
         )
     finally:

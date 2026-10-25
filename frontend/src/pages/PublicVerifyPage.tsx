@@ -442,6 +442,8 @@ export const PublicVerifyPage: React.FC = () => {
           setError(String(err.response.data.error));
         } else if (err.response.data?.message) {
           setError(String(err.response.data.message));
+        } else if (typeof err.response.data === 'string' && err.response.data.trim()) {
+          setError(`Server Error (${err.response.status}): ${err.response.data.trim()}`);
         } else {
           setError(`Verification failed with HTTP ${err.response.status}. Please check server logs.`);
         }

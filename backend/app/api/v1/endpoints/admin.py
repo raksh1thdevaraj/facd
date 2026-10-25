@@ -31,7 +31,9 @@ _behavioral_monitor: Optional[BehavioralMonitor] = None
 def get_behavioral_monitor() -> BehavioralMonitor:
     global _behavioral_monitor
     if _behavioral_monitor is None:
-        _behavioral_monitor = BehavioralMonitor(model_path="models/behavioral_fraud_model.pkl")
+        root_model = Path(__file__).resolve().parents[5] / "models" / "behavioral_fraud_model.pkl"
+        model_path = str(root_model) if root_model.exists() else "models/behavioral_fraud_model.pkl"
+        _behavioral_monitor = BehavioralMonitor(model_path=model_path)
     return _behavioral_monitor
 
 

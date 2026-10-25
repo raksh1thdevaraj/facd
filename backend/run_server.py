@@ -26,10 +26,20 @@ logger = logging.getLogger("server_launcher")
 
 
 def is_port_in_use(port: int, host: str = "127.0.0.1") -> bool:
-    """Check if a TCP port is currently open and bound."""
+    """Check if a TCP port is currently held or bound by testing bindability and connectivity."""
+    # Check 1: Active listener responding to connections
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.settimeout(1.0)
-        return s.connect_ex((host, port)) == 0
+        s.settimeout(0.5)
+        if s.connect_ex((host, port)) == 0:
+            return True
+
+    # Check 2: Can we bind to it? If not, an orphan/zombie process is holding the socket (e.g. Bound state)
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        try:
+            s.bind((host, port))
+            return False
+        except OSError:
+            return True
 
 
 def kill_process_on_port(port: int) -> None:
@@ -41,8 +51,13 @@ def kill_process_on_port(port: int) -> None:
 
     if sys.platform == "win32":
         try:
-            # Use PowerShell to find and kill process on port
-            cmd = f"Get-NetTCPConnection -LocalPort {port} -ErrorAction SilentlyContinue | ForEach-Object {{ Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }}"
+            my_pid = os.getpid()
+            # Use PowerShell to find and kill process on port, excluding self
+            cmd = (
+                f"Get-NetTCPConnection -LocalPort {port} -ErrorAction SilentlyContinue | "
+                f"Where-Object {{ $_.OwningProcess -ne {my_pid} -and $_.OwningProcess -ne 0 }} | "
+                f"ForEach-Object {{ Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }}"
+            )
             subprocess.run(
                 ["powershell", "-NoProfile", "-Command", cmd], capture_output=True, timeout=5
             )

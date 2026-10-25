@@ -60,6 +60,8 @@ migration/backup_export.json
 
 # Databases
 *.db
+*.db-shm
+*.db-wal
 *.sqlite
 *.sqlite3
 dev.db
