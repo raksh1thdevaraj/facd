@@ -4,13 +4,13 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCaS1lqmIX1xqkXqPtptp6KjEdz8DbtW-E",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "certcheck-60f6c.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "certcheck-60f6c",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "certcheck-60f6c.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "607869238844",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:607869238844:web:c68a96b8440f500075cd39",
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-2MSH58W09X"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyAAHMa3V3Y1nazh_e0GmSPJo5b0BHQTjfI",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "facd-c42c2.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "facd-c42c2",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "facd-c42c2.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "554646611774",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:554646611774:web:32f1739ffe7507e0676e6f",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-Z25FMZKTH7"
 };
 
 // Initialize Firebase once
