@@ -100,7 +100,7 @@ const AppContent: React.FC = () => {
           {/* Public Verification Report (Public) */}
           <Route path="/verify-report/:id" element={<VerifyReportPage />} />
 
-          {/* Dedicated Login */}
+          {/* Dedicated Login & Enterprise Onboarding */}
           <Route
             path="/login"
             element={
@@ -113,7 +113,31 @@ const AppContent: React.FC = () => {
               ) : isAuthenticated && userProfile?.status === 'pending' ? (
                 <Navigate to="/pending-approval" replace />
               ) : (
-                <LoginPage />
+                <LoginPage initialMode="login" />
+              )
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              isAuthenticated && userProfile?.status === 'approved' ? (
+                <Navigate to="/" replace />
+              ) : isAuthenticated && userProfile?.status === 'pending' ? (
+                <Navigate to="/pending-approval" replace />
+              ) : (
+                <LoginPage initialMode="register" />
+              )
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              isAuthenticated && userProfile?.status === 'approved' ? (
+                <Navigate to="/" replace />
+              ) : isAuthenticated && userProfile?.status === 'pending' ? (
+                <Navigate to="/pending-approval" replace />
+              ) : (
+                <LoginPage initialMode="register" />
               )
             }
           />

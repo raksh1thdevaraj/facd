@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Clock, RefreshCw, LogOut, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Clock, RefreshCw, LogOut, CheckCircle2, ShieldAlert, Building2, Briefcase, BadgeCheck } from 'lucide-react';
 
 export const PendingApprovalPage: React.FC = () => {
   const { userProfile, refreshProfile, logout, isApproved } = useAuth();
@@ -27,7 +27,12 @@ export const PendingApprovalPage: React.FC = () => {
           navigate('/', { replace: true });
         }, 1200);
       } else if (updated?.status === 'rejected') {
-        setStatusMessage('Account registration request declined by administrator.');
+        const reason = updated.approvalMetadata?.rejectionReason;
+        setStatusMessage(
+          reason
+            ? `Account registration request declined: ${reason}`
+            : 'Account registration request declined by administrator.'
+        );
       } else {
         setStatusMessage('Status is still pending verification. Please check back shortly.');
       }
@@ -41,6 +46,19 @@ export const PendingApprovalPage: React.FC = () => {
   const handleSignOut = async () => {
     await logout();
     navigate('/login', { replace: true });
+  };
+
+  const getOrgTypeLabel = (type?: string) => {
+    switch (type) {
+      case 'CORPORATE_HIRING':
+        return 'Corporate Hiring';
+      case 'ACADEMIC_INSTITUTION':
+        return 'Academic Institution';
+      case 'BGV_AGENCY':
+        return 'BGV Agency';
+      default:
+        return 'Enterprise Verifier';
+    }
   };
 
   return (
@@ -61,19 +79,63 @@ export const PendingApprovalPage: React.FC = () => {
           </p>
         </div>
 
-        {/* User Reference Card */}
+        {/* User & Organization Reference Card */}
         {userProfile && (
-          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-100 text-left space-y-1.5 font-mono text-xs">
-            <div className="flex justify-between text-slate-500">
-              <span>Account:</span>
-              <span className="font-semibold text-slate-800">{userProfile.email}</span>
-            </div>
-            <div className="flex justify-between text-slate-500">
-              <span>Status:</span>
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 text-left space-y-2 text-xs">
+            <div className="flex justify-between items-center pb-2 border-b border-slate-200/60">
+              <span className="font-bold text-slate-900 text-sm">
+                {userProfile.fullName || userProfile.displayName}
+              </span>
               <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-800 border border-amber-200">
-                Pending Approval
+                Pending Vetting
               </span>
             </div>
+
+            <div className="flex justify-between text-slate-600 font-mono text-[11px]">
+              <span>Official Email:</span>
+              <span className="font-semibold text-slate-800">{userProfile.email}</span>
+            </div>
+
+            {userProfile.organizationName && (
+              <div className="flex justify-between items-center text-slate-600">
+                <span className="flex items-center space-x-1">
+                  <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Organization:</span>
+                </span>
+                <span className="font-medium text-slate-800">{userProfile.organizationName}</span>
+              </div>
+            )}
+
+            {userProfile.organizationType && (
+              <div className="flex justify-between items-center text-slate-600">
+                <span>Sector:</span>
+                <span className="px-1.5 py-0.2 rounded text-[10px] bg-indigo-50 text-indigo-700 font-medium border border-indigo-100">
+                  {getOrgTypeLabel(userProfile.organizationType)}
+                </span>
+              </div>
+            )}
+
+            {userProfile.designation && (
+              <div className="flex justify-between items-center text-slate-600">
+                <span className="flex items-center space-x-1">
+                  <Briefcase className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Designation:</span>
+                </span>
+                <span className="font-medium text-slate-800">{userProfile.designation}</span>
+              </div>
+            )}
+
+            {userProfile.officialIdentifier && (
+              <div className="flex justify-between items-center text-slate-600">
+                <span className="flex items-center space-x-1">
+                  <BadgeCheck className="w-3.5 h-3.5 text-slate-400" />
+                  <span>ID / Web:</span>
+                </span>
+                <span className="font-mono text-[11px] text-slate-800 truncate max-w-[180px]">
+                  {userProfile.officialIdentifier}
+                </span>
+              </div>
+            )}
           </div>
         )}
 

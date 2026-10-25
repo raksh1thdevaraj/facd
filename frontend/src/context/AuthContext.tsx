@@ -111,7 +111,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const isApproved = userProfile?.status === 'approved';
   const isPending = userProfile?.status === 'pending';
   const isRejected = userProfile?.status === 'rejected';
-  const isPublic = userProfile?.role === 'user';
+  const isPublic = userProfile?.role === 'user' || userProfile?.role === 'verifier';
   const isAuthenticated = !!currentUser && !!userProfile;
 
   return (

@@ -21,7 +21,16 @@ import {
   getDocs
 } from 'firebase/firestore';
 import { auth, db } from '../config/firebase';
-import { LoginCredentials, RegisterData, TokenResponse, UserProfile, UserRole, UserStatus } from '../types/auth';
+import { 
+  LoginCredentials, 
+  RegisterData, 
+  TokenResponse, 
+  UserProfile, 
+  UserRole, 
+  UserStatus,
+  OrganizationType,
+  isDisposableEmail
+} from '../types/auth';
 import { apiClient } from './api';
 
 /**
@@ -30,7 +39,7 @@ import { apiClient } from './api';
 export function formatAuthError(error: any): string {
   const code = error?.code || '';
   if (code === 'auth/email-already-in-use') {
-    return 'An account with this email already exists.';
+    return 'An account with this corporate/institutional email already exists.';
   }
   if (
     code === 'auth/user-not-found' ||
@@ -38,16 +47,16 @@ export function formatAuthError(error: any): string {
     code === 'auth/invalid-credential' ||
     code === 'auth/invalid-login-credentials'
   ) {
-    return 'Invalid username/email or password.';
+    return 'Invalid email/username or password.';
   }
   if (code === 'auth/too-many-requests') {
     return 'Too many attempts. Please try again in a few minutes.';
   }
   if (code === 'auth/weak-password') {
-    return 'Password should be at least 6 characters.';
+    return 'Password must be at least 8 characters.';
   }
   if (code === 'auth/invalid-email') {
-    return 'Please enter a valid email address.';
+    return 'Please enter a valid official email address.';
   }
   return error?.message || 'Authentication failed. Please check credentials.';
 }
@@ -100,8 +109,8 @@ export const authService = {
       const snap = await getDocs(collection(db, 'users'));
       for (const d of snap.docs) {
         const data = d.data();
-        const u = data.username ? String(data.username).trim() : (data.displayName ? String(data.displayName).trim() : '');
-        if (u.toLowerCase() === trimmed.toLowerCase()) {
+        const u = data.username ? String(data.username).trim() : (data.fullName || data.displayName || '');
+        if (String(u).toLowerCase() === trimmed.toLowerCase()) {
           if (data.email) {
             const resolved = String(data.email).trim().toLowerCase();
             try {
@@ -124,53 +133,86 @@ export const authService = {
   },
 
   /**
-   * Register a new user in Firebase Auth and initialize Firestore user document.
+   * Register a new enterprise organization user in Firebase Auth and initialize Firestore user document.
    * Document ID: user.uid
-   * Fields: {
-   *   uid, email, displayName, role: 'user' | 'admin', status: 'pending' | 'approved' | 'rejected',
-   *   createdAt, approvedAt, approvedBy
+   * Exact Model:
+   * {
+   *   "uid": "USER_AUTH_UID",
+   *   "fullName": "Rajesh Kumar",
+   *   "email": "rajesh@company.com",
+   *   "organizationType": "CORPORATE_HIRING",
+   *   "organizationName": "Wipro Technologies",
+   *   "designation": "Technical Recruiter",
+   *   "officialIdentifier": "EMP-94021",
+   *   "role": "verifier",
+   *   "status": "pending",
+   *   "createdAt": "SERVER_TIMESTAMP",
+   *   "approvalMetadata": {
+   *     "reviewedBy": null,
+   *     "reviewedAt": null,
+   *     "rejectionReason": null
+   *   }
    * }
    */
   async register(data: RegisterData): Promise<{ success: boolean; email: string; username: string; userProfile: UserProfile }> {
     const email = data.email.trim().toLowerCase();
-    const displayName = (data.displayName || data.username || data.name || data.full_name || email.split('@')[0]).trim();
+    const fullName = (data.fullName || data.displayName || data.name || data.full_name || email.split('@')[0]).trim();
+    const organizationType: OrganizationType = data.organizationType || 'CORPORATE_HIRING';
+    const organizationName = (data.organizationName || 'Institutional Entity').trim();
+    const designation = (data.designation || 'Credential Verifier').trim();
+    const officialIdentifier = (data.officialIdentifier || 'N/A').trim();
     const password = data.password;
 
+    // 1. Enforce non-disposable corporate/institutional email check
+    if (isDisposableEmail(email)) {
+      throw new Error('Please use an official corporate or institutional work email. Disposable temporary email providers are strictly prohibited.');
+    }
+
     try {
-      // 1. Create account with Firebase Auth
+      // 2. Create account with Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const fbUser = userCredential.user;
 
-      // 2. Set profile display name
-      await updateProfile(fbUser, { displayName });
+      // 3. Set profile display name
+      await updateProfile(fbUser, { displayName: fullName });
 
-      // 3. Check for Initial Admin Bootstrap
+      // 4. Check for Initial Admin Bootstrap
       const isInitialAdmin = isDesignatedAdminEmail(email);
-      const role: UserRole = isInitialAdmin ? 'admin' : 'user';
+      const role: UserRole = isInitialAdmin ? 'admin' : (data.role || 'verifier');
       const status: UserStatus = isInitialAdmin ? 'approved' : 'pending';
 
       const userProfile: UserProfile = {
         uid: fbUser.uid,
+        fullName: fullName,
         email: email,
-        displayName: displayName,
+        organizationType: organizationType,
+        organizationName: organizationName,
+        designation: designation,
+        officialIdentifier: officialIdentifier,
         role: role,
         status: status,
         createdAt: serverTimestamp(),
+        approvalMetadata: {
+          reviewedBy: isInitialAdmin ? 'system_bootstrap' : null,
+          reviewedAt: isInitialAdmin ? serverTimestamp() : null,
+          rejectionReason: null,
+        },
+        // Backward-compatibility aliases
+        displayName: fullName,
+        id: fbUser.uid,
+        username: fullName,
+        full_name: fullName,
         approvedAt: isInitialAdmin ? serverTimestamp() : null,
         approvedBy: isInitialAdmin ? 'system_bootstrap' : null,
-        // Backward-compatibility aliases
-        id: fbUser.uid,
-        username: displayName,
-        full_name: displayName,
-        institution_id: data.institution_id || null,
+        institution_id: data.institution_id || organizationName,
         is_active: status === 'approved',
       };
 
-      // 4. Save to Firestore users collection
+      // 5. Save to Firestore users collection
       try {
         await setDoc(doc(db, 'users', fbUser.uid), userProfile);
         try {
-          localStorage.setItem(`user_email_${displayName.toLowerCase()}`, email);
+          localStorage.setItem(`user_email_${fullName.toLowerCase()}`, email);
         } catch {}
       } catch (firestoreErr) {
         console.warn('Firestore user doc write error:', firestoreErr);
@@ -179,18 +221,18 @@ export const authService = {
       // Background local synchronization with backend API if accessible
       try {
         await apiClient.post('/auth/register', {
-          name: displayName,
-          full_name: displayName,
+          name: fullName,
+          full_name: fullName,
           email: email,
           password: password,
           role: role,
-          institution_id: data.institution_id || null,
+          institution_id: data.institution_id || organizationName,
         });
       } catch {
         // Non-blocking sync
       }
 
-      return { success: true, email, username: displayName, userProfile };
+      return { success: true, email, username: fullName, userProfile };
     } catch (err: any) {
       throw new Error(formatAuthError(err));
     }
@@ -203,12 +245,12 @@ export const authService = {
   async login(credentials: LoginCredentials): Promise<TokenResponse> {
     const rawIdentifier = credentials.email || credentials.username || '';
     if (!rawIdentifier.trim()) {
-      throw new Error('Please enter your email or username');
+      throw new Error('Please enter your corporate or institutional email');
     }
     const resolvedEmail = await this.resolveEmail(rawIdentifier);
 
     if (!resolvedEmail.includes('@')) {
-      throw new Error(`Username "${rawIdentifier}" was not found. Please sign in using your email address.`);
+      throw new Error(`Email "${rawIdentifier}" was not found. Please sign in using your registered institutional email.`);
     }
 
     let fbUser: FirebaseUser | null = null;
@@ -254,7 +296,12 @@ export const authService = {
     if (profile.status === 'rejected') {
       await signOut(auth);
       this.clearTokens();
-      throw new Error('Account registration request declined by administrator.');
+      const reason = profile.approvalMetadata?.rejectionReason;
+      throw new Error(
+        reason
+          ? `Account registration request declined: ${reason}`
+          : 'Account registration request declined by administrator.'
+      );
     }
 
     const idToken = await fbUser.getIdToken(true);
@@ -282,23 +329,34 @@ export const authService = {
       const userSnap = await getDoc(userDocRef);
       if (userSnap.exists()) {
         const data = userSnap.data();
-        const role: UserRole = data.role === 'admin' ? 'admin' : 'user';
+        const role: UserRole = data.role === 'admin' ? 'admin' : (data.role === 'user' ? 'user' : 'verifier');
         const status: UserStatus = data.status || (role === 'admin' ? 'approved' : 'pending');
+        const fullName = data.fullName || data.displayName || data.username || data.full_name || fbUser?.displayName || 'Institutional Verifier';
 
         return {
           uid: uid,
           id: uid,
+          fullName: fullName,
           email: data.email || fbUser?.email || '',
-          displayName: data.displayName || data.username || data.full_name || fbUser?.displayName || 'User',
+          organizationType: data.organizationType || 'CORPORATE_HIRING',
+          organizationName: data.organizationName || data.institution_id || 'Enterprise Organization',
+          designation: data.designation || 'Verification Specialist',
+          officialIdentifier: data.officialIdentifier || 'EMP-UNKNOWN',
           role: role,
           status: status,
           createdAt: data.createdAt,
-          approvedAt: data.approvedAt || null,
-          approvedBy: data.approvedBy || null,
-          username: data.username || data.displayName || 'user',
-          full_name: data.displayName || data.full_name || 'User',
+          approvalMetadata: data.approvalMetadata || {
+            reviewedBy: data.approvedBy || null,
+            reviewedAt: data.approvedAt || null,
+            rejectionReason: null,
+          },
+          displayName: fullName,
+          approvedAt: data.approvedAt || data.approvalMetadata?.reviewedAt || null,
+          approvedBy: data.approvedBy || data.approvalMetadata?.reviewedBy || null,
+          username: data.username || fullName,
+          full_name: fullName,
           is_active: status === 'approved',
-          institution_id: data.institution_id || null,
+          institution_id: data.organizationName || data.institution_id || null,
         };
       }
     } catch (err) {
@@ -308,23 +366,33 @@ export const authService = {
     // Fallback: Bootstrap document
     const userEmail = fbUser?.email || '';
     const isInitialAdmin = isDesignatedAdminEmail(userEmail);
-    const role: UserRole = isInitialAdmin ? 'admin' : 'user';
+    const role: UserRole = isInitialAdmin ? 'admin' : 'verifier';
     const status: UserStatus = isInitialAdmin ? 'approved' : 'pending';
-    const displayName = fbUser?.displayName || (userEmail ? userEmail.split('@')[0] : 'User');
+    const fullName = fbUser?.displayName || (userEmail ? userEmail.split('@')[0] : 'Institutional Verifier');
 
     const newProfile: UserProfile = {
       uid: uid,
       id: uid,
+      fullName: fullName,
       email: userEmail,
-      displayName: displayName,
+      organizationType: isInitialAdmin ? 'ACADEMIC_INSTITUTION' : 'CORPORATE_HIRING',
+      organizationName: isInitialAdmin ? 'Visvesvaraya Technological University' : 'Partner Enterprise',
+      designation: isInitialAdmin ? 'Platform Administrator' : 'Lead Recruiter',
+      officialIdentifier: isInitialAdmin ? 'ADMIN-ROOT' : 'EMP-PENDING',
       role: role,
       status: status,
       createdAt: serverTimestamp(),
+      approvalMetadata: {
+        reviewedBy: isInitialAdmin ? 'system_bootstrap' : null,
+        reviewedAt: isInitialAdmin ? serverTimestamp() : null,
+        rejectionReason: null,
+      },
+      displayName: fullName,
+      username: fullName,
+      full_name: fullName,
+      is_active: status === 'approved',
       approvedAt: isInitialAdmin ? serverTimestamp() : null,
       approvedBy: isInitialAdmin ? 'system_bootstrap' : null,
-      username: displayName,
-      full_name: displayName,
-      is_active: status === 'approved',
       institution_id: null,
     };
 
@@ -357,12 +425,15 @@ export const authService = {
   },
 
   /**
-   * Approve a pending user account (Admin Action).
+   * Approve a pending user account with review metadata (Admin Action).
    */
   async approveUser(targetUid: string, adminUid: string): Promise<void> {
     const userRef = doc(db, 'users', targetUid);
     await updateDoc(userRef, {
       status: 'approved',
+      'approvalMetadata.reviewedBy': adminUid,
+      'approvalMetadata.reviewedAt': serverTimestamp(),
+      'approvalMetadata.rejectionReason': null,
       approvedAt: serverTimestamp(),
       approvedBy: adminUid,
       is_active: true,
@@ -370,12 +441,15 @@ export const authService = {
   },
 
   /**
-   * Reject a user account (Admin Action).
+   * Reject a user account with optional rejection reason (Admin Action).
    */
-  async rejectUser(targetUid: string, adminUid: string): Promise<void> {
+  async rejectUser(targetUid: string, adminUid: string, rejectionReason?: string): Promise<void> {
     const userRef = doc(db, 'users', targetUid);
     await updateDoc(userRef, {
       status: 'rejected',
+      'approvalMetadata.reviewedBy': adminUid,
+      'approvalMetadata.reviewedAt': serverTimestamp(),
+      'approvalMetadata.rejectionReason': rejectionReason || 'Institutional credentials could not be verified by administrator.',
       approvedAt: null,
       approvedBy: adminUid,
       is_active: false,
@@ -383,7 +457,7 @@ export const authService = {
   },
 
   /**
-   * Update a user's role (Admin Action: Promote to Admin / Demote to User).
+   * Update a user's role (Admin Action: Promote to Admin / Demote to Verifier).
    */
   async updateUserRole(targetUid: string, newRole: UserRole): Promise<void> {
     const userRef = doc(db, 'users', targetUid);
@@ -393,7 +467,7 @@ export const authService = {
   },
 
   /**
-   * Subscribe to real-time updates for all users (Admin Dashboard).
+   * Subscribe to real-time updates for all organization users (Admin Dashboard).
    */
   subscribeToUsers(callback: (users: UserProfile[]) => void): () => void {
     const usersCollection = collection(db, 'users');
@@ -401,22 +475,33 @@ export const authService = {
     const mapDocs = (docs: any[]): UserProfile[] => {
       return docs.map((d) => {
         const data = d.data();
-        const role: UserRole = data.role === 'admin' ? 'admin' : 'user';
+        const role: UserRole = data.role === 'admin' ? 'admin' : (data.role === 'user' ? 'user' : 'verifier');
         const status: UserStatus = data.status || (role === 'admin' ? 'approved' : 'pending');
+        const fullName = data.fullName || data.displayName || data.username || data.full_name || 'Candidate';
         return {
           uid: d.id,
           id: d.id,
+          fullName: fullName,
           email: data.email || '',
-          displayName: data.displayName || data.username || data.full_name || 'Candidate',
+          organizationType: data.organizationType || 'CORPORATE_HIRING',
+          organizationName: data.organizationName || data.institution_id || 'Enterprise Organization',
+          designation: data.designation || 'Verification Specialist',
+          officialIdentifier: data.officialIdentifier || 'EMP-UNKNOWN',
           role: role,
           status: status,
           createdAt: data.createdAt,
-          approvedAt: data.approvedAt || null,
-          approvedBy: data.approvedBy || null,
-          username: data.username || data.displayName || 'user',
-          full_name: data.displayName || data.full_name || 'Candidate',
+          approvalMetadata: data.approvalMetadata || {
+            reviewedBy: data.approvedBy || null,
+            reviewedAt: data.approvedAt || null,
+            rejectionReason: null,
+          },
+          displayName: fullName,
+          approvedAt: data.approvedAt || data.approvalMetadata?.reviewedAt || null,
+          approvedBy: data.approvedBy || data.approvalMetadata?.reviewedBy || null,
+          username: data.username || fullName,
+          full_name: fullName,
           is_active: status === 'approved',
-          institution_id: data.institution_id || null,
+          institution_id: data.organizationName || data.institution_id || null,
         } as UserProfile;
       });
     };
