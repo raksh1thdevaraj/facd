@@ -16,6 +16,7 @@ class FirestoreService:
 
     USERS_COLLECTION = "users"
     CERTIFICATES_COLLECTION = "certificates"
+    VERIFICATIONS_COLLECTION = "verifications"
     COURSE_VERIFICATIONS_COLLECTION = "course_verifications"
     AUDIT_LOGS_COLLECTION = "audit_logs"
 
@@ -26,6 +27,63 @@ class FirestoreService:
     def is_available(self) -> bool:
         """Returns True if Firestore client is initialized and reachable."""
         return self._db is not None
+
+    def save_verification(self, verification_id: str, data: Dict[str, Any]) -> bool:
+        """Save an immutable marks card verification audit record to Firestore."""
+        if not self.is_available:
+            return False
+        try:
+            doc_ref = self._db.collection(self.VERIFICATIONS_COLLECTION).document(verification_id)
+            payload = {
+                "id": verification_id,
+                "timestamp": data.get("timestamp") or datetime.now(timezone.utc).isoformat(),
+                "fileName": data.get("fileName") or data.get("filename") or "document.pdf",
+                "fileUrl": data.get("fileUrl") or data.get("file_url") or "",
+                "studentName": data.get("studentName") or data.get("student_name") or "STUDENT CANDIDATE",
+                "usn": data.get("usn") or data.get("reg_no") or "UNKNOWN",
+                "collegeCode": data.get("collegeCode") or data.get("college_code") or "VTU",
+                "sgpaListed": float(data.get("sgpaListed") or data.get("sgpa") or 0.0),
+                "sgpaCalculated": float(data.get("sgpaCalculated") or data.get("calculated_sgpa") or 0.0),
+                "arithmeticDiscrepancy": bool(data.get("arithmeticDiscrepancy", False)),
+                "tamperingScore": float(data.get("tamperingScore") or data.get("tampering_score") or 0.0),
+                "verdict": data.get("verdict") or "SUSPICIOUS",
+                "forensicReport": data.get("forensicReport") or data.get("forensic_report") or "",
+            }
+            doc_ref.set(payload, merge=True)
+            return True
+        except Exception as exc:
+            logger.error("Failed to save verification %s in Firestore: %s", verification_id, exc)
+            return False
+
+    def get_verification(self, verification_id: str) -> Optional[Dict[str, Any]]:
+        """Fetch verification audit record by ID from Firestore."""
+        if not self.is_available:
+            return None
+        try:
+            doc = self._db.collection(self.VERIFICATIONS_COLLECTION).document(verification_id).get()
+            if doc.exists:
+                return {"id": doc.id, **doc.to_dict()}
+            return None
+        except Exception as exc:
+            logger.error("Failed to get verification %s from Firestore: %s", verification_id, exc)
+            return None
+
+    def list_verifications(
+        self, limit: int = 50, verdict: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """List verification records from Firestore sorted by timestamp descending."""
+        if not self.is_available:
+            return []
+        try:
+            coll = self._db.collection(self.VERIFICATIONS_COLLECTION)
+            if verdict and verdict != "ALL":
+                q = coll.where("verdict", "==", verdict).order_by("timestamp", direction="DESCENDING").limit(limit)
+            else:
+                q = coll.order_by("timestamp", direction="DESCENDING").limit(limit)
+            return [{"id": d.id, **d.to_dict()} for d in q.stream()]
+        except Exception as exc:
+            logger.error("Failed to list verifications from Firestore: %s", exc)
+            return []
 
     def upsert_user(self, user_id: str, data: Dict[str, Any]) -> bool:
         """Upsert a user document in Firestore."""

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { EnterpriseHeader } from '../components/common/EnterpriseHeader';
 import { EnterpriseSidebar, EnterpriseTab } from '../components/common/EnterpriseSidebar';
 import {
@@ -17,6 +17,10 @@ import { SchemeMatrixModal } from '../components/console/SchemeMatrixModal';
 import { createSampleMarksCardSvg } from '../utils/sampleMarksCards';
 import apiClient from '../services/api';
 import { exportCertificateElementToPdf } from '../utils/pdfExport';
+import {
+  saveVerificationToFirestore,
+  subscribeToVerificationLedger,
+} from '../services/firestoreLedgerService';
 import { Activity, CheckCircle2 } from 'lucide-react';
 
 export const InspectionConsolePage: React.FC = () => {
@@ -84,6 +88,16 @@ export const InspectionConsolePage: React.FC = () => {
       forensicReport: 'Visual integrity failure: Digital splicing & baseline shift detected in USN characters.',
     },
   ]);
+
+  // Real-time synchronization with Cloud Firestore / local ledger cache
+  useEffect(() => {
+    const unsubscribe = subscribeToVerificationLedger((records) => {
+      if (records && records.length > 0) {
+        setAuditRecords(records);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Load sample dataset
   const handleLoadSample = useCallback((sampleKey: 'authentic' | 'altered_sgpa' | 'spliced_usn') => {
@@ -264,6 +278,28 @@ export const InspectionConsolePage: React.FC = () => {
         ]);
       }
 
+      // Automatically persist sample inspection to Firestore ledger
+      const sampleAudit: AuditRecord = {
+        id: `AUD-SAMPLE-${Date.now().toString().slice(-6)}`,
+        timestamp: new Date().toISOString(),
+        fileName: `VTU_${sampleKey}_sample.svg`,
+        studentName: sampleKey === 'spliced_usn' ? 'KARTHIK M NAIR' : sampleKey === 'altered_sgpa' ? 'RAHUL S SHARMA' : 'ANANYA RAO',
+        usn: sampleKey === 'spliced_usn' ? '1PE19CS999' : sampleKey === 'altered_sgpa' ? '1RV20EC045' : '1MS21CS045',
+        collegeCode: sampleKey === 'spliced_usn' ? '1PE' : sampleKey === 'altered_sgpa' ? '1RV' : '1MS',
+        sgpaListed: sampleKey === 'altered_sgpa' ? 8.85 : sampleKey === 'spliced_usn' ? 8.25 : 8.50,
+        sgpaCalculated: sampleKey === 'altered_sgpa' ? 7.25 : sampleKey === 'spliced_usn' ? 8.25 : 8.50,
+        arithmeticDiscrepancy: sampleKey === 'altered_sgpa',
+        tamperingScore: sampleKey === 'authentic' ? 4 : sampleKey === 'altered_sgpa' ? 94 : 88,
+        verdict: sampleKey === 'authentic' ? 'AUTHENTIC' : 'FRAUDULENT',
+        forensicReport: sampleKey === 'authentic'
+          ? 'Deterministic math & visual integrity verified. Font kerning consistent.'
+          : sampleKey === 'altered_sgpa'
+          ? 'CRITICAL: Arithmetic tampering detected. Stated SGPA 8.85 vs Calculated 7.25.'
+          : 'Visual integrity failure: Digital font insertion and baseline shift detected in USN.',
+      };
+      setAuditRecords((prev) => [sampleAudit, ...prev.filter((r) => r.id !== sampleAudit.id)]);
+      saveVerificationToFirestore(sampleAudit);
+
       setIsProcessing(false);
       setProcessingStep('');
     }, 700);
@@ -403,6 +439,7 @@ export const InspectionConsolePage: React.FC = () => {
         forensicReport: isAuthentic ? 'Institutional verification passed.' : 'Forensic discrepancies detected.',
       };
       setAuditRecords((prev) => [newAudit, ...prev]);
+      saveVerificationToFirestore(newAudit, file);
     } catch (err: unknown) {
       console.warn('Backend call encountered error, using local high-fidelity fallback analysis:', err);
       // Graceful fallback so user never gets blocked
@@ -577,41 +614,165 @@ export const InspectionConsolePage: React.FC = () => {
         selectedScheme={currentScheme}
       />
 
-      {/* Hidden printable institutional audit dossier (for Phase 4 PDF export) */}
-      <div id="institutional-dossier-printable-root" className="hidden print:block p-8 bg-white text-slate-900">
+      {/* High-Resolution Printable Institutional Audit Dossier (rendered by html2canvas into single-page A4 PDF) */}
+      <div
+        id="institutional-dossier-printable-root"
+        className="fixed -left-[9999px] top-0 w-[210mm] min-h-[297mm] p-10 bg-white text-slate-900 pointer-events-none print:static print:block z-[-50]"
+      >
         {metadata && securitySeal && arithmetic && (
-          <div className="max-w-[210mm] mx-auto space-y-6 text-xs">
-            <div className="border-b-2 border-slate-900 pb-3 flex justify-between items-center">
+          <div className="space-y-5 text-xs font-sans leading-relaxed">
+            {/* Dossier Header */}
+            <div className="border-b-2 border-indigo-950 pb-4 text-center">
+              <div className="text-[11px] font-bold tracking-widest text-indigo-900 uppercase">
+                Visvesvaraya Technological University, Belagavi
+              </div>
+              <h1 className="text-xl font-black text-slate-950 mt-1 uppercase tracking-tight">
+                Academic Credential Forensic Audit Dossier
+              </h1>
+              <div className="text-[10px] text-slate-500 mt-1">
+                Evaluation Authority: Office of the Registrar (Evaluation) | Reference: FACD-{metadata.usn}-{Date.now().toString().slice(-6)}
+              </div>
+            </div>
+
+            {/* Candidate & Institutional Profile Card */}
+            <div className="border border-slate-300 rounded-lg p-4 bg-slate-50/50">
+              <div className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-2 border-b border-slate-200 pb-1">
+                Candidate & Institutional Credentials
+              </div>
+              <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-xs">
+                <div><span className="font-semibold text-slate-600">Candidate Name:</span> <span className="font-bold text-slate-900">{metadata.name}</span></div>
+                <div><span className="font-semibold text-slate-600">University Seat No (USN):</span> <span className="font-mono font-bold text-indigo-950">{metadata.usn}</span></div>
+                <div><span className="font-semibold text-slate-600">College / Institution:</span> <span className="text-slate-800">{metadata.collegeName} ({metadata.collegeCode})</span></div>
+                <div><span className="font-semibold text-slate-600">Degree & Branch:</span> <span className="text-slate-800">{metadata.degree} in {metadata.branch}</span></div>
+                <div><span className="font-semibold text-slate-600">Academic Semester:</span> <span className="text-slate-800">{metadata.semester}</span></div>
+                <div><span className="font-semibold text-slate-600">Examination Cycle:</span> <span className="text-slate-800">{metadata.examinationCycle}</span></div>
+              </div>
+            </div>
+
+            {/* Verdict & Audit Summary Banner */}
+            <div className={`p-4 rounded-lg border flex items-center justify-between ${
+              securitySeal.verdict === 'AUTHENTIC'
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-950'
+                : securitySeal.verdict === 'FRAUDULENT'
+                ? 'bg-rose-50 border-rose-300 text-rose-950'
+                : 'bg-amber-50 border-amber-300 text-amber-950'
+            }`}>
               <div>
-                <h1 className="text-xl font-black text-slate-900">
-                  INSTITUTIONAL FORENSIC AUDIT DOSSIER
-                </h1>
-                <p className="text-slate-600 font-medium">
-                  Visvesvaraya Technological University (VTU) Academic Marks Card Compliance
-                </p>
+                <div className="text-[10px] uppercase font-bold tracking-wider">Audit Evaluation Verdict</div>
+                <div className="text-lg font-black mt-0.5">{securitySeal.verdict}</div>
+                <div className="text-[11px] mt-1 font-medium">{securitySeal.verdictReason}</div>
               </div>
-              <div className="text-right font-mono text-[10px]">
-                <div>Scan Ref: AUD-{metadata.usn}</div>
-                <div>Date: {new Date().toLocaleDateString()}</div>
+              <div className="text-right">
+                <div className="text-[10px] uppercase font-bold text-slate-600">Tampering Risk</div>
+                <div className="text-xl font-mono font-black">{securitySeal.tamperingScore}%</div>
+                <div className="text-[10px] text-slate-600 font-mono">Math Discrepancy: {arithmetic.isDiscrepancy ? 'YES' : 'NONE'}</div>
               </div>
             </div>
 
-            <div className="p-3 border rounded bg-slate-50 grid grid-cols-2 gap-2 text-xs">
-              <div><strong>Candidate Name:</strong> {metadata.name}</div>
-              <div><strong>USN:</strong> {metadata.usn}</div>
-              <div><strong>Institution:</strong> {metadata.collegeName}</div>
-              <div><strong>Verdict:</strong> {securitySeal.verdict}</div>
+            {/* Subject Grade Ledger Table */}
+            {subjectLedger.length > 0 && (
+              <div className="border border-slate-300 rounded-lg overflow-hidden">
+                <div className="p-2.5 bg-slate-100 text-[10px] font-bold text-slate-700 uppercase tracking-wider">
+                  Verified Subject Ledger & Grade Points (CBCS Schema)
+                </div>
+                <table className="w-full text-left text-[11px] border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-300 bg-slate-50 text-[10px] font-semibold text-slate-600 uppercase">
+                      <th className="py-2 px-3">Course Code</th>
+                      <th className="py-2 px-3">Course Title</th>
+                      <th className="py-2 px-3 text-center">Credits (C)</th>
+                      <th className="py-2 px-3 text-center">Grade</th>
+                      <th className="py-2 px-3 text-center">Points (G)</th>
+                      <th className="py-2 px-3 text-right">Quality Pts (C×G)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200">
+                    {subjectLedger.map((s, idx) => (
+                      <tr key={idx} className="hover:bg-slate-50/50">
+                        <td className="py-1.5 px-3 font-mono font-semibold text-slate-900">{s.code}</td>
+                        <td className="py-1.5 px-3 text-slate-800">{s.title}</td>
+                        <td className="py-1.5 px-3 text-center font-mono">{s.credits.toFixed(1)}</td>
+                        <td className="py-1.5 px-3 text-center font-bold text-indigo-900">{s.grade}</td>
+                        <td className="py-1.5 px-3 text-center font-mono">{s.gradePoints}</td>
+                        <td className="py-1.5 px-3 text-right font-mono font-semibold">{s.qualityPoints.toFixed(1)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {/* Arithmetic Cross-Check & Integrity Breakdown */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="border border-slate-300 rounded-lg p-3.5 bg-slate-50/50">
+                <div className="text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-2 border-b border-slate-200 pb-1">
+                  Deterministic SGPA Arithmetic Engine
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Total Registered Credits (ΣC):</span>
+                    <span className="font-mono font-bold">{arithmetic.totalCredits.toFixed(1)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Total Quality Points (Σ[C×G]):</span>
+                    <span className="font-mono font-bold">{arithmetic.totalQualityPoints.toFixed(1)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Calculated SGPA (Σ[C×G]/ΣC):</span>
+                    <span className="font-mono font-bold text-indigo-950">{arithmetic.calculatedSgpa.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between border-t border-slate-200 pt-1">
+                    <span className="text-slate-600">Printed / Stated SGPA:</span>
+                    <span className="font-mono font-bold">{arithmetic.printedSgpa.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between font-semibold">
+                    <span className="text-slate-700">Formula Delta (Δ):</span>
+                    <span className={`font-mono ${arithmetic.delta > 0.01 ? 'text-rose-700 font-bold' : 'text-emerald-700'}`}>
+                      {arithmetic.delta.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border border-slate-300 rounded-lg p-3.5 bg-slate-50/50">
+                <div className="text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-2 border-b border-slate-200 pb-1">
+                  Multimodal Forensic & Typographic Integrity
+                </div>
+                <div className="space-y-1.5 text-[11px]">
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Heraldic Crest Resolution:</span>
+                    <span className="font-semibold text-emerald-800">{securitySeal.crestResolution} ({securitySeal.crestScore}%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Registrar Signature Integrity:</span>
+                    <span className="font-semibold text-emerald-800">{securitySeal.registrarSignature} ({securitySeal.signatureScore}%)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-slate-600">Guilloche Watermark:</span>
+                    <span className="font-semibold">{securitySeal.watermarkPresent ? 'DETECTED' : 'ABSENT'}</span>
+                  </div>
+                  <div className="flex justify-between border-t border-slate-200 pt-1">
+                    <span className="text-slate-600">Font Kerning / Alignment:</span>
+                    <span className={`font-semibold ${metadata.fontConsistencyStatus === 'CONSISTENT' ? 'text-emerald-800' : 'text-rose-700'}`}>
+                      {metadata.fontConsistencyStatus}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="p-3 border rounded bg-slate-50">
-              <h3 className="font-bold mb-1">Arithmetic Verification Summary:</h3>
-              <p>Printed SGPA: {arithmetic.printedSgpa.toFixed(2)} | Calculated SGPA: {arithmetic.calculatedSgpa.toFixed(2)} | Delta: {arithmetic.delta.toFixed(2)}</p>
-              <p className="text-[11px] mt-1">{arithmetic.verdictDetail}</p>
-            </div>
-
-            <div className="p-3 border rounded bg-slate-50">
-              <h3 className="font-bold mb-1">Examiner Findings:</h3>
-              <p className="text-[11px]">{securitySeal.verdictReason}</p>
+            {/* Official Certification Signature Block */}
+            <div className="pt-6 border-t border-slate-300 flex justify-between items-end text-[10px] text-slate-600">
+              <div>
+                <div>Cryptographic Audit ID: <span className="font-mono text-slate-900">{`AUD-${metadata.usn}-${Date.now()}`}</span></div>
+                <div>Ledger Storage: Cloud Firestore 'verifications' (facd)</div>
+                <div>Generated: {new Date().toISOString()}</div>
+              </div>
+              <div className="text-right">
+                <div className="w-44 border-b border-slate-400 mb-1"></div>
+                <div className="font-bold text-slate-900">Registrar (Evaluation)</div>
+                <div>Visvesvaraya Technological University</div>
+              </div>
             </div>
           </div>
         )}

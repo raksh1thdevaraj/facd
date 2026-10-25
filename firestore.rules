@@ -85,5 +85,13 @@ service cloud.firestore {
       );
       allow write: if false;
     }
+
+    // 6. University Marks Card Verifications Collection (Enterprise Audit Ledger)
+    match /verifications/{verificationId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if isAuthenticated() && isVerifier();
+      allow delete: if isAdmin();
+    }
   }
 }

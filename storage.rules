@@ -29,5 +29,14 @@ service firebase.storage {
       allow update: if false;
       allow delete: if false;
     }
+
+    // 4. University Marks Sheet Scans Storage
+    match /verifications/{allPaths=**} {
+      allow read: if true;
+      allow create: if request.resource.size <= 15 * 1024 * 1024
+                   && request.resource.contentType in ['image/jpeg', 'image/png', 'image/webp', 'application/pdf', 'image/svg+xml'];
+      allow update: if false;
+      allow delete: if false;
+    }
   }
 }

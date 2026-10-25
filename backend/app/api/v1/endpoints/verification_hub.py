@@ -168,6 +168,42 @@ def _save_scan_record(
     except Exception as h_err:
         logger.warning("Could not record verification history for scan %s: %s", scan_id, h_err)
 
+    # Persist to Cloud Firestore verifications collection (facd project)
+    try:
+        from app.services.firestore_service import firestore_service
+        ext_fields = result.get("extracted_fields") or result.get("extracted_data") or {}
+        st_name = ext_fields.get("student_name") or "STUDENT CANDIDATE"
+        ident = ext_fields.get("reg_no") or ext_fields.get("identifier") or "UNKNOWN"
+        sgpa_listed = float(ext_fields.get("sgpa") or 0.0)
+        verd = result.get("verdict") or (
+            "AUTHENTIC"
+            if result.get("is_authentic")
+            else ("FRAUDULENT" if result.get("final_status") == "REJECTED" else "SUSPICIOUS")
+        )
+        conf = float(result.get("confidence_score") or 0.0)
+        tamper_score = round((1.0 - conf) * 100.0, 1) if conf <= 1.0 else 5.0
+        reasons = "; ".join(result.get("rejection_reasons") or result.get("warnings") or [])
+
+        firestore_service.save_verification(
+            verification_id=scan_id,
+            data={
+                "id": scan_id,
+                "timestamp": now_iso,
+                "fileName": original_filename,
+                "studentName": st_name,
+                "usn": ident,
+                "collegeCode": ident[1:3].upper() if len(ident) >= 3 else "VTU",
+                "sgpaListed": sgpa_listed,
+                "sgpaCalculated": sgpa_listed,
+                "arithmeticDiscrepancy": any("Arithmetic" in r or "SGPA" in r for r in (result.get("rejection_reasons") or [])),
+                "tamperingScore": tamper_score,
+                "verdict": verd,
+                "forensicReport": reasons or "Institutional verification audit record logged.",
+            }
+        )
+    except Exception as fs_err:
+        logger.warning("Could not persist scan %s to Cloud Firestore: %s", scan_id, fs_err)
+
 
 @router.get(
     "",

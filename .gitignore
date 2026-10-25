@@ -58,6 +58,10 @@ frontend/.env.local
 credentials.json
 migration/backup_export.json
 
+# Tooling cache
+graphify-out/
+
+
 # Databases
 *.db
 *.db-shm

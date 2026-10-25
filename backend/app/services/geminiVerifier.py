@@ -41,28 +41,45 @@ logger = logging.getLogger(__name__)
 
 # Fallback sequence of Gemini vision models in case of model deprecation or capacity spikes
 CANDIDATE_MODELS = [
+    "gemini-2.5-flash",
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
     "gemini-3.1-flash-lite",
     "gemini-3.5-flash",
-    "gemini-3-flash-preview",
-    "gemini-3.6-flash",
-    "gemini-3.5-flash-lite",
-    "gemini-3.7-flash",
-    "gemini-3.8-flash",
+    "gemini-2.0-flash-exp",
 ]
 
 DEFAULT_INSTITUTIONAL_SCHEMA_RULES = """
 AUTHORITATIVE INSTITUTIONAL REFERENCE SCHEMA & LOGICAL AUDIT:
-1. VTU CBCS MARKS CARD RULES (Visvesvaraya Technological University):
-   - USN Pattern: 10-character alphanumeric: Region digit (1-4), 2-letter College Code, 2-digit Year, 2-letter Branch, 3-digit Roll (e.g. 1MS21CS001, 1RV20EC045).
-   - Regional Centers: 1=Bengaluru, 2=Belagavi, 3=Kalaburagi, 4=Mysuru.
-   - Grading Rules: O (10 pts, 90-100), A+ (9 pts, 80-89), A (8 pts, 70-79), B+ (7 pts, 60-69), B (6 pts, 55-59), C (5 pts, 50-54), P (4 pts, 40-49), F (0 pts, 0-39).
-   - SGPA Formula: sum(Ci * Gi) / sum(Ci). Typical semester total credits: 20 to 24.
-   - Accredited Domains: vtu.ac.in, results.vtu.ac.in, exam.vtu.ac.in, universitysolutions.in.
-
-2. ONLINE COURSE CREDENTIAL RULES:
-   - Coursera: Official domain coursera.org. Verify URL: https://coursera.org/verify/<ID>. Certificate ID: 10-24 character uppercase alphanumeric string.
-   - NPTEL / Swayam: Official domains nptel.ac.in, archive.nptel.ac.in, swayam.gov.in. Verify URL: https://nptel.ac.in/noc/... Certificate ID pattern: NPTEL<year><discipline><session><id>. Award Criteria: Elite+Gold (>=90%), Elite+Silver (75-89%), Elite (60-74%), Successfully Completed (40-59%).
-   - Unacademy: Official domain unacademy.com. Verify URL: https://unacademy.com/certificate/<ID> or /verify/<ID>.
+1. VTU CBCS & NEP ENGINEERING MARKS CARD RULES (Visvesvaraya Technological University):
+   - USN Pattern: Strictly 10-character alphanumeric: [1-4][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}.
+     * Region digit: 1=Bengaluru, 2=Belagavi, 3=Kalaburagi, 4=Mysuru.
+     * 2-letter College Code: e.g. MS (MSRIT), RV (RVCE), BM (BMSCE), PE (PESIT), DS (DSCE), BI (BIT), SI (SIT), NI (NIE), GA (GAT).
+     * 2-digit Admission Year: e.g. 19, 20, 21, 22, 23, 24.
+     * 2-letter Branch Identifier: e.g. CS, IS, EC, EE, ME, CV, AI, CD.
+     * 3-digit Candidate Roll Sequence: 001 to 999.
+   - Letter Grade to Grade Point Mapping (VTU CBCS / Autonomous):
+     * O (Outstanding): 10 grade points (Marks range 90-100)
+     * A+ (Excellent): 9 grade points (Marks range 80-89)
+     * A (Very Good): 8 grade points (Marks range 70-79)
+     * B+ (Good): 7 grade points (Marks range 60-69)
+     * B (Above Average): 6 grade points (Marks range 55-59)
+     * C (Average): 5 grade points (Marks range 50-54)
+     * P (Pass): 4 grade points (Marks range 40-49)
+     * F (Fail): 0 grade points (Marks range 0-39)
+   - Deterministic SGPA Formula:
+     SGPA = sum(Credits_i * GradePoints_i) / sum(Credits_i)
+     Tolerance: Delta = |Printed_SGPA - Calculated_SGPA| <= 0.01.
+     Any Delta > 0.01 is definitive mathematical manipulation and MUST be flagged as FRAUDULENT.
+   - Semester Total Credits: Typically 18.0 to 24.0 credits per regular semester.
+   - Institutional Seals & Watermarks:
+     * Visvesvaraya Technological University circular heraldic crest at top-center.
+     * Official seal & signature of "Registrar (Evaluation)".
+     * Embedded guilloche background pattern / micro-line border security.
+   - Typographic & Digital Tampering Vectors:
+     * Flag any font family substitution (e.g. Courier or Arial injected over standard tabular font).
+     * Flag any vertical baseline displacement or digit misalignments.
+     * Flag localized compression noise, rectangular pixel halos, or clone stamps around grades or CGPA.
 """
 
 FORENSIC_PROMPT_TEMPLATE = """
