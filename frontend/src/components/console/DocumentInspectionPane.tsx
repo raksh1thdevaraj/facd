@@ -329,6 +329,47 @@ export const DocumentInspectionPane: React.FC<DocumentInspectionPaneProps> = ({
         )}
       </div>
 
+      {/* Interactive Detected Region Chips */}
+      {filePreview && boundingBoxes.length > 0 && (
+        <div className="px-3 py-2 border-t border-slate-200 bg-slate-50 flex items-center space-x-1.5 overflow-x-auto shrink-0 text-xs">
+          <span className="text-[10px] uppercase font-bold text-slate-500 whitespace-nowrap mr-1">
+            Detected ROIs:
+          </span>
+          {boundingBoxes.map((roi) => {
+            const isSelected = selectedRoiId === roi.id;
+            const badgeBg =
+              roi.status === 'tampered'
+                ? isSelected
+                  ? 'bg-rose-600 text-white border-rose-600'
+                  : 'bg-rose-50 text-rose-800 border-rose-300 hover:bg-rose-100'
+                : roi.status === 'suspicious'
+                ? isSelected
+                  ? 'bg-amber-600 text-white border-amber-600'
+                  : 'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100'
+                : isSelected
+                ? 'bg-indigo-900 text-white border-indigo-900'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100';
+
+            return (
+              <button
+                key={roi.id}
+                type="button"
+                onClick={() => {
+                  onSelectRoi && onSelectRoi(roi.id);
+                  setZoomLevel(1.5);
+                }}
+                className={`px-2 py-0.5 rounded-full border text-[10px] font-mono font-medium whitespace-nowrap transition-all flex items-center space-x-1 cursor-pointer ${badgeBg}`}
+              >
+                <span>{roi.label}</span>
+                {roi.status === 'tampered' && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block animate-pulse" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {/* Processing Status Banner */}
       {isProcessing && (
         <div className="px-4 py-2.5 bg-indigo-50 border-t border-indigo-200 flex items-center justify-between text-xs text-indigo-900">

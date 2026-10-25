@@ -70,7 +70,7 @@ export const ForensicBreakdownPane: React.FC<ForensicBreakdownPaneProps> = ({
   subjectLedger = [],
   arithmetic,
   securitySeal,
-  onHoverRoi: _onHoverRoi,
+  onHoverRoi,
   isEvaluating: _isEvaluating = false,
 }) => {
   if (!metadata && !subjectLedger.length && !arithmetic && !securitySeal) {
@@ -140,7 +140,11 @@ export const ForensicBreakdownPane: React.FC<ForensicBreakdownPaneProps> = ({
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Card 1: Extracted Student Metadata */}
         {metadata && (
-          <div className="border border-slate-200 rounded-lg p-3.5 bg-white shadow-2xs">
+          <div
+            onMouseEnter={() => onHoverRoi && onHoverRoi('b1')}
+            onMouseLeave={() => onHoverRoi && onHoverRoi(null)}
+            className="border border-slate-200 hover:border-indigo-300 transition-colors rounded-lg p-3.5 bg-white shadow-2xs cursor-pointer"
+          >
             <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
               <div className="flex items-center space-x-2">
                 <User className="w-3.5 h-3.5 text-indigo-700" />
@@ -210,7 +214,9 @@ export const ForensicBreakdownPane: React.FC<ForensicBreakdownPaneProps> = ({
         {/* Card 2: Deterministic Grade Point Calculation Engine (Tier 2 Verification) */}
         {arithmetic && (
           <div
-            className={`border rounded-lg p-3.5 transition-all ${
+            onMouseEnter={() => onHoverRoi && onHoverRoi('b4')}
+            onMouseLeave={() => onHoverRoi && onHoverRoi(null)}
+            className={`border rounded-lg p-3.5 transition-all cursor-pointer hover:border-indigo-300 ${
               arithmetic.isDiscrepancy
                 ? 'bg-rose-50/50 border-rose-300 ring-1 ring-rose-400'
                 : 'bg-white border-slate-200 shadow-2xs'
@@ -297,7 +303,11 @@ export const ForensicBreakdownPane: React.FC<ForensicBreakdownPaneProps> = ({
 
         {/* Card 3: Subject Marks Ledger */}
         {subjectLedger.length > 0 && (
-          <div className="border border-slate-200 rounded-lg p-3.5 bg-white shadow-2xs">
+          <div
+            onMouseEnter={() => onHoverRoi && onHoverRoi('b3')}
+            onMouseLeave={() => onHoverRoi && onHoverRoi(null)}
+            className="border border-slate-200 hover:border-indigo-300 transition-colors rounded-lg p-3.5 bg-white shadow-2xs cursor-pointer"
+          >
             <div className="flex items-center justify-between mb-2.5 border-b border-slate-100 pb-2">
               <div className="flex items-center space-x-2">
                 <Layers className="w-3.5 h-3.5 text-indigo-700" />

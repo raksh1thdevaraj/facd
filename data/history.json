@@ -1,5 +1,279 @@
 [
   {
+    "id": "bc524d58-dece-445d-a527-ac18e78aaf46",
+    "timestamp": "2026-10-25T16:07:01.004088+00:00",
+    "original_filename": "certificate.png",
+    "document_type": "VTU_MARKSCARD",
+    "student_name": "Aarav Sharma",
+    "identifier": "HTU2022-CS-041",
+    "issuer": "Heritage Technical University",
+    "verdict": "AUTHENTIC",
+    "confidence_score": 0.95,
+    "qr_status": false,
+    "tampering_flags": [
+      "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)",
+      "Borderline structural similarity (SSIM: 0.8324)",
+      "USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+    ],
+    "remarks": "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected); Borderline structural similarity (SSIM: 0.8324); USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)",
+    "full_details": {
+      "certificate_type": "marks_card",
+      "final_status": "VERIFIED",
+      "verdict_badge": "AUTHENTIC (Institutional Schema Validated)",
+      "color": "emerald",
+      "is_authentic": true,
+      "confidence_score": 0.95,
+      "rejection_reasons": [],
+      "warnings": [
+        "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected)",
+        "Borderline structural similarity (SSIM: 0.8324)",
+        "USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+      ],
+      "extracted_fields": {
+        "institution_name": "REVA UNIVERSITY, BENGALURU",
+        "student_name": "RAKSHITH DEVARAJ",
+        "reg_no": "R21EN001",
+        "mother_name": "NOT_FOUND",
+        "father_name": "NOT_FOUND",
+        "sgpa": "8.85",
+        "raw_text": "REVA UNIVERSITY, BENGALURU\nStudent Name: RAKSHITH DEVARAJ\nReg No: R21EN001\nSGPA: 8.85",
+        "ocr_engine": "adaptive_contour_anchor"
+      },
+      "qr_verification": {
+        "detected": false,
+        "qr_present": false,
+        "is_url": false,
+        "url_verified": true,
+        "domain_valid": false,
+        "payload_or_url": null,
+        "matches_document_text": true,
+        "detection_method": "visual_forensics",
+        "payload_text_match": "Consistent with Visual Text",
+        "reason": "Verification method: Printed URL / Visual Forensics (No physical 2D barcode detected)",
+        "live_server_status": null,
+        "issuer_db_match": null,
+        "web_registered_name": null,
+        "discrepancy_details": null,
+        "mismatch_flag": null
+      },
+      "cross_verification": {
+        "name_similarity": 100.0,
+        "id_similarity": 100.0,
+        "institution_similarity": 100.0,
+        "qr_ground_truth": {
+          "name": "N/A",
+          "id": "N/A",
+          "institution": "N/A",
+          "sgpa": "N/A"
+        },
+        "matches_qr": true
+      },
+      "forensic_cards": {
+        "qr_and_url": {
+          "qr_present": false,
+          "detected": false,
+          "verified": false,
+          "payload_or_url": null,
+          "matches_document_text": true,
+          "is_url": false,
+          "url": null,
+          "domain_valid": false,
+          "reason": "Verification method: Printed URL / Visual Forensics (No physical 2D barcode detected)",
+          "payload_data": {},
+          "url_verified": true,
+          "detection_method": "visual_forensics",
+          "payload_text_match": "Consistent with Visual Text",
+          "live_server_status": null,
+          "issuer_db_match": null,
+          "web_registered_name": null,
+          "discrepancy_details": null,
+          "mismatch_flag": null
+        },
+        "extracted_fields": {
+          "institution_name": "REVA UNIVERSITY, BENGALURU",
+          "student_name": "RAKSHITH DEVARAJ",
+          "reg_no": "R21EN001",
+          "mother_name": "NOT_FOUND",
+          "father_name": "NOT_FOUND",
+          "sgpa": "8.85",
+          "raw_text": "REVA UNIVERSITY, BENGALURU\nStudent Name: RAKSHITH DEVARAJ\nReg No: R21EN001\nSGPA: 8.85",
+          "ocr_engine": "adaptive_contour_anchor"
+        },
+        "cross_verification": {
+          "name_similarity": 100.0,
+          "id_similarity": 100.0,
+          "institution_similarity": 100.0,
+          "qr_ground_truth": {
+            "name": "N/A",
+            "id": "N/A",
+            "institution": "N/A",
+            "sgpa": "N/A"
+          },
+          "matches_qr": true
+        },
+        "layout_alignment": {
+          "baseline_variance": 0.28,
+          "splicing_suspected": false,
+          "text_matches_qr": true,
+          "status": "ALIGNED"
+        },
+        "template_integrity": {
+          "verified": false,
+          "ssim_score": 0.8324,
+          "ssim_passed": false,
+          "ssim_threshold": 0.85,
+          "edge_diff_ratio": 0.0531,
+          "edge_passed": true,
+          "edge_diff_threshold": 0.08,
+          "matched_template": "template_metro_univ.png"
+        },
+        "metadata_checks": {
+          "status": "PASSED",
+          "tamper_detected": false,
+          "details": "Document structural metadata matches origin parameters"
+        },
+        "gemini_vision": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-2.5-flash",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "Aarav Sharma",
+            "registration_no": "HTU2022-CS-041",
+            "cgpa_or_score": "8.85",
+            "issuing_institution": "Heritage Technical University"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "Consistent typography."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Calculations mathematically consistent."
+          },
+          "forensic_summary": "Passed Gemini Vision audit."
+        },
+        "rag_validation": {
+          "document_type": "VTU_MARKSCARD",
+          "schema_matched": false,
+          "arithmetic_valid": true,
+          "anomalies_detected": [
+            "USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+          ],
+          "mismatch_report": "USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+        }
+      },
+      "latency_ms": 2249.09,
+      "scan_id": "bc524d58-dece-445d-a527-ac18e78aaf46",
+      "filename": "certificate.png",
+      "timestamp": "2026-10-25T16:06:59.876406+00:00",
+      "file_metadata": {
+        "filename": "certificate.png",
+        "file_size": 3167,
+        "mime_type": "image/png",
+        "extension": ".png",
+        "resolution": "800x600"
+      },
+      "gemini_analysis": {
+        "success": true,
+        "status": "COMPLETED",
+        "model_used": "gemini-2.5-flash",
+        "is_authentic": true,
+        "confidence_score": 0.95,
+        "verdict": "VERIFIED",
+        "entities": {
+          "student_name": "Aarav Sharma",
+          "registration_no": "HTU2022-CS-041",
+          "cgpa_or_score": "8.85",
+          "issuing_institution": "Heritage Technical University"
+        },
+        "forgery_indicators": {
+          "font_mismatch": false,
+          "text_baseline_shift": false,
+          "patch_compression_artifacts": false,
+          "splicing_detected": false,
+          "details": "Consistent typography."
+        },
+        "arithmetic_consistency": {
+          "is_consistent": true,
+          "details": "Calculations mathematically consistent."
+        },
+        "forensic_summary": "Passed Gemini Vision audit."
+      },
+      "success": true,
+      "source": "live_extraction",
+      "document_type": "VTU_MARKSCARD",
+      "extracted_data": {
+        "student_name": "Aarav Sharma",
+        "identifier": "HTU2022-CS-041",
+        "issuer": "Heritage Technical University",
+        "date": "",
+        "score_or_cgpa": "8.85"
+      },
+      "rag_validation": {
+        "schema_matched": false,
+        "arithmetic_valid": true,
+        "anomalies_detected": [
+          "USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+        ]
+      },
+      "verdict": "AUTHENTIC",
+      "status": "authentic",
+      "confidence": 0.95,
+      "details": {
+        "ocr_extracted": {
+          "student_name": "Aarav Sharma",
+          "identifier": "HTU2022-CS-041",
+          "issuer": "Heritage Technical University",
+          "date": "",
+          "score_or_cgpa": "8.85"
+        },
+        "forgery_detected": false,
+        "qr_verified": false,
+        "file_metadata": {
+          "filename": "certificate.png",
+          "file_size": 3167,
+          "mime_type": "image/png",
+          "extension": ".png",
+          "resolution": "800x600"
+        },
+        "gemini_verified": true,
+        "gemini_analysis": {
+          "success": true,
+          "status": "COMPLETED",
+          "model_used": "gemini-2.5-flash",
+          "is_authentic": true,
+          "confidence_score": 0.95,
+          "verdict": "VERIFIED",
+          "entities": {
+            "student_name": "Aarav Sharma",
+            "registration_no": "HTU2022-CS-041",
+            "cgpa_or_score": "8.85",
+            "issuing_institution": "Heritage Technical University"
+          },
+          "forgery_indicators": {
+            "font_mismatch": false,
+            "text_baseline_shift": false,
+            "patch_compression_artifacts": false,
+            "splicing_detected": false,
+            "details": "Consistent typography."
+          },
+          "arithmetic_consistency": {
+            "is_consistent": true,
+            "details": "Calculations mathematically consistent."
+          },
+          "forensic_summary": "Passed Gemini Vision audit."
+        },
+        "remarks": "Verification method: Visual Forensics / Printed URL (No physical 2D QR barcode detected); Borderline structural similarity (SSIM: 0.8324); USN 'HTU2022-CS-041' violates standard VTU CBCS format (Expected 10-char regex: ^[1-4][A-Z]{2}\\d{2}[A-Z]{2}\\d{3}$)"
+      }
+    }
+  },
+  {
     "id": "afa4d0f0-0e1e-46b3-91c3-a4cc5cc4fe0a",
     "timestamp": "2026-10-05T07:43:01.489359+00:00",
     "original_filename": "Fakcerti.pdf",
